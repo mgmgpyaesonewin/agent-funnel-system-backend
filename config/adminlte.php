@@ -213,7 +213,7 @@ return [
     |
     */
 
-    'enabled_laravel_mix' => false,
+    'enabled_laravel_mix' => true,
     'laravel_mix_css_path' => 'css/app.css',
     'laravel_mix_js_path' => 'js/app.js',
 
@@ -245,6 +245,7 @@ return [
             'text' => 'profile',
             'url' => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
+            'can' => 'view-raw-users',
         ],
         [
             'text' => 'change_password',
