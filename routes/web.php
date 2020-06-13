@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +11,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::group(['middleware' => 'auth'], function () {
+    // Route url
+    Route::get('/', 'DashboardController@dashboardAnalytics')->name('home');
+
+    // Route Dashboards
+    Route::get('/dashboard-analytics', 'DashboardController@dashboardAnalytics');
+
+    // Route Components
+    Route::get('/sk-layout-2-columns', 'StaterkitController@columns_2');
+    Route::get('/sk-layout-fixed-navbar', 'StaterkitController@fixed_navbar');
+    Route::get('/sk-layout-floating-navbar', 'StaterkitController@floating_navbar');
+    Route::get('/sk-layout-fixed', 'StaterkitController@fixed_layout');
 });
