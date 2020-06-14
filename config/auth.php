@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -42,8 +41,8 @@ return [
         ],
 
         'api' => [
-          'driver' => 'passport',
-          'provider' => 'users',
+            'driver' => 'passport',
+            'provider' => 'users',
         ],
     ],
 
@@ -67,7 +66,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Modules\Core\Models\AdminUser::class,
+            'model' => App\User::class,
         ],
 
         // 'users' => [
@@ -98,5 +97,4 @@ return [
             'expire' => 60,
         ],
     ],
-
 ];

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-
-use Modules\Core\Models\AdminUser;
-
 
 class LoginController extends Controller
 {
@@ -40,22 +38,15 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     public function login(Request $request)
     {
-        $user = AdminUser::where([
-            'email' => $request->email,
-            'password' => md5(md5($request->password))
-        ])->first();
-
-
-        if ($user)       
-        {
-            $this->guard()->login($user, $request->has('remember'));
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('home');
         }
-        else{
-            return redirect()->route('login')
-                ->with('error','Incorrect Email and Password.');
-        }
+
+        return redirect()->route('login')
+            ->with('error', 'Incorrect Email and Password.')
+            ;
     }
 }
