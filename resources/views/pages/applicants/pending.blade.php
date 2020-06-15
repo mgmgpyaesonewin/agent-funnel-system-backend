@@ -10,6 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
+                        <example-component></example-component>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>

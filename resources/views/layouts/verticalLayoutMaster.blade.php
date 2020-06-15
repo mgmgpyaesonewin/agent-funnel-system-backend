@@ -9,7 +9,7 @@ $configData = Helper::applClasses();
   @include('panels.sidebar')
 
   <!-- BEGIN: Content-->
-  <div class="app-content content">
+  <div class="app-content content" id="app">
     <!-- BEGIN: Header-->
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -60,6 +60,12 @@ $configData = Helper::applClasses();
   {{-- include default scripts --}}
   @include('panels/scripts')
 
+  @if (session('token'))
+  <script>
+    window.token = "{{ session('token') }}";
+    localStorage.setItem('token', "{{ session('token') }}");
+  </script>
+  @endif
 </body>
 
 </html>

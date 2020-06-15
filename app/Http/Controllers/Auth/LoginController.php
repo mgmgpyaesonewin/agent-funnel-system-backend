@@ -42,11 +42,21 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('home');
+            $token = auth()->guard('api')->attempt($request->only('email', 'password'));
+
+            return redirect()->route('home')->with('token', $token);
         }
 
         return redirect()->route('login')
             ->with('error', 'Incorrect Email and Password.')
-            ;
+        ;
     }
+
+    // protected function respondWithToken($token)
+    // {
+    //     return response()->json([
+    //         'access_token' => $token,
+    //         'token_type' => 'bearer',
+    //     ]);
+    // }
 }
