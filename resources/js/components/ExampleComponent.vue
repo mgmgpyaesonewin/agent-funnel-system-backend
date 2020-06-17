@@ -14,15 +14,15 @@
 <script>
 export default {
   mounted() {
-    axios
-      .get("http://localhost:8000/api/user", {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      })
-      .then(res => {
-        console.log(res);
-      });
+    // axios
+    //   .get("http://localhost:8000/api/user", {
+    //     headers: {
+    //       Authorization: "Bearer " + localStorage.getItem("token")
+    //     }
+    //   })
+    //   .then(res => {
+    //     console.log(res);
+    //   });
     console.log("Component mounted.");
   }
 };

@@ -63,6 +63,8 @@ class Applicant extends Model
         'working_experience' => 'array',
     ];
 
+    protected $appends = ['age'];
+
     public function status()
     {
         return $this->belongsTo('App\Status');

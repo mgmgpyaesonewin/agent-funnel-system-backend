@@ -60,9 +60,11 @@ $configData = Helper::applClasses();
   {{-- include default scripts --}}
   @include('panels/scripts')
 
+  <script>
+    window.API_URL = "{{ url('/api') }}";
+  </script>
   @if (session('token'))
   <script>
-    window.token = "{{ session('token') }}";
     localStorage.setItem('token', "{{ session('token') }}");
   </script>
   @endif

@@ -17,8 +17,8 @@ class ReasonsTableSeeder extends Seeder
             ['id' => 4, 'title' => 'App Onboard Reject'],
             ['id' => 5, 'title' => 'Failed Test'],
             ['id' => 6, 'title' => 'Training Dropout'],
-            ['id' => 1, 'title' => 'Failed Exam'],
-            ['id' => 1, 'title' => 'Failed Guaranteed'],
+            ['id' => 7, 'title' => 'Failed Exam'],
+            ['id' => 8, 'title' => 'Failed Guaranteed'],
         ];
 
         foreach ($items as $item) {

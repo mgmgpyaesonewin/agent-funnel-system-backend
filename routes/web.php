@@ -26,6 +26,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sk-layout-floating-navbar', 'StaterkitController@floating_navbar');
     Route::get('/sk-layout-fixed', 'StaterkitController@fixed_layout');
 
-    Route::get('/applicants', 'ApplicantController@applicants');
+    Route::get('/pending', 'ApplicantController@pendingPage');
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
 });

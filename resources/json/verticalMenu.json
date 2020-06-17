@@ -12,7 +12,7 @@
       "icon": ""
     },
     {
-      "url": "/applicants?status=1",
+      "url": "/pending",
       "name": "Pending Applicants",
       "icon": "fa fa-users",
       "i18n": "nav.documentation"

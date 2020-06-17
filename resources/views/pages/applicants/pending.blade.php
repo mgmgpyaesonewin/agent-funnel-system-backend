@@ -10,47 +10,27 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <example-component></example-component>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Age</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($applicants as $applicant)
-                                    <tr>
-                                        <th scope="row">{{ $applicant->id}}</th>
-                                        <td>{{ $applicant->name }}</td>
-                                        <td>{{ $applicant->email }}</td>
-                                        <td>{{ $applicant->phone }}</td>
-                                        <td>{{ $applicant->age }}</td>
-                                        <td>{{ $applicant->status->title }}</td>
-                                        <td>
-                                            <div class="row mx-0">
-                                                <a href="{{ url('/applicants/'.$applicant->id) }}"
-                                                    class="btn btn-primary btn-block">View</a>
-                                            </div>
-                                            <div class="btn-group mt-1">
-                                                <button class="btn btn-success"><i class="fa fa-check"
-                                                        aria-hidden="true"></i></button>
-                                                <button class="btn btn-danger"><i class="fa fa-times"
-                                                        aria-hidden="true"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        {{ $applicants->appends(request()->input())->links() }}
+                        <v-table ref="table">
+                            <template scope="{applicant, }">
+                                <td>
+                                    <div class="row mx-0">
+                                        <a :href="`http://localhost:8000/applicants/${applicant.id}`"
+                                            class="btn btn-primary btn-block">View</a>
+                                    </div>
+                                    <div class="btn-group mt-1">
+                                        <v-button button-class="btn btn-success" :old-status-id="applicant.status_id"
+                                            new-status-id="2" :applicant-id="applicant.id">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        </v-button>
+                                        <v-button button-class="btn btn-danger" :old-status-id="applicant.status_id"
+                                            new-status-id="12" :applicant-id="applicant.id" reason-id="1">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </v-button>
+                                    </div>
+                                </td>
+                            </template>
+                        </v-table>
+                        {{-- {{ $applicants->appends(request()->input())->links() }} --}}
                     </div>
                 </div>
             </div>
