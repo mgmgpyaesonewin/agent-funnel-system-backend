@@ -24,13 +24,18 @@
         </tr>
       </tbody>
     </table>
+    <v-pagination :data="applicants" @pagination-change-page="getPendingApplicants" align="center"></v-pagination>
   </div>
 </template>
 
 <script>
+import Pagination from "laravel-vue-pagination";
 import { EventBus } from "../event-bus.js";
 
 export default {
+  components: {
+    "v-pagination": Pagination
+  },
   data() {
     return {
       applicants: []
@@ -43,11 +48,13 @@ export default {
         applicant => applicant.id != id
       );
     },
-    getPendingApplicants() {
+    getPendingApplicants(page = 1) {
       window.API_URL = "http://localhost:8000/api";
-      axios.get(`${API_URL}/applicants?status=1`).then(({ data }) => {
-        this.applicants = data;
-      });
+      axios
+        .get(`${API_URL}/applicants?status=1&page=${page}`)
+        .then(({ data }) => {
+          this.applicants = data;
+        });
     }
   },
   mounted() {
