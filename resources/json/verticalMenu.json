@@ -18,6 +18,24 @@
       "i18n": "nav.documentation"
     },
     {
+      "url": "/onboarded",
+      "name": "Onboarded Applicants",
+      "icon": "fa fa-users",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "/trainee",
+      "name": "Trainee Applicants",
+      "icon": "fa fa-users",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "/qualified",
+      "name": "Qualified Applicants",
+      "icon": "fa fa-users",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "",
       "navheader": "Report",
       "icon": ""

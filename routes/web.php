@@ -27,5 +27,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sk-layout-fixed', 'StaterkitController@fixed_layout');
 
     Route::get('/pending', 'ApplicantController@pendingPage');
+    Route::get('/onboarded', 'ApplicantController@onboardedPage');
+    Route::get('/trainee', 'ApplicantController@traineePage');
+    Route::get('/qualified', 'ApplicantController@qualifiedPage');
+
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
 });

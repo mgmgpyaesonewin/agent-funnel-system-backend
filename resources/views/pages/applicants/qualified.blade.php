@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Pending Applicants')
+@section('title', 'Qualified Applicants')
 
 @section('content')
 {{-- Dashboard Analytics Start --}}
@@ -21,8 +21,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" status="1">
-                            <template scope="{applicant, }">
+                        <v-table ref="table" status="10">
+                            <template scope="{applicant}">
                                 <td>
                                     <div class="row mx-0">
                                         <a :href="`http://localhost:8000/applicants/${applicant.id}`"
@@ -30,11 +30,11 @@
                                     </div>
                                     <div class="btn-group mt-1">
                                         <v-button button-class="btn btn-success" :old-status-id="applicant.status_id"
-                                            new-status-id="2" :applicant-id="applicant.id">
+                                            new-status-id="11" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger" :old-status-id="applicant.status_id"
-                                            new-status-id="12" :applicant-id="applicant.id" reason-id="1">
+                                            new-status-id="12" :applicant-id="applicant.id" reason-id="7">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </v-button>
                                     </div>

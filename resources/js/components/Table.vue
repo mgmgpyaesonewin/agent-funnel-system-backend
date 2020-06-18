@@ -24,7 +24,7 @@
         </tr>
       </tbody>
     </table>
-    <v-pagination :data="applicants" @pagination-change-page="getPendingApplicants" align="center"></v-pagination>
+    <v-pagination :data="applicants" @pagination-change-page="getApplicants" align="center"></v-pagination>
   </div>
 </template>
 
@@ -36,6 +36,7 @@ export default {
   components: {
     "v-pagination": Pagination
   },
+  props: ["status"],
   data() {
     return {
       applicants: []
@@ -48,10 +49,13 @@ export default {
         applicant => applicant.id != id
       );
     },
-    getPendingApplicants(page = 1) {
-      window.API_URL = "http://localhost:8000/api";
+    getApplicants(page = 1, status = 1, email = "", name = "") {
+      status = this.status || status;
+      window.API_URL = "http://127.0.0.1:8000/api";
       axios
-        .get(`${API_URL}/applicants?status=1&page=${page}`)
+        .get(
+          `http://127.0.0.1:8000/api/applicants?status=${status}&email=${email}&name=${name}&page=${page}`
+        )
         .then(({ data }) => {
           this.applicants = data;
         });
@@ -59,10 +63,12 @@ export default {
   },
   mounted() {
     EventBus.$on("update-table", this.updateApplicantsList);
-    this.getPendingApplicants();
+    EventBus.$on("filter-table", this.getApplicants);
+    this.getApplicants(1, this.status, "", "");
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);
+    EventBus.$off("filter-table", this.getApplicants);
   }
 };
 </script>
