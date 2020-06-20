@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Pending Applicants')
+{{-- @section('title', 'Applicants Detail Information') --}}
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/pages/users.css')) }}">
@@ -12,9 +12,11 @@
         <div class="col-12">
             <div class="profile-header mb-2">
                 <div class="relative">
-                    <div class="cover-container">
-                        <img class="img-fluid bg-cover rounded-0 w-100"
-                            src="{{ asset('images/profile/user-uploads/cover.jpg') }}" alt="User Profile Image">
+                    <div class="cover-container" style="width: 100%; height: 5rem; background-color: var(--secondary);">
+                        <h3 style="padding-top: 1.5rem;
+    padding-left: 19rem;
+    color: white;
+    font-weight: 600;">Applicant's Detail</h3>
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
                         <img src="{{ asset('images/profile/user-uploads/user-13.jpg') }}"

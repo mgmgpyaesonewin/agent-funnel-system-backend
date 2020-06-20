@@ -13,128 +13,34 @@
     },
     {
       "url": "/pending",
-      "name": "Pending Applicants",
-      "icon": "fa fa-users",
+      "name": "Pending",
+      "slug": "pending",
+      "icon": "feather icon-layers",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "/screened",
+      "name": "Screened",
+      "slug": "screened",
+      "icon": "feather icon-layers",
       "i18n": "nav.documentation"
     },
     {
       "url": "/onboarded",
-      "name": "Onboarded Applicants",
-      "icon": "fa fa-users",
+      "name": "Onboarded",
+      "icon": "feather icon-printer",
       "i18n": "nav.documentation"
     },
     {
       "url": "/trainee",
-      "name": "Trainee Applicants",
+      "name": "Trainee",
       "icon": "fa fa-users",
       "i18n": "nav.documentation"
     },
     {
       "url": "/qualified",
-      "name": "Qualified Applicants",
-      "icon": "fa fa-users",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "",
-      "navheader": "Report",
-      "icon": ""
-    },
-    {
-      "url": "",
-      "name": "Employer",
-      "icon": "fa fa-area-chart",
-      "submenu": [
-        {
-          "url": "/report/nps",
-          "name": "Net Promoter Score",
-          "icon": "fa fa-percent"
-        },
-        {
-          "url": "",
-          "name": "Referral",
-          "icon": "fa fa-share-square-o"
-        }
-      ]
-    },
-    {
-      "url": "",
-      "navheader": "Pages",
-      "icon": ""
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Blogs",
-      "icon": "fa fa-hashtag",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Job Vacancies",
-      "icon": "fa fa-address-book",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Testimonials",
-      "icon": "fa fa-weixin",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Newsletter",
-      "icon": "fa fa-newspaper-o",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "",
-      "navheader": "Configurations",
-      "icon": ""
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Categories",
-      "icon": "fa fa-th-list",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Skills",
-      "icon": "fa fa-th",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Cities",
-      "icon": "fa fa-map-pin",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Training Schools",
-      "icon": "fa fa-university",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "",
-      "navheader": "Dev Ops",
-      "icon": ""
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Log Viewer",
-      "icon": "fa fa-file-o",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "",
-      "navheader": "Support",
-      "icon": ""
-    },
-    {
-      "url": "https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/documentation-laravel.html",
-      "name": "Documentation",
-      "icon": "feather icon-folder",
+      "name": "Qualified",
+      "icon": "feather icon-star",
       "i18n": "nav.documentation"
     }
   ]

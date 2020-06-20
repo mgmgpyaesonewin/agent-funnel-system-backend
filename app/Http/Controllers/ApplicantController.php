@@ -16,6 +16,13 @@ class ApplicantController extends Controller
         return view('pages.applicants.pending', compact('statuses'));
     }
 
+    public function screenedPage(Request $request)
+    {
+        $statuses = Status::get();
+
+        return view('pages.applicants.screened', compact('statuses'));
+    }
+
     public function onboardedPage(Request $request)
     {
         $statuses = Status::get();
