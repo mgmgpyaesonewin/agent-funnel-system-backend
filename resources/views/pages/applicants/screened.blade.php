@@ -21,14 +21,14 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" status="2" :webinar-invite="true">
+                        <v-table ref="table" status="[2, 3]" :webinar-invite="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="row mx-0">
                                         <a :href="`http://localhost:8000/applicants/${applicant.id}`"
                                             class="btn btn-primary btn-block">View</a>
                                     </div>
-                                    <div class="btn-group mt-1">
+                                    <div class="btn-group mt-1" v-show="applicant.status_id === 2">
                                         <v-button button-class="btn btn-success" :old-status-id="applicant.status_id"
                                             new-status-id="2" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>

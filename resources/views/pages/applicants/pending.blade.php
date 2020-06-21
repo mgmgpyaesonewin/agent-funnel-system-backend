@@ -21,8 +21,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" status="1" webinar-invite=false>
-                            <template scope="{applicant, }">
+                        <v-table ref="table" status="[1]" webinar-invite=false>
+                            <template scope="{ applicant }">
                                 <td>
                                     <div class="row mx-0">
                                         <a :href="`http://localhost:8000/applicants/${applicant.id}`"

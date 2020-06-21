@@ -27,6 +27,7 @@
         "webpack-cli": "^3.3.5"
     },
     "dependencies": {
-        "laravel-vue-pagination": "^2.3.1"
+        "laravel-vue-pagination": "^2.3.1",
+        "vue2-datepicker": "^3.6.0"
     }
 }

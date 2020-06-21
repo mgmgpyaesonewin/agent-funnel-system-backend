@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/applicants', 'ApplicantController@applicants');
+    Route::post('/applicants', 'ApplicantController@applicants');
+    Route::post('/applicants/schedule', 'ApplicantController@scheduleAppointment');
+    Route::post('/applicants/update/{id}', 'ApplicantController@update');
     Route::post('/applicants/update/{id}', 'ApplicantController@update');
 });

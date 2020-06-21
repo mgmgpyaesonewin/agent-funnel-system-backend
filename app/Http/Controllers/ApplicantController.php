@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Applicant;
 use App\Http\Resources\ApplicantResource;
+use App\Interview;
 use App\Status;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ApplicantController extends Controller
@@ -53,9 +55,30 @@ class ApplicantController extends Controller
             return $q->where('name', 'LIKE', "%{$name}%");
         })->when($email, function ($q) use ($email) {
             return $q->where('email', 'LIKE', "%{$email}%");
-        })->where('status_id', $request->status)->paginate(10);
+        })->whereIn('status_id', json_decode($request->status))->paginate(10);
 
         return ApplicantResource::collection($applicants);
+    }
+
+    public function scheduleAppointment(Request $request)
+    {
+        $appointment = Carbon::parse("{$request->date} {$request->time}");
+
+        foreach ($request->applicants as $applicant_id) {
+            $record = [
+                'appointment' => $appointment,
+                'url' => $request->url,
+                'rescheduled' => 0,
+                'applicants_id' => $applicant_id,
+            ];
+
+            Interview::create($record);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully Created',
+        ]);
     }
 
     public function applicantsDetail(Request $request)

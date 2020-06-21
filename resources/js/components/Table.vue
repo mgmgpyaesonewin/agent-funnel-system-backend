@@ -12,6 +12,7 @@
           class="btn btn-info"
           data-toggle="modal"
           data-target="#webinarModal"
+          :disabled="isWebniarListEmpty"
         >Invite to Webinar</button>
       </div>
     </div>
@@ -30,7 +31,7 @@
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-show="webinarInvite === true">
+          <td v-if="webinarInvite === true && applicant.status_id === 3">
             <fieldset>
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="webinarList" :value="applicant.id" />
@@ -42,6 +43,7 @@
               </div>
             </fieldset>
           </td>
+          <td v-else></td>
           <th scope="row">{{ applicant.id}}</th>
           <td>{{ applicant.name}}</td>
           <td>{{ applicant.email}}</td>
@@ -76,22 +78,28 @@
             <form>
               <div class="row">
                 <div class="col">
-                  <input type="text" class="form-control pickadate" placeholder="Date" />
+                  <date-picker format="DD-MM-YYYY" type="date" value-type="format" v-model="date" />
                 </div>
                 <div class="col">
-                  <input type="text" class="form-control" placeholder="Time" />
+                  <date-picker
+                    v-model="time"
+                    format="hh:mm a"
+                    value-type="format"
+                    type="time"
+                    placeholder="Select time"
+                  />
                 </div>
               </div>
               <div class="row mt-1">
                 <div class="col">
-                  <input type="text" class="form-control" placeholder="Webinar URL" />
+                  <input type="text" class="form-control" placeholder="Webinar URL" v-model="url" />
                 </div>
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send Invites</button>
+            <button type="button" class="btn btn-primary" @click="inviteToWebinar">Send Invites</button>
           </div>
         </div>
       </div>
@@ -101,35 +109,63 @@
 
 <script>
 import Pagination from "laravel-vue-pagination";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 import { EventBus } from "../event-bus.js";
 
 export default {
   components: {
-    "v-pagination": Pagination
+    "v-pagination": Pagination,
+    "date-picker": DatePicker
   },
   props: ["status", "webinarInvite"],
   data() {
     return {
       applicants: [],
-      webinarList: []
+      webinarList: [],
+      date: "",
+      time: "",
+      url: ""
     };
+  },
+  computed: {
+    isWebniarListEmpty() {
+      return this.webinarList.length === 0;
+    }
   },
   methods: {
     updateApplicantsList(id) {
-      console.log(`Applicant ${id}`);
       this.applicants.data = this.applicants.data.filter(
         applicant => applicant.id != id
       );
     },
-    getApplicants(page = 1, status = 1, email = "", name = "") {
+    getApplicants(page = 1, status = [1], email = "", name = "") {
       status = this.status || status;
       window.API_URL = "http://127.0.0.1:8000/api";
       axios
-        .get(
-          `http://127.0.0.1:8000/api/applicants?status=${status}&email=${email}&name=${name}&page=${page}`
-        )
+        .post(`http://127.0.0.1:8000/api/applicants?page=${page}`, {
+          status: status,
+          email: email,
+          name: name
+        })
         .then(({ data }) => {
           this.applicants = data;
+        });
+    },
+    inviteToWebinar() {
+      axios
+        .post("http://127.0.0.1:8000/api/applicants/schedule", {
+          date: this.date,
+          time: this.time,
+          url: this.url,
+          rescheduled: 0,
+          applicants: this.webinarList
+        })
+        .then(({ data }) => {
+          if (data.status) {
+            $(".modal-backdrop").remove();
+            $("#webinarModal").modal("hide");
+          }
         });
     }
   },
