@@ -30,11 +30,12 @@
                                     </div>
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 2">
                                         <v-button button-class="btn btn-success" :old-status-id="applicant.status_id"
-                                            new-status-id="2" :applicant-id="applicant.id">
+                                            new-status-id="3" :applicant-id="applicant.id" table-status="[2,3]">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger" :old-status-id="applicant.status_id"
-                                            new-status-id="12" :applicant-id="applicant.id" reason-id="1">
+                                            new-status-id="12" :applicant-id="applicant.id" reason-id="1"
+                                            table-status="[2,3]">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </v-button>
                                     </div>

@@ -15,7 +15,8 @@ export default {
     "applicantId",
     "oldStatusId",
     "newStatusId",
-    "reasonId"
+    "reasonId",
+    "tableStatus"
   ],
   methods: {
     update() {
@@ -33,7 +34,7 @@ export default {
         .then(({ data }) => {
           console.log(data);
           if (data.status) {
-            EventBus.$emit("update-table", data.applicant_id);
+            EventBus.$emit("update-table", this.tableStatus);
           }
         });
     }

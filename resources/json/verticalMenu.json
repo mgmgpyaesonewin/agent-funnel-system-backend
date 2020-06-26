@@ -26,6 +26,13 @@
       "i18n": "nav.documentation"
     },
     {
+      "url": "/invited",
+      "name": "Invited",
+      "slug": "invited",
+      "icon": "feather icon-layers",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "/onboarded",
       "name": "Onboarded",
       "icon": "feather icon-printer",

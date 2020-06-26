@@ -25,6 +25,13 @@ class ApplicantController extends Controller
         return view('pages.applicants.screened', compact('statuses'));
     }
 
+    public function invitedPage(Request $request)
+    {
+        $statuses = Status::get();
+
+        return view('pages.applicants.invited', compact('statuses'));
+    }
+
     public function onboardedPage(Request $request)
     {
         $statuses = Status::get();
@@ -73,6 +80,9 @@ class ApplicantController extends Controller
             ];
 
             Interview::create($record);
+
+            // Set state from Filtered to Invited
+            Applicant::where([['status_id', 3], ['id', $applicant_id]])->update(['status_id' => 4]);
         }
 
         return response()->json([

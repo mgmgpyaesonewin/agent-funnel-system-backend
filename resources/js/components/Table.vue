@@ -31,8 +31,8 @@
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-if="webinarInvite === true && applicant.status_id === 3">
-            <fieldset>
+          <td v-show="webinarInvite === true">
+            <fieldset v-show="applicant.status_id === 3">
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="webinarList" :value="applicant.id" />
                 <span class="vs-checkbox">
@@ -43,7 +43,6 @@
               </div>
             </fieldset>
           </td>
-          <td v-else></td>
           <th scope="row">{{ applicant.id}}</th>
           <td>{{ applicant.name}}</td>
           <td>{{ applicant.email}}</td>
@@ -134,10 +133,17 @@ export default {
     }
   },
   methods: {
-    updateApplicantsList(id) {
-      this.applicants.data = this.applicants.data.filter(
-        applicant => applicant.id != id
-      );
+    updateApplicantsList(status) {
+      axios
+        .post(
+          `http://127.0.0.1:8000/api/applicants?page=${this.applicants.meta.current_page}`,
+          {
+            status: status
+          }
+        )
+        .then(({ data }) => {
+          this.applicants = data;
+        });
     },
     getApplicants(page = 1, status = [1], email = "", name = "") {
       status = this.status || status;
@@ -165,8 +171,15 @@ export default {
           if (data.status) {
             $(".modal-backdrop").remove();
             $("#webinarModal").modal("hide");
+            this.getApplicants(this.applicants.meta.current_page, [2, 3]);
+            this.resetWebinarForm();
           }
         });
+    },
+    resetWebinarForm() {
+      this.date = "";
+      this.time = "";
+      this.url = "";
     }
   },
   mounted() {
