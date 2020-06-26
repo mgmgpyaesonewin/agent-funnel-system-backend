@@ -12,7 +12,7 @@
         "facade/ignition": "^1.16",
         "fideloper/proxy": "^4.0",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^6.0",
         "laravel/telescope": "^3.5",
         "laravel/tinker": "^1.0",

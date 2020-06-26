@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" status="8">
+                        <v-table ref="table" status="[8]">
                             <template scope="{applicant, }">
                                 <td>
                                     <div class="row mx-0">
@@ -30,7 +30,7 @@
                                     </div>
                                     <div class="btn-group mt-1">
                                         <v-button button-class="btn btn-success" :old-status-id="applicant.status_id"
-                                            new-status-id="9" :applicant-id="applicant.id">
+                                            table-status="[8]" new-status-id="9" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger" :old-status-id="applicant.status_id"

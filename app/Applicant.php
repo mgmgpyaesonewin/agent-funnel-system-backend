@@ -70,6 +70,16 @@ class Applicant extends Model
         return $this->belongsTo('App\Status');
     }
 
+    public function interviews()
+    {
+        return $this->hasMany('App\Interview', 'applicants_id');
+    }
+
+    public function getInterviewScheduleAttribute()
+    {
+        return $this->interviews()->where('rescheduled', 0)->latest()->first();
+    }
+
     public function getAgeAttribute()
     {
         return Carbon::parse($this->dob)->age;

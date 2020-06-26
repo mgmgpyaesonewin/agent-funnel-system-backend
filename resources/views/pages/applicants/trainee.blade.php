@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" status="9">
+                        <v-table ref="table" status="[9]">
                             <template scope="{applicant, }">
                                 <td>
                                     <div class="row mx-0">

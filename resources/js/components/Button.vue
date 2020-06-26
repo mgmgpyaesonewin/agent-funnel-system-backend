@@ -29,11 +29,13 @@ export default {
         payload.reason_id = this.reasonId;
       }
 
+      let loader = this.$loading.show();
+
       axios
         .post(`${API_URL}/applicants/update/${this.applicantId}`, payload)
         .then(({ data }) => {
-          console.log(data);
           if (data.status) {
+            loader.hide();
             EventBus.$emit("update-table", this.tableStatus);
           }
         });

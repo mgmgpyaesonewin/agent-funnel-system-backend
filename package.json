@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "laravel-vue-pagination": "^2.3.1",
+        "vue-loading-overlay": "^3.3.2",
         "vue2-datepicker": "^3.6.0"
     }
 }

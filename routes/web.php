@@ -35,3 +35,5 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
 });
+
+Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');
