@@ -8,7 +8,7 @@ $configData = Helper::applClasses();
     <ul class="nav navbar-nav flex-row">
       <li class="nav-item mr-auto"><a class="navbar-brand" href="dashboard-analytics">
           <div><img src="{{asset('images/logo/favicon.png')}}"></div>
-          <h2 class="brand-text mb-0">CS Admin</h2>
+          <h1 class="brand-text mb-0">Admin Panel</h1>
         </a></li>
       <li class="nav-item nav-toggle">
         <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">

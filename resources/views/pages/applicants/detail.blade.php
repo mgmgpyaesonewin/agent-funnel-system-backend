@@ -115,16 +115,19 @@
                         <h4>Education</h4>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            @foreach ($applicant->education as $education)
+                        <div class="row"> 
+                        @if($applicant->education != null)
+                        @php $education = json_decode( $applicant->education, true ); @endphp
+                            @foreach ($education as $edu)
                             <div class="col-md-1 pl-1">
                                 <i class="fa fa-circle primary"></i>
                             </div>
                             <div class="col-md-11">
-                                <p>{{ $education['degree'] }}</p>
-                                <p>{{ $education['university'] }}, {{ $education['graduated_year'] }}</p>
+                                <p>{{ $edu['degree'] }}</p>
+                                <p>{{ $edu['university'] }}, {{ $edu['graduated_year'] }}</p>
                             </div>
                             @endforeach
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -136,14 +139,15 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            @foreach ($applicant->working_experience as $working_experience)
+                            @php $working_experience = json_decode( $applicant->working_experience, true ); @endphp
+                            @foreach ($working_experience as $exp)
                             <div class="col-md-1 pl-1">
                                 <i class="fa fa-circle primary"></i>
                             </div>
                             <div class="col-md-11">
-                                <p>{{ $working_experience['title'] }}</p>
-                                <p>{{ $working_experience['company'] }}</p>
-                                <p>{{ $working_experience['start_date'] }} - {{ $working_experience['end_date'] }}</p>
+                                <p>{{ $exp['title'] }}</p>
+                                <p>{{ $exp['company'] }}</p>
+                                <p>{{ $exp['start_date'] }} - {{ $exp['end_date'] }}</p>
                             </div>
                             @endforeach
                         </div>

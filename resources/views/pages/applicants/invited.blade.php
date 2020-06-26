@@ -24,7 +24,7 @@
                         <v-table ref="table" status="[4,5,7]">
                             <template scope="{ applicant }">
                                 <td>
-                                    <a :href="`http://localhost:8000/applicants/${applicant.id}`"
+                                    <a :href="`http://mpt-portal.test/applicants/${applicant.id}`"
                                         class="btn btn-primary btn-block">View</a>
                                     <v-button button-class="btn btn-danger btn-block"
                                         :old-status-id="applicant.status_id" new-status-id="12" reason-id="4"

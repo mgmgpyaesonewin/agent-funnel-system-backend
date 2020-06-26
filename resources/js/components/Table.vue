@@ -136,7 +136,7 @@ export default {
     updateApplicantsList(status) {
       axios
         .post(
-          `http://127.0.0.1:8000/api/applicants?page=${this.applicants.meta.current_page}`,
+          `http://mpt-portal.test/api/applicants?page=${this.applicants.meta.current_page}`,
           {
             status: status
           }
@@ -147,9 +147,9 @@ export default {
     },
     getApplicants(page = 1, status = [1], email = "", name = "") {
       status = this.status || status;
-      window.API_URL = "http://127.0.0.1:8000/api";
+      window.API_URL = "http://mpt-portal.test/api";
       axios
-        .post(`http://127.0.0.1:8000/api/applicants?page=${page}`, {
+        .post(`http://mpt-portal.test/api/applicants?page=${page}`, {
           status: status,
           email: email,
           name: name
@@ -160,7 +160,7 @@ export default {
     },
     inviteToWebinar() {
       axios
-        .post("http://127.0.0.1:8000/api/applicants/schedule", {
+        .post("http://mpt-portal.test/api/applicants/schedule", {
           date: this.date,
           time: this.time,
           url: this.url,

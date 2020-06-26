@@ -32,7 +32,7 @@ export default {
       let loader = this.$loading.show();
 
       axios
-        .post(`${API_URL}/applicants/update/${this.applicantId}`, payload)
+        .post(`http://mpt-portal.test/api/applicants/update/${this.applicantId}`, payload)
         .then(({ data }) => {
           if (data.status) {
             loader.hide();

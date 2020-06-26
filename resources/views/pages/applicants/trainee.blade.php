@@ -22,10 +22,10 @@
                 <div class="card-content">
                     <div class="card-body text-center">
                         <v-table ref="table" status="[9]">
-                            <template scope="{applicant, }">
+                            <template scope="{applicant}">
                                 <td>
                                     <div class="row mx-0">
-                                        <a :href="`http://localhost:8000/applicants/${applicant.id}`"
+                                        <a :href="`http://mpt-portal.test/applicants/${applicant.id}`"
                                             class="btn btn-primary btn-block">View</a>
                                     </div>
                                     <div class="btn-group mt-1">

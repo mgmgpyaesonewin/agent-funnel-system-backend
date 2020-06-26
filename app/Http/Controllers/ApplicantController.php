@@ -60,13 +60,14 @@ class ApplicantController extends Controller
     {
         $name = empty($request->name) ? null : $request->name;
         $email = empty($request->email) ? null : $request->email;
+        $status = empty($request->status) ? null : $request->status;
 
         $applicants = Applicant::when($name, function ($q) use ($name) {
             return $q->where('name', 'LIKE', "%{$name}%");
         })->when($email, function ($q) use ($email) {
             return $q->where('email', 'LIKE', "%{$email}%");
-        })->whereIn('status_id', json_decode($request->status))->paginate(10);
-
+        })->whereIn('status_id', json_decode($status))->paginate(10);
+        //dd($applicants);
         return ApplicantResource::collection($applicants);
     }
 

@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/pending';
 
     /**
      * Create a new controller instance.
@@ -44,7 +44,7 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $token = auth()->guard('api')->attempt($request->only('email', 'password'));
 
-            return redirect()->route('home')->with('token', $token);
+            return redirect('/pending')->with('token', $token);
         }
 
         return redirect()->route('login')

@@ -35,7 +35,7 @@ class SendWebinarNotification extends Mailable
                 'name' => $this->applicant->name,
                 'date' => $this->applicant->interview_schedule->date,
                 'time' => $this->applicant->interview_schedule->time,
-                'url' => $this->applicant->url,
+                'url' => $this->applicant->interview_schedule->url,
                 'accept_url' => url('/applicant/accept/'.$this->applicant->id),
                 'reject_url' => url('/applicant/reject/'.$this->applicant->id),
             ])

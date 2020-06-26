@@ -8,8 +8,8 @@
 </h2>
 
 <p style="{{ config('email-style.paragraph') }}">
-    We have looked over your application and would like to invite you to attend the webinar on {{ $date }} at
-    {{ $time }} via this link: {{ $url }}. Please click below buttons to respond to our inviation.
+    We have looked over your application and would like to invite you to attend the webinar on <b>{{ date('jS F Y', strtotime($date)) }}</b> at
+    <b>{{ $time }}</b> via this link: <a href="{{ $url }}">{{ $url }}</a>. <br>Please click below buttons to respond to our inviation.
 </p>
 
 <table style="{{ config('email-style.body_action') }}" align="center" width="100%" cellpadding="0" cellspacing="0">
