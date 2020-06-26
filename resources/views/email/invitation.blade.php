@@ -21,7 +21,7 @@
                 Accept
             </a>
             <a href="{{ $reject_url }}"
-                style="{{ config('email-style.fontFamily') }} {{ config('email-style.button') }} {{ config('email-style.button--blue') }} "
+                style="{{ config('email-style.fontFamily') }} {{ config('email-style.button') }} {{ config('email-style.button--red') }} "
                 class="button" target="_blank">
                 Reject
             </a>
