@@ -22,14 +22,14 @@
       "url": "/screened",
       "name": "Screened",
       "slug": "screened",
-      "icon": "feather icon-layers",
+      "icon": "feather icon-filter",
       "i18n": "nav.documentation"
     },
     {
       "url": "/invited",
       "name": "Invited",
       "slug": "invited",
-      "icon": "feather icon-layers",
+      "icon": "feather icon-smartphone",
       "i18n": "nav.documentation"
     },
     {
