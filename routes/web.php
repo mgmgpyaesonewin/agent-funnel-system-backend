@@ -11,6 +11,8 @@
 |
 */
 
+// use Illuminate\Routing\Route;
+
 Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function () {
@@ -34,6 +36,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/qualified', 'ApplicantController@qualifiedPage');
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
+
+    Route::resource('trainings', 'TrainingController');
+
 });
+
 
 Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');
