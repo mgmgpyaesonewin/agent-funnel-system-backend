@@ -23,7 +23,8 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('is_bdm');
             $table->tinyInteger('is_ma');
             $table->tinyInteger('is_staff');
-            $table->foreignId('users_id')->constrained('users');
+            $table->bigInteger('users_id')->unsigned()->nullable();
+            $table->foreign('users_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

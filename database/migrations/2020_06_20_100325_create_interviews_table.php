@@ -15,7 +15,10 @@ class CreateInterviewsTable extends Migration
             $table->bigIncrements('id');
             $table->dateTime('appointment');
             $table->string('url');
-            $table->foreignId('applicants_id')->constrained();
+
+            $table->bigInteger('applicants_id')->unsigned()->nullable();
+            $table->foreign('applicants_id')->references('id')->on('applicants');
+
             $table->timestamps();
         });
     }
