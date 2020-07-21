@@ -2,25 +2,23 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReasonsTable extends Migration
+class CreatePartnersTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('reasons', function (Blueprint $table) {
+        Schema::create('partners', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
+            $table->string('company_name');
+            $table->string('pic_name');
+            $table->string('pic_phone');
+            $table->string('pic_email');
             $table->timestamps();
         });
-
-        Artisan::call('db:seed', [
-            '--class' => ReasonsTableSeeder::class,
-        ]);
     }
 
     /**
@@ -28,6 +26,6 @@ class CreateReasonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reasons');
+        Schema::dropIfExists('partners');
     }
 }
