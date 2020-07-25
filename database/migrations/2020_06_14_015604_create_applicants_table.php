@@ -14,7 +14,7 @@ class CreateApplicantsTable extends Migration
     {
         Schema::create('applicants', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('temp_id')->unique();
+            $table->string('temp_id')->unique()->nullable();
             $table->string('name');
             $table->string('phone');
             $table->date('dob');
@@ -31,7 +31,7 @@ class CreateApplicantsTable extends Migration
             $table->integer('city_id')->nullable();
             $table->integer('township_id')->nullable();
             $table->string('secondary_phone')->nullable();
-            $table->string('eduction')->nullable();
+            $table->string('education')->nullable();
             $table->string('email')->nullable();
             $table->boolean('accept_t_n_c')->default(1);
             $table->string('spouse_name')->nullable();
@@ -46,10 +46,10 @@ class CreateApplicantsTable extends Migration
             $table->string('utm_medium')->nullable();
             $table->string('utm_campaign')->nullable();
             $table->string('utm_term')->nullable();
-            $table->enum('current_status', ['lead', 'pre_filter', 'pru_dna_test', 'pmli_filter', 'training', 'certification', 'onboard']);
+            $table->enum('current_status', ['pre_filter', 'pru_dna_test', 'pmli_filter', 'training', 'certification', 'onboard']);
 
-            $table->bigInteger('statuses_id')->unsigned()->nullable();
-            $table->foreign('statuses_id')->references('id')->on('statuses');
+            $table->bigInteger('status_id')->unsigned()->nullable();
+            $table->foreign('status_id')->references('id')->on('statuses');
 
             $table->bigInteger('assign_admin_id')->unsigned()->nullable();
             $table->foreign('assign_admin_id')->references('id')->on('users');
