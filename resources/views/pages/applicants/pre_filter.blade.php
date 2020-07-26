@@ -29,8 +29,10 @@
                                             class="btn btn-primary btn-block">View</a>
                                     </div>
                                     <div class="btn-group mt-1">
-                                        <v-button button-class="btn btn-success" :old-status-id="applicant.status_id"
-                                            new-status-id="2" :applicant-id="applicant.id" table-status="[1]">
+                                        <v-button button-class="btn btn-success"
+                                            :old-current-status="applicant.current_status"
+                                            :new-current-status="pru_dna_test" :old-status-id="applicant.status_id"
+                                            :new-status-id="1" :applicant-id="applicant.id" table-status="[1]">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger" :old-status-id="applicant.status_id"

@@ -25,6 +25,6 @@ $factory->define(Applicant::class, function (Faker $faker) {
                 'end_date' => $faker->date('d-m-Y'),
             ],
         ]),
-        'statuses_id' => $faker->numberBetween(1, 12),
+        'status_id' => $faker->numberBetween(1, 4),
     ];
 });

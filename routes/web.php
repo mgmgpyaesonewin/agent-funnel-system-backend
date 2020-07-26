@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sk-layout-floating-navbar', 'StaterkitController@floating_navbar');
     Route::get('/sk-layout-fixed', 'StaterkitController@fixed_layout');
 
-    Route::get('/pending', 'ApplicantController@pendingPage');
+    Route::get('/pre_filter', 'ApplicantController@preFilterPage');
     Route::get('/screened', 'ApplicantController@screenedPage');
     Route::get('/invited', 'ApplicantController@invitedPage');
     Route::get('/onboarded', 'ApplicantController@onboardedPage');
@@ -39,8 +39,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('trainings', 'TrainingController');
     Route::resource('partners', 'PartnerController');
-
 });
-
 
 Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');

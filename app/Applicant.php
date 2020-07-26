@@ -90,20 +90,10 @@ class Applicant extends Model
         return 1 === $value ? 'Male' : 'Female';
     }
 
-    public function getIsChatesatFreelancerAttribute($value)
+    public function scopeState($query, string $current_status = null, string $status_id = null)
     {
-        return 1 === $value ? 'Yes' : 'No';
-    }
-
-    // is_training_available
-    public function getIsTrainingAvailableAttribute($value)
-    {
-        return 1 === $value ? 'Yes' : 'No';
-    }
-
-    // is_prudential_available
-    public function getIsPrudentialAvailableAttribute($value)
-    {
-        return 1 === $value ? 'Yes' : 'No';
+        return $query->where('current_status', $current_status)
+            ->where('status_id', $status_id)
+        ;
     }
 }

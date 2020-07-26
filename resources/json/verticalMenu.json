@@ -6,8 +6,8 @@
       "icon": ""
     },
     {
-      "url": "/pending",
-      "name": "Pending",
+      "url": "/pre_filter",
+      "name": "Pre-Filter",
       "slug": "pending",
       "icon": "feather icon-layers",
       "i18n": "nav.documentation"

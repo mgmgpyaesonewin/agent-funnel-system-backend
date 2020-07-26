@@ -22,11 +22,9 @@
           <th v-show="webinarInvite === true"></th>
           <th>#</th>
           <th>Name</th>
-          <th>Email</th>
           <th>Phone</th>
           <th>Age</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th>Gender</th>
         </tr>
       </thead>
       <tbody>
@@ -45,10 +43,9 @@
           </td>
           <th scope="row">{{ applicant.id}}</th>
           <td>{{ applicant.name}}</td>
-          <td>{{ applicant.email}}</td>
           <td>{{ applicant.phone}}</td>
           <td>{{ applicant.age}}</td>
-          <td>{{ applicant.status}}</td>
+          <td>{{ applicant.gender}}</td>
           <slot :applicant="applicant"></slot>
         </tr>
       </tbody>
@@ -111,11 +108,12 @@ import Pagination from "laravel-vue-pagination";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import { EventBus } from "../event-bus.js";
+import STATE from "../constant.js";
 
 export default {
   components: {
     "v-pagination": Pagination,
-    "date-picker": DatePicker
+    "date-picker": DatePicker,
   },
   props: ["status", "webinarInvite"],
   data() {
@@ -124,13 +122,13 @@ export default {
       webinarList: [],
       date: "",
       time: "",
-      url: ""
+      url: "",
     };
   },
   computed: {
     isWebniarListEmpty() {
       return this.webinarList.length === 0;
-    }
+    },
   },
   methods: {
     updateApplicantsList(status) {
@@ -138,24 +136,26 @@ export default {
         .post(
           `http://mpt-portal.test/api/applicants?page=${this.applicants.meta.current_page}`,
           {
-            status: status
+            status: status,
           }
         )
         .then(({ data }) => {
           this.applicants = data;
         });
     },
-    getApplicants(page = 1, status = [1], email = "", name = "") {
-      status = this.status || status;
-      window.API_URL = "http://mpt-portal.test/api";
+    getApplicants() {
+      console.log("get applicants inside");
       axios
-        .post(`http://mpt-portal.test/api/applicants?page=${page}`, {
-          status: status,
-          email: email,
-          name: name
+        .post(`applicants?page=${page}`, {
+          current_status: STATE.PRE_FILTER,
+          status_id: STATE.NEW,
         })
         .then(({ data }) => {
+          console.log(data);
           this.applicants = data;
+        })
+        .catch((e) => {
+          console.log(e);
         });
     },
     inviteToWebinar() {
@@ -165,7 +165,7 @@ export default {
           time: this.time,
           url: this.url,
           rescheduled: 0,
-          applicants: this.webinarList
+          applicants: this.webinarList,
         })
         .then(({ data }) => {
           if (data.status) {
@@ -180,17 +180,16 @@ export default {
       this.date = "";
       this.time = "";
       this.url = "";
-    }
+    },
   },
   mounted() {
-    EventBus.$on("update-table", this.updateApplicantsList);
-    EventBus.$on("filter-table", this.getApplicants);
-    this.getApplicants(1, this.status, "", "");
+    console.log("get applicants");
+    this.getApplicants();
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);
     EventBus.$off("filter-table", this.getApplicants);
-  }
+  },
 };
 </script>
 
