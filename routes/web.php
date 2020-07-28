@@ -29,6 +29,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/sk-layout-fixed', 'StaterkitController@fixed_layout');
 
     Route::get('/pre_filter', 'ApplicantController@preFilterPage');
+    Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');
+
     Route::get('/screened', 'ApplicantController@screenedPage');
     Route::get('/invited', 'ApplicantController@invitedPage');
     Route::get('/onboarded', 'ApplicantController@onboardedPage');

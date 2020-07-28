@@ -21,11 +21,11 @@ class ApplicantController extends Controller
         return view('pages.applicants.pre_filter', compact('statuses'));
     }
 
-    public function screenedPage(Request $request)
+    public function pruDNAFilter(Request $request)
     {
         $statuses = Status::get();
 
-        return view('pages.applicants.screened', compact('statuses'));
+        return view('pages.applicants.pru_dna_filter', compact('statuses'));
     }
 
     public function invitedPage(Request $request)
@@ -71,14 +71,6 @@ class ApplicantController extends Controller
             )->paginate(10);
 
         return ApplicantResource::collection($applicants);
-        // $name = empty($request->name) ? null : $request->name;
-        // $email = empty($request->email) ? null : $request->email;
-
-        // $applicants = Applicant::when($name, function ($q) use ($name) {
-        //     return $q->where('name', 'LIKE', "%{$name}%");
-        // })->when($email, function ($q) use ($email) {
-        //     return $q->where('email', 'LIKE', "%{$email}%");
-        // })->whereIn('status_id', json_decode($status))->paginate(10);
     }
 
     public function scheduleAppointment(Request $request)
@@ -134,9 +126,10 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $request->id)->first();
         $applicant->current_status = $current_status;
         $applicant->status_id = $status_id;
+        $applicant->statuses()->attach($status_id, ['current_status' => $current_status]);
         $applicant->save();
 
-        Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
+        // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
 
         return response()->json([
             'status' => true,

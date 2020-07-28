@@ -21,6 +21,8 @@ class ApplicantResource extends JsonResource
             'phone' => $this->phone,
             'age' => $this->age,
             'gender' => $this->gender,
+            'current_status' => $this->current_status,
+            'status_id' => $this->status_id
         ];
     }
 }

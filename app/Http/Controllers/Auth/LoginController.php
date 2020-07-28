@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/pending';
+    protected $redirectTo = '/pre_filter';
 
     /**
      * Create a new controller instance.

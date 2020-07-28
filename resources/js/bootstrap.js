@@ -27,18 +27,6 @@ window.axios.defaults.headers.common = {
 };
 window.axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
-window.axios.interceptors.response.use(
-  response => {
-    if (typeof phpdebugbar != "undefined") {
-      phpdebugbar.ajaxHandler.handle(response.request);
-    }
-    return response;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
-
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
  * all outgoing HTTP requests automatically have it attached. This is just

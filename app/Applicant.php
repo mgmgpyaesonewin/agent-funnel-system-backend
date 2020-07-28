@@ -65,9 +65,9 @@ class Applicant extends Model
 
     protected $appends = ['age'];
 
-    public function status()
+    public function statuses()
     {
-        return $this->belongsTo('App\Status');
+        return $this->belongsToMany('App\Status')->withPivot('current_status')->withTimestamps();
     }
 
     public function interviews()
@@ -92,8 +92,10 @@ class Applicant extends Model
 
     public function scopeState($query, string $current_status = null, string $status_id = null)
     {
-        return $query->where('current_status', $current_status)
-            ->where('status_id', $status_id)
-        ;
+        return $query->when($current_status, function ($query) use ($current_status) {
+            return $query->where('current_status', $current_status);
+        })->when($status_id, function ($query) use ($status_id) {
+            return $query->where('status_id', $status_id);
+        });
     }
 }

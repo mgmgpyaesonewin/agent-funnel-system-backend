@@ -13,9 +13,9 @@
       "i18n": "nav.documentation"
     },
     {
-      "url": "/screened",
-      "name": "Screened",
-      "slug": "screened",
+      "url": "/pru_dna_filter",
+      "name": "Pru-DNA-Filter",
+      "slug": "Pru-DNA-Filter",
       "icon": "feather icon-filter",
       "i18n": "nav.documentation"
     },

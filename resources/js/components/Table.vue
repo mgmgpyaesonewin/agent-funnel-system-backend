@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <div class="row">
+    <div class="row" v-if="!isApplicantsEmpty">
       <div class="col-9">
         <h5 style="text-align: initial;line-height: 3rem;">
           Total
@@ -30,7 +30,7 @@
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
           <td v-show="webinarInvite === true">
-            <fieldset v-show="applicant.status_id === 3">
+            <fieldset v-show="applicant.status_id !== 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="webinarList" :value="applicant.id" />
                 <span class="vs-checkbox">
@@ -42,7 +42,9 @@
             </fieldset>
           </td>
           <th scope="row">{{ applicant.id}}</th>
-          <td>{{ applicant.name}}</td>
+          <td>
+            <a href="#">{{ applicant.name}}</a>
+          </td>
           <td>{{ applicant.phone}}</td>
           <td>{{ applicant.age}}</td>
           <td>{{ applicant.gender}}</td>
@@ -115,10 +117,10 @@ export default {
     "v-pagination": Pagination,
     "date-picker": DatePicker,
   },
-  props: ["status", "webinarInvite"],
+  props: ["currentStatus", "status", "webinarInvite"],
   data() {
     return {
-      applicants: [],
+      applicants: {},
       webinarList: [],
       date: "",
       time: "",
@@ -129,29 +131,43 @@ export default {
     isWebniarListEmpty() {
       return this.webinarList.length === 0;
     },
+    isApplicantsEmpty() {
+      return (
+        Object.keys(this.applicants).length === 0 &&
+        this.applicants.constructor === Object
+      );
+    },
   },
   methods: {
     updateApplicantsList(status) {
+      let payload = {};
+
+      if (this.currentStatus) {
+        payload.current_status = this.currentStatus;
+      }
+
+      if (this.currentStatus) {
+        payload.status_id = this.status;
+      }
       axios
-        .post(
-          `http://mpt-portal.test/api/applicants?page=${this.applicants.meta.current_page}`,
-          {
-            status: status,
-          }
-        )
+        .post(`applicants?page=${this.applicants.meta.current_page}`, payload)
         .then(({ data }) => {
           this.applicants = data;
         });
     },
-    getApplicants() {
-      console.log("get applicants inside");
+    getApplicants(page = 1) {
+      let payload = {};
+
+      if (this.currentStatus) {
+        payload.current_status = this.currentStatus;
+      }
+
+      if (this.currentStatus) {
+        payload.status_id = this.status;
+      }
       axios
-        .post(`applicants?page=${page}`, {
-          current_status: STATE.PRE_FILTER,
-          status_id: STATE.NEW,
-        })
+        .post(`applicants?page=${page}`, payload)
         .then(({ data }) => {
-          console.log(data);
           this.applicants = data;
         })
         .catch((e) => {
@@ -185,6 +201,7 @@ export default {
   mounted() {
     console.log("get applicants");
     this.getApplicants();
+    EventBus.$on("update-table", this.updateApplicantsList);
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);
