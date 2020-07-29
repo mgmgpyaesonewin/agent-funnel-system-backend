@@ -65,9 +65,9 @@ class Applicant extends Model
 
     protected $appends = ['age'];
 
-    public function status()
+    public function statuses()
     {
-        return $this->belongsTo('App\Status');
+        return $this->belongsToMany('App\Status')->withPivot('current_status')->withTimestamps();
     }
 
     public function interviews()
@@ -90,20 +90,12 @@ class Applicant extends Model
         return 1 === $value ? 'Male' : 'Female';
     }
 
-    public function getIsChatesatFreelancerAttribute($value)
+    public function scopeState($query, string $current_status = null, string $status_id = null)
     {
-        return 1 === $value ? 'Yes' : 'No';
-    }
-
-    // is_training_available
-    public function getIsTrainingAvailableAttribute($value)
-    {
-        return 1 === $value ? 'Yes' : 'No';
-    }
-
-    // is_prudential_available
-    public function getIsPrudentialAvailableAttribute($value)
-    {
-        return 1 === $value ? 'Yes' : 'No';
+        return $query->when($current_status, function ($query) use ($current_status) {
+            return $query->where('current_status', $current_status);
+        })->when($status_id, function ($query) use ($status_id) {
+            return $query->where('status_id', $status_id);
+        });
     }
 }

@@ -6,6 +6,12 @@
 
 require("./bootstrap");
 
+axios.interceptors.response.use(response => {
+  console.log(response);
+  phpdebugbar.ajaxHandler.handle(response.request);
+  return response;
+});
+
 window.Vue = require("vue");
 
 import Loading from "vue-loading-overlay";

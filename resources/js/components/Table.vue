@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <div class="row">
+    <div class="row" v-if="!isApplicantsEmpty">
       <div class="col-9">
         <h5 style="text-align: initial;line-height: 3rem;">
           Total
@@ -22,17 +22,15 @@
           <th v-show="webinarInvite === true"></th>
           <th>#</th>
           <th>Name</th>
-          <th>Email</th>
           <th>Phone</th>
           <th>Age</th>
-          <th>Status</th>
-          <th>Actions</th>
+          <th>Gender</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
           <td v-show="webinarInvite === true">
-            <fieldset v-show="applicant.status_id === 3">
+            <fieldset v-show="applicant.status_id !== 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="webinarList" :value="applicant.id" />
                 <span class="vs-checkbox">
@@ -44,11 +42,12 @@
             </fieldset>
           </td>
           <th scope="row">{{ applicant.id}}</th>
-          <td>{{ applicant.name}}</td>
-          <td>{{ applicant.email}}</td>
+          <td>
+            <a href="#">{{ applicant.name}}</a>
+          </td>
           <td>{{ applicant.phone}}</td>
           <td>{{ applicant.age}}</td>
-          <td>{{ applicant.status}}</td>
+          <td>{{ applicant.gender}}</td>
           <slot :applicant="applicant"></slot>
         </tr>
       </tbody>
@@ -111,51 +110,68 @@ import Pagination from "laravel-vue-pagination";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import { EventBus } from "../event-bus.js";
+import STATE from "../constant.js";
 
 export default {
   components: {
     "v-pagination": Pagination,
-    "date-picker": DatePicker
+    "date-picker": DatePicker,
   },
-  props: ["status", "webinarInvite"],
+  props: ["currentStatus", "status", "webinarInvite"],
   data() {
     return {
-      applicants: [],
+      applicants: {},
       webinarList: [],
       date: "",
       time: "",
-      url: ""
+      url: "",
     };
   },
   computed: {
     isWebniarListEmpty() {
       return this.webinarList.length === 0;
-    }
+    },
+    isApplicantsEmpty() {
+      return (
+        Object.keys(this.applicants).length === 0 &&
+        this.applicants.constructor === Object
+      );
+    },
   },
   methods: {
     updateApplicantsList(status) {
+      let payload = {};
+
+      if (this.currentStatus) {
+        payload.current_status = this.currentStatus;
+      }
+
+      if (this.currentStatus) {
+        payload.status_id = this.status;
+      }
       axios
-        .post(
-          `http://mpt-portal.test/api/applicants?page=${this.applicants.meta.current_page}`,
-          {
-            status: status
-          }
-        )
+        .post(`applicants?page=${this.applicants.meta.current_page}`, payload)
         .then(({ data }) => {
           this.applicants = data;
         });
     },
-    getApplicants(page = 1, status = [1], email = "", name = "") {
-      status = this.status || status;
-      window.API_URL = "http://mpt-portal.test/api";
+    getApplicants(page = 1) {
+      let payload = {};
+
+      if (this.currentStatus) {
+        payload.current_status = this.currentStatus;
+      }
+
+      if (this.currentStatus) {
+        payload.status_id = this.status;
+      }
       axios
-        .post(`http://mpt-portal.test/api/applicants?page=${page}`, {
-          status: status,
-          email: email,
-          name: name
-        })
+        .post(`applicants?page=${page}`, payload)
         .then(({ data }) => {
           this.applicants = data;
+        })
+        .catch((e) => {
+          console.log(e);
         });
     },
     inviteToWebinar() {
@@ -165,7 +181,7 @@ export default {
           time: this.time,
           url: this.url,
           rescheduled: 0,
-          applicants: this.webinarList
+          applicants: this.webinarList,
         })
         .then(({ data }) => {
           if (data.status) {
@@ -180,17 +196,17 @@ export default {
       this.date = "";
       this.time = "";
       this.url = "";
-    }
+    },
   },
   mounted() {
+    console.log("get applicants");
+    this.getApplicants();
     EventBus.$on("update-table", this.updateApplicantsList);
-    EventBus.$on("filter-table", this.getApplicants);
-    this.getApplicants(1, this.status, "", "");
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);
     EventBus.$off("filter-table", this.getApplicants);
-  }
+  },
 };
 </script>
 

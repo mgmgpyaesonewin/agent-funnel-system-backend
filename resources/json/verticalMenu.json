@@ -6,16 +6,16 @@
       "icon": ""
     },
     {
-      "url": "/pending",
-      "name": "Pending",
+      "url": "/pre_filter",
+      "name": "Pre-Filter",
       "slug": "pending",
       "icon": "feather icon-layers",
       "i18n": "nav.documentation"
     },
     {
-      "url": "/screened",
-      "name": "Screened",
-      "slug": "screened",
+      "url": "/pru_dna_filter",
+      "name": "Pru-DNA-Filter",
+      "slug": "Pru-DNA-Filter",
       "icon": "feather icon-filter",
       "i18n": "nav.documentation"
     },

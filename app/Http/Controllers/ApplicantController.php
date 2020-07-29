@@ -14,18 +14,18 @@ use Mail;
 
 class ApplicantController extends Controller
 {
-    public function pendingPage(Request $request)
+    public function preFilterPage(Request $request)
     {
         $statuses = Status::get();
 
-        return view('pages.applicants.pending', compact('statuses'));
+        return view('pages.applicants.pre_filter', compact('statuses'));
     }
 
-    public function screenedPage(Request $request)
+    public function pruDNAFilter(Request $request)
     {
         $statuses = Status::get();
 
-        return view('pages.applicants.screened', compact('statuses'));
+        return view('pages.applicants.pru_dna_filter', compact('statuses'));
     }
 
     public function invitedPage(Request $request)
@@ -58,16 +58,18 @@ class ApplicantController extends Controller
 
     public function applicants(Request $request)
     {
-        $name = empty($request->name) ? null : $request->name;
-        $email = empty($request->email) ? null : $request->email;
-        $status = empty($request->status) ? null : $request->status;
+        $applicants = Applicant::query()
+            ->state($request->current_status, $request->status_id)
+            ->select(
+                'id',
+                'name',
+                'phone',
+                'dob',
+                'gender',
+                'current_status',
+                'status_id'
+            )->paginate(10);
 
-        $applicants = Applicant::when($name, function ($q) use ($name) {
-            return $q->where('name', 'LIKE', "%{$name}%");
-        })->when($email, function ($q) use ($email) {
-            return $q->where('email', 'LIKE', "%{$email}%");
-        })->whereIn('status_id', json_decode($status))->paginate(10);
-        //dd($applicants);
         return ApplicantResource::collection($applicants);
     }
 
@@ -118,16 +120,16 @@ class ApplicantController extends Controller
 
     public function update(Request $request)
     {
-        $old_status = $request->old_status;
-        $new_status = $request->new_status;
+        $current_status = $request->current_status;
+        $status_id = $request->status_id;
 
-        $applicant = Applicant::where([['status_id', $old_status], ['id', $request->id]])->first();
-
-        $applicant->status_id = $new_status;
-        $applicant->reason_id = 12 == $new_status ? $request->reason_id : $applicant->reason_id;
+        $applicant = Applicant::where('id', $request->id)->first();
+        $applicant->current_status = $current_status;
+        $applicant->status_id = $status_id;
+        $applicant->statuses()->attach($status_id, ['current_status' => $current_status]);
         $applicant->save();
 
-        Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
+        // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
 
         return response()->json([
             'status' => true,

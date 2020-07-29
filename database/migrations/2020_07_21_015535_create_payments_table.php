@@ -15,7 +15,10 @@ class CreatePaymentsTable extends Migration
             $table->bigIncrements('id');
             $table->dateTime('date');
             $table->integer('amount');
-            $table->foreignId('partners_id')->constrained();
+
+            $table->bigInteger('partner_id')->unsigned()->nullable();
+            $table->foreign('partner_id')->references('id')->on('partners');
+
             $table->timestamps();
         });
     }
