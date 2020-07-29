@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
 
+    Route::resource('templateforms', 'TemplateFormController');
     Route::resource('trainings', 'TrainingController');
 
 });
