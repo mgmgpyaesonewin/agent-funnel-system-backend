@@ -15,6 +15,20 @@
           :disabled="isWebniarListEmpty"
         >Invite to Webinar</button>
       </div>
+      <div v-show="userAssign === true" class="col-3">
+        <multi-select
+          v-model="value"
+          :options="options"
+          :show-labels="false"
+          :allow-empty="false"
+          deselect-label="You must choose at least one user"
+          placeholder="Choose a BDM"
+        >
+          <template slot="singleLabel" slot-scope="{ option }">
+            <strong>{{ option.name }}</strong> is selected as admin
+          </template>
+        </multi-select>
+      </div>
     </div>
     <table class="table">
       <thead>
@@ -111,13 +125,15 @@ import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import { EventBus } from "../event-bus.js";
 import STATE from "../constant.js";
+import Multiselect from "vue-multiselect";
 
 export default {
   components: {
     "v-pagination": Pagination,
     "date-picker": DatePicker,
+    "multi-select": Multiselect,
   },
-  props: ["currentStatus", "status", "webinarInvite"],
+  props: ["currentStatus", "status", "webinarInvite", "userAssign"],
   data() {
     return {
       applicants: {},
@@ -125,6 +141,14 @@ export default {
       date: "",
       time: "",
       url: "",
+      value: "",
+      options: [
+        { id: 1, name: "Pyae Sone" },
+        { id: 1, name: "Pyae Sone" },
+        { id: 1, name: "Pyae Sone" },
+        { id: 1, name: "Pyae Sone" },
+        { id: 1, name: "Pyae Sone" },
+      ],
     };
   },
   computed: {
@@ -199,7 +223,6 @@ export default {
     },
   },
   mounted() {
-    console.log("get applicants");
     this.getApplicants();
     EventBus.$on("update-table", this.updateApplicantsList);
   },
@@ -210,5 +233,6 @@ export default {
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 </style>

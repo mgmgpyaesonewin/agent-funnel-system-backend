@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pru_dna_test" :webinar-invite="true">
+                        <v-table ref="table" current-status="pru_dna_test" :webinar-invite="false" :user-assign="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <button class="btn btn-info" v-show="applicant.status_id === 3">Interview</button>
@@ -29,13 +29,13 @@
                                         <v-button button-class="btn btn-info"
                                             :old-current-status="applicant.current_status"
                                             new-current-status="pre_filter" :old-status-id="applicant.status_id"
-                                            new-status-id="4" :applicant-id="applicant.id">
+                                            new-status-id="2" :applicant-id="applicant.id">
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status"
                                             :old-status-id="applicant.status_id" new-current-status="pru_dna_test"
-                                            new-status-id="1" :applicant-id="applicant.id">
+                                            new-status-id="3" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
