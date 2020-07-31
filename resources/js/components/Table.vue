@@ -12,7 +12,6 @@
           class="btn btn-info"
           data-toggle="modal"
           data-target="#webinarModal"
-          :disabled="isWebniarListEmpty"
         >Invite to Webinar</button>
       </div>
       <div v-show="userAssign === true" class="col-3">
@@ -21,8 +20,11 @@
           :options="options"
           :show-labels="false"
           :allow-empty="false"
+          track-by="id"
+          label="name"
           deselect-label="You must choose at least one user"
           placeholder="Choose a BDM"
+          @select="onSelect"
         >
           <template slot="singleLabel" slot-scope="{ option }">
             <strong>{{ option.name }}</strong> is selected as admin
@@ -33,7 +35,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th v-show="webinarInvite === true"></th>
+          <th v-show="userAssign === true"></th>
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
@@ -43,10 +45,10 @@
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-show="webinarInvite === true">
+          <td v-show="userAssign === true">
             <fieldset v-show="applicant.status_id !== 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
-                <input type="checkbox" v-model="webinarList" :value="applicant.id" />
+                <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
                 <span class="vs-checkbox">
                   <span class="vs-checkbox--check">
                     <i class="vs-icon feather icon-check"></i>
@@ -137,6 +139,7 @@ export default {
   data() {
     return {
       applicants: {},
+      selectedApplicants: [],
       webinarList: [],
       date: "",
       time: "",
@@ -152,9 +155,6 @@ export default {
     };
   },
   computed: {
-    isWebniarListEmpty() {
-      return this.webinarList.length === 0;
-    },
     isApplicantsEmpty() {
       return (
         Object.keys(this.applicants).length === 0 &&
@@ -220,6 +220,20 @@ export default {
       this.date = "";
       this.time = "";
       this.url = "";
+    },
+    onSelect({ id }) {
+      console.log(id);
+      axios
+        .post("applicants/assign", {
+          user_id: id,
+          applicants_ids: this.selectedApplicants,
+        })
+        .then(({ data }) => {
+          this.applicants = data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
   mounted() {

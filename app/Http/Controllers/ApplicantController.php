@@ -137,4 +137,20 @@ class ApplicantController extends Controller
             'applicant_id' => $applicant->id,
         ]);
     }
+
+    public function assignUserAsAdminForApplicant(Request $request)
+    {
+        $user_id = $request->user_id;
+        $applicant_ids = $request->applicants_ids;
+
+        $applicant_ids = collect($applicant_ids);
+        $applicant_ids->map(function ($applicant_id) use ($user_id) {
+            Applicant::where('id', $applicant_id)->update(['assign_admin_id' => $user_id]);
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully Updated',
+        ]);
+    }
 }
