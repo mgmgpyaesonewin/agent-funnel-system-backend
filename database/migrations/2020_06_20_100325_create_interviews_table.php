@@ -15,10 +15,9 @@ class CreateInterviewsTable extends Migration
             $table->bigIncrements('id');
             $table->dateTime('appointment');
             $table->string('url');
-
+            $table->tinyInteger('rescheduled');
             $table->bigInteger('applicant_id')->unsigned()->nullable();
             $table->foreign('applicant_id')->references('id')->on('applicants');
-
             $table->timestamps();
         });
     }

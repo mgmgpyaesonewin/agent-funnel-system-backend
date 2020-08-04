@@ -20,9 +20,9 @@
       "i18n": "nav.documentation"
     },
     {
-      "url": "/invited",
-      "name": "Invited",
-      "slug": "invited",
+      "url": "/pmli_filter",
+      "name": "PMLI Filter",
+      "slug": "pmli_filter",
       "icon": "feather icon-smartphone",
       "i18n": "nav.documentation"
     },

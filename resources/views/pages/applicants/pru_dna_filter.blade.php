@@ -24,7 +24,9 @@
                         <v-table ref="table" current-status="pru_dna_test" :webinar-invite="false" :user-assign="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <button class="btn btn-info" v-show="applicant.status_id === 3">Interview</button>
+                                    <div v-show="applicant.status_id === 3">
+                                        <v-interview :applicant-id="applicant.id"></v-interview>
+                                    </div>
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 1">
                                         <v-button button-class="btn btn-info"
                                             :old-current-status="applicant.current_status"

@@ -8,5 +8,9 @@ export default Object.freeze({
   NEW: 1,
   INCONSIDERATION: 2,
   ACCEPTED: 3,
-  REJECTED: 4
+  REJECTED: 4,
+  ADMIN: "assign_admin_id",
+  BDM: "assign_bdm_id",
+  MA: "assign_ma_id",
+  STAFF: "assign_staff_id"
 });

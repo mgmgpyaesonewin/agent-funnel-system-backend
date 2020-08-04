@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\ApplicantUpdating;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -65,6 +66,10 @@ class Applicant extends Model
 
     protected $appends = ['age'];
 
+    protected $dispatchesEvents = [
+        'updating' => ApplicantUpdating::class,
+    ];
+
     public function statuses()
     {
         return $this->belongsToMany('App\Status')->withPivot('current_status')->withTimestamps();
@@ -73,6 +78,26 @@ class Applicant extends Model
     public function interviews()
     {
         return $this->hasMany('App\Interview', 'applicants_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo('App\User', 'assign_admin_id');
+    }
+
+    public function bdm()
+    {
+        return $this->belongsTo('App\User', 'assign_bdm_id');
+    }
+
+    public function ma()
+    {
+        return $this->belongsTo('App\User', 'assign_ma_id');
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo('App\User', 'assign_staff_id');
     }
 
     public function getInterviewScheduleAttribute()

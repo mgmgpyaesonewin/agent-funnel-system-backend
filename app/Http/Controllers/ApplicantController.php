@@ -28,11 +28,11 @@ class ApplicantController extends Controller
         return view('pages.applicants.pru_dna_filter', compact('statuses'));
     }
 
-    public function invitedPage(Request $request)
+    public function pmliFilter(Request $request)
     {
         $statuses = Status::get();
 
-        return view('pages.applicants.invited', compact('statuses'));
+        return view('pages.applicants.pmli_filter', compact('statuses'));
     }
 
     public function onboardedPage(Request $request)
@@ -59,6 +59,7 @@ class ApplicantController extends Controller
     public function applicants(Request $request)
     {
         $applicants = Applicant::query()
+            ->with('admin', 'bdm', 'ma', 'staff')
             ->state($request->current_status, $request->status_id)
             ->select(
                 'id',
@@ -67,7 +68,11 @@ class ApplicantController extends Controller
                 'dob',
                 'gender',
                 'current_status',
-                'status_id'
+                'status_id',
+                'assign_admin_id',
+                'assign_bdm_id',
+                'assign_ma_id',
+                'assign_staff_id'
             )->paginate(10);
 
         return ApplicantResource::collection($applicants);
@@ -76,23 +81,24 @@ class ApplicantController extends Controller
     public function scheduleAppointment(Request $request)
     {
         $appointment = Carbon::parse("{$request->date} {$request->time}");
+        $applicant_id = $request->applicant_id;
 
-        foreach ($request->applicants as $applicant_id) {
-            $record = [
-                'appointment' => $appointment,
-                'url' => $request->url,
-                'rescheduled' => 0,
-                'applicants_id' => $applicant_id,
-            ];
+        $record = [
+            'appointment' => $appointment,
+            'url' => $request->url,
+            'rescheduled' => 0,
+            'applicant_id' => $applicant_id,
+        ];
 
-            Interview::create($record);
+        Interview::create($record);
 
-            // Set state from Filtered to Invited
-            Applicant::where([['status_id', 3], ['id', $applicant_id]])->update(['status_id' => 4]);
-            $applicant = Applicant::where('id', $applicant_id)->first();
+        // Set state from Filtered to Invited
+        Applicant::where('id', $applicant_id)->update([
+            'current_status' => 'pmli_filter',
+            'status_id' => 1,
+        ]);
 
-            Mail::to($applicant->email)->send(new SendWebinarNotification($applicant));
-        }
+        // Mail::to($applicant->email)->send(new SendWebinarNotification($applicant));
 
         return response()->json([
             'status' => true,
@@ -142,10 +148,13 @@ class ApplicantController extends Controller
     {
         $user_id = $request->user_id;
         $applicant_ids = $request->applicants_ids;
+        $table_role_column = $request->role;
 
         $applicant_ids = collect($applicant_ids);
-        $applicant_ids->map(function ($applicant_id) use ($user_id) {
-            Applicant::where('id', $applicant_id)->update(['assign_admin_id' => $user_id]);
+        $applicant_ids->map(function ($applicant_id) use ($user_id, $table_role_column) {
+            Applicant::where('id', $applicant_id)->update([
+                $table_role_column => $user_id,
+            ]);
         });
 
         return response()->json([
