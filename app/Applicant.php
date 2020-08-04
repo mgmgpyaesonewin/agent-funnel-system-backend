@@ -59,6 +59,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Applicant extends Model
 {
+    protected $fillable = ['temp_id'];
+
     protected $casts = [
         'education' => 'array',
         'working_experience' => 'array',
@@ -121,6 +123,13 @@ class Applicant extends Model
             return $query->where('current_status', $current_status);
         })->when($status_id, function ($query) use ($status_id) {
             return $query->where('status_id', $status_id);
+        });
+    }
+
+    public function saveQuietly(array $options = [])
+    {
+        return static::withoutEvents(function () use ($options) {
+            return $this->save($options);
         });
     }
 }

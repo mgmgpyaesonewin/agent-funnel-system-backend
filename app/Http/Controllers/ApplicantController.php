@@ -10,7 +10,7 @@ use App\Mail\SendWebinarNotification;
 use App\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Mail;
+use Log;
 
 class ApplicantController extends Controller
 {
@@ -135,6 +135,7 @@ class ApplicantController extends Controller
         $applicant->statuses()->attach($status_id, ['current_status' => $current_status]);
         $applicant->save();
 
+        Log::info('updating applicant');
         // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
 
         return response()->json([
