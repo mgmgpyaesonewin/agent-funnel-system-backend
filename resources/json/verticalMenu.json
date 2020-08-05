@@ -27,8 +27,8 @@
       "i18n": "nav.documentation"
     },
     {
-      "url": "/onboarded",
-      "name": "Onboarded",
+      "url": "/trainings",
+      "name": "Training Modules",
       "icon": "feather icon-printer",
       "i18n": "nav.documentation"
     },

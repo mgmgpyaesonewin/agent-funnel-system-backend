@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Applicant;
 use App\Http\Requests\TrainingRequest;
+use App\Http\Resources\TrainingResource;
 use App\Training;
+use Illuminate\Http\Request;
 
 class TrainingController extends Controller
 {
@@ -12,6 +15,16 @@ class TrainingController extends Controller
         $trainings = Training::all();
 
         return view('pages.training.index', compact('trainings'));
+    }
+
+    public function getAllTrainings(Request $request)
+    {
+        $trainings = Training::all();
+
+        return response()->json([
+            'data' => TrainingResource::collection($trainings),
+            'completed' => Applicant::find($request->applicant_id)->trainings()->pluck('trainings.id'),
+        ]);
     }
 
     public function create()
@@ -23,7 +36,7 @@ class TrainingController extends Controller
     {
         Training::create($request->validated());
 
-        return view('pages.training.index');
+        return redirect('/trainings');
     }
 
     public function show(Training $training)

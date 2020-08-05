@@ -68,7 +68,7 @@
             <div class="badge badge-warning">{{ applicant.ma && applicant.ma.name }}</div>
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
-          <td v-show="!partner">{{ getApplicantStatus(applicant.status_id) }}</td>
+          <td v-show="status">{{ getApplicantStatus(applicant.status_id) }}</td>
           <slot :applicant="applicant"></slot>
         </tr>
       </tbody>

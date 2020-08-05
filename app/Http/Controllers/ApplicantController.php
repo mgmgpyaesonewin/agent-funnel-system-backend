@@ -145,6 +145,20 @@ class ApplicantController extends Controller
         ]);
     }
 
+    public function updateTrack(Request $request)
+    {
+        $applicant_id = $request->id;
+        $trainings = $request->training_ids;
+
+        $applicant = Applicant::find($applicant_id);
+        $applicant->trainings()->sync($trainings);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully Saved',
+        ]);
+    }
+
     public function assignUserAsAdminForApplicant(Request $request)
     {
         $user_id = $request->user_id;

@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Training extends Model
 {
     use SoftDeletes;
-    protected $guarded= [];
-    //
+    protected $guarded = [];
+
+    public function applicants()
+    {
+        return $this->belongsToMany('App\Applicant');
+    }
 }

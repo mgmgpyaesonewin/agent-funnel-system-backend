@@ -102,6 +102,11 @@ class Applicant extends Model
         return $this->belongsTo('App\User', 'assign_staff_id');
     }
 
+    public function trainings()
+    {
+        return $this->belongsToMany('App\Training');
+    }
+
     public function getInterviewScheduleAttribute()
     {
         return $this->interviews()->where('rescheduled', 0)->latest()->first();
