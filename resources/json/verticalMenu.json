@@ -6,6 +6,13 @@
       "icon": ""
     },
     {
+      "url": "/partners",
+      "name": "Partners",
+      "slug": "partners",
+      "icon": "feather icon-feather",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "/pre_filter",
       "name": "Pre-Filter",
       "slug": "pending",

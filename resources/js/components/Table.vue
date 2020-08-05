@@ -36,7 +36,7 @@
           <th v-show="gender">Gender</th>
           <th v-show="channel">Channel</th>
           <th v-show="assign">Assign</th>
-          <th v-show="status">Status</th>
+          <th v-show="statusCol">Status</th>
           <th></th>
         </tr>
       </thead>
@@ -57,6 +57,8 @@
           <td>{{ applicant.id}}</td>
           <td>
             <a href="#">{{ applicant.name}}</a>
+            <br />
+            <div class="badge badge-primary" v-show="tempId">{{ applicant.temp_id }}</div>
           </td>
           <td>{{ applicant.phone}}</td>
           <td v-show="age">{{ applicant.age}}</td>
@@ -68,7 +70,7 @@
             <div class="badge badge-warning">{{ applicant.ma && applicant.ma.name }}</div>
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
-          <td v-show="status">{{ getApplicantStatus(applicant.status_id) }}</td>
+          <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }}</td>
           <slot :applicant="applicant"></slot>
         </tr>
       </tbody>
@@ -91,6 +93,7 @@ export default {
   props: [
     "currentStatus",
     "status",
+    "statusCol",
     "userAssign",
     "partner",
     "gender",
@@ -98,6 +101,7 @@ export default {
     "channel",
     "assign",
     "status",
+    "tempId",
   ],
   data() {
     return {

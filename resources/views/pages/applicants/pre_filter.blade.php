@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pre_filter" status="1" webinar-invite=false partner=true>
+                        <v-table ref="table" current-status="pre_filter" status="1" age="true" gender="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="row mx-0">

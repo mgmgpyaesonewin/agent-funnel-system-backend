@@ -64,6 +64,7 @@ class ApplicantController extends Controller
             ->select(
                 'id',
                 'name',
+                'temp_id',
                 'phone',
                 'dob',
                 'gender',
