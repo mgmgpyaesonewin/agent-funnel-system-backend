@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="training">
+                        <v-table ref="table" current-status="training" temp-id="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <v-track :applicant-id="applicant.id"></v-track>

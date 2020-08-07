@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pre_filter" status="1" channel="true" statusCol="true">
+                        <v-table ref="table" current-status="pre_filter" status="1" channel="true" status-col="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="btn-group mt-1">
