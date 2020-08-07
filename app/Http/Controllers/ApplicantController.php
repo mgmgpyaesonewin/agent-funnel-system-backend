@@ -8,6 +8,7 @@ use App\Interview;
 use App\Mail\SendStatusNotification;
 use App\Mail\SendWebinarNotification;
 use App\Status;
+use App\Training;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Log;
@@ -161,6 +162,15 @@ class ApplicantController extends Controller
 
         $applicant = Applicant::find($applicant_id);
         $applicant->trainings()->sync($trainings);
+
+        $applicant_training_sessions = Applicant::withCount('trainings')->where('id', 7)->first()->trainings_count;
+        $no_of_training_sessions = Training::count();
+
+        if ($applicant_training_sessions >= $no_of_training_sessions) {
+            $applicant->current_status = 'certification';
+            $applicant->status_id = 1;
+            $applicant->saveQuietly();
+        }
 
         return response()->json([
             'status' => true,

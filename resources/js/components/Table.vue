@@ -16,11 +16,12 @@
           track-by="id"
           label="name"
           deselect-label="You must choose at least one user"
-          placeholder="Choose a BDM"
+          placeholder="Choose a User"
           @select="onSelect"
         >
           <template slot="singleLabel" slot-scope="{ option }">
-            <strong>{{ option.name }}</strong> is selected as admin
+            <strong>{{ option.name }}</strong>
+            is assign as {{ option.role }}
           </template>
         </multi-select>
       </div>

@@ -45,8 +45,10 @@
               @endforeach
             </tbody>
           </table>
+          <div class="justify-content-center">
+            {{ $trainings->links() }}
+          </div>
         </div>
-
       </div>
     </div>
   </div>

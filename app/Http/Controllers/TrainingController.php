@@ -12,7 +12,7 @@ class TrainingController extends Controller
 {
     public function index()
     {
-        $trainings = Training::all();
+        $trainings = Training::paginate(20);
 
         return view('pages.training.index', compact('trainings'));
     }

@@ -2,7 +2,7 @@
   "menu": [
     {
       "url": "",
-      "navheader": "Applicants",
+      "navheader": "Modules",
       "icon": ""
     },
     {
@@ -11,6 +11,17 @@
       "slug": "partners",
       "icon": "feather icon-feather",
       "i18n": "nav.documentation"
+    },
+    {
+      "url": "/trainings",
+      "name": "Training Modules",
+      "icon": "feather icon-printer",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "",
+      "navheader": "Applicants",
+      "icon": ""
     },
     {
       "url": "/pre_filter",
@@ -31,12 +42,6 @@
       "name": "PMLI Filter",
       "slug": "pmli_filter",
       "icon": "feather icon-smartphone",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "/trainings",
-      "name": "Training Modules",
-      "icon": "feather icon-printer",
       "i18n": "nav.documentation"
     },
     {

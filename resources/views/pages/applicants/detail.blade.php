@@ -16,7 +16,7 @@
                         <h3 style="padding-top: 1.5rem;
     padding-left: 19rem;
     color: white;
-    font-weight: 600;">Applicant's Detail</h3>
+                    font-weight: 600;">Applicant's Detail (PA-08070049){{ $applicant->temp_id }}</h3>
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
                         <img src="{{ asset('images/profile/user-uploads/user-13.jpg') }}"
@@ -47,10 +47,10 @@
                                     <a href="#" class="nav-link font-small-3">Experience</a>
                                 </li>
                                 <li class="nav-item px-sm-0">
-                                    <a href="#" class="nav-link font-small-3">Member</a>
+                                    <a href="#" class="nav-link font-small-3">Certification</a>
                                 </li>
                                 <li class="nav-item px-sm-0">
-                                    <a href="#" class="nav-link font-small-3">Questions</a>
+                                    <a href="#" class="nav-link font-small-3">History</a>
                                 </li>
                             </ul>
                         </div>
@@ -72,7 +72,15 @@
                             <p class="col-md-6">{{ $applicant->name }}</p>
                         </div>
                         <div class="mt-1 row">
+                            <h6 class="col-md-4">Prefered Name:</h6>
+                            <p class="col-md-6">{{ $applicant->name }}</p>
+                        </div>
+                        <div class="mt-1 row">
                             <h6 class="col-md-4">Phone:</h6>
+                            <p class="col-md-6">{{ $applicant->phone }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Secondary Phone:</h6>
                             <p class="col-md-6">{{ $applicant->phone }}</p>
                         </div>
                         <div class="mt-1 row">
@@ -82,6 +90,10 @@
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Gender:</h6>
                             <p class="col-md-6">{{ $applicant->gender }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Marital Status:</h6>
+                            <p class="col-md-6">Single</p>
                         </div>
                     </div>
                 </div>
@@ -104,6 +116,22 @@
                             <h6 class="col-md-4">Address:</h6>
                             <p class="col-md-6">{{ $applicant->address }}</p>
                         </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">City:</h6>
+                            <p class="col-md-6">Yangon</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Township:</h6>
+                            <p class="col-md-6">SanChaung</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">MM Citizen:</h6>
+                            <p class="col-md-6">Yes</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Race:</h6>
+                            <p class="col-md-6">Myanmar</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -116,7 +144,12 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            {{ $applicant->education }}
+                            <div class="col-md-1 pl-1">
+                                <i class="fa fa-circle primary"></i>
+                            </div>
+                            <div class="col-md-11">
+                                {{ $applicant->education }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -150,16 +183,24 @@
             <div class="col-lg-4 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>ChateSat Member Section</h4>
+                        <h4>Conflict of Interest</h4>
                     </div>
                     <div class="card-body">
                         <div class="mt-1 row">
-                            <h6 class="col-md-8">ChateSat Freelancer:</h6>
-                            <p class="col-md-4">{{ $applicant->is_chatesat_freelancer }}</p>
+                            <h6 class="col-md-4">Spouse Name:</h6>
+                            <p class="col-md-6">Enrico Lynch</p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-8">Referral Code:</h6>
-                            <p class="col-md-4">{{ $applicant->referral_code }}</p>
+                            <h6 class="col-md-4">Spouse NRC:</h6>
+                            <p class="col-md-6">12/SaKhaNa(N)-082719</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Occupa-tion:</h6>
+                            <p class="col-md-6">Teacher</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Work at:</h6>
+                            <p class="col-md-6">B.E.H.S (6) Botahtaung</p>
                         </div>
                     </div>
                 </div>
@@ -167,31 +208,35 @@
             <div class="col-lg-8 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Questions</h4>
+                        <h4>Completed Tranining</h4>
                     </div>
                     <div class="card-body">
                         <div class="mt-1 row">
-                            <h6 class="col-md-10">DNA Test, Webinar တက်ဖို့ အဆင်ပြေလား</h6>
-                            <p class="col-md-2">{{ $applicant->is_chatesat_freelancer }}</p>
+                            <div class="col-md-1">
+                                <i class="fa fa-circle primary"></i>
+                            </div>
+                            <h6 class="col-md-7">Module 1 | Introduction</h6>
+                            <p class="col-md-4">( Completed )</p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-10">Training 2 months တက်ဖို့ အဆင်ပြေလား</h6>
-                            <p class="col-md-2">{{ $applicant->is_training_available }}</p>
+                            <div class="col-md-1">
+                                <i class="fa fa-circle primary"></i>
+                            </div>
+                            <h6 class="col-md-7">Module 2 | Tranining</h6>
+                            <p class="col-md-4">( Completed )</p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-10">Certified ဖြစ်ပီး Prudential နဲ့ အနည်းဆုံး 3လ လက်တွဲဖို့ အဆင်ပြေ လား
-                            </h6>
-                            <p class="col-md-2">{{ $applicant->is_prudential_available }}</p>
+                            <div class="col-md-1">
+                                <i class="fa fa-circle primary"></i>
+                            </div>
+                            <h6 class="col-md-7">Module 3 | Exam</h6>
+                            <p class="col-md-4">( Completed )</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <div class="buy-now">
-        <button class="btn btn-success waves-effect waves-light mr-2">Approve</button>
-        <button class="btn btn-danger waves-effect waves-light">Reject</button>
-    </div>
 </div>
 @endsection
 @section('page-script')
