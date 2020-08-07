@@ -21,7 +21,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-certification-table ref="table" current-status="certification"></v-certification-table>
+                        <v-certification-table ref="table" current-status="certification" temp-id="true">
+                        </v-certification-table>
                     </div>
                 </div>
             </div>

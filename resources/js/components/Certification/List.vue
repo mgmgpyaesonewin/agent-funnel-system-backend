@@ -17,57 +17,61 @@
         />
         <button class="btn btn-primary" @click="setExam">Set Exam</button>
       </div>
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>#</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Exam Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(applicant, i) in applicants.data" :key="i">
-            <td>
-              <fieldset v-show="applicant.status_id === 1">
-                <div class="vs-checkbox-con vs-checkbox-primary">
-                  <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
-                  <span class="vs-checkbox">
-                    <span class="vs-checkbox--check">
-                      <i class="vs-icon feather icon-check"></i>
-                    </span>
-                  </span>
-                </div>
-              </fieldset>
-            </td>
-            <td>{{ applicant.id}}</td>
-            <td>
-              <a href="#">{{ applicant.name}}</a>
-            </td>
-            <td>{{ applicant.phone}}</td>
-            <td>{{ applicant.exam_date }}</td>
-            <td>{{ getApplicantStatus(applicant.status_id) }}</td>
-            <td>
-              <div class="btn-group mt-1" v-show="applicant.status_id === 1 && applicant.exam_date">
-                <button class="btn btn-success" @click="update(applicant.id, 'onboard', 1)">
-                  <i class="fa fa-check" aria-hidden="true"></i> Passed
-                </button>
-                <button class="btn btn-danger" @click="update(applicant.id, 'certification', 4)">
-                  <i class="fa fa-times" aria-hidden="true"></i> Failed
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>#</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Exam Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(applicant, i) in applicants.data" :key="i">
+          <td>
+            <fieldset v-show="applicant.status_id === 1">
+              <div class="vs-checkbox-con vs-checkbox-primary">
+                <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
+                <span class="vs-checkbox">
+                  <span class="vs-checkbox--check">
+                    <i class="vs-icon feather icon-check"></i>
+                  </span>
+                </span>
+              </div>
+            </fieldset>
+          </td>
+          <td>{{ applicant.id}}</td>
+          <td>
+            <a href="#">{{ applicant.name}}</a>
+            <br />
+            <div class="badge badge-primary">{{ applicant.temp_id }}</div>
+          </td>
+          <td>{{ applicant.phone}}</td>
+          <td>{{ applicant.exam_date }}</td>
+          <td>{{ getApplicantStatus(applicant.status_id) }}</td>
+          <td>
+            <div class="btn-group mt-1" v-show="applicant.status_id === 1 && applicant.exam_date">
+              <button class="btn btn-success" @click="update(applicant.id, 'onboard', 1)">
+                <i class="fa fa-check" aria-hidden="true"></i> Passed
+              </button>
+              <button class="btn btn-danger" @click="update(applicant.id, 'certification', 4)">
+                <i class="fa fa-times" aria-hidden="true"></i> Failed
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <v-pagination :data="applicants" @pagination-change-page="getApplicants" align="center"></v-pagination>
   </div>
 </template>
 
 <script>
+import Pagination from "laravel-vue-pagination";
 import DatePicker from "vue2-datepicker";
 import Constant from "../../constant.js";
 
@@ -75,6 +79,9 @@ import "vue2-datepicker/index.css";
 
 export default {
   props: ["currentStatus"],
+  components: {
+    "v-pagination": Pagination,
+  },
   data() {
     return {
       constant: Constant,

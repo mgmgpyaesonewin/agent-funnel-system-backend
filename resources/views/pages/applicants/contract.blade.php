@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="onboard" status-col="true">
+                        <v-table ref="table" current-status="onboard" status-col="true" temp-id="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 1">
