@@ -50,6 +50,12 @@
       "name": "Certification",
       "icon": "feather icon-star",
       "i18n": "nav.documentation"
+    },
+    {
+      "url": "/contract",
+      "name": "Contract & Agent",
+      "icon": "feather icon-user",
+      "i18n": "nav.documentation"
     }
   ]
 }

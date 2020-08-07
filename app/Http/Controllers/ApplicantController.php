@@ -56,6 +56,13 @@ class ApplicantController extends Controller
         return view('pages.applicants.certification', compact('statuses'));
     }
 
+    public function contractPage(Request $request)
+    {
+        $statuses = Status::get();
+
+        return view('pages.applicants.contract', compact('statuses'));
+    }
+
     public function applicants(Request $request)
     {
         $applicants = Applicant::query()
