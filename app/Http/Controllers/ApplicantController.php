@@ -163,7 +163,7 @@ class ApplicantController extends Controller
         $applicant = Applicant::find($applicant_id);
         $applicant->trainings()->sync($trainings);
 
-        $applicant_training_sessions = Applicant::withCount('trainings')->where('id', 7)->first()->trainings_count;
+        $applicant_training_sessions = Applicant::withCount('trainings')->where('id', $applicant_id)->first()->trainings_count;
         $no_of_training_sessions = Training::count();
 
         if ($applicant_training_sessions >= $no_of_training_sessions) {
