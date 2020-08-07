@@ -26,5 +26,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/applicants/update/{id}', 'ApplicantController@update');
     Route::post('/applicants/training/update/{id}', 'ApplicantController@updateTrack');
     Route::post('/applicants/assign', 'ApplicantController@assignUserAsAdminForApplicant');
+    Route::post('/applicants/exam', 'ApplicantController@addExamForApplicants');
     Route::get('/trainings/{applicant_id}', 'TrainingController@getAllTrainings');
 });

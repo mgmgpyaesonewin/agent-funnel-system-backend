@@ -25,7 +25,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 window.axios.defaults.headers.common = {
   Authorization: `Bearer ${localStorage.getItem("token")}`
 };
-window.axios.defaults.baseURL = "https://prusystem.mmparttime.com/api/";
+window.axios.defaults.baseURL = "http://127.0.0.1:8000/api/";
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -34,7 +34,7 @@ window.axios.defaults.baseURL = "https://prusystem.mmparttime.com/api/";
  */
 
 let token = document.head.querySelector('meta[name="csrf-token"]');
-
+0
 if (token) {
   window.axios.defaults.headers.common["X-CSRF-TOKEN"] = token.content;
 } else {

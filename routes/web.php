@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/trainee', 'ApplicantController@traineePage');
 
     Route::get('/onboarded', 'ApplicantController@onboardedPage');
-    Route::get('/qualified', 'ApplicantController@qualifiedPage');
+    Route::get('/certification', 'ApplicantController@certificationPage');
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
 

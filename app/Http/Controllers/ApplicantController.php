@@ -49,11 +49,11 @@ class ApplicantController extends Controller
         return view('pages.applicants.trainee', compact('statuses'));
     }
 
-    public function qualifiedPage(Request $request)
+    public function certificationPage(Request $request)
     {
         $statuses = Status::get();
 
-        return view('pages.applicants.qualified', compact('statuses'));
+        return view('pages.applicants.certification', compact('statuses'));
     }
 
     public function applicants(Request $request)
@@ -68,6 +68,7 @@ class ApplicantController extends Controller
                 'phone',
                 'dob',
                 'gender',
+                'exam_date',
                 'current_status',
                 'status_id',
                 'assign_admin_id',
@@ -176,6 +177,25 @@ class ApplicantController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Successfully Updated',
+        ]);
+    }
+
+    public function addExamForApplicants(Request $request)
+    {
+        $applicant_ids = $request->applicant_ids;
+        $exam_date = $request->exam_date;
+
+        $applicant_ids = collect($applicant_ids);
+
+        $applicant_ids->map(function ($applicant_id) use ($exam_date) {
+            Applicant::where('id', $applicant_id)->update([
+                'exam_date' => $exam_date,
+            ]);
+        });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully Saved',
         ]);
     }
 }

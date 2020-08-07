@@ -46,8 +46,8 @@
       "i18n": "nav.documentation"
     },
     {
-      "url": "/qualified",
-      "name": "Qualified",
+      "url": "/certification",
+      "name": "Certification",
       "icon": "feather icon-star",
       "i18n": "nav.documentation"
     }

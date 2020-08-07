@@ -24,6 +24,7 @@ class ApplicantResource extends JsonResource
             'phone' => $this->phone,
             'age' => $this->age,
             'gender' => $this->gender,
+            'exam_date' => $this->exam_date,
             'current_status' => $this->current_status,
             'status_id' => $this->status_id,
             'admin' => new UserResource($this->admin),
