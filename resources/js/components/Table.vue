@@ -57,7 +57,7 @@
           </td>
           <td>{{ applicant.id}}</td>
           <td>
-            <a href="#">{{ applicant.name}}</a>
+            <a :href="`${$location.origin}/applicants/${applicant.id}`">{{ applicant.name}}</a>
             <br />
             <div class="badge badge-primary" v-show="tempId">{{ applicant.temp_id }}</div>
           </td>

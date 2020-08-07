@@ -6,10 +6,16 @@
         <input type="text" class="form-control" placeholder="Name" v-model="name" />
       </fieldset>
     </div>
-    <div class="col-4">
+    <div class="col-2">
       <fieldset class="form-group">
-        <label for="name">Email</label>
-        <input type="email" class="form-control" placeholder="Email" v-model="email" />
+        <label for="name">Channel</label>
+        <input type="email" class="form-control" placeholder="Channel" v-model="email" />
+      </fieldset>
+    </div>
+    <div class="col-2" v-show="assignField">
+      <fieldset class="form-group">
+        <label for="name">Assign</label>
+        <input type="text" class="form-control" placeholder="Name" />
       </fieldset>
     </div>
     <div class="col-2">
@@ -41,12 +47,12 @@
 import { EventBus } from "../event-bus.js";
 
 export default {
-  props: ["statusesArray"],
+  props: ["statusesArray", "assignField"],
   data() {
     return {
       email: "",
       name: "",
-      selected_status: ""
+      selected_status: "",
     };
   },
   methods: {
@@ -58,8 +64,8 @@ export default {
         this.email,
         this.name
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

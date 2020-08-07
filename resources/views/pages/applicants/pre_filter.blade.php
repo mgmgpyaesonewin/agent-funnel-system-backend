@@ -21,13 +21,9 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pre_filter" status="1" age="true" gender="true">
+                        <v-table ref="table" current-status="pre_filter" status="1" channel="true" statusCol="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="row mx-0">
-                                        <a :href="`{{ url('applicants') }}/${applicant.id}`"
-                                            class="btn btn-primary btn-block">View</a>
-                                    </div>
                                     <div class="btn-group mt-1">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status"
