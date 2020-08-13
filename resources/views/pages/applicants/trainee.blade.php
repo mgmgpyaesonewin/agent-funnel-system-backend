@@ -21,10 +21,10 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="training" temp-id="true">
+                        <v-table ref="table" current-status="training" temp-id="true" :exam="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <v-track :applicant-id="applicant.id"></v-track>
+                                    <v-track :applicant="applicant"></v-track>
                                 </td>
                             </template>
                         </v-table>

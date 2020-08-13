@@ -35,6 +35,7 @@
           <th>Phone</th>
           <th v-show="age">Age</th>
           <th v-show="gender">Gender</th>
+          <td v-show="exam">Exam Date</td>
           <th v-show="channel">Channel</th>
           <th v-show="assign">Assign</th>
           <th v-show="statusCol">Status</th>
@@ -64,6 +65,7 @@
           <td>{{ applicant.phone}}</td>
           <td v-show="age">{{ applicant.age}}</td>
           <td v-show="gender">{{ applicant.gender}}</td>
+          <td v-show="exam">{{ applicant.exam_date }}</td>
           <td v-show="channel">UTM DEMO</td>
           <td v-show="assign">
             <div class="badge badge-primary">{{ applicant.admin && applicant.admin.name }}</div>
@@ -103,6 +105,7 @@ export default {
     "assign",
     "status",
     "tempId",
+    "exam",
   ],
   data() {
     return {
@@ -122,7 +125,7 @@ export default {
     },
   },
   methods: {
-    updateApplicantsList(status) {
+    updateApplicantsList() {
       let payload = {};
 
       if (this.currentStatus) {

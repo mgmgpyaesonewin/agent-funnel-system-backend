@@ -167,8 +167,8 @@ class ApplicantController extends Controller
         $no_of_training_sessions = Training::count();
 
         if ($applicant_training_sessions >= $no_of_training_sessions) {
-            $applicant->current_status = 'certification';
-            $applicant->status_id = 1;
+            $applicant->current_status = 'training';
+            $applicant->status_id = 3;
             $applicant->saveQuietly();
         }
 
@@ -209,6 +209,21 @@ class ApplicantController extends Controller
                 'exam_date' => $exam_date,
             ]);
         });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully Saved',
+        ]);
+    }
+
+    public function addExamForApplicant(Request $request)
+    {
+        $applicant_id = $request->applicant_id;
+        $exam_date = $request->exam_date;
+
+        Applicant::where('id', $applicant_id)->update([
+            'exam_date' => $exam_date,
+        ]);
 
         return response()->json([
             'status' => true,
