@@ -16,6 +16,7 @@ class CreateTemplateFormsTable extends Migration
         Schema::create('template_forms', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('preferred_name');
+            $table->boolean('name');
             $table->boolean('nrc');
             $table->boolean('nrc_photo');
             $table->boolean('dob');
@@ -29,10 +30,11 @@ class CreateTemplateFormsTable extends Migration
             $table->boolean('township');
             $table->boolean('contact_no');
             $table->boolean('alternate_no');
-            $table->boolean('Highest Qualification');
+            $table->boolean('highest_qualification');
             $table->boolean('email');
             $table->boolean('conflict_interest');
-            $table->boolean('t_c');
+            $table->boolean('term_condition');
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }

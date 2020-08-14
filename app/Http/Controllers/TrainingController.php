@@ -10,7 +10,7 @@ class TrainingController extends Controller
     public function index()
     {
         $trainings = Training::all();
-
+        // dd($trainings);
         return view('pages.training.index', compact('trainings'));
     }
 

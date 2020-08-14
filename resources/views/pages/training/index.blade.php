@@ -7,7 +7,7 @@
 @endsection
 
 @section('title')
-    <div class="">Training List</div>
+  Training List
     @endsection
 
 @section('content')

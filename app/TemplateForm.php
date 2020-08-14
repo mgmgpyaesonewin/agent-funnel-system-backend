@@ -8,4 +8,8 @@ class TemplateForm extends Model
 {
     
     protected $guarded= [];
+
+    protected $casts = [
+        'email' => 'boolean'
+    ];
 }
