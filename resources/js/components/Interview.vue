@@ -28,7 +28,14 @@
             <form>
               <div class="row">
                 <div class="col">
-                  <date-picker format="DD-MM-YYYY" type="date" value-type="format" v-model="date" />
+                  <date-picker
+                    format="DD-MM-YYYY"
+                    type="date"
+                    value-type="format"
+                    v-model="date"
+                    :disabled-date="notBeforeToday"
+                    placeholder="Select Date"
+                  />
                 </div>
                 <div class="col">
                   <date-picker
@@ -58,6 +65,7 @@
 </template>
 
 <script>
+import { EventBus } from "../event-bus.js";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 
@@ -94,8 +102,12 @@ export default {
             $(`#webinarModal-${this.applicantId}`).modal("hide");
             // TODO reload applicants
             this.resetWebinarForm();
+            EventBus.$emit("update-table");
           }
         });
+    },
+    notBeforeToday(date) {
+      return date < new Date(new Date().setHours(0, 0, 0, 0));
     },
   },
 };

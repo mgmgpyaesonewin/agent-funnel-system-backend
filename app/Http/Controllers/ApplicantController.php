@@ -102,10 +102,9 @@ class ApplicantController extends Controller
 
         Interview::create($record);
 
-        // Set state from Filtered to Invited
+        // Set state from Passed to Interview Sent
         Applicant::where('id', $applicant_id)->update([
-            'current_status' => 'pmli_filter',
-            'status_id' => 1,
+            'status_id' => 6,
         ]);
 
         // Mail::to($applicant->email)->send(new SendWebinarNotification($applicant));
@@ -229,5 +228,17 @@ class ApplicantController extends Controller
             'status' => true,
             'message' => 'Successfully Saved',
         ]);
+    }
+
+    public function searchApplicants(Request $request)
+    {
+        $name = $request->name;
+        $exam_date = $request->exam_date;
+
+        return Applicant::when($name, function ($query, $name) {
+            return $query->where('name', 'like', "%$name%");
+        })->when($exam_date, function ($query, $exam_date) {
+            return $query->where('exam_date', $exam_date);
+        })->get();
     }
 }

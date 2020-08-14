@@ -25,20 +25,20 @@
                             assign="true" status-col="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div v-show="applicant.status_id === 3">
+                                    <div v-show="applicant.status_id === 5">
                                         <v-interview :applicant-id="applicant.id"></v-interview>
                                     </div>
-                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
-                                        <v-button button-class="btn btn-info"
-                                            :old-current-status="applicant.current_status"
-                                            new-current-status="pru_dna_test" :old-status-id="applicant.status_id"
-                                            new-status-id="2" :applicant-id="applicant.id">
-                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                        </v-button>
+                                    <v-button button-class="btn btn-success" v-show="applicant.status_id === 1"
+                                        :old-current-status="applicant.current_status"
+                                        :old-status-id="applicant.status_id" new-current-status="pru_dna_test"
+                                        new-status-id="5" :applicant-id="applicant.id">
+                                        Pass
+                                    </v-button>
+                                    <div class="btn-group mt-1" v-show="applicant.status_id === 6">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status"
-                                            :old-status-id="applicant.status_id" new-current-status="pru_dna_test"
-                                            new-status-id="3" :applicant-id="applicant.id">
+                                            :old-status-id="applicant.status_id" new-current-status="pmli_filter"
+                                            new-status-id="1" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
