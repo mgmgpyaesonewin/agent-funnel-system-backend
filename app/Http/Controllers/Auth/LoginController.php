@@ -44,12 +44,10 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $token = auth()->guard('api')->attempt($request->only('email', 'password'));
 
-            return redirect('/pending')->with('token', $token);
+            return redirect('/pre_filter')->with('token', $token);
         }
 
-        return redirect()->route('login')
-            ->with('error', 'Incorrect Email and Password.')
-        ;
+        return redirect()->route('login')->with('error', 'Incorrect Email and Password.');
     }
 
     // protected function respondWithToken($token)

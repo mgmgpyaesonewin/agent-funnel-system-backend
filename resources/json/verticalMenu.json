@@ -2,6 +2,17 @@
   "menu": [
     {
       "url": "",
+      "navheader": "Modules",
+      "icon": ""
+    },
+    {
+      "url": "/trainings",
+      "name": "Training Modules",
+      "icon": "feather icon-printer",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "",
       "navheader": "Applicants",
       "icon": ""
     },
@@ -20,16 +31,10 @@
       "i18n": "nav.documentation"
     },
     {
-      "url": "/invited",
-      "name": "Invited",
-      "slug": "invited",
+      "url": "/pmli_filter",
+      "name": "PMLI Filter",
+      "slug": "pmli_filter",
       "icon": "feather icon-smartphone",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "/onboarded",
-      "name": "Onboarded",
-      "icon": "feather icon-printer",
       "i18n": "nav.documentation"
     },
     {
@@ -39,9 +44,15 @@
       "i18n": "nav.documentation"
     },
     {
-      "url": "/qualified",
-      "name": "Qualified",
+      "url": "/certification",
+      "name": "Certification",
       "icon": "feather icon-star",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "/contract",
+      "name": "Contract & Agent",
+      "icon": "feather icon-user",
       "i18n": "nav.documentation"
     }
   ]

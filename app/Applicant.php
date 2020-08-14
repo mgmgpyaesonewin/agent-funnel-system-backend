@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\ApplicantUpdating;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,12 +59,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Applicant extends Model
 {
+    protected $fillable = ['temp_id'];
+
     protected $casts = [
         'education' => 'array',
         'working_experience' => 'array',
     ];
 
     protected $appends = ['age'];
+
+    protected $dispatchesEvents = [
+        'updating' => ApplicantUpdating::class,
+    ];
 
     public function statuses()
     {
@@ -73,6 +80,31 @@ class Applicant extends Model
     public function interviews()
     {
         return $this->hasMany('App\Interview', 'applicants_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo('App\User', 'assign_admin_id');
+    }
+
+    public function bdm()
+    {
+        return $this->belongsTo('App\User', 'assign_bdm_id');
+    }
+
+    public function ma()
+    {
+        return $this->belongsTo('App\User', 'assign_ma_id');
+    }
+
+    public function staff()
+    {
+        return $this->belongsTo('App\User', 'assign_staff_id');
+    }
+
+    public function trainings()
+    {
+        return $this->belongsToMany('App\Training');
     }
 
     public function getInterviewScheduleAttribute()
@@ -96,6 +128,13 @@ class Applicant extends Model
             return $query->where('current_status', $current_status);
         })->when($status_id, function ($query) use ($status_id) {
             return $query->where('status_id', $status_id);
+        });
+    }
+
+    public function saveQuietly(array $options = [])
+    {
+        return static::withoutEvents(function () use ($options) {
+            return $this->save($options);
         });
     }
 }

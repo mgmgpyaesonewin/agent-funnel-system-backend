@@ -21,20 +21,20 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pre_filter" status="1" channel="true" status-col="true">
+                        <v-table ref="table" current-status="onboard" status-col="true" temp-id="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1">
+                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
                                         <v-button button-class="btn btn-success"
-                                            :old-current-status="applicant.current_status"
-                                            new-current-status="pru_dna_test" :old-status-id="applicant.status_id"
-                                            new-status-id="1" :applicant-id="applicant.id">
+                                            :old-current-status="applicant.current_status" new-current-status="onboard"
+                                            :old-status-id="applicant.status_id" new-status-id="3"
+                                            :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
-                                            :old-current-status="applicant.current_status"
-                                            new-current-status="pre_filter" :old-status-id="applicant.status_id"
-                                            new-status-id="4" :applicant-id="applicant.id">
+                                            :old-current-status="applicant.current_status" new-current-status="onboard"
+                                            :old-status-id="applicant.status_id" new-status-id="4"
+                                            :applicant-id="applicant.id">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </v-button>
                                     </div>

@@ -43,6 +43,12 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
+    //Add extra attribute
+    protected $attributes = ['role'];
+
+    //Make it available in the response
+    protected $appends = ['role'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -90,5 +96,21 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getRoleAttribute()
+    {
+        if ($this->is_admin) {
+            return 'ADMIN';
+        }
+        if ($this->is_bdm) {
+            return 'BDM';
+        }
+        if ($this->is_ma) {
+            return 'MA';
+        }
+        if ($this->is_staff) {
+            return 'STAFF';
+        }
     }
 }

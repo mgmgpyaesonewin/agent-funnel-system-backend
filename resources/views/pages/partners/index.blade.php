@@ -55,6 +55,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $partners->links() }}
                 </div>
 
             </div>

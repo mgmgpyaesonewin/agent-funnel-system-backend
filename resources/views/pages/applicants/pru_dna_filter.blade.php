@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <v-search-form :statuses-array="{{ $statuses }}"></v-search-form>
+                        <v-search-form :statuses-array="{{ $statuses }}" assign-field="true"></v-search-form>
                     </div>
                 </div>
             </div>
@@ -21,26 +21,29 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pru_dna_test" :webinar-invite="true">
+                        <v-table ref="table" current-status="pru_dna_test" :user-assign="true" channel="true"
+                            assign="true" status-col="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <button class="btn btn-info" v-show="applicant.status_id === 3">Interview</button>
-                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
-                                        <v-button button-class="btn btn-info"
-                                            :old-current-status="applicant.current_status"
-                                            new-current-status="pre_filter" :old-status-id="applicant.status_id"
-                                            new-status-id="4" :applicant-id="applicant.id">
-                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                        </v-button>
+                                    <div v-show="applicant.status_id === 5">
+                                        <v-interview :applicant-id="applicant.id"></v-interview>
+                                    </div>
+                                    <v-button button-class="btn btn-success" v-show="applicant.status_id === 1"
+                                        :old-current-status="applicant.current_status"
+                                        :old-status-id="applicant.status_id" new-current-status="pru_dna_test"
+                                        new-status-id="5" :applicant-id="applicant.id">
+                                        Pass
+                                    </v-button>
+                                    <div class="btn-group mt-1" v-show="applicant.status_id === 6">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status"
-                                            :old-status-id="applicant.status_id" new-current-status="pru_dna_test"
+                                            :old-status-id="applicant.status_id" new-current-status="pmli_filter"
                                             new-status-id="1" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
                                             :old-current-status="applicant.current_status"
-                                            new-current-status="pre_filter" :old-status-id="applicant.status_id"
+                                            new-current-status="pru_dna_test" :old-status-id="applicant.status_id"
                                             new-status-id="4" :applicant-id="applicant.id">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </v-button>

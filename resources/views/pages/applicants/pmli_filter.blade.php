@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Pending Applicants')
+@section('title', 'PMLI Filter')
 
 @section('content')
 {{-- Dashboard Analytics Start --}}
@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <v-search-form :statuses-array="{{ $statuses }}"></v-search-form>
+                        <v-search-form :statuses-array="{{ $statuses }}" assign-field="true"></v-search-form>
                     </div>
                 </div>
             </div>
@@ -21,19 +21,26 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pre_filter" status="1" channel="true" status-col="true">
+                        <v-table ref="table" current-status="pmli_filter" :user-assign="false" channel="true"
+                            assign="true" status-col="true" temp-id="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1">
+                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
+                                        <v-button button-class="btn btn-info"
+                                            :old-current-status="applicant.current_status"
+                                            new-current-status="pmli_filter" :old-status-id="applicant.status_id"
+                                            new-status-id="2" :applicant-id="applicant.id">
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                        </v-button>
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status"
-                                            new-current-status="pru_dna_test" :old-status-id="applicant.status_id"
-                                            new-status-id="1" :applicant-id="applicant.id">
+                                            :old-status-id="applicant.status_id" new-current-status="pmli_filter"
+                                            new-status-id="3" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
                                             :old-current-status="applicant.current_status"
-                                            new-current-status="pre_filter" :old-status-id="applicant.status_id"
+                                            new-current-status="pmli_filter" :old-status-id="applicant.status_id"
                                             new-status-id="4" :applicant-id="applicant.id">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </v-button>

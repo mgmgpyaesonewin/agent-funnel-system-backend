@@ -15,14 +15,22 @@ class ApplicantResource extends JsonResource
      */
     public function toArray($request)
     {
+        // dd($this->admin);
+
         return [
             'id' => $this->id,
+            'temp_id' => $this->temp_id,
             'name' => $this->name,
             'phone' => $this->phone,
             'age' => $this->age,
             'gender' => $this->gender,
+            'exam_date' => $this->exam_date,
             'current_status' => $this->current_status,
-            'status_id' => $this->status_id
+            'status_id' => $this->status_id,
+            'admin' => new UserResource($this->admin),
+            'bdm' => new UserResource($this->bdm),
+            'ma' => new UserResource($this->ma),
+            'staff' => new UserResource($this->staff),
         ];
     }
 }

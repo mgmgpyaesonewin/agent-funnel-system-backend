@@ -29,7 +29,6 @@ export default {
         .then(({ data }) => {
           if (data.status) {
             loader.hide();
-            console.log(data);
             EventBus.$emit("update-table", this.tableStatus);
           }
         });

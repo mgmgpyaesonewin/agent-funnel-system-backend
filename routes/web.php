@@ -30,12 +30,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/pre_filter', 'ApplicantController@preFilterPage');
     Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');
-
-    Route::get('/screened', 'ApplicantController@screenedPage');
-    Route::get('/invited', 'ApplicantController@invitedPage');
-    Route::get('/onboarded', 'ApplicantController@onboardedPage');
+    Route::get('/pmli_filter', 'ApplicantController@pmliFilter');
     Route::get('/trainee', 'ApplicantController@traineePage');
-    Route::get('/qualified', 'ApplicantController@qualifiedPage');
+
+    Route::get('/onboarded', 'ApplicantController@onboardedPage');
+    Route::get('/certification', 'ApplicantController@certificationPage');
+    Route::get('/contract', 'ApplicantController@contractPage');
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
 

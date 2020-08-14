@@ -7,32 +7,47 @@
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.
         </h5>
       </div>
-      <div v-show="webinarInvite === true" class="col-3">
-        <button
-          class="btn btn-info"
-          data-toggle="modal"
-          data-target="#webinarModal"
-          :disabled="isWebniarListEmpty"
-        >Invite to Webinar</button>
+      <div v-show="userAssign === true" class="col-3">
+        <multi-select
+          v-model="selectedUser"
+          :options="users"
+          :show-labels="false"
+          :allow-empty="false"
+          track-by="id"
+          label="name"
+          deselect-label="You must choose at least one user"
+          placeholder="Choose a User"
+          @select="onSelect"
+        >
+          <template slot="singleLabel" slot-scope="{ option }">
+            <strong>{{ option.name }}</strong>
+            is assign as {{ option.role }}
+          </template>
+        </multi-select>
       </div>
     </div>
     <table class="table">
       <thead>
         <tr>
-          <th v-show="webinarInvite === true"></th>
+          <th v-show="userAssign === true"></th>
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
-          <th>Age</th>
-          <th>Gender</th>
+          <th v-show="age">Age</th>
+          <th v-show="gender">Gender</th>
+          <td v-show="exam">Exam Date</td>
+          <th v-show="channel">Channel</th>
+          <th v-show="assign">Assign</th>
+          <th v-show="statusCol">Status</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-show="webinarInvite === true">
+          <td v-show="userAssign === true">
             <fieldset v-show="applicant.status_id !== 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
-                <input type="checkbox" v-model="webinarList" :value="applicant.id" />
+                <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
                 <span class="vs-checkbox">
                   <span class="vs-checkbox--check">
                     <i class="vs-icon feather icon-check"></i>
@@ -41,96 +56,67 @@
               </div>
             </fieldset>
           </td>
-          <th scope="row">{{ applicant.id}}</th>
+          <td>{{ applicant.id}}</td>
           <td>
-            <a href="#">{{ applicant.name}}</a>
+            <a :href="`${$location.origin}/applicants/${applicant.id}`">{{ applicant.name}}</a>
+            <br />
+            <div class="badge badge-primary" v-show="tempId">{{ applicant.temp_id }}</div>
           </td>
           <td>{{ applicant.phone}}</td>
-          <td>{{ applicant.age}}</td>
-          <td>{{ applicant.gender}}</td>
+          <td v-show="age">{{ applicant.age}}</td>
+          <td v-show="gender">{{ applicant.gender}}</td>
+          <td v-show="exam">{{ applicant.exam_date }}</td>
+          <td v-show="channel">UTM DEMO</td>
+          <td v-show="assign">
+            <div class="badge badge-primary">{{ applicant.admin && applicant.admin.name }}</div>
+            <div class="badge badge-info">{{ applicant.bdm && applicant.bdm.name }}</div>
+            <div class="badge badge-warning">{{ applicant.ma && applicant.ma.name }}</div>
+            <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
+          </td>
+          <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }}</td>
           <slot :applicant="applicant"></slot>
         </tr>
       </tbody>
     </table>
     <v-pagination :data="applicants" @pagination-change-page="getApplicants" align="center"></v-pagination>
-    <div
-      class="modal fade"
-      id="webinarModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5
-              class="modal-title"
-              id="exampleModalLabel"
-            >Invite selected Applicants to attend Webinar</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="row">
-                <div class="col">
-                  <date-picker format="DD-MM-YYYY" type="date" value-type="format" v-model="date" />
-                </div>
-                <div class="col">
-                  <date-picker
-                    v-model="time"
-                    format="hh:mm a"
-                    value-type="format"
-                    type="time"
-                    placeholder="Select time"
-                  />
-                </div>
-              </div>
-              <div class="row mt-1">
-                <div class="col">
-                  <input type="text" class="form-control" placeholder="Webinar URL" v-model="url" />
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="inviteToWebinar">Send Invites</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import Pagination from "laravel-vue-pagination";
-import DatePicker from "vue2-datepicker";
-import "vue2-datepicker/index.css";
 import { EventBus } from "../event-bus.js";
-import STATE from "../constant.js";
+import Constant from "../constant.js";
+import Multiselect from "vue-multiselect";
 
 export default {
   components: {
     "v-pagination": Pagination,
-    "date-picker": DatePicker,
+    "multi-select": Multiselect,
   },
-  props: ["currentStatus", "status", "webinarInvite"],
+  props: [
+    "currentStatus",
+    "status",
+    "statusCol",
+    "userAssign",
+    "partner",
+    "gender",
+    "age",
+    "channel",
+    "assign",
+    "status",
+    "tempId",
+    "exam",
+  ],
   data() {
     return {
+      constant: Constant,
       applicants: {},
-      webinarList: [],
-      date: "",
-      time: "",
-      url: "",
+      selectedApplicants: [],
+      selectedUser: "",
+      users: [],
     };
   },
   computed: {
-    isWebniarListEmpty() {
-      return this.webinarList.length === 0;
-    },
     isApplicantsEmpty() {
       return (
         Object.keys(this.applicants).length === 0 &&
@@ -139,7 +125,7 @@ export default {
     },
   },
   methods: {
-    updateApplicantsList(status) {
+    updateApplicantsList() {
       let payload = {};
 
       if (this.currentStatus) {
@@ -162,7 +148,7 @@ export default {
         payload.current_status = this.currentStatus;
       }
 
-      if (this.currentStatus) {
+      if (this.status) {
         payload.status_id = this.status;
       }
       axios
@@ -174,33 +160,41 @@ export default {
           console.log(e);
         });
     },
-    inviteToWebinar() {
+    getApplicantStatus(status_id) {
+      return Object.keys(this.constant).find(
+        (key) => this.constant[key] === status_id
+      );
+    },
+    getUsers() {
       axios
-        .post("http://mpt-portal.test/api/applicants/schedule", {
-          date: this.date,
-          time: this.time,
-          url: this.url,
-          rescheduled: 0,
-          applicants: this.webinarList,
+        .get("users")
+        .then(({ data }) => {
+          this.users = data.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    onSelect({ id, role }) {
+      axios
+        .post("applicants/assign", {
+          user_id: id,
+          applicants_ids: this.selectedApplicants,
+          role: this.constant[role],
         })
         .then(({ data }) => {
           if (data.status) {
-            $(".modal-backdrop").remove();
-            $("#webinarModal").modal("hide");
-            this.getApplicants(this.applicants.meta.current_page, [2, 3]);
-            this.resetWebinarForm();
+            this.getApplicants();
           }
+        })
+        .catch((e) => {
+          console.log(e);
         });
-    },
-    resetWebinarForm() {
-      this.date = "";
-      this.time = "";
-      this.url = "";
     },
   },
   mounted() {
-    console.log("get applicants");
     this.getApplicants();
+    this.getUsers();
     EventBus.$on("update-table", this.updateApplicantsList);
   },
   destroyed() {
@@ -210,5 +204,6 @@ export default {
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 </style>
