@@ -83,7 +83,7 @@ class ApplicantController extends Controller
                 'assign_bdm_id',
                 'assign_ma_id',
                 'assign_staff_id'
-            )->paginate(10);
+            )->paginate(25);
 
         return ApplicantResource::collection($applicants);
     }
