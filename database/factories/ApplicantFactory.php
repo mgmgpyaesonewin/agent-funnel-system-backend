@@ -12,7 +12,7 @@ $factory->define(Applicant::class, function (Faker $faker) {
         'dob' => $faker->dateTimeBetween('-30 years', '-18 years'),
         'gender' => $faker->numberBetween(0, 1),
         'nrc' => $faker->numerify('12/SaKhaNa(N)######'),
-        'current_status' => $faker->randomElement(['pre_filter', 'pru_dna_test', 'pmli_filter', 'training', 'certification', 'onboard']),
+        'current_status' => 'pre_filter',
         'email' => $faker->freeEmail,
         'address' => $faker->address,
         'education' => 'Master\'s Degree',
@@ -25,6 +25,6 @@ $factory->define(Applicant::class, function (Faker $faker) {
                 'end_date' => $faker->date('d-m-Y'),
             ],
         ]),
-        'status_id' => $faker->numberBetween(1, 4),
+        'status_id' => 1,
     ];
 });
