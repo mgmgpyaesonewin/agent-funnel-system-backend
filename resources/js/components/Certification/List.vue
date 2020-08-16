@@ -99,9 +99,9 @@ export default {
     },
   },
   methods: {
-    getApplicants(page = 1) {
+    getApplicants() {
       axios
-        .post(`applicants?page=${page}`, {
+        .post("applicants", {
           current_status: this.currentStatus,
         })
         .then(({ data }) => {

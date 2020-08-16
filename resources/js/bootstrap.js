@@ -25,7 +25,7 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 window.axios.defaults.headers.common = {
   Authorization: `Bearer ${localStorage.getItem("token")}`
 };
-window.axios.defaults.baseURL = "https://prusystem.mmparttime.com/api/";
+window.axios.defaults.baseURL = process.env.MIX_API_URL;
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that

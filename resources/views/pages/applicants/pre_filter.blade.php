@@ -24,7 +24,7 @@
                         <v-table ref="table" current-status="pre_filter" status="1" channel="true" status-col="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1">
+                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status"
                                             new-current-status="pru_dna_test" :old-status-id="applicant.status_id"

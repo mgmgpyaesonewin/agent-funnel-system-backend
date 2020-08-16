@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <v-search-form :statuses-array="{{ $statuses }}"></v-search-form>
+                        <v-search-form :exam-date="true" :statuses-array="{{ $statuses }}"></v-search-form>
                     </div>
                 </div>
             </div>

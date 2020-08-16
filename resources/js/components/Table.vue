@@ -141,18 +141,17 @@ export default {
           this.applicants = data;
         });
     },
-    getApplicants(page = 1) {
-      let payload = {};
-
-      if (this.currentStatus) {
-        payload.current_status = this.currentStatus;
-      }
-
-      if (this.status) {
-        payload.status_id = this.status;
-      }
+    getApplicants(
+      currentStatus = this.currentStatus,
+      status_id = this.status,
+      name = null
+    ) {
       axios
-        .post(`applicants?page=${page}`, payload)
+        .post(`applicants`, {
+          current_status: currentStatus,
+          status_id,
+          name,
+        })
         .then(({ data }) => {
           this.applicants = data;
         })
@@ -196,6 +195,7 @@ export default {
     this.getApplicants();
     this.getUsers();
     EventBus.$on("update-table", this.updateApplicantsList);
+    EventBus.$on("filter-table", this.getApplicants);
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);

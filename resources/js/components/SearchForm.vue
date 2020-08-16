@@ -18,6 +18,12 @@
         <input type="text" class="form-control" placeholder="Name" />
       </fieldset>
     </div>
+    <div class="col-2" v-show="examDate">
+      <fieldset class="form-group">
+        <label for="name">Exam Date</label>
+        <input type="text" class="form-control" placeholder="date" />
+      </fieldset>
+    </div>
     <div class="col-2">
       <fieldset class="form-group">
         <label for="name">Status</label>
@@ -45,9 +51,11 @@
 
 <script>
 import { EventBus } from "../event-bus.js";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 
 export default {
-  props: ["statusesArray", "assignField"],
+  props: ["statusesArray", "currentStatus", "assignField", "examDate"],
   data() {
     return {
       email: "",
@@ -59,9 +67,8 @@ export default {
     search() {
       EventBus.$emit(
         "filter-table",
-        1,
+        this.currentStatus,
         this.selected_status,
-        this.email,
         this.name
       );
     },
