@@ -8,14 +8,7 @@ class DashboardController extends Controller
 {
     // Dashboard - Analytics
     public function dashboardAnalytics(){
-        $pageConfigs = [
-            'pageHeader' => false
-        ];
-
-        return view('/pages/dashboard-analytics', [
-            'pageConfigs' => $pageConfigs
-        ]);
+        return redirect("/pre_filter");
     }
-
 }
 

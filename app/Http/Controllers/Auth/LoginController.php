@@ -49,12 +49,4 @@ class LoginController extends Controller
 
         return redirect()->route('login')->with('error', 'Incorrect Email and Password.');
     }
-
-    // protected function respondWithToken($token)
-    // {
-    //     return response()->json([
-    //         'access_token' => $token,
-    //         'token_type' => 'bearer',
-    //     ]);
-    // }
 }
