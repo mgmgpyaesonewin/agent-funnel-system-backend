@@ -10,7 +10,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <v-search-form :statuses-array="{{ $statuses }}" assign-field="true"></v-search-form>
+                        <v-search-form current-status="pru_dna_test" :statuses-array="{{ $statuses }}"
+                            assign-field="true"></v-search-form>
                     </div>
                 </div>
             </div>
