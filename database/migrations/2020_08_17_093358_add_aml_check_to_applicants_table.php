@@ -12,7 +12,7 @@ class AddAmlCheckToApplicantsTable extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->tinyInteger('aml_check')->after('exam_date')->default(0);
+            $table->integer('aml_check')->after('exam_date')->default(0);
         });
     }
 

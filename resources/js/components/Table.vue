@@ -1,7 +1,7 @@
 <template>
   <div class="table-responsive">
     <div class="row" v-if="!isApplicantsEmpty">
-      <div class="col-9">
+      <div class="col-6">
         <h5 style="text-align: initial;line-height: 3rem;">
           Total
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.
@@ -24,6 +24,9 @@
             is assign as {{ option.role }}
           </template>
         </multi-select>
+      </div>
+      <div class="col-3">
+        <button class="btn btn-primary">Complete</button>
       </div>
     </div>
     <table class="table">
@@ -106,7 +109,7 @@ export default {
     "status",
     "tempId",
     "exam",
-    "amlStatus"
+    "amlStatus",
   ],
   data() {
     return {

@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pre_filter" :status="[1,7]" channel="true"
+                        <v-table ref="table" current-status="pre_filter" :status="[1,7]" channel="true" :user-assign="true" assign="true"
                             status-col="true" :aml-status="true">
                             <template scope="{ applicant }">
                                 <td>

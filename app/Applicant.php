@@ -124,7 +124,11 @@ class Applicant extends Model
 
     public function getAmlCheckAttribute($value)
     {
-        return 1 === $value ? 'Agreed' : 'Disagreed';
+        if ($value > 0) {
+            return 1 === $value ? 'Agreed' : 'Disagreed';
+        } else  {
+            return 'pending';
+        }
     }
 
     public function scopeState($query, string $current_status = null, array $status_ids_arr = null)
