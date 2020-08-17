@@ -11,6 +11,7 @@ export default Object.freeze({
   REJECTED: 4,
   PASSED: 5,
   INTERVIEW_SENT: 6,
+  INVALID_INFO: 7,
   ADMIN: "assign_admin_id",
   BDM: "assign_bdm_id",
   MA: "assign_ma_id",

@@ -46,7 +46,7 @@ class CreateApplicantsTable extends Migration
             $table->string('utm_medium')->nullable();
             $table->string('utm_campaign')->nullable();
             $table->string('utm_term')->nullable();
-            $table->enum('current_status', ['pre_filter', 'pru_dna_test', 'pmli_filter', 'training', 'certification', 'onboard']);
+            $table->enum('current_status', ['pre_filter', 'pru_dna_test', 'pmli_filter', 'training', 'certification', 'onboard', 'active']);
 
             $table->bigInteger('status_id')->unsigned()->nullable();
             $table->foreign('status_id')->references('id')->on('statuses');

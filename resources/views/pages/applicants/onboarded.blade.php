@@ -21,20 +21,26 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" status="[8]">
-                            <template scope="{applicant, }">
+                        <v-table ref="table" current-status="onboard" :status-col="true">
+                            <template scope="{ applicant }">
                                 <td>
-                                    <div class="row mx-0">
-                                        <a :href="`http://mpt-portal.test/applicants/${applicant.id}`"
-                                            class="btn btn-primary btn-block">View</a>
-                                    </div>
                                     <div class="btn-group mt-1">
-                                        <v-button button-class="btn btn-success" :old-status-id="applicant.status_id"
-                                            table-status="[8]" new-status-id="9" :applicant-id="applicant.id">
+                                        <v-button button-class="btn btn-info"
+                                            :old-current-status="applicant.current_status" new-current-status="onboard"
+                                            :old-status-id="applicant.status_id" new-status-id="7"
+                                            :applicant-id="applicant.id">
+                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                        </v-button>
+                                        <v-button button-class="btn btn-success"
+                                            :old-current-status="applicant.current_status" new-current-status="active"
+                                            :old-status-id="applicant.status_id" new-status-id="1"
+                                            :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
-                                        <v-button button-class="btn btn-danger" :old-status-id="applicant.status_id"
-                                            new-status-id="12" :applicant-id="applicant.id" reason-id="5">
+                                        <v-button button-class="btn btn-danger"
+                                            :old-current-status="applicant.current_status" new-current-status="onboard"
+                                            :old-status-id="applicant.status_id" new-status-id="4"
+                                            :applicant-id="applicant.id">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </v-button>
                                     </div>

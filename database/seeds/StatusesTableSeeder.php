@@ -17,6 +17,7 @@ class StatusesTableSeeder extends Seeder
             ['id' => 4, 'title' => 'Rejected'],
             ['id' => 5, 'title' => 'Passed'],
             ['id' => 6, 'title' => 'Interview Sent'],
+            ['id' => 7, 'title' => 'Invalid Info'],
         ];
 
         foreach ($items as $item) {

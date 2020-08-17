@@ -50,6 +50,12 @@
       "i18n": "nav.documentation"
     },
     {
+      "url": "/onboarded",
+      "name": "On boarded",
+      "icon": "fa fa-calendar",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "/contract",
       "name": "Contract & Agent",
       "icon": "feather icon-user",
