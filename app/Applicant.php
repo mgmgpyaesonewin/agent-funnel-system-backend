@@ -131,6 +131,15 @@ class Applicant extends Model
         });
     }
 
+    public function scopeFilter($query, string $name = null, string $exam_date = null)
+    {
+        return $query->when($name, function ($query, $name) {
+            return $query->where('name', 'like', "%{$name}%");
+        })->when($exam_date, function ($query, $exam_date) {
+            return $query->where('exam_date', $exam_date);
+        });
+    }
+
     public function saveQuietly(array $options = [])
     {
         return static::withoutEvents(function () use ($options) {

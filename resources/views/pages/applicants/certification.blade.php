@@ -21,8 +21,27 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-certification-table ref="table" current-status="certification" temp-id="true">
-                        </v-certification-table>
+                        <v-table ref="table" current-status="certification" :temp-id="true" :exam="true"
+                            :status-col="true">
+                            <template scope="{ applicant }">
+                                <td>
+                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
+                                        <v-button button-class="btn btn-success"
+                                            :old-current-status="applicant.current_status" new-current-status="onboard"
+                                            :old-status-id="applicant.status_id" new-status-id="1"
+                                            :applicant-id="applicant.id">
+                                            <i class="fa fa-check" aria-hidden="true"></i> Passed
+                                        </v-button>
+                                        <v-button button-class="btn btn-danger"
+                                            :old-current-status="applicant.current_status"
+                                            new-current-status="certification" :old-status-id="applicant.status_id"
+                                            new-status-id="4" :applicant-id="applicant.id">
+                                            <i class="fa fa-times" aria-hidden="true"></i> Failed
+                                        </v-button>
+                                    </div>
+                                </td>
+                            </template>
+                        </v-table>
                     </div>
                 </div>
             </div>

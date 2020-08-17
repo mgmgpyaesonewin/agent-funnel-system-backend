@@ -69,6 +69,7 @@ class ApplicantController extends Controller
         $applicants = Applicant::query()
             ->with('admin', 'bdm', 'ma', 'staff')
             ->state($request->current_status, $request->status_id)
+            ->filter($request->name, $request->exam_date)
             ->select(
                 'id',
                 'name',
@@ -230,17 +231,5 @@ class ApplicantController extends Controller
             'status' => true,
             'message' => 'Successfully Saved',
         ]);
-    }
-
-    public function searchApplicants(Request $request)
-    {
-        $name = $request->name;
-        $exam_date = $request->exam_date;
-
-        return Applicant::when($name, function ($query, $name) {
-            return $query->where('name', 'like', "%{$name}%");
-        })->when($exam_date, function ($query, $exam_date) {
-            return $query->where('exam_date', $exam_date);
-        })->get();
     }
 }

@@ -86,12 +86,10 @@
 import Pagination from "laravel-vue-pagination";
 import { EventBus } from "../event-bus.js";
 import Constant from "../constant.js";
-import Multiselect from "vue-multiselect";
 
 export default {
   components: {
     "v-pagination": Pagination,
-    "multi-select": Multiselect,
   },
   props: [
     "currentStatus",
@@ -144,13 +142,15 @@ export default {
     getApplicants(
       currentStatus = this.currentStatus,
       status_id = this.status,
-      name = null
+      name = null,
+      exam_date = null
     ) {
       axios
         .post(`applicants`, {
           current_status: currentStatus,
           status_id,
           name,
+          exam_date,
         })
         .then(({ data }) => {
           this.applicants = data;
@@ -204,6 +204,5 @@ export default {
 };
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 </style>

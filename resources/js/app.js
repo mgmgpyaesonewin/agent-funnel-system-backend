@@ -6,16 +6,13 @@
 
 require("./bootstrap");
 
-axios.interceptors.response.use(response => {
-  console.log(response);
-  phpdebugbar.ajaxHandler.handle(response.request);
-  return response;
-});
-
 window.Vue = require("vue");
 
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
+
+import Multiselect from "vue-multiselect";
+import "vue-multiselect/dist/vue-multiselect.min.css";
 
 Vue.use(Loading);
 
@@ -30,6 +27,8 @@ Vue.use(Loading);
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
+Vue.component("multi-select", Multiselect);
+
 Vue.component(
   "example-component",
   require("./components/ExampleComponent.vue").default
@@ -39,10 +38,6 @@ Vue.component("v-button", require("./components/Button.vue").default);
 Vue.component("v-interview", require("./components/Interview.vue").default);
 Vue.component("v-search-form", require("./components/SearchForm.vue").default);
 Vue.component("v-track", require("./components/Track.vue").default);
-Vue.component(
-  "v-certification-table",
-  require("./components/Certification/List.vue").default
-);
 
 Vue.prototype.$location = window.location;
 
