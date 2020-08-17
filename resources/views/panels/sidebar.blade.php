@@ -6,7 +6,7 @@ $configData = Helper::applClasses();
   data-scroll-to-active="true">
   <div class="navbar-header">
     <ul class="nav navbar-nav flex-row">
-      <li class="nav-item mr-auto"><a class="navbar-brand" href="dashboard-analytics">
+      <li class="nav-item mr-auto"><a class="navbar-brand" href="#">
           <div><img src="{{asset('images/logo/favicon.png')}}"></div>
           <h1 class="brand-text mb-0">Admin Panel</h1>
         </a></li>

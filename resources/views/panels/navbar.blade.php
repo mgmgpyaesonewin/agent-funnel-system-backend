@@ -2,7 +2,7 @@
 <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu {{ $configData['navbarColor'] }} navbar-fixed">
   <div class="navbar-header d-xl-block d-none">
     <ul class="nav navbar-nav flex-row">
-      <li class="nav-item"><a class="navbar-brand" href="dashboard-analytics">
+      <li class="nav-item"><a class="navbar-brand" href="#">
           <div class="brand-logo"></div>
         </a></li>
     </ul>
