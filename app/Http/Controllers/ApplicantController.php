@@ -70,6 +70,7 @@ class ApplicantController extends Controller
             ->with('admin', 'bdm', 'ma', 'staff')
             ->state($request->current_status, $request->status_id)
             ->filter($request->name, $request->exam_date)
+            ->orderBy('id')
             ->select(
                 'id',
                 'name',

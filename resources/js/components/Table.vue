@@ -112,6 +112,10 @@ export default {
       selectedApplicants: [],
       selectedUser: "",
       users: [],
+      name: "",
+      exam_date: "",
+      current_status: this.currentStatus,
+      status_ids: this.status,
     };
   },
   computed: {
@@ -139,18 +143,13 @@ export default {
           this.applicants = data;
         });
     },
-    getApplicants(
-      currentStatus = this.currentStatus,
-      status_id = this.status,
-      name = null,
-      exam_date = null
-    ) {
+    getApplicants(page = 1) {
       axios
-        .post(`applicants`, {
-          current_status: currentStatus,
-          status_id,
-          name,
-          exam_date,
+        .post(`applicants?page=${page}`, {
+          current_status: this.current_status,
+          status_id: this.status_ids,
+          name: this.name,
+          exam_date: this.exam_date,
         })
         .then(({ data }) => {
           this.applicants = data;
@@ -195,7 +194,16 @@ export default {
     this.getApplicants();
     this.getUsers();
     EventBus.$on("update-table", this.updateApplicantsList);
-    EventBus.$on("filter-table", this.getApplicants);
+    EventBus.$on(
+      "filter-table",
+      (currentStatus, status_ids, name, exam_date) => {
+        this.current_status = currentStatus;
+        this.status_ids = status_ids;
+        this.name = name;
+        this.exam_date = exam_date;
+        this.getApplicants();
+      }
+    );
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);

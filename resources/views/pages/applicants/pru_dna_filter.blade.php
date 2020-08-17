@@ -21,8 +21,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pru_dna_test" :user-assign="true" channel="true"
-                            assign="true" status-col="true">
+                        <v-table ref="table" current-status="pru_dna_test" :status="[1,2,3,5,6]" :user-assign="true"
+                            channel="true" assign="true" status-col="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <div v-show="applicant.status_id === 5">

@@ -122,12 +122,12 @@ class Applicant extends Model
         return 1 === $value ? 'Male' : 'Female';
     }
 
-    public function scopeState($query, string $current_status = null, string $status_id = null)
+    public function scopeState($query, string $current_status = null, array $status_ids_arr = null)
     {
         return $query->when($current_status, function ($query) use ($current_status) {
             return $query->where('current_status', $current_status);
-        })->when($status_id, function ($query) use ($status_id) {
-            return $query->where('status_id', $status_id);
+        })->when($status_ids_arr, function ($query) use ($status_ids_arr) {
+            return $query->whereIn('status_id', $status_ids_arr);
         });
     }
 
