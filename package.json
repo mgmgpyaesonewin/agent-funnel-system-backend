@@ -30,6 +30,7 @@
         "laravel-vue-pagination": "^2.3.1",
         "vue-loading-overlay": "^3.3.2",
         "vue-multiselect": "^2.1.6",
+        "vue-sweetalert2": "^3.0.6",
         "vue2-datepicker": "^3.6.0"
     }
 }

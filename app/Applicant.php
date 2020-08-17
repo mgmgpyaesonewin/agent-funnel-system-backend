@@ -122,6 +122,11 @@ class Applicant extends Model
         return 1 === $value ? 'Male' : 'Female';
     }
 
+    public function getAmlCheckAttribute($value)
+    {
+        return 1 === $value ? 'Agreed' : 'Disagreed';
+    }
+
     public function scopeState($query, string $current_status = null, array $status_ids_arr = null)
     {
         return $query->when($current_status, function ($query) use ($current_status) {

@@ -33,6 +33,7 @@
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
+          <th v-show="amlStatus">AML/Compliance Check</th>
           <th v-show="age">Age</th>
           <th v-show="gender">Gender</th>
           <td v-show="exam">Exam Date</td>
@@ -62,7 +63,8 @@
             <br />
             <div class="badge badge-primary" v-show="tempId">{{ applicant.temp_id }}</div>
           </td>
-          <td>{{ applicant.phone}}</td>
+          <td>{{ applicant.phone }}</td>
+          <td v-show="amlStatus">{{ applicant.aml_status }}</td>
           <td v-show="age">{{ applicant.age}}</td>
           <td v-show="gender">{{ applicant.gender}}</td>
           <td v-show="exam">{{ applicant.exam_date }}</td>
@@ -104,6 +106,7 @@ export default {
     "status",
     "tempId",
     "exam",
+    "amlStatus"
   ],
   data() {
     return {

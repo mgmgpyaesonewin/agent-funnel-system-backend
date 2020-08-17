@@ -79,6 +79,7 @@ class ApplicantController extends Controller
                 'dob',
                 'gender',
                 'exam_date',
+                'aml_check',
                 'current_status',
                 'status_id',
                 'assign_admin_id',
