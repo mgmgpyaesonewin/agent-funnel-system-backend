@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ExportController extends Controller
 {
-    public function export() 
+    public function pmliFilterExport() 
     {
         return Excel::download(new PMLIFilterExport, 'applicants-pmli-filter.xlsx');
     }

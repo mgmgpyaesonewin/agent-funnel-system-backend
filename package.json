@@ -27,6 +27,7 @@
         "webpack-cli": "^3.3.5"
     },
     "dependencies": {
+        "js-file-download": "^0.4.12",
         "laravel-vue-pagination": "^2.3.1",
         "vue-loading-overlay": "^3.3.2",
         "vue-multiselect": "^2.1.6",

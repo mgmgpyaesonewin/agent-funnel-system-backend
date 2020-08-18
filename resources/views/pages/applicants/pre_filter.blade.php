@@ -10,7 +10,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <v-search-form current-status="pre_filter" :statuses-array="{{ $statuses }}"></v-search-form>
+                        <v-search-form current-status="pre_filter" export-url="pmli_filter" :enable-export="true"
+                            :statuses-array="{{ $statuses }}"></v-search-form>
                     </div>
                 </div>
             </div>
@@ -21,8 +22,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pre_filter" :status="[1,7]" channel="true" :user-assign="true" assign="true"
-                            status-col="true" :aml-status="true">
+                        <v-table ref="table" current-status="pre_filter" :status="[1,7]" channel="true"
+                            :user-assign="true" assign="true" status-col="true" :aml-status="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 1">

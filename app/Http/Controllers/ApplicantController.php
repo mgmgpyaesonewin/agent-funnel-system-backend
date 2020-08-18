@@ -234,4 +234,22 @@ class ApplicantController extends Controller
             'message' => 'Successfully Saved',
         ]);
     }
+
+    public function updateAML(Request $request)
+    {
+        $data = [
+            'aml_check' => $request->aml_status,
+        ];
+
+        if (0 == $request->aml_status) {
+            $data['status_id'] = 4;
+        }
+
+        Applicant::whereIn('id', $request->ids)->update($data);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully Saved',
+        ]);
+    }
 }

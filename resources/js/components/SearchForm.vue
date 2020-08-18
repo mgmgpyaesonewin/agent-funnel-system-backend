@@ -60,7 +60,12 @@
           class="btn btn-primary waves-effect waves-light mr-1"
           @click="search"
         >Search</button>
-        <button type="button" class="btn btn-info waves-effect waves-light">Export</button>
+        <button
+          v-show="enableExport"
+          type="button"
+          class="btn btn-info waves-effect waves-light"
+          @click="exportSheet()"
+        >Export</button>
       </div>
     </div>
   </div>
@@ -69,6 +74,7 @@
 <script>
 import { EventBus } from "../event-bus.js";
 import DatePicker from "vue2-datepicker";
+import fileDownload from "js-file-download";
 import "vue2-datepicker/index.css";
 
 export default {
@@ -78,6 +84,8 @@ export default {
     "assignField",
     "examDate",
     "channelForm",
+    "exportUrl",
+    "enableExport"
   ],
   data() {
     return {
@@ -97,6 +105,21 @@ export default {
         this.name,
         this.date
       );
+    },
+    exportSheet() {
+      axios
+        .post(
+          `/applicants/export/${this.exportUrl}`,
+          {},
+          { responseType: "blob" }
+        )
+        .then((res) => {
+          console.log(res);
+          fileDownload(res.data, "export.xlsx");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
   },
 };

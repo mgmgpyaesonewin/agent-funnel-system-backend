@@ -25,8 +25,11 @@
           </template>
         </multi-select>
       </div>
-      <div class="col-3">
-        <button class="btn btn-primary">Complete</button>
+      <div class="col-2">
+        <div class="btn-group">
+          <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Complete</button>
+          <button type="button" class="btn btn-danger" @click="updateAMLStatus(0)">Fail</button>
+        </div>
       </div>
     </div>
     <table class="table">
@@ -49,7 +52,7 @@
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
           <td v-show="userAssign === true">
-            <fieldset v-show="applicant.status_id !== 1">
+            <fieldset v-show="applicant.status_id === 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
                 <span class="vs-checkbox">
@@ -188,6 +191,21 @@ export default {
         })
         .then(({ data }) => {
           if (data.status) {
+            this.getApplicants();
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    updateAMLStatus(status) {
+      axios
+        .post(`/applicants/aml/update`, {
+          ids: this.selectedApplicants,
+          aml_status: status,
+        })
+        .then((res) => {
+          if (res.status) {
             this.getApplicants();
           }
         })
