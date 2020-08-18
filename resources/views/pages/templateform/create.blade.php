@@ -16,7 +16,14 @@
                 <div class="card-body">
                     <form action="{{url('templateforms')}}" method="POST" class=" ml-2" >
                         @csrf
+                        <div class="row  mb-2">
+                            <label class="form-check-label" for="template_name" >
+                              Template Name
+                             </label>
+                            <input class="form-control" required name="template_name" type="text" value="" id="template_name">
+                        </div>
                         <div class="row">
+                         
                             <div class="form-check col-4">
                                 <input class="form-check-input" name="email" type="checkbox" value=1 id="email">
                                 <label class="form-check-label" for="email">

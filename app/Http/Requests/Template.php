@@ -24,6 +24,7 @@ class Template extends FormRequest
     public function rules()
     {
         return [
+            'template_name'=> 'required',
             'name'=> 'nullable|boolean',
             'nrc' =>  'nullable|boolean',
             'nrc_photo'=>  'nullable|boolean',

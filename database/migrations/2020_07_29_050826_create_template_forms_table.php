@@ -15,6 +15,7 @@ class CreateTemplateFormsTable extends Migration
     {
         Schema::create('template_forms', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('template_name');
             $table->boolean('preferred_name');
             $table->boolean('name');
             $table->boolean('nrc');
