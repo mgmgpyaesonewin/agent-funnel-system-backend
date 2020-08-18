@@ -29,6 +29,13 @@ class TemplateFormController extends Controller
         return view('pages.templateform.create');
 
     }
+    public function activate(Request $req){
+        TemplateForm::where('id','!=',$req->id)->update(['active'=>false]);
+        $temp= TemplateForm::find($req->id);
+        $temp->active=true;
+        $temp->save();
+        return redirect('templateforms');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,7 +46,7 @@ class TemplateFormController extends Controller
     public function store(Request $request)
     {
         TemplateForm::create($request->all());
-        return view('pages.templateform.create');
+        return redirect('templateforms');
     }
 
   
@@ -88,8 +95,11 @@ class TemplateFormController extends Controller
      * @param  \App\TemplateForm  $templateForm
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TemplateForm $templateForm)
+    public function destroy(Request $req)
     {
         //
+    $temp= TemplateForm::findorfail($req->id);
+    $temp->delete();
+    return redirect('templateforms');
     }
 }

@@ -6,66 +6,45 @@
 <link rel="stylesheet" href="{{ asset(mix('css/pages/users.css')) }}">
 @endsection
 
-@section('title', 'Create Training')
+@section('title', 'Template Forms')
 {{-- {{dd($errors->all())}} --}}
 @section('content')
 <div class="row">
     <div class="col-12">
+      <a href="{{route('templateforms.create')}}" class="btn btn-primary float-right">Create</a>
+
         <div class="card">
+          
             <div class="card-content">
-                <div class="card-body">
-                    
-                    <table class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>Email</th>
-                          <th>Name</th>
-                          <th>Preferred Name</th>
-                          <th>NRC</th>
-                          <th>NRC Photo</th>
-                          <th>Address</th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
 
-                      @foreach ($templates as $template)
-                            <tr>
-                              <td>Template Form ID {{$template->id}}</td> 
-                            </tr>
-                            <tr class="mb-4">
-                            <td class="{{classStatus($template->email)}}">{{ showStatus($template->email) }}</td>
-                              <td class="{{classStatus($template->name)}}" >{{ showStatus($template->name)}}</td>
-                              <td class="{{classStatus($template->preferred_name)}}" >{{ showStatus($template->preferred_name) }}</td>
-                              <td class="{{classStatus($template->nrc)}}" >{{ showStatus($template->nrc) }}</td>
-                              <td class="{{classStatus($template->nrc_photo)}}" >
-                                {{ showStatus($template->nrc_photo) }}
-                              </td>
-                              <td class="{{classStatus($template->address)}}" >
-                                {{ showStatus($template->address) }}
-                              </td>
-                              <td>
-                                <a href="{{url('template/edit/'.$template->id)}}">Edit</a>
-                              </td>
-                            </tr>
-                            
+                <div class="card-body row ">
+                  @foreach ($templates as $item)
+                  <div class="card col-12 col-lg-5 col-md-5 bg-secondary ml-1">
+                    <div class="card-body">
+                      <h5 class="card-title">Template Name - {{$item->template_name}}</h5>
+                      <div class="row">
+                      @foreach (collect($item)->except('id','template_name','created_at','updated_at')->toArray() as $key => $value)
+                        @component('fieldcheck',['field'=>$value,'fieldName'=> $key])
+                        @endcomponent
                       @endforeach
-                    </tbody>
-
-                    </table>
+                    </div>
+                    <div class=" row mt-2">
+                    <a  class="btn btn-primary" href="{{route('templateforms.edit',$item->id)}}">Edit</a>
+                    <form action="{{route('templateforms.destroy',$item->id)}}" method="post">
+                      @method('delete')
+                      <input type="hidden" name="id" value="{{$item->id}}">
+                      <button class="btn btn-danger">Delete</button>
+                      @csrf
+                    </form>
+                    <form action="{{url('template/activate/'.$item->id)}}" method="post">
+                      @csrf
+                      <button class="btn btn-primary text-success">Activate</button>
+                    </form>
+                    </div>
+                    </div>
+                  </div>
+                  @endforeach
+                 
                 </div>
                
             </div>

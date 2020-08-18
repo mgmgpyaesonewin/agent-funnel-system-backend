@@ -17,6 +17,12 @@
                     <form action="{{route('templateforms.update',$templateForm->id)}}" method="POST" >
                         @csrf
                         @method('put')
+                        <div class="row  mb-2">
+                          <label class="form-check-label" for="template_name" >
+                            Template Name
+                           </label>
+                          <input class="form-control" required name="template_name" type="text" value="{{$templateForm->template_name}}" id="template_name">
+                      </div>
                         <div class="row">
                             <div class="form-check col-4">
                                 <input class="form-check-input" name="email"  
