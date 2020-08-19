@@ -39,6 +39,7 @@ Vue.component(
 );
 Vue.component("v-table", require("./components/Table.vue").default);
 Vue.component("v-button", require("./components/Button.vue").default);
+Vue.component("v-info-button", require("./components/InfoButton.vue").default);
 Vue.component("v-interview", require("./components/Interview.vue").default);
 Vue.component("v-search-form", require("./components/SearchForm.vue").default);
 Vue.component("v-track", require("./components/Track.vue").default);

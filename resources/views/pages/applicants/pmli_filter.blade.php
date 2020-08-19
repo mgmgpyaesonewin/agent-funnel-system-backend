@@ -36,7 +36,7 @@
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status"
                                             :old-status-id="applicant.status_id" new-current-status="pmli_filter"
-                                            new-status-id="3" :applicant-id="applicant.id">
+                                            :e-learning="true" new-status-id="3" :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-danger"

@@ -25,10 +25,10 @@
           </template>
         </multi-select>
       </div>
-      <div class="col-2">
+      <div class="col-2" v-show="amlStatus">
         <div class="btn-group">
           <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Complete</button>
-          <button type="button" class="btn btn-danger" @click="updateAMLStatus(0)">Fail</button>
+          <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
         </div>
       </div>
     </div>

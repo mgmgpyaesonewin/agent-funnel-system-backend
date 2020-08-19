@@ -50,6 +50,7 @@
           value-type="format"
           v-model="date"
           placeholder="dd-mm-yyyy"
+          :disabled-date="notBeforeToday"
         />
       </fieldset>
     </div>
@@ -85,7 +86,7 @@ export default {
     "examDate",
     "channelForm",
     "exportUrl",
-    "enableExport"
+    "enableExport",
   ],
   data() {
     return {
@@ -120,6 +121,9 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    notBeforeToday(date) {
+      return date < new Date(new Date().setHours(0, 0, 0, 0));
     },
   },
 };

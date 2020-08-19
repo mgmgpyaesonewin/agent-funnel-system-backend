@@ -33,7 +33,7 @@
                                         </v-button>
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status" new-current-status="active"
-                                            :old-status-id="applicant.status_id" new-status-id="1"
+                                            :old-status-id="applicant.status_id" new-status-id="8"
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>

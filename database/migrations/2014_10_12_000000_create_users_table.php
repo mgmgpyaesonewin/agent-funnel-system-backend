@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('is_staff');
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

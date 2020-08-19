@@ -26,7 +26,8 @@
                             :user-assign="true" assign="true" status-col="true" :aml-status="true">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
+                                    <div class="btn-group mt-1"
+                                        v-show="applicant.status_id === 1 && applicant.aml_status == 'Agreed'">
                                         <v-button button-class="btn btn-info"
                                             :old-current-status="applicant.current_status"
                                             new-current-status="pre_filter" :old-status-id="applicant.status_id"

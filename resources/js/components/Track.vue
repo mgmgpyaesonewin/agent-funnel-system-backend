@@ -75,6 +75,7 @@
                 value-type="format"
                 v-model="date"
                 placeholder="dd-mm-yyyy"
+                :disabled-date="notBeforeToday"
               />
             </form>
           </div>
@@ -153,6 +154,9 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    notBeforeToday(date) {
+      return date < new Date(new Date().setHours(0, 0, 0, 0));
     },
   },
   mounted() {
