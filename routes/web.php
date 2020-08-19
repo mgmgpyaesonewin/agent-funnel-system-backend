@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('trainings', 'TrainingController');
     Route::resource('partners', 'PartnerController');
     Route::resource('payments', 'PaymentController');
+    Route::get('/applicant/export/{id}', 'ExportController@applicantExport');
 });
 
 Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');
