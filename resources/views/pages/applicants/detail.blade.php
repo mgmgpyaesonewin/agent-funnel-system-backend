@@ -22,7 +22,7 @@
                         <img src="{{ asset('images/profile/user-uploads/user-13.jpg') }}"
                             class="rounded-circle img-border box-shadow-1" alt="Card image">
                         <div class="float-right">
-                            <a href="{{ url('/applicant/export/2') }}"
+                            <a href="{{ url('/applicant/export/'.$applicant->id) }}"
                                 class="btn btn-icon btn-icon rounded-circle btn-primary">
                                 <i class="fa fa-cloud-download" aria-hidden="true"></i>
                             </a>
