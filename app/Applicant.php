@@ -126,9 +126,9 @@ class Applicant extends Model
     {
         if ($value > 0) {
             return 1 === $value ? 'Agreed' : 'Disagreed';
-        } else  {
-            return 'pending';
         }
+
+        return 'pending';
     }
 
     public function scopeState($query, string $current_status = null, array $status_ids_arr = null)
@@ -146,6 +146,17 @@ class Applicant extends Model
             return $query->where('name', 'like', "%{$name}%");
         })->when($exam_date, function ($query, $exam_date) {
             return $query->where('exam_date', $exam_date);
+        });
+    }
+
+    public function scopeRole($query, $auth)
+    {
+        $user = User::where('id', $auth->id)->first();
+
+        return $query->when(1 === $user->is_bdm, function ($query) use ($user) {
+            return $query->where('assign_bdm_id', $user->id);
+        })->when(1 === $user->is_ma, function ($query) use ($user) {
+            return $query->where('assign_ma_id', $user->id);
         });
     }
 

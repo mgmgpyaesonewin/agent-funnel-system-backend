@@ -68,6 +68,7 @@ class ApplicantController extends Controller
     {
         $applicants = Applicant::query()
             ->with('admin', 'bdm', 'ma', 'staff')
+            ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
             ->filter($request->name, $request->exam_date)
             ->orderBy('id')
