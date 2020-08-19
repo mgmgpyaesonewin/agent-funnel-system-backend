@@ -39,11 +39,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
 
-    Route::get('template/edit/{id}','TemplateFormController@edit');
-    Route::post('template/activate/{id}','TemplateFormController@activate');
+    Route::get('template/edit/{id}', 'TemplateFormController@edit');
+    Route::post('template/activate/{id}', 'TemplateFormController@activate');
     Route::resource('templateforms', 'TemplateFormController');
     Route::resource('trainings', 'TrainingController');
     Route::resource('partners', 'PartnerController');
+    Route::resource('payments', 'PaymentController');
 });
 
 Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');

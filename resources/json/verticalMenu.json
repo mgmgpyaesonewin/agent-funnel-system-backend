@@ -12,6 +12,12 @@
       "i18n": "nav.documentation"
     },
     {
+      "url": "/payments",
+      "name": "Payment Transaction",
+      "icon": "feather icon-printer",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "",
       "navheader": "Applicants",
       "icon": ""
