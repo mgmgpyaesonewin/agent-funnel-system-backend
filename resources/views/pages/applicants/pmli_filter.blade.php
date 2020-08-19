@@ -22,8 +22,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pmli_filter" :status="[1,2,3,5,6]" :user-assign="false"
-                            channel="true" assign="true" status-col="true" temp-id="true">
+                        <v-table ref="table" current-status="pmli_filter" :status="[1,2,3,5,6]" :user-assign="true"
+                            :assign-checkbox="true" assign="true" channel="true" status-col="true" temp-id="true">
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 1">

@@ -35,7 +35,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th v-show="userAssign === true"></th>
+          <th v-show="assignCheckbox === true"></th>
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
@@ -51,7 +51,7 @@
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-show="userAssign === true">
+          <td v-show="assignCheckbox === true">
             <fieldset v-show="applicant.status_id === 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
@@ -113,6 +113,7 @@ export default {
     "tempId",
     "exam",
     "amlStatus",
+    "assignCheckbox",
   ],
   data() {
     return {

@@ -12,4 +12,9 @@ class Partner extends Model
     {
         return $this->hasMany('App\Payment');
     }
+
+    public function users()
+    {
+        return $this->hasMany('App\User');
+    }
 }

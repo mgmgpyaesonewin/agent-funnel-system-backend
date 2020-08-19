@@ -44,7 +44,7 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
     //Add extra attribute
-    protected $attributes = ['role'];
+    // protected $attributes = ['role'];
 
     //Make it available in the response
     protected $appends = ['role'];
@@ -112,5 +112,10 @@ class User extends Authenticatable implements JWTSubject
         if ($this->is_staff) {
             return 'STAFF';
         }
+    }
+
+    public function partner()
+    {
+        return $this->belongsTo('App\Partner');
     }
 }

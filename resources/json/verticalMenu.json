@@ -12,6 +12,12 @@
       "i18n": "nav.documentation"
     },
     {
+      "url": "/users",
+      "name": "Users",
+      "icon": "feather icon-users",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "/payments",
       "name": "Payment Transaction",
       "icon": "feather icon-printer",
