@@ -17,4 +17,9 @@ class Partner extends Model
     {
         return $this->hasMany('App\User');
     }
+
+    public function applicants()
+    {
+        return $this->hasMany('App\Applicant');
+    }
 }

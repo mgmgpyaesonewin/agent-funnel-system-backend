@@ -15,8 +15,6 @@ class ApplicantResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this->admin);
-
         return [
             'id' => $this->id,
             'temp_id' => $this->temp_id,
@@ -32,6 +30,7 @@ class ApplicantResource extends JsonResource
             'bdm' => new UserResource($this->bdm),
             'ma' => new UserResource($this->ma),
             'staff' => new UserResource($this->staff),
+            'partner' => new PartnerResource($this->partner),
         ];
     }
 }

@@ -6,6 +6,12 @@
       "icon": ""
     },
     {
+      "url": "/partners",
+      "name": "Partners",
+      "icon": "feather icon-users",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "/trainings",
       "name": "Training Modules",
       "icon": "feather icon-printer",

@@ -23,7 +23,7 @@
                 <div class="card-content">
                     <div class="card-body text-center">
                         <v-table ref="table" current-status="pru_dna_test" :status="[1,2,3,5,6]" channel="true"
-                            status-col="true">
+                            status-col="true" :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <td>
                                     <div v-show="applicant.status_id === 5">

@@ -67,7 +67,7 @@ class ApplicantController extends Controller
     public function applicants(Request $request)
     {
         $applicants = Applicant::query()
-            ->with('admin', 'bdm', 'ma', 'staff')
+            ->with('admin', 'bdm', 'ma', 'staff', 'partner')
             ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
             ->filter($request->name, $request->exam_date)
@@ -86,7 +86,8 @@ class ApplicantController extends Controller
                 'assign_admin_id',
                 'assign_bdm_id',
                 'assign_ma_id',
-                'assign_staff_id'
+                'assign_staff_id',
+                'partner_id'
             )->paginate(35);
 
         return ApplicantResource::collection($applicants);

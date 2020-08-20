@@ -21,7 +21,8 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" status="[4,5,7]">
+                        <v-table ref="table" status="[4,5,7]" status-col="true"
+                            :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <td>
                                     <a :href="`http://mpt-portal.test/applicants/${applicant.id}`"

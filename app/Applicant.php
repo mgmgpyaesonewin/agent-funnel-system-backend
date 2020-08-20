@@ -82,6 +82,11 @@ class Applicant extends Model
         return $this->hasMany('App\Interview', 'applicants_id');
     }
 
+    public function partner()
+    {
+        return $this->belongsTo('App\Partner');
+    }
+
     public function admin()
     {
         return $this->belongsTo('App\User', 'assign_admin_id');
@@ -153,7 +158,9 @@ class Applicant extends Model
     {
         $user = User::where('id', $auth->id)->first();
 
-        return $query->when(1 === $user->is_bdm, function ($query) use ($user) {
+        return $query->when($user->partner_id, function ($query) use ($user) {
+            return $query->where('partner_id', $user->partner_id);
+        })->when(1 === $user->is_bdm, function ($query) use ($user) {
             return $query->where('assign_bdm_id', $user->id);
         })->when(1 === $user->is_ma, function ($query) use ($user) {
             return $query->where('assign_ma_id', $user->id);

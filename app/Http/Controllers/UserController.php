@@ -53,7 +53,7 @@ class UserController extends Controller
 
         $data = array_merge($data, [
             'password' => Hash::make($request->validated()['password']),
-            $request->validated()['role'] => 1,
+            $request->validated()['role'] => 1, 
         ]);
 
         unset($data['role']);

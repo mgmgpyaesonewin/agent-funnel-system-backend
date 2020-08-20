@@ -46,7 +46,7 @@
           <th v-show="channel">Channel</th>
           <th v-show="assign">Assign</th>
           <th v-show="statusCol">Status</th>
-          <th></th>
+          <th v-show="isPartner == 0">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -74,7 +74,7 @@
           <td v-show="age">{{ applicant.age}}</td>
           <td v-show="gender">{{ applicant.gender}}</td>
           <td v-show="exam">{{ applicant.exam_date }}</td>
-          <td v-show="channel">UTM DEMO</td>
+          <td v-show="channel">{{ applicant.partner && applicant.partner.name }}</td>
           <td v-show="assign">
             <div class="badge badge-primary">{{ applicant.admin && applicant.admin.name }}</div>
             <div class="badge badge-info">{{ applicant.bdm && applicant.bdm.name }}</div>
@@ -82,7 +82,9 @@
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
           <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }}</td>
-          <slot :applicant="applicant"></slot>
+          <td v-show="isPartner == 0">
+            <slot :applicant="applicant"></slot>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -114,6 +116,7 @@ export default {
     "exam",
     "amlStatus",
     "assignCheckbox",
+    "isPartner",
   ],
   data() {
     return {
