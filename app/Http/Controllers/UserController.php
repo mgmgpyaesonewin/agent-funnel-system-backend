@@ -93,6 +93,10 @@ class UserController extends Controller
             $request->validated()['role'] => 1,
         ]);
 
+        if (isset($request->partner_id)) {
+            $data['partner_id'] = $request->partner_id;
+        }
+
         unset($data['role']);
 
         $user->update($request->validated());
