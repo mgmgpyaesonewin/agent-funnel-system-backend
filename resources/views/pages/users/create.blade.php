@@ -41,23 +41,23 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Role</label>
-                            <select class="form-control" name="role">
-                                <option value="is_admin">Admin</option>
-                                <option value="is_bdm">BDM</option>
-                                <option value="is_ma">MA</option>
-                            </select>
-                            @error('partner_id')
-                            <span class="text-danger">{{ $errors->first('partner_id') }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
                             <label for="exampleInputEmail1">Partner</label>
                             <select class="form-control" name="partner_id">
                                 <option value="">None</option>
                                 @foreach ($partners as $partner)
                                 <option value="{{ $partner->id }}">{{ $partner->company_name }}</option>
                                 @endforeach
+                            </select>
+                            @error('partner_id')
+                            <span class="text-danger">{{ $errors->first('partner_id') }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Role</label>
+                            <select class="form-control" name="role">
+                                <option value="is_admin">Admin</option>
+                                <option value="is_bdm">BDM</option>
+                                <option value="is_ma">MA</option>
                             </select>
                             @error('partner_id')
                             <span class="text-danger">{{ $errors->first('partner_id') }}</span>
