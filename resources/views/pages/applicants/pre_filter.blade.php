@@ -26,8 +26,7 @@
                             :assign-checkbox="true" status-col="true" status-col="true" :user-assign="true"
                             assign="true" :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
-                                <div class="btn-group mt-1"
-                                    v-show="applicant.status_id === 1 && applicant.aml_status == 'Agreed'">
+                                <div class="btn-group mt-1" v-show="applicant.status_id === 1">
                                     <v-button button-class="btn btn-success"
                                         :old-current-status="applicant.current_status" new-current-status="pru_dna_test"
                                         :old-status-id="applicant.status_id" new-status-id="1"
