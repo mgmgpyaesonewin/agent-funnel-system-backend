@@ -26,6 +26,14 @@
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="btn-group mt-1">
+                                        <v-info-button css-class="btn btn-info">
+                                            <i class="fa fa-id-card-o" aria-hidden="true"></i> Licence
+                                        </v-info-button>
+                                        <v-info-button css-class="btn btn-warning">
+                                            <i class="fa fa-check-square-o" aria-hidden="true"></i> Contract
+                                        </v-info-button>
+                                    </div>
+                                    <div class="btn-group mt-1">
                                         <v-button button-class="btn btn-info"
                                             :old-current-status="applicant.current_status" new-current-status="onboard"
                                             :old-status-id="applicant.status_id" new-status-id="7"

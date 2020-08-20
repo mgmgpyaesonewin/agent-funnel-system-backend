@@ -25,14 +25,6 @@
                             status-col="true" :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1">
-                                        <v-info-button css-class="btn btn-info">
-                                            <i class="fa fa-id-card-o" aria-hidden="true"></i> Licence
-                                        </v-info-button>
-                                        <v-info-button css-class="btn btn-warning">
-                                            <i class="fa fa-check-square-o" aria-hidden="true"></i> Contract
-                                        </v-info-button>
-                                    </div>
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 1">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status" new-current-status="onboard"
