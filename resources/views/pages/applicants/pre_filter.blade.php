@@ -28,11 +28,6 @@
                             <template scope="{ applicant }">
                                 <div class="btn-group mt-1"
                                     v-show="applicant.status_id === 1 && applicant.aml_status == 'Agreed'">
-                                    <v-button button-class="btn btn-info" :old-current-status="applicant.current_status"
-                                        new-current-status="pre_filter" :old-status-id="applicant.status_id"
-                                        new-status-id="7" :applicant-id="applicant.id">
-                                        <i class="fa fa-refresh" aria-hidden="true"></i>
-                                    </v-button>
                                     <v-button button-class="btn btn-success"
                                         :old-current-status="applicant.current_status" new-current-status="pru_dna_test"
                                         :old-status-id="applicant.status_id" new-status-id="1"
