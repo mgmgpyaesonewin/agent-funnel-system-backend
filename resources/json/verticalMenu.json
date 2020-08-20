@@ -30,6 +30,12 @@
       "i18n": "nav.documentation"
     },
     {
+      "url": "/templateforms",
+      "name": "Templates Form",
+      "icon": "feather icon-printer",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "",
       "navheader": "Applicants",
       "icon": ""
