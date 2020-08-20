@@ -24,7 +24,7 @@
                     <div class="card-body text-center">
                         <v-table ref="table" current-status="pre_filter" :status="[1,7]" channel="true"
                             :assign-checkbox="true" status-col="true" status-col="true" :user-assign="true"
-                            assign="true" :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
+                            assign="true" :is-partner="true">
                             <template scope="{ applicant }">
                                 <div class="btn-group mt-1" v-show="applicant.status_id === 1">
                                     <v-button button-class="btn btn-success"
