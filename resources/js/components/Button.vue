@@ -33,7 +33,7 @@ export default {
           if (this.eLearning) {
             this.$swal
               .fire({
-                title: "Input email address",
+                title: "Enter your e-learing URL",
                 input: "url",
                 inputPlaceholder: "Enter your e-learing URL",
               })
