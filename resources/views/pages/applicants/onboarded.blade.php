@@ -38,7 +38,7 @@
                                             :old-current-status="applicant.current_status" new-current-status="onboard"
                                             :old-status-id="applicant.status_id" new-status-id="7"
                                             :applicant-id="applicant.id">
-                                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                                            Resend Contract
                                         </v-button>
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status" new-current-status="active"

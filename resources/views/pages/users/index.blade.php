@@ -40,11 +40,11 @@
                                 <td class="">{{ $user->partner->company_name ?? 'Site Admin' }}</td>
                                 <td class="">{{$user->role}}</td>
                                 <td class="d-flex">
-                                    <a href="{{route('users.edit',$user->id)}}" class="btn btn-primary mr-4">Edit</a>
+                                    <a href="{{route('users.edit',$user->id)}}" class="btn btn-warning mr-4">Edit</a>
                                     <form method="POST" action="{{route('users.destroy',$user->id)}}">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-secondary">Delete</button>
                                     </form>
                                 </td>
                             </tr>

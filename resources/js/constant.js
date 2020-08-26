@@ -1,4 +1,5 @@
 export default Object.freeze({
+  LEAD : "lead",
   PRE_FILTER: "pre_filter",
   PRU_DNA_TEST: "pru_dna_test",
   PMLI_FILTER: "pmli_filter",
