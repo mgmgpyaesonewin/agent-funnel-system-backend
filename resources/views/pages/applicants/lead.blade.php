@@ -18,6 +18,21 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-lg-10 col-md-10 col-sm-12 my-1">
+            @if (session()->has('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <p class="mb-0">{{ session('status') }}</p>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            @endif
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 my-1">
+            <a href="{{url('create_lead')}}" class="btn btn-primary pull-right">Create</a>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-content">
