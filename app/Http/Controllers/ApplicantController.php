@@ -7,9 +7,9 @@ use App\Http\Resources\ApplicantResource;
 use App\Interview;
 use App\Mail\SendStatusNotification;
 use App\Mail\SendWebinarNotification;
+use App\Partner;
 use App\Status;
 use App\Training;
-use App\Partner;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Log;
@@ -30,7 +30,7 @@ class ApplicantController extends Controller
 
     public function store(Request $request)
     {
-        $applicant = new Applicant;
+        $applicant = new Applicant();
         $applicant->name = $request->name;
         $applicant->phone = $request->phone;
         $applicant->dob = $request->dob;
@@ -38,11 +38,10 @@ class ApplicantController extends Controller
         $applicant->current_status = 'lead';
         $applicant->status_id = '1';
 
-        if(auth()->user()->partner_id != null)
-        {
+        if (null != auth()->user()->partner_id) {
             $partner = Partner::find(auth()->user()->partner_id);
             $applicant->utm_source = $partner->company_name;
-        }            
+        }
 
         $applicant->save();
 
@@ -51,7 +50,7 @@ class ApplicantController extends Controller
 
     public function preFilterPage(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.pre_filter', compact('statuses'));
     }
