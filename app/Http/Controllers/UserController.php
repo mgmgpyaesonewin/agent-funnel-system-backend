@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Applicant;
+use App\Http\Requests\UserApiRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Partner;
@@ -53,7 +55,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
-    { 
+    {
         $data = $request->validated();
 
         $data = array_merge($data, [
@@ -65,7 +67,7 @@ class UserController extends Controller
             $data['partner_id'] = $request->partner_id;
         }
 
-        if (isset($request->user_id)) { 
+        if (isset($request->user_id)) {
             $data['user_id'] = $request->user_id;
         }
 

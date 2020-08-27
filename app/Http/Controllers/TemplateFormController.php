@@ -15,10 +15,15 @@ class TemplateFormController extends Controller
      */
     public function index()
     {
-       $templates= TemplateForm::all();
-        return view('pages.templateform.index',compact('templates'));
+        $templates = TemplateForm::all();
+        return view('pages.templateform.index', compact('templates'));
     }
 
+    public function getform()
+    {
+        $templates = TemplateForm::where('active', true)->first();
+        return $templates;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -27,12 +32,12 @@ class TemplateFormController extends Controller
     public function create()
     {
         return view('pages.templateform.create');
-
     }
-    public function activate(Request $req){
-        TemplateForm::where('id','!=',$req->id)->update(['active'=>false]);
-        $temp= TemplateForm::find($req->id);
-        $temp->active=true;
+    public function activate(Request $req)
+    {
+        TemplateForm::where('id', '!=', $req->id)->update(['active' => false]);
+        $temp = TemplateForm::find($req->id);
+        $temp->active = true;
         $temp->save();
         return redirect('templateforms');
     }
@@ -49,7 +54,7 @@ class TemplateFormController extends Controller
         return redirect('templateforms');
     }
 
-  
+
     public function show(TemplateForm $TemplateForm)
     {
         //
@@ -62,11 +67,11 @@ class TemplateFormController extends Controller
      * @param  \App\TemplateForm  $templateForm
      * @return \Illuminate\Http\Response
      */
-    public function edit( $templateForm)
+    public function edit($templateForm)
     {
-      $templateForm= TemplateForm::findOrFail($templateForm);
-    //   dd($templateForm);
-        return view('pages.templateform.edit',compact('templateForm'));
+        $templateForm = TemplateForm::findOrFail($templateForm);
+        //   dd($templateForm);
+        return view('pages.templateform.edit', compact('templateForm'));
     }
 
     /**
@@ -76,17 +81,17 @@ class TemplateFormController extends Controller
      * @param  \App\TemplateForm  $templateForm
      * @return \Illuminate\Http\Response
      */
-    public function update(Template $request,$id)
+    public function update(Template $request, $id)
     {
-    $validated_data= $request->validated();
-    $Templatedetail=  TemplateForm::findOrFail($id);
-    $template =collect($Templatedetail)->except('id');
-    foreach ($template as $key => $value) {
-        $template[$key]=$validated_data[$key] ?? false;    
-    }
-    $Templatedetail->update($template->toArray());
+        $validated_data = $request->validated();
+        $Templatedetail =  TemplateForm::findOrFail($id);
+        $template = collect($Templatedetail)->except('id');
+        foreach ($template as $key => $value) {
+            $template[$key] = $validated_data[$key] ?? false;
+        }
+        $Templatedetail->update($template->toArray());
 
-     return  redirect('templateforms');
+        return  redirect('templateforms');
     }
 
     /**
@@ -98,8 +103,8 @@ class TemplateFormController extends Controller
     public function destroy(Request $req)
     {
         //
-    $temp= TemplateForm::findorfail($req->id);
-    $temp->delete();
-    return redirect('templateforms');
+        $temp = TemplateForm::findorfail($req->id);
+        $temp->delete();
+        return redirect('templateforms');
     }
 }

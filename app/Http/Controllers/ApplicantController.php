@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
 use App\Interview;
 use App\Mail\SendStatusNotification;
@@ -38,11 +39,10 @@ class ApplicantController extends Controller
         $applicant->current_status = 'lead';
         $applicant->status_id = '1';
 
-        if(auth()->user()->partner_id != null)
-        {
+        if (auth()->user()->partner_id != null) {
             $partner = Partner::find(auth()->user()->partner_id);
             $applicant->utm_source = $partner->company_name;
-        }            
+        }
 
         $applicant->save();
 
@@ -55,6 +55,17 @@ class ApplicantController extends Controller
 
         return view('pages.applicants.pre_filter', compact('statuses'));
     }
+
+    public function createuser(UserApiRequest $req)
+    {
+        // return $req->validated();
+        // dd();
+        $data = $req->validated();
+        $data['current_status'] = 'lead';
+        $data['status_id'] = 1;
+        return   Applicant::create($data);
+    }
+
 
     public function pruDNAFilter(Request $request)
     {

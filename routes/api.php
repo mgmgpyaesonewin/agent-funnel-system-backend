@@ -19,6 +19,9 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+Route::get('/getForm', 'TemplateFormController@getform');
+Route::post('/createuser', 'ApplicantController@createuser');
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users', 'UserController@users');
     Route::post('/applicants', 'ApplicantController@applicants');
