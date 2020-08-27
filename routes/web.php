@@ -19,14 +19,26 @@ Route::group(['middleware' => 'auth'], function () {
     // Route url
     Route::get('/', 'DashboardController@dashboardAnalytics')->name('home');
 
-    // Route Dashboards
-    Route::get('/dashboard-analytics', 'DashboardController@dashboardAnalytics');
-
     // Route Components
     Route::get('/sk-layout-2-columns', 'StaterkitController@columns_2');
     Route::get('/sk-layout-fixed-navbar', 'StaterkitController@fixed_navbar');
     Route::get('/sk-layout-floating-navbar', 'StaterkitController@floating_navbar');
     Route::get('/sk-layout-fixed', 'StaterkitController@fixed_layout');
+
+    // SY Starts
+    Route::get('/lead', 'ApplicantController@leadPage');
+    Route::get('/create_lead', 'ApplicantController@create_lead');
+    Route::post('/save_lead', 'ApplicantController@store');
+
+    // Setting Dashboards
+    Route::get('/setting', 'SettingController@index');
+    Route::post('/setting/update_setting', 'SettingController@update');
+
+    Route::get('/training/export/{id}', 'TrainingController@export');
+
+    Route::get('/api/user/get_bdm_list', 'UserController@get_bdm_list');
+    // SY Ends
+
 
     Route::get('/pre_filter', 'ApplicantController@preFilterPage');
     Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');

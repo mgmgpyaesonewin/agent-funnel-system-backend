@@ -25,6 +25,8 @@
               <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
+                <th scope="col">Total Assigned</th>
+                <th scope="col">Total Completed</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -33,14 +35,18 @@
               <tr>
                 <th scope="row">{{$data->id}}</th>
                 <td class="">{{$data->name}}</td>
+                <td class="">{{ $total_trainee }}</td>
+                <td class="">{{$data->applicants->count()}}</td>
                 <td class="d-flex">
-                  <a href="{{route('trainings.edit',$data->id)}}" class="btn btn-primary mr-4">Edit</a>
+                  <a href="{{ url('training/export/'.$data->id)}}"  class="btn btn-info mr-1">Export</a>
+                  <a href="{{route('trainings.edit',$data->id)}}" class="btn btn-warning mr-1">Edit</a>  
                   <form method="POST" action="{{route('trainings.destroy',$data->id)}}">
                     @method('delete')
                     @csrf
-                    <button class="btn btn-danger">Delete</button>
+                    <button class="btn btn-outline-danger">Delete</button>  
+                    </form>                
                 </td>
-                </form>
+                
               </tr>
               @endforeach
             </tbody>

@@ -2,19 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Applicant;
 use App\Http\Requests\TrainingRequest;
 use App\Http\Resources\TrainingResource;
 use App\Training;
 use Illuminate\Http\Request;
 
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\Exports\MultiGraphExport;
+
 class TrainingController extends Controller
 {
     public function index()
     {
-        $trainings = Training::paginate(20);
+        $trainings = Training::with('applicants')->paginate(20);
+        $total_trainee = DB::table('applicant_status')->where('current_status', 'pmli_filter')->where('status_id','3')->count();  
 
-        return view('pages.training.index', compact('trainings'));
+        return view('pages.training.index', compact('trainings', 'total_trainee'));
+    }
+
+    public function export($id)
+    {
+        $completed = Training::with('applicants')->find($id);
+        $training = $completed->name;
+        $assigned = DB::table('applicants')    
+                    ->select('name', 'phone')                
+                    ->leftjoin('applicant_training', 'applicant_training.applicant_id', '=', 'applicants.id')
+                    ->where('applicants.current_status', 'training')
+                    ->whereRaw('(applicant_training.applicant_id IS NULL OR applicant_training.training_id != '.$id.')')
+                    ->get();
+        
+        // TODO: export excel
+        return Excel::download(new MultiGraphExport($completed, $assigned, $training), 'ApplicantTrainingDetails.xlsx');
     }
 
     public function getAllTrainings(Request $request)
