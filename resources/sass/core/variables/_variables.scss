@@ -26,9 +26,13 @@ $blue: #00cfe8; //$info
 $red: #ea5455; //$danger
 $orange: #ff9f43; //$warning
 $green: #28c76f; //$success
-$cyan: #7367F0; //$primary
+$cyan: #7367F0;
+$theme:rgb(237, 27, 54);//$primary
+$theme-gray:rgb(208, 208, 206);
+$gray:rgb(104,115,122);
 
-$primary: $cyan;
+$primary: $theme;
+$secondary: $theme-gray;
 $info: $blue;
 $warning: $orange;
 
@@ -92,11 +96,11 @@ $border-radius-sm: 0.25rem;
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: "Montserrat",
+$font-family-sans-serif: "FS Albert Web",
 Helvetica,
 Arial,
 serif;
-$font-family-monospace: "Montserrat",
+$font-family-monospace: "FS Albert Web",
 Helvetica,
 Arial,
 serif;

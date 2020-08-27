@@ -16,6 +16,11 @@ class UserController extends Controller
         return User::where('is_admin', 1)->get();
     }
 
+    public function get_bdm_list()
+    {
+        return User::select('id', 'name')->where('is_bdm', 1)->get();
+    }
+
     public function users()
     {
         $users = User::all();
@@ -37,7 +42,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $partners = Partner::all();
+        $partners = Partner::select('id', 'company_name')->get();
 
         return view('pages.users.create', compact('partners'));
     }
@@ -48,7 +53,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
-    {
+    { 
         $data = $request->validated();
 
         $data = array_merge($data, [
@@ -58,6 +63,10 @@ class UserController extends Controller
 
         if (isset($request->partner_id)) {
             $data['partner_id'] = $request->partner_id;
+        }
+
+        if (isset($request->user_id)) { 
+            $data['user_id'] = $request->user_id;
         }
 
         unset($data['role']);
@@ -75,8 +84,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $partners = Partner::all();
-
-        return view('pages.users.edit', compact('user', 'partners'));
+        $bdm_list = User::select('id', 'name')->where('is_bdm', 1)->get();
+        return view('pages.users.edit', compact('user', 'partners', 'bdm_list'));
     }
 
     /**

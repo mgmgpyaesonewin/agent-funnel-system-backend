@@ -9,12 +9,46 @@ use App\Mail\SendStatusNotification;
 use App\Mail\SendWebinarNotification;
 use App\Status;
 use App\Training;
+use App\Partner;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Log;
 
 class ApplicantController extends Controller
 {
+    public function leadPage(Request $request)
+    {
+        $statuses = Status::get();
+
+        return view('pages.applicants.lead', compact('statuses'));
+    }
+
+    public function create_lead()
+    {
+        return view('pages.applicants.create_lead');
+    }
+
+    public function store(Request $request)
+    {
+        $applicant = new Applicant;
+        $applicant->name = $request->name;
+        $applicant->phone = $request->phone;
+        $applicant->dob = $request->dob;
+        $applicant->gender = $request->gender;
+        $applicant->current_status = 'lead';
+        $applicant->status_id = '1';
+
+        if(auth()->user()->partner_id != null)
+        {
+            $partner = Partner::find(auth()->user()->partner_id);
+            $applicant->utm_source = $partner->company_name;
+        }            
+
+        $applicant->save();
+
+        return redirect('/lead')->with('status', 'Successfully created new lead');
+    }
+
     public function preFilterPage(Request $request)
     {
         $statuses = Status::get();

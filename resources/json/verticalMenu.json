@@ -6,33 +6,21 @@
       "icon": ""
     },
     {
-      "url": "/partners",
-      "name": "Partners",
-      "icon": "feather icon-users",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "/trainings",
-      "name": "Training Modules",
-      "icon": "feather icon-printer",
-      "i18n": "nav.documentation"
-    },
-    {
       "url": "/users",
       "name": "Users",
-      "icon": "feather icon-users",
+      "icon": "fa fa-users",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "/partners",
+      "name": "Partners",
+      "icon": "fa fa-handshake-o",
       "i18n": "nav.documentation"
     },
     {
       "url": "/payments",
       "name": "Payment Transaction",
-      "icon": "feather icon-printer",
-      "i18n": "nav.documentation"
-    },
-    {
-      "url": "/templateforms",
-      "name": "Templates Form",
-      "icon": "feather icon-printer",
+      "icon": "fa fa-usd",
       "i18n": "nav.documentation"
     },
     {
@@ -41,10 +29,17 @@
       "icon": ""
     },
     {
+      "url": "/lead",
+      "name": "Leads",
+      "slug": "lead",
+      "icon": "feather icon-list",
+      "i18n": "nav.documentation"
+    },
+    {
       "url": "/pre_filter",
-      "name": "Pre-Filter",
+      "name": "Background Check",
       "slug": "pending",
-      "icon": "feather icon-layers",
+      "icon": "fa fa-check-square-o",
       "i18n": "nav.documentation"
     },
     {
@@ -58,24 +53,24 @@
       "url": "/pmli_filter",
       "name": "PMLI Filter",
       "slug": "pmli_filter",
-      "icon": "feather icon-smartphone",
+      "icon": "feather icon-layers",
       "i18n": "nav.documentation"
     },
     {
       "url": "/trainee",
-      "name": "Trainee",
-      "icon": "fa fa-users",
+      "name": "Training",
+      "icon": "fa fa-id-badge",
       "i18n": "nav.documentation"
     },
     {
       "url": "/certification",
       "name": "Certification",
-      "icon": "feather icon-star",
+      "icon": "fa fa-certificate",
       "i18n": "nav.documentation"
     },
     {
       "url": "/onboarded",
-      "name": "On boarded",
+      "name": "On boarding",
       "icon": "fa fa-calendar",
       "i18n": "nav.documentation"
     },
@@ -83,6 +78,30 @@
       "url": "/contract",
       "name": "Contract & Agent",
       "icon": "feather icon-user",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "",
+      "navheader": "Configurations",
+      "icon": ""
+    },
+    {
+      "url": "/trainings",
+      "name": "Training Modules",
+      "icon": "feather icon-printer",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "/templateforms",
+      "name": "Templates Form",
+      "icon": "feather icon-sidebar",
+      "i18n": "nav.documentation"
+    },
+    {
+      "url": "/setting",
+      "name": "Settings",
+      "slug": "configure",
+      "icon": "feather icon-settings",
       "i18n": "nav.documentation"
     }
   ]

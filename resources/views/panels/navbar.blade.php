@@ -18,11 +18,16 @@
             <ul class="nav navbar-nav">
               <li class="nav-item mobile-menu d-xl-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
                   href="#"><i class="ficon feather icon-menu"></i></a></li>
+               
             </ul>
             <ul class="nav navbar-nav">
               <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i
                     class="ficon feather icon-maximize"></i></a></li>
             </ul>
+            
+          <ul class="nav navbar-nav float-left">
+            <li class="nav-item"> Welcome  <b>{{ Auth::user()->name }}</b> !</li>
+          </ul>
           </div>
           <ul class="nav navbar-nav float-right">
 
@@ -91,10 +96,10 @@
                     all notifications</a></li>
               </ul>
             </li> -->
-            <li class="dropdown dropdown-user nav-item show">
+            <!-- <li class="dropdown dropdown-user nav-item show">
               <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                <div class="user-nav d-sm-flex d-none"><span
-                    class="user-name text-bold-600">{{ Auth::user()->name }}</span></div>
+                <div class="user-nav d-sm-flex d-none">
+                  <span class="user-name text-bold-600">{{ Auth::user()->name }}</span></div>
                 <span><img class="round" src="{{asset('images/portrait/small/avatar.png') }}" alt="avatar" height="40"
                     width="40" /></span>
               </a>
@@ -107,6 +112,13 @@
                   {{ csrf_field() }}
                 </form>
               </div>
+            </li> -->
+            <li class="nav-item"><a class="nav-link" href="#"><i class="feather icon-lock"></i></a></li>
+            <li class="nav-item"><a class="nav-link" href="javascript:void(0)"
+                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="feather icon-power"></i></a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  {{ csrf_field() }}
+                </form>
             </li>
           </ul>
         </div>
