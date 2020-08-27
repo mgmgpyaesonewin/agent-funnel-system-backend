@@ -3,7 +3,7 @@
 @section('title', 'Pending Applicants')
 
 @section('content')
-{{-- Dashboard Analytics Start --}}
+
 <section>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">

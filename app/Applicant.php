@@ -145,12 +145,12 @@ class Applicant extends Model
         });
     }
 
-    public function scopeFilter($query, string $name = null, string $exam_date = null)
+    public function scopeFilter($query, string $name = null, string $phone = null)
     {
         return $query->when($name, function ($query, $name) {
             return $query->where('name', 'like', "%{$name}%");
-        })->when($exam_date, function ($query, $exam_date) {
-            return $query->where('exam_date', $exam_date);
+        })->when($phone, function ($query, $phone) {
+            return $query->where('phone', $phone);
         });
     }
 
