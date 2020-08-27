@@ -126,7 +126,7 @@ export default {
       selectedUser: "",
       users: [],
       name: "",
-      exam_date: "",
+      phone: "",
       current_status: this.currentStatus,
       status_ids: this.status,
     };
@@ -162,7 +162,7 @@ export default {
           current_status: this.current_status,
           status_id: this.status_ids,
           name: this.name,
-          exam_date: this.exam_date,
+          phone: this.phone,
         })
         .then(({ data }) => {
           this.applicants = data;
@@ -222,16 +222,13 @@ export default {
     this.getApplicants();
     this.getUsers();
     EventBus.$on("update-table", this.updateApplicantsList);
-    EventBus.$on(
-      "filter-table",
-      (currentStatus, status_ids, name, exam_date) => {
-        this.current_status = currentStatus;
-        this.status_ids = status_ids;
-        this.name = name;
-        this.exam_date = exam_date;
-        this.getApplicants();
-      }
-    );
+    EventBus.$on("filter-table", (currentStatus, status_ids, name, phone) => {
+      this.current_status = currentStatus;
+      this.status_ids = status_ids;
+      this.name = name;
+      this.phone = phone;
+      this.getApplicants();
+    });
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);

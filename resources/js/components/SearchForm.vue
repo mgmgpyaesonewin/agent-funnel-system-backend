@@ -6,10 +6,10 @@
         <input type="text" class="form-control" placeholder="Name" v-model="name" />
       </fieldset>
     </div>
-    <div class="px-2" v-show="channelForm">
+    <div class="px-2">
       <fieldset class="form-group">
-        <label for="name">Channel</label>
-        <input type="email" class="form-control" placeholder="Channel" v-model="email" />
+        <label for="name">Phone</label>
+        <input type="text" class="form-control" placeholder="Phone" v-model="phone" />
       </fieldset>
     </div>
     <div class="px-2" v-show="assignField">
@@ -90,8 +90,8 @@ export default {
   ],
   data() {
     return {
-      email: "",
       name: "",
+      phone: "",
       selected_status: [],
       date: "",
     };
@@ -104,7 +104,7 @@ export default {
         this.currentStatus,
         selected_status,
         this.name,
-        this.date
+        this.phone
       );
     },
     exportSheet() {

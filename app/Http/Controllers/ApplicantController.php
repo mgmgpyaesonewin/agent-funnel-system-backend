@@ -18,7 +18,7 @@ class ApplicantController extends Controller
 {
     public function leadPage(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.lead', compact('statuses'));
     }
@@ -103,7 +103,7 @@ class ApplicantController extends Controller
             ->with('admin', 'bdm', 'ma', 'staff', 'partner')
             ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
-            ->filter($request->name, $request->exam_date)
+            ->filter($request->name, $request->phone)
             ->orderBy('id')
             ->select(
                 'id',
