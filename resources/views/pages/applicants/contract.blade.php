@@ -32,7 +32,7 @@
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i> Inactive
                                         </v-button>
-                                        <v-button button-class="btn btn-danger"
+                                        <v-button button-class="btn btn-secondary"
                                             :old-current-status="applicant.current_status" new-current-status="active"
                                             :old-status-id="applicant.status_id" new-status-id="10"
                                             :applicant-id="applicant.id">

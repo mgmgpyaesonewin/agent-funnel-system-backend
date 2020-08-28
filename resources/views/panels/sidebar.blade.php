@@ -8,15 +8,8 @@ $configData = Helper::applClasses();
     <ul class="nav navbar-nav flex-row">
       <li class="nav-item mr-auto"><a class="navbar-brand" href="#">
           <div><img src="{{asset('images/logo/favicon.png')}}"></div>
-          <h1 class="brand-text mb-0">Admin Panel</h1>
+          <h1 class="font-medium-2 text-primary mb-0"><br>Agent Funnel System</h1>
         </a></li>
-      <li class="nav-item nav-toggle">
-        <a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse">
-          <i class="feather icon-x d-block d-xl-none font-medium-4 primary toggle-icon"></i>
-          <i class="toggle-icon feather icon-disc font-medium-4 d-none d-xl-block primary collapse-toggle-icon"
-            data-ticon="icon-disc"></i>
-        </a>
-      </li>
     </ul>
   </div>
   <div class="shadow-bottom"></div>

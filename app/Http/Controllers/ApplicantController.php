@@ -7,6 +7,7 @@ use App\Http\Resources\ApplicantResource;
 use App\Interview;
 use App\Mail\SendStatusNotification;
 use App\Mail\SendWebinarNotification;
+use App\Partner;
 use App\Status;
 use App\Training;
 use Carbon\Carbon;
@@ -15,9 +16,41 @@ use Log;
 
 class ApplicantController extends Controller
 {
+    public function leadPage(Request $request)
+    {
+        $statuses = Status::whereIn('id', [1, 4])->get();
+
+        return view('pages.applicants.lead', compact('statuses'));
+    }
+
+    public function create_lead()
+    {
+        return view('pages.applicants.create_lead');
+    }
+
+    public function store(Request $request)
+    {
+        $applicant = new Applicant();
+        $applicant->name = $request->name;
+        $applicant->phone = $request->phone;
+        $applicant->dob = $request->dob;
+        $applicant->gender = $request->gender;
+        $applicant->current_status = 'lead';
+        $applicant->status_id = '1';
+
+        if (null != auth()->user()->partner_id) {
+            $partner = Partner::find(auth()->user()->partner_id);
+            $applicant->utm_source = $partner->company_name;
+        }
+
+        $applicant->save();
+
+        return redirect('/lead')->with('status', 'Successfully created new lead');
+    }
+
     public function preFilterPage(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.pre_filter', compact('statuses'));
     }
@@ -70,7 +103,7 @@ class ApplicantController extends Controller
             ->with('admin', 'bdm', 'ma', 'staff', 'partner')
             ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
-            ->filter($request->name, $request->exam_date)
+            ->filter($request->name, $request->phone)
             ->orderBy('id')
             ->select(
                 'id',

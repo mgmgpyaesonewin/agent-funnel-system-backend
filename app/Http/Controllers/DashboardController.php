@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     // Dashboard - Analytics
     public function dashboardAnalytics(){
-        return redirect("/pre_filter");
+        return redirect("/lead");
     }
 }
 

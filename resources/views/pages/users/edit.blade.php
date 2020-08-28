@@ -42,24 +42,26 @@
                             <span class="text-danger"> {{$errors->first('password')}}
                             </span>
                             @enderror
-                        </div>
+                        </div> 
                         <div class="form-group">
                             <label for="exampleInputEmail1">Role</label>
-                            <select class="form-control" name="role">
-                                <option value="is_admin" selected={{ $user->is_admin == 1}}>Admin</option>
-                                <option value="is_bdm" selected={{ $user->is_bdm == 1}}>BDM</option>
-                                <option value="is_ma" selected={{ $user->is_ma == 1}}>MA</option>
+                            <select class="form-control" name="role" onchange="showDiv()" id="role">
+                                <option value="is_admin" @if($user->is_admin == 1) selected @endif>Admin</option>
+                                <option value="is_bdm" @if($user->is_bdm == 1) selected @endif>BDM</option>
+                                <option value="is_ma" @if($user->is_ma == 1) selected @endif>MA</option>
+                                <option value="partner" @if($user->partner_id != null) selected @endif>Partner</option>
                             </select>
-                            @error('partner_id')
-                            <span class="text-danger">{{ $errors->first('partner_id') }}</span>
+                            @error('role')
+                            <span class="text-danger">{{ $errors->first('role') }}</span>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        @if($user->partner_id != null)
+                        <div class="form-group" id="partner">
                             <label for="exampleInputEmail1">Partner</label>
                             <select class="form-control" name="partner_id">
                                 <option value="">None</option>
                                 @foreach ($partners as $partner)
-                                <option value="{{ $partner->id }}" selected={{ $user->partner_id === $partner->id }}>
+                                <option value="{{ $partner->id }}" @if($user->partner_id === $partner->id) selected @endif>
                                     {{ $partner->company_name }}</option>
                                 @endforeach
                             </select>
@@ -67,6 +69,23 @@
                             <span class="text-danger">{{ $errors->first('partner_id') }}</span>
                             @enderror
                         </div>
+                        @endif
+
+                        @if($user->user_id != null && $user->is_ma == 1)
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">BDM</label>
+                            <select class="form-control" name="user_id">
+                                <option value="">None</option>
+                                @foreach ($bdm_list as $item)
+                                <option value="{{ $item->id }}" @if($item->id === $user->user_id) selected @endif>
+                                    {{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
+                            <span class="text-danger">{{ $errors->first('user_id') }}</span>
+                            @enderror
+                        </div>
+                        @endif
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Events\ApplicantUpdating;
 use App\Listeners\GenerateTemporaryId;
+use App\Listeners\SendViberNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +23,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         ApplicantUpdating::class => [
             GenerateTemporaryId::class,
+            SendViberNotification::class,
         ],
     ];
 
