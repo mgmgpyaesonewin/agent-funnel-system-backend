@@ -21,8 +21,8 @@ use Illuminate\Http\Request;
 
 Route::get('/getForm', 'TemplateFormController@getform');
 Route::post('/createuser', 'ApplicantController@createuser');
-Route::post('/test', 'ApplicantController@test');
-
+Route::post('/pdf/{id}', 'ApplicantController@test');
+Route::post('sign_check', 'ApplicantController@Access_SignBoard');
 Route::post('/bank_update/{id}', 'ApplicantController@bank_info_update');
 
 Route::post('/login', 'ApplicantController@login');

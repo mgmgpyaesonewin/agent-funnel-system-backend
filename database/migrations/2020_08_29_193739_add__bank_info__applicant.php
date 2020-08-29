@@ -19,6 +19,7 @@ class AddBankInfoApplicant extends Migration
             $table->string('banK_name');
             $table->string('license_no');
             $table->string('license_photo_1');
+            $table->string('pdf');
             $table->string('license_photo_2');
         });
     }
@@ -36,6 +37,7 @@ class AddBankInfoApplicant extends Migration
             $table->dropColumn('banK_name');
             $table->dropColumn('license_no');
             $table->dropColumn('license_photo_1');
+            $table->dropColumn('pdf');
             $table->dropColumn('license_photo_2');
         });
     }

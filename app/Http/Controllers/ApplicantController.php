@@ -17,16 +17,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Log;
 
+ini_set('post_max_size', '64M');
+ini_set('upload_max_filesize', '64M');
 class ApplicantController extends Controller
 {
     public function test(Request $req)
     {
         // dd($req->all);
-
-        // $url = Storage::download("contracts/7iNcSkqIohmjWHPHW0zfSKqaDe8P8UzwmE3V8YJs.pdf");
+        // return $req->pdf;
+        $appli = Applicant::where('temp_id', $req->id)->first();
         $url =  Storage::disk('local')->put('contracts', $req->pdf);
+        $appli->pdf = $url;
+        $appli->save();
         return $url;
-        // return redirect('download_contract?url=' . $url);
+    }
+    public function Access_SignBoard(Request $req)
+    {
+        $appli = Applicant::where('temp_id', $req->id)->first();
+        if ($appli) {
+            return ['message' => 'valid'];
+        }
+        return response(['message' => 'invalid'], 422);
     }
     public function bank_info_update(Request $req)
     {
