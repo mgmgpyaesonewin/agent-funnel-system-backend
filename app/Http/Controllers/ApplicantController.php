@@ -12,6 +12,7 @@ use App\Partner;
 use App\Status;
 use App\Training;
 use Carbon\Carbon;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Log;
@@ -135,7 +136,7 @@ class ApplicantController extends Controller
             ->with('admin', 'bdm', 'ma', 'staff', 'partner')
             ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
-            ->filter($request->name, $request->phone)
+            ->filter($request->name, $request->phone, $request->aml_status, $request->date)
             ->orderBy('id')
             ->select(
                 'id',
@@ -172,9 +173,10 @@ class ApplicantController extends Controller
 
         Interview::create($record);
 
-        // Set state from Passed to Interview Sent
+        // Set state from Passed to PMLI Stage
         Applicant::where('id', $applicant_id)->update([
-            'status_id' => 6,
+            'current_status' => 'pmli_filter',
+            'status_id' => 1,
         ]);
 
         // Mail::to($applicant->email)->send(new SendWebinarNotification($applicant));
@@ -317,6 +319,20 @@ class ApplicantController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Successfully Saved',
+        ]);
+    }
+
+    public function saveELearningInfo(Request $request)
+    {
+        Applicant::where('id', $request->id)->update([
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'e_learning' => $request->url,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully saved',
         ]);
     }
 }

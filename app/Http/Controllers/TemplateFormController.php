@@ -39,21 +39,21 @@ class TemplateFormController extends Controller
         $temp = TemplateForm::find($req->id);
         $temp->active = true;
         $temp->save();
+
         return redirect('templateforms');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         TemplateForm::create($request->all());
+
         return redirect('templateforms');
     }
-
 
     public function show(TemplateForm $TemplateForm)
     {
@@ -64,7 +64,8 @@ class TemplateFormController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\TemplateForm  $templateForm
+     * @param \App\TemplateForm $templateForm
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($templateForm)
@@ -77,14 +78,16 @@ class TemplateFormController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TemplateForm  $templateForm
+     * @param \Illuminate\Http\Request $request
+     * @param \App\TemplateForm        $templateForm
+     * @param mixed                    $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Template $request, $id)
     {
         $validated_data = $request->validated();
-        $Templatedetail =  TemplateForm::findOrFail($id);
+        $Templatedetail = TemplateForm::findOrFail($id);
         $template = collect($Templatedetail)->except('id');
         foreach ($template as $key => $value) {
             $template[$key] = $validated_data[$key] ?? false;
@@ -97,14 +100,15 @@ class TemplateFormController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TemplateForm  $templateForm
+     * @param \App\TemplateForm $templateForm
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $req)
     {
-        //
         $temp = TemplateForm::findorfail($req->id);
         $temp->delete();
+
         return redirect('templateforms');
     }
 }

@@ -34,13 +34,34 @@ export default {
             this.$swal
               .fire({
                 title: "Enter your e-learing URL",
-                input: "url",
-                inputPlaceholder: "Enter your e-learing URL",
+                html: `<input id="swal-input-url" class="swal2-input" placeholder="Enter your e-learing URL" type="url">
+                  <input id="swal-input-username" class="swal2-input" placeholder="Enter Username" type="text">
+                  <input id="swal-input-password" class="swal2-input" placeholder="Enter Password" type="password">
+                  `,
+                preConfirm: () => {
+                  return {
+                    url: document.getElementById("swal-input-url").value,
+                    username: document.getElementById("swal-input-username")
+                      .value,
+                    password: document.getElementById("swal-input-password")
+                      .value,
+                  };
+                },
               })
-              .then((url) => {
-                console.log(url);
-                console.log("url entered");
-                this.updateApplicant();
+              .then(({ value }) => {
+                let { url, username, password } = value;
+                axios
+                  .post("/applicants/learning", {
+                    id: this.applicantId,
+                    url,
+                    username,
+                    password,
+                  })
+                  .then((res) => {
+                    if (res.status) {
+                      this.updateApplicant();
+                    }
+                  });
               });
           } else {
             this.updateApplicant();

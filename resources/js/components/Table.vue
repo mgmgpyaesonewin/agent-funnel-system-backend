@@ -27,7 +27,7 @@
       </div>
       <div class="col-2" v-show="amlStatus">
         <div class="btn-group">
-          <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Complete</button>
+          <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
           <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
         </div>
       </div>
@@ -129,6 +129,8 @@ export default {
       phone: "",
       current_status: this.currentStatus,
       status_ids: this.status,
+      aml_status: "",
+      date: "",
     };
   },
   computed: {
@@ -163,6 +165,8 @@ export default {
           status_id: this.status_ids,
           name: this.name,
           phone: this.phone,
+          aml_status: this.aml_status,
+          date: this.date,
         })
         .then(({ data }) => {
           this.applicants = data;
@@ -222,13 +226,18 @@ export default {
     this.getApplicants();
     this.getUsers();
     EventBus.$on("update-table", this.updateApplicantsList);
-    EventBus.$on("filter-table", (currentStatus, status_ids, name, phone) => {
-      this.current_status = currentStatus;
-      this.status_ids = status_ids;
-      this.name = name;
-      this.phone = phone;
-      this.getApplicants();
-    });
+    EventBus.$on(
+      "filter-table",
+      (currentStatus, status_ids, name, phone, aml_status, date) => {
+        this.current_status = currentStatus;
+        this.status_ids = status_ids;
+        this.name = name;
+        this.phone = phone;
+        this.aml_status = aml_status;
+        this.date = date;
+        this.getApplicants();
+      }
+    );
   },
   destroyed() {
     EventBus.$off("update-table", this.updateApplicantsList);

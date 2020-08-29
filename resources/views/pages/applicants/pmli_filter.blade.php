@@ -11,7 +11,7 @@
                 <div class="card-content">
                     <div class="card-body">
                         <v-search-form current-status="pmli_filter" :statuses-array="{{ $statuses }}"
-                            assign-field="true"></v-search-form>
+                            assign-field="true" aml-check="true"></v-search-form>
                     </div>
                 </div>
             </div>
