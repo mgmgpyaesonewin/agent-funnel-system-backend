@@ -13,10 +13,30 @@ use App\Status;
 use App\Training;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Log;
 
 class ApplicantController extends Controller
 {
+    public function test(Request $req)
+    {
+        // dd($req->all);
+
+        // $url = Storage::download("contracts/7iNcSkqIohmjWHPHW0zfSKqaDe8P8UzwmE3V8YJs.pdf");
+        $url =  Storage::disk('local')->put('contracts', $req->pdf);
+        return $url;
+        // return redirect('download_contract?url=' . $url);
+    }
+
+    public function login(Request $req)
+    {
+        // return $req->all();
+        $valid_appli =  Applicant::where('temp_id', $req->tempid)
+            ->where('dob', $req->dob)
+            ->first();
+        if ($valid_appli) return $valid_appli;
+        return response(['message' => 'Invalid ID or Date of Birth'], 401);
+    }
     public function leadPage(Request $request)
     {
         $statuses = Status::whereIn('id', [1, 4])->get();

@@ -21,6 +21,9 @@ use Illuminate\Http\Request;
 
 Route::get('/getForm', 'TemplateFormController@getform');
 Route::post('/createuser', 'ApplicantController@createuser');
+Route::post('/test', 'ApplicantController@test');
+
+Route::post('/login', 'ApplicantController@login');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users', 'UserController@users');

@@ -12,9 +12,8 @@
 */
 
 // use Illuminate\Routing\Route;
-
+// Route::get('download_contract', 'ApplicantController@download_contract');
 Auth::routes(['register' => false]);
-
 Route::group(['middleware' => 'auth'], function () {
     // Route url
     Route::get('/', 'DashboardController@dashboardAnalytics')->name('home');
@@ -38,7 +37,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/api/user/get_bdm_list', 'UserController@get_bdm_list');
     // SY Ends
-
 
     Route::get('/pre_filter', 'ApplicantController@preFilterPage');
     Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');
