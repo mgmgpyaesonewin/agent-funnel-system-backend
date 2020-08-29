@@ -28,6 +28,26 @@ class ApplicantController extends Controller
         return $url;
         // return redirect('download_contract?url=' . $url);
     }
+    public function bank_info_update(Request $req)
+    {
+        $appli = Applicant::find($req->id);
+        $data['bank_account_no'] = $req->account_no;
+        $data['bank_account_name'] = $req->name;
+        $data['bank_name'] = $req->bank_name;
+        $data['license_no'] = $req->license_number;
+        // // return $data;
+        $files = $req->file('license_photo');
+        if ($req->hasFile('license_photo')) {
+            foreach ($files as $key => $file) {
+                $index = $key + 1;
+                $url =  Storage::disk('local')->put('licenses', $file);
+                $data['license_photo_' . $index] = $url;
+            }
+        }
+        $appli->update($data);
+
+        return $appli;
+    }
 
     public function login(Request $req)
     {

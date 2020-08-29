@@ -23,6 +23,8 @@ Route::get('/getForm', 'TemplateFormController@getform');
 Route::post('/createuser', 'ApplicantController@createuser');
 Route::post('/test', 'ApplicantController@test');
 
+Route::post('/bank_update/{id}', 'ApplicantController@bank_info_update');
+
 Route::post('/login', 'ApplicantController@login');
 
 Route::group(['middleware' => 'auth:api'], function () {
