@@ -16,9 +16,8 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Log;
+use Illuminate\Support\Str;
 
-ini_set('post_max_size', '64M');
-ini_set('upload_max_filesize', '64M');
 class ApplicantController extends Controller
 {
     public function test(Request $req)
@@ -33,7 +32,7 @@ class ApplicantController extends Controller
     }
     public function Access_SignBoard(Request $req)
     {
-        $appli = Applicant::where('temp_id', $req->id)->first();
+        $appli = Applicant::where('uuid', $req->id)->first();
         if ($appli) {
             return ['message' => 'valid'];
         }
@@ -115,6 +114,7 @@ class ApplicantController extends Controller
         $data = $req->validated();
         $data['current_status'] = 'lead';
         $data['status_id'] = 1;
+        $data['uuid'] =   (string) Str::uuid();
         return   Applicant::create($data);
     }
 
