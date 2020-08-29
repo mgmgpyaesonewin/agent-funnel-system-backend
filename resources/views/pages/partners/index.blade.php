@@ -36,7 +36,7 @@
                         </thead>
                         <tbody>
                             @foreach ($partners as $partner)
-                            <tr>
+                            <tr data-toggle="collapse" data-target="#accordion" class="clickable">
                                 <th scope="row">{{$partner->id}}</th>
                                 <td class="">{{$partner->pic_name}}</td>
                                 <td class="">{{$partner->pic_email}}</td>
@@ -51,6 +51,18 @@
                                         <button class="btn btn-danger">Delete</button>
                                 </td>
                                 </form>
+                            </tr>
+                            <tr>
+                                <td colspan="6">
+                                    <div id="accordion" class="collapse">
+                                        @foreach ($partner->users as $user)
+                                        <div>
+                                            <span>{{ $user->name }}</span>
+                                            <span>{{ $user->email }}</span>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

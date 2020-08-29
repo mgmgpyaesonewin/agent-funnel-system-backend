@@ -33,7 +33,7 @@ if (!function_exists('notified_applicant_via_viber')) {
                 ],
                 'to' => [
                     'type' => 'viber_service_msg',
-                    'number' => $phone,
+                    'number' => '95'.$phone,
                 ],
                 'message' => [
                     'content' => [
@@ -43,6 +43,10 @@ if (!function_exists('notified_applicant_via_viber')) {
                 ],
             ],
         ]);
-        dd($response->getStatusCode());
+        if (202 == $response->getStatusCode()) {
+            return true;
+        }
+
+        return false;
     }
 }

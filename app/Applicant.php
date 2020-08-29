@@ -59,7 +59,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Applicant extends Model
 {
-    protected $fillable = ['temp_id'];
+    protected $fillable = ['temp_id', 'username', 'password', 'e_learning'];
 
     protected $casts = [
         'education' => 'array',
@@ -130,10 +130,10 @@ class Applicant extends Model
     public function getAmlCheckAttribute($value)
     {
         if ($value > 0) {
-            return 1 === $value ? 'Agreed' : 'Disagreed';
+            return 1 === $value ? 'Passed' : 'Failed';
         }
 
-        return 'pending';
+        return 'Pending';
     }
 
     public function scopeState($query, string $current_status = null, array $status_ids_arr = null)
@@ -145,12 +145,16 @@ class Applicant extends Model
         });
     }
 
-    public function scopeFilter($query, string $name = null, string $phone = null)
+    public function scopeFilter($query, string $name = null, string $phone = null, array $aml_status = null, string $date = null)
     {
         return $query->when($name, function ($query, $name) {
             return $query->where('name', 'like', "%{$name}%");
         })->when($phone, function ($query, $phone) {
             return $query->where('phone', $phone);
+        })->when($aml_status, function ($query, $aml_status) {
+            return $query->whereIn('aml_check', $aml_status);
+        })->when($date, function ($query, $date) {
+            return $query->where('exam_date', $date);
         });
     }
 

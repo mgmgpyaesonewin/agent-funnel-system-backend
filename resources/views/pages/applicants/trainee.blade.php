@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Pru DNA Filter')
+@section('title', 'Trainee Filter')
 
 @section('content')
 {{-- Dashboard Analytics Start --}}
@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <v-search-form :statuses-array="{{ $statuses }}"></v-search-form>
+                        <v-search-form :statuses-array="{{ $statuses }}" exam-date="true"></v-search-form>
                     </div>
                 </div>
             </div>

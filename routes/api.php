@@ -33,5 +33,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/trainings/{applicant_id}', 'TrainingController@getAllTrainings');
     Route::post('/applicants/export/pmli_filter', 'ExportController@pmliFilterExport');
 
+    Route::post('/applicants/learning', 'ApplicantController@saveELearningInfo');
+
     Route::post('/applicants/aml/update', 'ApplicantController@updateAML');
 });

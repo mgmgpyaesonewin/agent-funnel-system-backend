@@ -39,7 +39,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/user/get_bdm_list', 'UserController@get_bdm_list');
     // SY Ends
 
-
     Route::get('/pre_filter', 'ApplicantController@preFilterPage');
     Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');
     Route::get('/pmli_filter', 'ApplicantController@pmliFilter');
