@@ -16,7 +16,16 @@ class PaymentController extends Controller
      */
     public function index(Request $request)
     {
-        $payments = Payment::with('partner')->paginate(20);
+        $company = $request->company;
+
+        $payments = Payment::with('partner');
+        if(!empty($company)) { 
+            $payments->whereHas('partner', function($payments) use($company){
+                $payments->where('company_name', 'like', '%'.$company.'%');
+            });
+        }
+        
+        $payments = $payments->paginate(20);
 
         return view('pages.payments.index', compact('payments'));
     }
