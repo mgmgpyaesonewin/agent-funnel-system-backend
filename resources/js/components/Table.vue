@@ -13,6 +13,7 @@
           :options="users"
           :show-labels="false"
           :allow-empty="false"
+          openDirection="bottom"
           track-by="id"
           label="name"
           deselect-label="You must choose at least one user"
