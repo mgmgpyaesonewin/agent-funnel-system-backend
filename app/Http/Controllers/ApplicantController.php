@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
 use App\Interview;
 use App\Mail\SendStatusNotification;
@@ -11,11 +12,62 @@ use App\Partner;
 use App\Status;
 use App\Training;
 use Carbon\Carbon;
+use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Log;
+use Illuminate\Support\Str;
 
 class ApplicantController extends Controller
 {
+    public function test(Request $req)
+    {
+        // dd($req->all);
+        // return $req->pdf;
+        $appli = Applicant::where('temp_id', $req->id)->first();
+        $url =  Storage::disk('local')->put('contracts', $req->pdf);
+        $appli->pdf = $url;
+        $appli->save();
+        return $url;
+    }
+    public function Access_SignBoard(Request $req)
+    {
+        $appli = Applicant::where('uuid', $req->id)->first();
+        if ($appli) {
+            return ['message' => 'valid'];
+        }
+        return response(['message' => 'invalid'], 422);
+    }
+    public function bank_info_update(Request $req)
+    {
+        $appli = Applicant::find($req->id);
+        $data['bank_account_no'] = $req->account_no;
+        $data['bank_account_name'] = $req->name;
+        $data['bank_name'] = $req->bank_name;
+        $data['license_no'] = $req->license_number;
+        // // return $data;
+        $files = $req->file('license_photo');
+        if ($req->hasFile('license_photo')) {
+            foreach ($files as $key => $file) {
+                $index = $key + 1;
+                $url =  Storage::disk('local')->put('licenses', $file);
+                $data['license_photo_' . $index] = $url;
+            }
+        }
+        $appli->update($data);
+
+        return $appli;
+    }
+
+    public function login(Request $req)
+    {
+        // return $req->all();
+        $valid_appli =  Applicant::where('temp_id', $req->tempid)
+            ->where('dob', $req->dob)
+            ->first();
+        if ($valid_appli) return $valid_appli;
+        return response(['message' => 'Invalid ID or Date of Birth'], 401);
+    }
     public function leadPage(Request $request)
     {
         $statuses = Status::whereIn('id', [1, 4])->get();
@@ -38,7 +90,7 @@ class ApplicantController extends Controller
         $applicant->current_status = 'lead';
         $applicant->status_id = '1';
 
-        if (null != auth()->user()->partner_id) {
+        if (auth()->user()->partner_id != null) {
             $partner = Partner::find(auth()->user()->partner_id);
             $applicant->utm_source = $partner->company_name;
         }
@@ -54,6 +106,18 @@ class ApplicantController extends Controller
 
         return view('pages.applicants.pre_filter', compact('statuses'));
     }
+
+    public function createuser(UserApiRequest $req)
+    {
+        // return $req->validated();
+        // dd();
+        $data = $req->validated();
+        $data['current_status'] = 'lead';
+        $data['status_id'] = 1;
+        $data['uuid'] =   (string) Str::uuid();
+        return   Applicant::create($data);
+    }
+
 
     public function pruDNAFilter(Request $request)
     {
@@ -103,7 +167,7 @@ class ApplicantController extends Controller
             ->with('admin', 'bdm', 'ma', 'staff', 'partner')
             ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
-            ->filter($request->name, $request->phone)
+            ->filter($request->name, $request->phone, $request->aml_status, $request->date)
             ->orderBy('id')
             ->select(
                 'id',
@@ -140,9 +204,10 @@ class ApplicantController extends Controller
 
         Interview::create($record);
 
-        // Set state from Passed to Interview Sent
+        // Set state from Passed to PMLI Stage
         Applicant::where('id', $applicant_id)->update([
-            'status_id' => 6,
+            'current_status' => 'pmli_filter',
+            'status_id' => 1,
         ]);
 
         // Mail::to($applicant->email)->send(new SendWebinarNotification($applicant));
@@ -285,6 +350,20 @@ class ApplicantController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Successfully Saved',
+        ]);
+    }
+
+    public function saveELearningInfo(Request $request)
+    {
+        Applicant::where('id', $request->id)->update([
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'e_learning' => $request->url,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully saved',
         ]);
     }
 }

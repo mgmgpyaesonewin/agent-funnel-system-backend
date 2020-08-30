@@ -35,20 +35,12 @@
                                         new-status-id="5" :applicant-id="applicant.id">
                                         Pass
                                     </v-button>
-                                    <div class="btn-group mt-1" v-show="applicant.status_id === 6">
-                                        <v-button button-class="btn btn-success"
-                                            :old-current-status="applicant.current_status"
-                                            :old-status-id="applicant.status_id" new-current-status="pmli_filter"
-                                            new-status-id="1" :applicant-id="applicant.id">
-                                            <i class="fa fa-check" aria-hidden="true"></i>
-                                        </v-button>
-                                        <v-button button-class="btn btn-danger"
-                                            :old-current-status="applicant.current_status"
-                                            new-current-status="pru_dna_test" :old-status-id="applicant.status_id"
-                                            new-status-id="4" :applicant-id="applicant.id">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                        </v-button>
-                                    </div>
+                                    <v-button button-class="btn btn-danger" v-show="applicant.status_id === 1"
+                                        :old-current-status="applicant.current_status" new-current-status="pru_dna_test"
+                                        :old-status-id="applicant.status_id" new-status-id="4"
+                                        :applicant-id="applicant.id">
+                                        Fail
+                                    </v-button>
                                 </td>
                             </template>
                         </v-table>

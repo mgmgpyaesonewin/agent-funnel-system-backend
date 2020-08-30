@@ -12,9 +12,8 @@
 */
 
 // use Illuminate\Routing\Route;
-
+// Route::get('download_contract', 'ApplicantController@download_contract');
 Auth::routes(['register' => false]);
-
 Route::group(['middleware' => 'auth'], function () {
     // Route url
     Route::get('/', 'DashboardController@dashboardAnalytics')->name('home');
@@ -39,7 +38,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/api/user/get_bdm_list', 'UserController@get_bdm_list');
     // SY Ends
 
-
     Route::get('/pre_filter', 'ApplicantController@preFilterPage');
     Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');
     Route::get('/pmli_filter', 'ApplicantController@pmliFilter');
@@ -50,6 +48,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/contract', 'ApplicantController@contractPage');
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
+    Route::get('/setting/applicants/export', 'ExportController@applicantsExport');
+    Route::post('/setting/applicants/import', 'ExportController@applicantsImport');
 
     Route::get('template/edit/{id}', 'TemplateFormController@edit');
     Route::post('template/activate/{id}', 'TemplateFormController@activate');

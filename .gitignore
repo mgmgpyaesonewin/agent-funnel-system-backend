@@ -17,3 +17,4 @@ codealike.json
 _ide_helper.php
 .phpstorm.meta.php
 public/mix-manifest.json
+storage/framework/laravel-excel

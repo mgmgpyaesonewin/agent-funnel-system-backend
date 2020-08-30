@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class TemplateForm extends Model
 {
-    
-    protected $guarded= [];
+    protected $guarded = [];
 
     protected $casts = [
-        'email' => 'boolean'
+        'email' => 'boolean',
+        'additional_info' => 'array',
     ];
 }
