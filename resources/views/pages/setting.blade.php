@@ -16,7 +16,6 @@
           </li>
           <li class="list-group-item">
             <span class="float-right">
-              {{-- <a href="{{ url('setting/applicants/import')}}" class="btn btn-warning">Import</a> --}}
               <form action="{{ url('setting/applicants/import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -26,7 +25,7 @@
                   </div>
 
                   <div class="col-md-6">
-                    <button type="submit" class="btn btn-success">Upload</button>
+                    <button type="submit" class="btn btn-warning">Upload</button>
                   </div>
 
                 </div>
