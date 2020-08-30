@@ -3,42 +3,55 @@
 @section('title')System Configuration @endsection
 
 @section('content')
-<form action="{{ url('/setting/update_setting') }}" method="post">
-  {{ csrf_field() }}
+<div class="row justify-content-center">
+  <div class="col-10">
+    <div class="card">
+      <div class="card-content">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <span class="float-right">
+              <a href="{{ url('setting/applicants/export')}}" class="btn btn-info">Export</a>
+            </span>
+            Download Applicants Information
+          </li>
+          <li class="list-group-item">
+            <span class="float-right">
+              {{-- <a href="{{ url('setting/applicants/import')}}" class="btn btn-warning">Import</a> --}}
+              <form action="{{ url('setting/applicants/import') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
 
-  <div class="row justify-content-center">
-    <div class="col-10">
-      <div class="card">
-        <div class="card-content">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              <span class="float-right">
-                <a href="{{ url('setting/applicants/export')}}" class="btn btn-info">Export</a>
-              </span>
-              Download Applicants Information
-            </li>
-            <li class="list-group-item">
-              <span class="float-right">
-                <a href="{{ url('training/export')}}" class="btn btn-warning">Import</a>
-              </span>
-              Update Applicants Information
-            </li>
-          </ul>
-        </div>
+                  <div class="col-md-6">
+                    <input type="file" name="file" class="form-control">
+                  </div>
+
+                  <div class="col-md-6">
+                    <button type="submit" class="btn btn-success">Upload</button>
+                  </div>
+
+                </div>
+              </form>
+            </span>
+            Update Applicants Information
+          </li>
+        </ul>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="row justify-content-center">
-    <div class="col-10">
-      @if (session()->has('status'))
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <p class="mb-0">{{ session('status') }}</p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-      @endif
+<div class="row justify-content-center">
+  <div class="col-10">
+    @if (session()->has('status'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <p class="mb-0">{{ session('status') }}</p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    @endif
+    <form action="{{ url('/setting/update_setting') }}" method="post">
+      {{ csrf_field() }}
       <div class="card">
         <div class="card-content">
           <div class="card-body">
@@ -111,7 +124,7 @@
 
         </div>
       </div>
-    </div>
   </div>
+</div>
 </form>
 @endsection

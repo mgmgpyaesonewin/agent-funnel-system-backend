@@ -15,7 +15,7 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            '#',
+            'No',
             'Name',
             'Phone',
             'Email',

@@ -7,7 +7,7 @@ use App\Setting;
 
 class SendViberNotification
 {
-    protected $text;
+    protected $text = 'default text';
 
     /**
      * Handle the event.
