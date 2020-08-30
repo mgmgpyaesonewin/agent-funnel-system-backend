@@ -4,12 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PartnerRequest;
 use App\Partner;
+use Illuminate\Http\Request;
 
 class PartnerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $partners = Partner::with('users')->paginate(20);
+        $name = $request->name;
+        $company = $request->company;
+    
+        $partners = Partner::with('users');
+
+        if(!empty($name)) {            
+            $partners->where('pic_name', 'like', '%'.$name.'%');
+        }
+
+        if(!empty($company)) { 
+            $partners->where('company_name', 'like', '%'.$company.'%');
+        }
+        
+        $partners = $partners->orderBy('id', 'desc')->paginate(20);
 
         return view('pages.partners.index', compact('partners'));
     }

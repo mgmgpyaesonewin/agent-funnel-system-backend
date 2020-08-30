@@ -9,6 +9,49 @@
 @section('title', 'Users Information')
 
 @section('content')
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <form action="{{ url('/users') }}" method="get">
+                    <div class="d-flex">
+                        <div class="px-2">
+                            <fieldset class="form-group">
+                                <label for="name">User Name</label> 
+                                <input type="text" name="name" placeholder="User Name" class="form-control" value="{{ app('request')->input('name') }}">
+                            </fieldset>
+                        </div>
+                        <div class="px-2">
+                            <fieldset class="form-group">
+                                <label for="name">Email</label> 
+                                <input type="text" name="email" placeholder="Email" class="form-control" value="{{ app('request')->input('email') }}">
+                            </fieldset>
+                        </div>
+                        <div class="px-2">
+                            <fieldset class="form-group">
+                                <label for="partner">Partner Company</label> 
+                                <input type="text" name="partner" placeholder="Partner Company Name" class="form-control" value="{{ app('request')->input('partner') }}">
+                            </fieldset>
+                        </div>
+         
+                    
+                        <div class="px-2">
+                            <div class="row mt-2">
+                            <button type="submit" class="btn btn-primary"> Search </button>
+                            </div>
+                        </div>
+
+                        </div>        
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -37,7 +80,7 @@
                                 <th scope="row">{{$user->id}}</th>
                                 <td class="">{{$user->name}}</td>
                                 <td class="">{{$user->email}}</td>
-                                <td class="">{{ $user->partner->company_name ?? 'Site Admin' }}</td>
+                                <td class="">{{ $user->partner->company_name ?? '-' }}</td>
                                 <td class="">{{$user->role}}</td>
                                 <td class="d-flex">
                                     <a href="{{route('users.edit',$user->id)}}" class="btn btn-warning mr-4">Edit</a>
