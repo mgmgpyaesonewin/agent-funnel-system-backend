@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/contract', 'ApplicantController@contractPage');
 
     Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
+    Route::get('/setting/applicants/export', 'ExportController@applicantsExport');
 
     Route::get('template/edit/{id}', 'TemplateFormController@edit');
     Route::post('template/activate/{id}', 'TemplateFormController@activate');
