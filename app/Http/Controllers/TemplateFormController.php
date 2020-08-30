@@ -16,10 +16,14 @@ class TemplateFormController extends Controller
     public function index()
     {
         $templates = TemplateForm::all();
-
         return view('pages.templateform.index', compact('templates'));
     }
 
+    public function getform()
+    {
+        $templates = TemplateForm::where('active', true)->first();
+        return $templates;
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -29,7 +33,6 @@ class TemplateFormController extends Controller
     {
         return view('pages.templateform.create');
     }
-
     public function activate(Request $req)
     {
         TemplateForm::where('id', '!=', $req->id)->update(['active' => false]);

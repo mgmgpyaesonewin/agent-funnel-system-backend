@@ -12,9 +12,8 @@
 */
 
 // use Illuminate\Routing\Route;
-
+// Route::get('download_contract', 'ApplicantController@download_contract');
 Auth::routes(['register' => false]);
-
 Route::group(['middleware' => 'auth'], function () {
     // Route url
     Route::get('/', 'DashboardController@dashboardAnalytics')->name('home');

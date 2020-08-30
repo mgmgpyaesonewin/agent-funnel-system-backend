@@ -59,8 +59,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Applicant extends Model
 {
-    protected $fillable = ['temp_id', 'username', 'password', 'e_learning'];
-
+    // protected $fillable = ['temp_id'];
+    protected $guarded = [];
     protected $casts = [
         'education' => 'array',
         'working_experience' => 'array',
