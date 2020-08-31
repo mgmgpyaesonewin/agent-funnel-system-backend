@@ -22,7 +22,7 @@
                 <div class="row">
 
                   <div class="col-md-6">
-                    <input type="file" name="file" class="form-control" required>
+                    <input type="file" name="file" class="form-control">
                   </div>
 
                   <div class="col-md-6">
