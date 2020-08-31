@@ -7,6 +7,12 @@
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.
         </h5>
       </div>
+      <div class="col-3" v-show="amlStatus && isPartner == 0">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
+          <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
+        </div>
+      </div>
       <div v-show="userAssign === true && isPartner == 0" class="col-3">
         <multi-select
           v-model="selectedUser"
@@ -25,12 +31,6 @@
             is assign as {{ option.role }}
           </template>
         </multi-select>
-      </div>
-      <div class="col-2" v-show="amlStatus && isPartner == 0">
-        <div class="btn-group">
-          <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
-          <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
-        </div>
       </div>
     </div>
     <table class="table">
@@ -83,7 +83,7 @@
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
           <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }}</td>
-          <td v-show="isPartner == 0">
+          <td v-show="isPartner == 0 && amlStatus != 'Pending'">
             <slot :applicant="applicant"></slot>
           </td>
         </tr>

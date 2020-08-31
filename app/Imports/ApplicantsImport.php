@@ -27,6 +27,7 @@ class ApplicantsImport implements ToModel, WithHeadingRow
                 'nrc' => $row['nrc'],
                 'address' => $row['address'],
                 'dob' => $row['dob'],
+                'aml_check' => $row['aml_check'],
                 'current_status' => $row['current_stage'],
                 'status_id' => Status::where('title', $row['status'])->first()->id ?? null,
                 'partner_id' => Partner::where('company_name', $row['partner'])->first()->partner ?? null,

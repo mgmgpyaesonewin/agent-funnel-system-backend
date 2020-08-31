@@ -23,6 +23,7 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
             'NRC',
             'Address',
             'DOB',
+            'AML Check',
             'Current Stage',
             'Status',
             'Partner',
@@ -40,8 +41,9 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
             $applicant->nrc,
             $applicant->address,
             $applicant->dob,
+            $applicant->aml_check,
             $applicant->current_status,
-            $applicant->statuses->last()->title ?? '-',
+            $applicant->statuses->last()->title ?? 'New',
             $applicant->partner->company_name ?? '-',
         ];
     }
@@ -60,6 +62,7 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
             'nrc',
             'address',
             'dob',
+            'aml_check',
             'current_status',
             'status_id',
             'partner_id'
