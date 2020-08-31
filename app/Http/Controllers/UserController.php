@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function users()
     {
-        $users = User::all();
+        $users = User::whereNull('partner_id')->get();
 
         return UserResource::collection($users);
     }
