@@ -18,7 +18,7 @@ class SendViberNotification
             $attributes = $event->applicant->getDirty();
             // Stage 3
             if ('pre_filter' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
-                $route = env('FRONT_END_URL').'/applicants/detail/'.$event->applicant->id;
+                $route = env('FRONT_END_URL').'/applicants/'.$event->applicant->uuid;
                 $link = $route;
                 $this->text = Setting::where('meta_key', 'cv_form_msg')->first()->meta_value."{$link}";
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
