@@ -7,7 +7,7 @@
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.
         </h5>
       </div>
-      <div v-show="userAssign === true" class="col-3">
+      <div v-show="userAssign === true && isPartner == 0" class="col-3">
         <multi-select
           v-model="selectedUser"
           :options="users"
@@ -26,7 +26,7 @@
           </template>
         </multi-select>
       </div>
-      <div class="col-2" v-show="amlStatus">
+      <div class="col-2" v-show="amlStatus && isPartner == 0">
         <div class="btn-group">
           <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
           <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
@@ -36,7 +36,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th v-show="assignCheckbox === true"></th>
+          <th v-show="assignCheckbox === true  && isPartner == 0"></th>
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
@@ -52,7 +52,7 @@
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-show="assignCheckbox === true">
+          <td v-show="assignCheckbox === true  && isPartner == 0">
             <fieldset v-show="applicant.status_id === 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />

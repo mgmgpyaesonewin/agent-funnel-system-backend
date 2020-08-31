@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Pending Applicants')
+@section('title', 'Background Check')
 
 @section('content')
 
