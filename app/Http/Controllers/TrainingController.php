@@ -10,7 +10,7 @@ use App\Training;
 use Illuminate\Http\Request;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Modules\Exports\MultiGraphExport;
+use App\Exports\MultiGraphExport;
 
 class TrainingController extends Controller
 {

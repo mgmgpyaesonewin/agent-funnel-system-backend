@@ -14,6 +14,7 @@
             </span>
             Download Applicants Information
           </li>
+          @if (Auth::user()->partner_id =="")
           <li class="list-group-item">
             <span class="float-right">
               <form action="{{ url('setting/applicants/import') }}" method="POST" enctype="multipart/form-data">
@@ -33,12 +34,13 @@
             </span>
             Update Applicants Information
           </li>
+          @endif
         </ul>
       </div>
     </div>
   </div>
 </div>
-
+@if (Auth::user()->partner_id =="")
 <div class="row justify-content-center">
   <div class="col-10">
     @if (session()->has('status'))
@@ -125,5 +127,6 @@
       </div>
   </div>
 </div>
+@endif
 </form>
 @endsection

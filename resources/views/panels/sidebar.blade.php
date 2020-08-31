@@ -19,9 +19,11 @@ $configData = Helper::applClasses();
       @if(isset($menuData[0]))
       @foreach($menuData[0]->menu as $menu)
       @if(isset($menu->navheader))
+      @if($menu->role == 'all' || $menu->role == 'staff' && Auth::user()->partner_id == '')      
       <li class="navigation-header">
         <span>{{ $menu->navheader }}</span>
       </li>
+      @endif
       @else
       {{-- Add Custom Class with nav-item --}}
       @php
@@ -34,6 +36,7 @@ $configData = Helper::applClasses();
       $translation = $menu->i18n;
       }
       @endphp
+      @if($menu->role == 'all' || $menu->role == 'staff' && Auth::user()->partner_id == '')   
       <li class="nav-item {{ (request()->is($menu->url)) ? 'active' : '' }} {{ $custom_classes }}">
         <a href="{{ $menu->url }}">
           <i class="{{ $menu->icon }}"></i>
@@ -48,6 +51,7 @@ $configData = Helper::applClasses();
         @include('panels/submenu', ['menu' => $menu->submenu])
         @endif
       </li>
+      @endif
       @endif
       @endforeach
       @endif

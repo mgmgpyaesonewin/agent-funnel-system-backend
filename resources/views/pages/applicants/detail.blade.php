@@ -74,7 +74,7 @@
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Prefered Name:</h6>
-                            <p class="col-md-6">{{ $applicant->name }}</p>
+                            <p class="col-md-6">{{ $applicant->preferred_name }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Phone:</h6>
@@ -82,7 +82,7 @@
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Secondary Phone:</h6>
-                            <p class="col-md-6">{{ $applicant->phone }}</p>
+                            <p class="col-md-6">{{ $applicant->secondary_phone }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Email:</h6>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Marital Status:</h6>
-                            <p class="col-md-6">Single</p>
+                            <p class="col-md-6">{{ ($applicant->married == '1' ? 'Married' : 'Single') }}</p>
                         </div>
                     </div>
                 </div>
@@ -126,12 +126,12 @@
                             <p class="col-md-6">SanChaung</p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-4">MM Citizen:</h6>
-                            <p class="col-md-6">Yes</p>
+                            <h6 class="col-md-4">Myanmar Citizen:</h6>
+                            <p class="col-md-6">{{ ($applicant->myanmar_citizen == '1' ? 'Yes' : 'No') }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Race:</h6>
-                            <p class="col-md-6">Myanmar</p>
+                            <p class="col-md-6">{{ $applicant->race }}</p>
                         </div>
                     </div>
                 </div>
