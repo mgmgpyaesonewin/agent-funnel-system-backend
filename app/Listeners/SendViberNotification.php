@@ -19,7 +19,7 @@ class SendViberNotification
             // Stage 3
             if ('pre_filter' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
                 $route = env('FRONT_END_URL').'/applicants/detail/'.$event->applicant->id;
-                $link = "<a href='{$route}'>".$route.'</a>';
+                $link = $route;
                 $this->text = Setting::where('meta_key', 'cv_form_msg')->first()->meta_value."{$link}";
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
             }
@@ -33,7 +33,7 @@ class SendViberNotification
             // Stage 9
             if ('onboard' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
                 $route = env('FRONT_END_URL').'/login';
-                $link = "<a href='{$route}'>".$route.'</a>';
+                $link = $route;
                 $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."It will take you to fill your license forms.{$link}";
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
             }
@@ -41,7 +41,7 @@ class SendViberNotification
             // View Payment
             if ('pmli_filter' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
                 $route = env('FRONT_END_URL').'/login';
-                $link = "<a href='{$route}'>".$route.'</a>';
+                $link = $route;
                 $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."It will take you to fill your payment forms.{$link}";
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
             }
