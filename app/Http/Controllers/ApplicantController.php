@@ -220,6 +220,10 @@ class ApplicantController extends Controller
         ]);
 
         // Mail::to($applicant->email)->send(new SendWebinarNotification($applicant));
+        $applicant = Applicant::where('id', $applicant_id)->first();
+
+        // Stage 5
+        notified_applicant_via_viber($applicant->phone, "{$appointment}, {$request->url}");
 
         return response()->json([
             'status' => true,
@@ -369,6 +373,10 @@ class ApplicantController extends Controller
             'password' => Hash::make($request->password),
             'e_learning' => $request->url,
         ]);
+
+        // Send E-Learning Info
+        $applicant = Applicant::where('id', $request->id)->first();
+        notified_applicant_via_viber($applicant->phone, "E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}");
 
         return response()->json([
             'status' => true,
