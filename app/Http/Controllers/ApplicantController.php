@@ -96,6 +96,7 @@ class ApplicantController extends Controller
         $applicant->phone = $request->phone;
         $applicant->dob = $request->dob;
         $applicant->gender = $request->gender;
+        $applicant->uuid = (string) Str::uuid();
         $applicant->current_status = 'lead';
         $applicant->status_id = '1';
 
