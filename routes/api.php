@@ -24,6 +24,7 @@ Route::post('/createuser', 'ApplicantController@createuser');
 Route::post('/pdf/{id}', 'ApplicantController@test');
 Route::post('sign_check', 'ApplicantController@Access_SignBoard');
 Route::post('/bank_update/{id}', 'ApplicantController@bank_info_update');
+Route::post('/payment', 'ApplicantController@savePayment');
 
 Route::post('/login', 'ApplicantController@login');
 
