@@ -118,9 +118,8 @@ class ApplicantController extends Controller
 
     public function createuser(UserApiRequest $req)
     {
-        // return $req->validated();
-        // dd();
         $data = $req->validated();
+        $data['phone'] = str_replace('-', '', $data['phone']);
         $data['current_status'] = 'lead';
         $data['status_id'] = 1;
         $data['uuid'] = (string) Str::uuid();
