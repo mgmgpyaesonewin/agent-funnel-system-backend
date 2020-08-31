@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Applicant;
 use App\Http\Requests\Template;
 use App\TemplateForm;
 use Illuminate\Http\Request;
@@ -18,11 +19,18 @@ class TemplateFormController extends Controller
         $templates = TemplateForm::all();
         return view('pages.templateform.index', compact('templates'));
     }
-
-    public function getform()
+    public function getform(Request $req)
     {
         $templates = TemplateForm::where('active', true)->first();
-        return $templates;
+
+        $applicant = Applicant::where('uuid', $req->id)->first();
+        if ($applicant) {
+            return [
+                'template' => $templates,
+                'applicant' => $applicant
+            ];
+        }
+        return response('[]', 404);
     }
     /**
      * Show the form for creating a new resource.
