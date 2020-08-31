@@ -30,7 +30,7 @@ export default {
         confirmButtonText: "Yes, update it!",
       }).then((result) => {
         if (result.value) {
-          if (this.eLearning) {
+          if (this.eLearning && this.newStatusId == 3) {
             this.$swal
               .fire({
                 title: "Enter your e-learing URL",
