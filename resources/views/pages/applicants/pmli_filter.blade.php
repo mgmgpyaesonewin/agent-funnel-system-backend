@@ -50,8 +50,8 @@
                                                 Approve
                                             </span>
                                         </v-button>
-                                        <a href="/payment/view" v-show="applicant.status_id === 11"
-                                            class="btn btn-primary">View</a>
+                                        <v-payment :image="applicant.payment" v-show="applicant.status_id === 11">
+                                        </v-payment>
                                         <v-button button-class="btn btn-danger" v-show="applicant.status_id === 1"
                                             :old-current-status="applicant.current_status"
                                             new-current-status="pmli_filter" :old-status-id="applicant.status_id"

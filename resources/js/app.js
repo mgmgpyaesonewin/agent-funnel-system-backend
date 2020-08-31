@@ -51,6 +51,7 @@ Vue.component(
   "v-template-add-more-input",
   require("./components/AddMoreInput.vue").default
 );
+Vue.component("v-payment", require("./components/Payment.vue").default);
 
 Vue.prototype.$location = window.location;
 

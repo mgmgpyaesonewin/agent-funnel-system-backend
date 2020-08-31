@@ -131,7 +131,8 @@ class ApplicantController extends Controller
         $file = $request->file('file');
 
         $applicant = Applicant::where('nrc', $request->nrc)->first();
-        $url = Storage::disk('local')->put('payments', $file);
+        $url = Storage::disk('public')->put('payments', $file);
+
         $applicant->payment = $url;
         $applicant->save();
 
@@ -206,7 +207,8 @@ class ApplicantController extends Controller
                 'assign_bdm_id',
                 'assign_ma_id',
                 'assign_staff_id',
-                'partner_id'
+                'partner_id',
+                'payment'
             )->paginate(35);
 
         return ApplicantResource::collection($applicants);

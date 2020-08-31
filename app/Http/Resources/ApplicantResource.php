@@ -31,6 +31,7 @@ class ApplicantResource extends JsonResource
             'ma' => new UserResource($this->ma),
             'staff' => new UserResource($this->staff),
             'partner' => new PartnerResource($this->partner),
+            'payment' => asset('storage/'.$this->payment),
         ];
     }
 }
