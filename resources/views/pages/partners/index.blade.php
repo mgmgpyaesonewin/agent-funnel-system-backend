@@ -12,6 +12,42 @@
 
 @section('content')
 {{-- {{ dd($partners) }} --}}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <form action="{{ url('/partners') }}" method="get">
+                    <div class="d-flex">
+                        <div class="px-2">
+                            <fieldset class="form-group">
+                                <label for="name">Name</label> 
+                                <input type="text" name="name" placeholder="Name" class="form-control" value="{{ app('request')->input('name') }}">
+                            </fieldset>
+                        </div>
+                        <div class="px-2">
+                            <fieldset class="form-group">
+                                <label for="partner">Company Name</label> 
+                                <input type="text" name="company" placeholder="Company Name" class="form-control" value="{{ app('request')->input('company') }}">
+                            </fieldset>
+                        </div>
+         
+                    
+                        <div class="px-2">
+                            <div class="row mt-2">
+                            <button type="submit" class="btn btn-primary"> Search </button>
+                            </div>
+                        </div>
+
+                        </div>        
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -44,11 +80,11 @@
                                 <td class="">{{$partner->company_name}}</td>
                                 <td class="d-flex">
                                     <a href="{{route('partners.edit',$partner->id)}}"
-                                        class="btn btn-primary mr-4">Edit</a>
+                                        class="btn btn-warning mr-4">Edit</a>
                                     <form method="POST" action="{{route('partners.destroy',$partner->id)}}">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-secondary">Delete</button>
                                 </td>
                                 </form>
                             </tr>

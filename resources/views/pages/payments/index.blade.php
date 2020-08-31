@@ -11,7 +11,37 @@
 @endsection
 
 @section('content')
-{{-- {{ dd($partners) }} --}}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <form action="{{ url('/payments') }}" method="get">
+                    <div class="d-flex">
+                        <div class="px-2">
+                            <fieldset class="form-group">
+                                <label for="partner">Partner Company Name</label> 
+                                <input type="text" name="company" placeholder="Partner Company Name" class="form-control" value="{{ app('request')->input('company') }}">
+                            </fieldset>
+                        </div>
+         
+                    
+                        <div class="px-2">
+                            <div class="row mt-2">
+                            <button type="submit" class="btn btn-primary"> Search </button>
+                            </div>
+                        </div>
+
+                        </div>        
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -42,11 +72,11 @@
                                 <td class="">{{$payment->partner->company_name}}</td>
                                 <td class="d-flex">
                                     <a href="{{route('payments.edit',$payment->id)}}"
-                                        class="btn btn-primary mr-4">Edit</a>
+                                        class="btn btn-warning mr-4">Edit</a>
                                     <form method="POST" action="{{route('payments.destroy',$payment->id)}}">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-danger">Delete</button>
+                                        <button class="btn btn-secondary">Delete</button>
                                 </td>
                                 </form>
                             </tr>

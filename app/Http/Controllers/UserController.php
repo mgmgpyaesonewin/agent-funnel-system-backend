@@ -31,8 +31,28 @@ class UserController extends Controller
     }
 
     public function index(Request $request)
-    {
-        $users = User::with('partner')->paginate(20);
+    { 
+        $name = $request->name;
+        $partner = $request->partner;
+        $email = $request->email;
+    
+        $users = User::with('partner');
+
+        if(!empty($name)) {            
+            $users->where('name', 'like', '%'.$name.'%');
+        }
+
+        if(!empty($email)) {            
+            $users->where('email', '=', $email);
+        }
+
+        if(!empty($partner)) { 
+            $users->whereHas('partner', function($users) use($partner){
+                $users->where('company_name', 'like', '%'.$partner.'%');
+            });
+        }
+
+       $users = $users->paginate(20);
 
         return view('pages.users.index', compact('users'));
     }
