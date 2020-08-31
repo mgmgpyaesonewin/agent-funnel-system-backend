@@ -9,8 +9,8 @@ use App\Http\Resources\TrainingResource;
 use App\Training;
 use Illuminate\Http\Request;
 
+use App\Exports\TrainingExport;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\MultiGraphExport;
 
 class TrainingController extends Controller
 {
@@ -24,7 +24,10 @@ class TrainingController extends Controller
 
     public function export($id)
     {
-        $completed = Training::with('applicants')->find($id);
+        $completed = Training::with(array('applicants'=>function($query){
+            $query->select('name','phone');
+        }))->find($id);
+        
         $training = $completed->name;
         $assigned = DB::table('applicants')    
                     ->select('name', 'phone')                
@@ -32,9 +35,9 @@ class TrainingController extends Controller
                     ->where('applicants.current_status', 'training')
                     ->whereRaw('(applicant_training.applicant_id IS NULL OR applicant_training.training_id != '.$id.')')
                     ->get();
-        
+                    //dd($completed->applicants);
         // TODO: export excel
-        return Excel::download(new MultiGraphExport($completed, $assigned, $training), 'ApplicantTrainingDetails.xlsx');
+        return Excel::download(new TrainingExport($completed->applicants, $assigned, $training), 'ApplicantTrainingDetails.xlsx');
     }
 
     public function getAllTrainings(Request $request)

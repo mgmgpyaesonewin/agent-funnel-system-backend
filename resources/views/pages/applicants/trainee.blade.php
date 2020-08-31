@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Trainee Filter')
+@section('title', 'Training Stage')
 
 @section('content')
 {{-- Dashboard Analytics Start --}}

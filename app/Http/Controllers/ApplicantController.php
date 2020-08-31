@@ -129,42 +129,42 @@ class ApplicantController extends Controller
 
     public function pruDNAFilter(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1,4,5])->get();
 
         return view('pages.applicants.pru_dna_filter', compact('statuses'));
     }
 
     public function pmliFilter(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1,4])->get();
 
         return view('pages.applicants.pmli_filter', compact('statuses'));
     }
 
     public function onboardedPage(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1,4])->get();
 
         return view('pages.applicants.onboarded', compact('statuses'));
     }
 
     public function traineePage(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1,4])->get();
 
         return view('pages.applicants.trainee', compact('statuses'));
     }
 
     public function certificationPage(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1,4])->get();
 
         return view('pages.applicants.certification', compact('statuses'));
     }
 
     public function contractPage(Request $request)
     {
-        $statuses = Status::get();
+        $statuses = Status::whereIn('id', [1,8,9,10])->get();
 
         return view('pages.applicants.contract', compact('statuses'));
     }

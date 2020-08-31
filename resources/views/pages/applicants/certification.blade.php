@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Certification Fitler')
+@section('title', 'Certification')
 
 @section('content')
 {{-- Dashboard Analytics Start --}}
