@@ -26,8 +26,51 @@ class ApplicantController extends Controller
         $url = Storage::disk('public')->put('contracts', $req->pdf);
         $appli->pdf = $url;
         $appli->save();
-
         return $url;
+    }
+
+    public function detail(Request $req)
+    {
+
+        // return $req->file('nrc_back');
+        $appli = Applicant::where('uuid', $req->id)->first();
+        $appli->name = $req->name;
+        $appli->dob = $req->dob;
+        $appli->phone = $req->phone;
+        $appli->secondary_phone = $req->alternate_no;
+        $appli->gender = $appli->gender;
+        $appli->preferred_name = $req->preferred_name;
+        $appli->nrc = $req->nrc;
+        $file = $req->file('nrc_front');
+        if ($req->hasFile('nrc_front')) {
+            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $appli->nrc_front_img = $url;
+        }
+        $file = $req->file('nrc_back');
+        if ($req->hasFile('nrc_back')) {
+            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $appli->nrc_back_img = $url;
+        }
+        $appli->myanmar_citizen = $req->myanmar_citizen;
+        $appli->citizen = $req->citizen;
+        $appli->race = $req->race;
+        $appli->married = $req->marital_status;
+        $appli->address = $req->address;
+
+        $appli->city_id = $req->city;
+        $appli->township_id - $req->township;
+        $appli->education = $req->highest_qualification;
+        $appli->email = $req->email;
+        $appli->accept_t_n_c = 1;
+        $appli->save();
+        return $appli;
+    }
+    public function spouse_update(Request $req)
+    {
+        // return $req->all();
+        $appli = Applicant::where('uuid', $req->id)->first();
+        $appli->update(collect($req->spouse)->except('term_condition')->toArray());
+        return $appli;
     }
 
     public function Access_SignBoard(Request $req)
@@ -36,7 +79,6 @@ class ApplicantController extends Controller
         if ($appli) {
             return ['message' => 'valid'];
         }
-
         return response(['message' => 'invalid'], 422);
     }
 
@@ -66,8 +108,7 @@ class ApplicantController extends Controller
         // return $req->all();
         $valid_appli = Applicant::where('temp_id', $req->tempid)
             ->where('dob', $req->dob)
-            ->first()
-        ;
+            ->first();
         if ($valid_appli) {
             return $valid_appli;
         }
