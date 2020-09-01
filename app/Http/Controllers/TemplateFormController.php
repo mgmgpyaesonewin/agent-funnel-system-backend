@@ -6,6 +6,7 @@ use App\Applicant;
 use App\Http\Requests\Template;
 use App\TemplateForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TemplateFormController extends Controller
 {
@@ -14,6 +15,37 @@ class TemplateFormController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getCity(Request $req)
+    {
+        $lang_id = $req->lang === 'my' ? 3 : 1;
+        $cities = DB::table('city_descriptions')
+            ->select('c_id as value', 'name as text')
+            ->where('languages_id', $lang_id)->get();
+
+        return $cities;
+    }
+
+    public function getTownship(Request $req)
+    {
+        $city_id = $req->id;
+        $lang_id = $req->lang === 'my' ? 3 : 1;
+
+        $townships = DB::table('townships')
+            ->where('city_id', $city_id)
+            ->join('township_descriptions', 'townships.id', 'township_descriptions.townships_id')
+            ->where('language_id', $lang_id)
+            ->select('townships_id as value', 'description_name as text')
+            ->get();
+        // $townships = $townships->map(function ($township) {
+        //     return [
+        //         'city_id' => $township->city_id,
+        //         'township_id' => $township->id,
+        //         'township_description' => $township->description[0]->description_name,
+        //     ];
+        // });
+
+        return $townships;
+    }
     public function index()
     {
         $templates = TemplateForm::all();

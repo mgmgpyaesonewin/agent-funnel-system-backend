@@ -22,14 +22,18 @@ class ApplicantController extends Controller
 {
     public function test(Request $req)
     {
-        // dd($req->all);
-        // return $req->pdf;
-        $appli = Applicant::where('temp_id', $req->id)->first();
+        $appli = Applicant::where('uuid', $req->id)->first();
+        // return $appli;
         $url = Storage::disk('local')->put('contracts', $req->pdf);
         $appli->pdf = $url;
         $appli->save();
-
         return $url;
+    }
+    public function detail(Request $req)
+    {
+        $appli = Applicant::where('uuid', $req->id)->first();
+        $appli->update($req->spouse);
+        return $appli;
     }
 
     public function Access_SignBoard(Request $req)
@@ -38,7 +42,6 @@ class ApplicantController extends Controller
         if ($appli) {
             return ['message' => 'valid'];
         }
-
         return response(['message' => 'invalid'], 422);
     }
 
@@ -55,7 +58,7 @@ class ApplicantController extends Controller
             foreach ($files as $key => $file) {
                 $index = $key + 1;
                 $url = Storage::disk('local')->put('licenses', $file);
-                $data['license_photo_'.$index] = $url;
+                $data['license_photo_' . $index] = $url;
             }
         }
         $appli->update($data);
@@ -68,8 +71,7 @@ class ApplicantController extends Controller
         // return $req->all();
         $valid_appli = Applicant::where('temp_id', $req->tempid)
             ->where('dob', $req->dob)
-            ->first()
-        ;
+            ->first();
         if ($valid_appli) {
             return $valid_appli;
         }
