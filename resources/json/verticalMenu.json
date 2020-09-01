@@ -3,106 +3,109 @@
     {
       "url": "",
       "navheader": "Modules",
-      "icon": ""
+      "icon": "",
+	"role": "staff"
     },
     {
       "url": "/users",
       "name": "Users",
       "icon": "fa fa-users",
-      "i18n": "nav.documentation"
+      "role": "staff"
     },
     {
       "url": "/partners",
       "name": "Partners",
       "icon": "fa fa-handshake-o",
-      "i18n": "nav.documentation"
+      "role": "staff"
     },
     {
       "url": "/payments",
       "name": "Payment Transaction",
       "icon": "fa fa-usd",
-      "i18n": "nav.documentation"
+      "role": "staff"
     },
     {
       "url": "",
       "navheader": "Applicants",
-      "icon": ""
+      "icon": "",
+	"role": "all"
     },
     {
       "url": "/lead",
       "name": "Leads",
       "slug": "lead",
       "icon": "feather icon-list",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "/pre_filter",
       "name": "Background Check",
       "slug": "pending",
       "icon": "fa fa-check-square-o",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "/pru_dna_filter",
       "name": "Pru-DNA-Filter",
       "slug": "Pru-DNA-Filter",
       "icon": "feather icon-filter",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "/pmli_filter",
       "name": "PMLI Filter",
       "slug": "pmli_filter",
       "icon": "feather icon-layers",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "/trainee",
       "name": "Training",
       "icon": "fa fa-id-badge",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "/certification",
       "name": "Certification",
       "icon": "fa fa-certificate",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "/onboarded",
       "name": "On boarding",
       "icon": "fa fa-calendar",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "/contract",
       "name": "Contract & Agent",
       "icon": "feather icon-user",
-      "i18n": "nav.documentation"
+      "role": "all"
     },
     {
       "url": "",
       "navheader": "Configurations",
-      "icon": ""
+      "icon": "",
+	"role": "staff"
     },
     {
       "url": "/trainings",
       "name": "Training Modules",
       "icon": "feather icon-printer",
-      "i18n": "nav.documentation"
+      "role": "staff"
     },
     {
       "url": "/templateforms",
       "name": "Templates Form",
       "icon": "feather icon-sidebar",
-      "i18n": "nav.documentation"
+      "role": "staff"
     },
     {
       "url": "/setting",
       "name": "Settings",
       "slug": "configure",
       "icon": "feather icon-settings",
-      "i18n": "nav.documentation"
+      "role": "staff"
     }
   ]
 }

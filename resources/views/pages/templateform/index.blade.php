@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ asset(mix('css/pages/users.css')) }}">
 @endsection
 
-@section('title', 'Template Forms')
+@section('title', 'Website Form Template')
 {{-- {{dd($errors->all())}} --}}
 @section('content')
 <div class="row my-2">

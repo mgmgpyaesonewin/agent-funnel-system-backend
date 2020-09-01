@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Exports;
+namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class GraphExport implements FromCollection, WithHeadings{
+class SheetExport implements FromCollection, WithHeadings{
     protected $data;
 
     public function __construct($data, $title)
@@ -23,7 +23,7 @@ class GraphExport implements FromCollection, WithHeadings{
     {
 
         return [
-            ['Course Name', $this->title],
+            ['Title', $this->title],
             ['Name', 'Phone'],
          ];
     }

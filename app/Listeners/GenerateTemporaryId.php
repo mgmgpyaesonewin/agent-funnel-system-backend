@@ -19,6 +19,7 @@ class GenerateTemporaryId
                 $event->applicant->status_id = 1;
                 $event->applicant->current_status = 'training';
                 $event->applicant->saveQuietly();
+                notified_applicant_via_viber($event->applicant->phone, "Your TempID is -{$event->applicant->temp_id}");
             }
         }
     }

@@ -7,12 +7,19 @@
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.
         </h5>
       </div>
-      <div v-show="userAssign === true" class="col-3">
+      <div class="col-3" v-show="amlStatus && isPartner == 0">
+        <div class="btn-group pull-right">
+          <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
+          <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
+        </div>
+      </div>
+      <div v-show="userAssign === true && isPartner == 0" class="col-3">
         <multi-select
           v-model="selectedUser"
           :options="users"
           :show-labels="false"
           :allow-empty="false"
+          openDirection="bottom"
           track-by="id"
           label="name"
           deselect-label="You must choose at least one user"
@@ -25,17 +32,11 @@
           </template>
         </multi-select>
       </div>
-      <div class="col-2" v-show="amlStatus">
-        <div class="btn-group">
-          <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Complete</button>
-          <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
-        </div>
-      </div>
     </div>
     <table class="table">
       <thead>
         <tr>
-          <th v-show="assignCheckbox === true"></th>
+          <th v-show="assignCheckbox === true  && isPartner == 0"></th>
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
@@ -51,7 +52,7 @@
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-show="assignCheckbox === true">
+          <td v-show="assignCheckbox === true  && isPartner == 0">
             <fieldset v-show="applicant.status_id === 1">
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
@@ -82,7 +83,7 @@
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
           <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }}</td>
-          <td v-show="isPartner == 0">
+          <td v-show="isPartner == 0 && amlStatus != 'Pending'">
             <slot :applicant="applicant"></slot>
           </td>
         </tr>
@@ -126,9 +127,11 @@ export default {
       selectedUser: "",
       users: [],
       name: "",
-      exam_date: "",
+      phone: "",
       current_status: this.currentStatus,
       status_ids: this.status,
+      aml_status: "",
+      date: "",
     };
   },
   computed: {
@@ -162,7 +165,9 @@ export default {
           current_status: this.current_status,
           status_id: this.status_ids,
           name: this.name,
-          exam_date: this.exam_date,
+          phone: this.phone,
+          aml_status: this.aml_status,
+          date: this.date,
         })
         .then(({ data }) => {
           this.applicants = data;
@@ -224,11 +229,13 @@ export default {
     EventBus.$on("update-table", this.updateApplicantsList);
     EventBus.$on(
       "filter-table",
-      (currentStatus, status_ids, name, exam_date) => {
+      (currentStatus, status_ids, name, phone, aml_status, date) => {
         this.current_status = currentStatus;
         this.status_ids = status_ids;
         this.name = name;
-        this.exam_date = exam_date;
+        this.phone = phone;
+        this.aml_status = aml_status;
+        this.date = date;
         this.getApplicants();
       }
     );

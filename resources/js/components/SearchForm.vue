@@ -6,16 +6,25 @@
         <input type="text" class="form-control" placeholder="Name" v-model="name" />
       </fieldset>
     </div>
-    <div class="px-2" v-show="channelForm">
+    <div class="px-2">
       <fieldset class="form-group">
-        <label for="name">Channel</label>
-        <input type="email" class="form-control" placeholder="Channel" v-model="email" />
+        <label for="name">Phone</label>
+        <input type="text" class="form-control" placeholder="Phone" v-model="phone" />
       </fieldset>
     </div>
-    <div class="px-2" v-show="assignField">
+    <div class="px-2" v-show="amlCheck">
       <fieldset class="form-group">
-        <label for="name">Assign</label>
-        <input type="text" class="form-control" placeholder="Name" />
+        <label for="name">AML Check</label>
+        <multi-select
+          v-model="aml_value"
+          :options="aml_options"
+          :searchable="false"
+          :show-labels="false"
+          :multiple="true"
+          placeholder="Choose result"
+          label="value"
+          track-by="key"
+        ></multi-select>
       </fieldset>
     </div>
     <div class="px-2">
@@ -50,7 +59,6 @@
           value-type="format"
           v-model="date"
           placeholder="dd-mm-yyyy"
-          :disabled-date="notBeforeToday"
         />
       </fieldset>
     </div>
@@ -87,23 +95,42 @@ export default {
     "channelForm",
     "exportUrl",
     "enableExport",
+    "amlCheck",
   ],
   data() {
     return {
-      email: "",
       name: "",
+      phone: "",
       selected_status: [],
       date: "",
+      aml_value: [],
+      aml_options: [
+        {
+          key: 1,
+          value: "Pass",
+        },
+        {
+          key: 0,
+          value: "Pending",
+        },
+        {
+          key: 2,
+          value: "Fail",
+        },
+      ],
     };
   },
   methods: {
     search() {
       let selected_status = this.selected_status.map((status) => status.id);
+      let selected_aml = this.aml_value.map((selected) => selected.key);
       EventBus.$emit(
         "filter-table",
         this.currentStatus,
         selected_status,
         this.name,
+        this.phone,
+        selected_aml,
         this.date
       );
     },

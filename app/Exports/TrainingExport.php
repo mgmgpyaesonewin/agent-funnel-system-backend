@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Exports;
+namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
-use Modules\Exports\GraphExport;
+use App\Exports\SheetExport;
 
-class MultiGraphExport implements WithMultipleSheets{
+class TrainingExport implements WithMultipleSheets{
     protected $data;
 
     public function __construct($data1, $data2, $title)
@@ -28,8 +28,8 @@ class MultiGraphExport implements WithMultipleSheets{
         // return $sheets;
 
         return [
-            'Completed' => new GraphExport($this->data1, $this->title),
-            'Assigned' => new GraphExport($this->data2, $this->title),
+            'Completed' => new SheetExport($this->data1, 'List of Completed Applicants for '.$this->title),
+            'Assigned' => new SheetExport($this->data2, 'List of Assigned Applicants for'.$this->title),
         ];
     }
 }

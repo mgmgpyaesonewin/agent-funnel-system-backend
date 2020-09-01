@@ -11,7 +11,7 @@
                 <div class="card-content">
                     <div class="card-body">
                         <v-search-form current-status="pmli_filter" :statuses-array="{{ $statuses }}"
-                            assign-field="true"></v-search-form>
+                            assign-field="true" aml-check="true"></v-search-form>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <div class="card-content">
                     <div class="card-body text-center">
                         <v-table ref="table" current-status="pmli_filter" :status="[1,2,3,5,6]" :assign-checkbox="true"
-                            channel="true" status-col="true" temp-id="true" :aml-status="true" status-col="true"
+                            channel="true" :user-assign="true" assign="true" status-col="true" temp-id="true" :aml-status="true" status-col="true"
                             :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">>
                             <template scope="{ applicant }">
                                 <td>
