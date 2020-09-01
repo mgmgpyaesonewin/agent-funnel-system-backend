@@ -23,10 +23,11 @@ class ExportController extends Controller
 
     public function applicantsImport(Request $request)
     {
+        
         $request->validate([
             'file' => 'required|mimes:xlsx,csv',
         ]);
-
+            
         Excel::import(new ApplicantsImport(), $request->file('file'));
 
         return redirect()->back()->with('message', 'All Applicants are updated successfully');
