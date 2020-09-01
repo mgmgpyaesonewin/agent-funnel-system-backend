@@ -22,25 +22,37 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="pmli_filter" :status="[1,2,3,5,6]" :assign-checkbox="true"
-                            channel="true" :user-assign="true" assign="true" status-col="true" temp-id="true" :aml-status="true" status-col="true"
-                            :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">>
+                        <v-table ref="table" current-status="pmli_filter" :status="[1,2,3,5,6,11]"
+                            :assign-checkbox="true" channel="true" status-col="true" temp-id="true" :aml-status="true"
+                            status-col="true" :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">>
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
-                                        <v-button button-class="btn btn-info"
+                                    <div class="btn-group mt-1">
+                                        <v-button button-class="btn btn-info" v-show="applicant.status_id === 1"
                                             :old-current-status="applicant.current_status"
                                             new-current-status="pmli_filter" :old-status-id="applicant.status_id"
                                             new-status-id="2" :applicant-id="applicant.id">
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                         </v-button>
-                                        <v-button button-class="btn btn-success"
+                                        <v-button button-class="btn btn-success" v-show="applicant.status_id === 1"
+                                            :old-current-status="applicant.current_status"
+                                            :old-status-id="applicant.status_id" new-current-status="pmli_filter"
+                                            :e-learning="true"
+                                            new-status-id="{{ App\Setting::where('meta_key', 'payment_mandatory')->pluck('meta_value')->first() == 1 ? 11 : 3 }}"
+                                            :applicant-id="applicant.id">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                        </v-button>
+                                        <v-button button-class="btn btn-success" v-show="applicant.status_id === 11"
                                             :old-current-status="applicant.current_status"
                                             :old-status-id="applicant.status_id" new-current-status="pmli_filter"
                                             :e-learning="true" new-status-id="3" :applicant-id="applicant.id">
-                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span>
+                                                Approve
+                                            </span>
                                         </v-button>
-                                        <v-button button-class="btn btn-danger"
+                                        <a href="/payment/view" v-show="applicant.status_id === 11"
+                                            class="btn btn-primary">View</a>
+                                        <v-button button-class="btn btn-danger" v-show="applicant.status_id === 1"
                                             :old-current-status="applicant.current_status"
                                             new-current-status="pmli_filter" :old-status-id="applicant.status_id"
                                             new-status-id="4" :applicant-id="applicant.id">

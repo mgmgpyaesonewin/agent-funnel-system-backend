@@ -1,5 +1,5 @@
 export default Object.freeze({
-  LEAD : "lead",
+  LEAD: "lead",
   PRE_FILTER: "pre_filter",
   PRU_DNA_TEST: "pru_dna_test",
   PMLI_FILTER: "pmli_filter",
@@ -16,6 +16,7 @@ export default Object.freeze({
   ACTIVE: 8,
   INACTIVE: 9,
   CEASED_ASSOCIATION: 10,
+  WAITING_PAYMENT: 11,
   ADMIN: "assign_admin_id",
   BDM: "assign_bdm_id",
   MA: "assign_ma_id",
