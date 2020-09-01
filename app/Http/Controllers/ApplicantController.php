@@ -29,10 +29,48 @@ class ApplicantController extends Controller
         $appli->save();
         return $url;
     }
+
     public function detail(Request $req)
     {
+
+        // return $req->file('nrc_back');
         $appli = Applicant::where('uuid', $req->id)->first();
-        $appli->update($req->spouse);
+        $appli->name = $req->name;
+        $appli->dob = $req->dob;
+        $appli->phone = $req->phone;
+        $appli->secondary_phone = $req->alternate_no;
+        $appli->gender = $appli->gender;
+        $appli->preferred_name = $req->preferred_name;
+        $appli->nrc = $req->nrc;
+        $file = $req->file('nrc_front');
+        if ($req->hasFile('nrc_front')) {
+            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $appli->nrc_front_img = $url;
+        }
+        $file = $req->file('nrc_back');
+        if ($req->hasFile('nrc_back')) {
+            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $appli->nrc_back_img = $url;
+        }
+        $appli->myanmar_citizen = $req->myanmar_citizen;
+        $appli->citizen = $req->citizen;
+        $appli->race = $req->race;
+        $appli->married = $req->marital_status;
+        $appli->address = $req->address;
+
+        $appli->city_id = $req->city;
+        $appli->township_id - $req->township;
+        $appli->education = $req->highest_qualification;
+        $appli->email = $req->email;
+        $appli->accept_t_n_c = 1;
+        $appli->save();
+        return $appli;
+    }
+    public function spouse_update(Request $req)
+    {
+        // return $req->all();
+        $appli = Applicant::where('uuid', $req->id)->first();
+        $appli->update(collect($req->spouse)->except('term_condition')->toArray());
         return $appli;
     }
 
@@ -131,42 +169,42 @@ class ApplicantController extends Controller
 
     public function pruDNAFilter(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4,5])->get();
+        $statuses = Status::whereIn('id', [1, 4, 5])->get();
 
         return view('pages.applicants.pru_dna_filter', compact('statuses'));
     }
 
     public function pmliFilter(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.pmli_filter', compact('statuses'));
     }
 
     public function onboardedPage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.onboarded', compact('statuses'));
     }
 
     public function traineePage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.trainee', compact('statuses'));
     }
 
     public function certificationPage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.certification', compact('statuses'));
     }
 
     public function contractPage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,8,9,10])->get();
+        $statuses = Status::whereIn('id', [1, 8, 9, 10])->get();
 
         return view('pages.applicants.contract', compact('statuses'));
     }

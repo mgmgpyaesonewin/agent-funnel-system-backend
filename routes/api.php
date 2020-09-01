@@ -25,6 +25,7 @@ Route::post('/pdf/{id}', 'ApplicantController@test');
 Route::post('sign_check', 'ApplicantController@Access_SignBoard');
 Route::post('/bank_update/{id}', 'ApplicantController@bank_info_update');
 Route::post('/detail/{id}', 'ApplicantController@detail');
+Route::post('/spouse_update/{id}', 'ApplicantController@spouse_update');
 
 Route::get('city', 'TemplateFormController@getCity');
 Route::get('township/{id}', 'TemplateFormController@getTownship');
