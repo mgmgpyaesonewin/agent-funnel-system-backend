@@ -23,7 +23,7 @@ class ApplicantController extends Controller
     public function test(Request $req)
     {
         $appli = Applicant::where('temp_id', $req->id)->first();
-        $url = Storage::disk('local')->put('contracts', $req->pdf);
+        $url = Storage::disk('public')->put('contracts', $req->pdf);
         $appli->pdf = $url;
         $appli->save();
 
@@ -52,7 +52,7 @@ class ApplicantController extends Controller
         if ($req->hasFile('license_photo')) {
             foreach ($files as $key => $file) {
                 $index = $key + 1;
-                $url = Storage::disk('local')->put('licenses', $file);
+                $url = Storage::disk('public')->put('licenses', $file);
                 $data['license_photo_'.$index] = $url;
             }
         }
@@ -208,7 +208,10 @@ class ApplicantController extends Controller
                 'assign_ma_id',
                 'assign_staff_id',
                 'partner_id',
-                'payment'
+                'payment',
+                'license_photo_1',
+                'license_photo_2',
+                'pdf'
             )->paginate(35);
 
         return ApplicantResource::collection($applicants);
