@@ -9,6 +9,7 @@ use App\Interview;
 use App\Mail\SendStatusNotification;
 use App\Mail\SendWebinarNotification;
 use App\Partner;
+use App\Setting;
 use App\Status;
 use App\Training;
 use Carbon\Carbon;
@@ -16,7 +17,6 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Log;
 
 class ApplicantController extends Controller
 {
@@ -238,7 +238,9 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $applicant_id)->first();
 
         // Stage 5
-        notified_applicant_via_viber($applicant->phone, "{$appointment}, {$request->url}");
+        $text = Setting::where('meta_key', 'interview_msg')->first()->meta_value."{$appointment}, {$request->url}";
+
+        notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([
             'status' => true,
@@ -275,7 +277,6 @@ class ApplicantController extends Controller
         $applicant->statuses()->attach($status_id, ['current_status' => $current_status]);
         $applicant->save();
 
-        Log::info('updating applicant');
         // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
 
         return response()->json([
@@ -357,6 +358,11 @@ class ApplicantController extends Controller
             'status_id' => 1,
         ]);
 
+        $applicant = Applicant::where('id', $applicant_id)->first();
+        $text = Setting::where('meta_key', 'exam_msg')->first()->meta_value." {$exam_date}";
+
+        notified_applicant_via_viber($applicant->phone, $text);
+
         return response()->json([
             'status' => true,
             'message' => 'Successfully Saved',
@@ -391,7 +397,8 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        notified_applicant_via_viber($applicant->phone, "E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}");
+        $text = Setting::where('meta_key', 'elearning_msg')->first()->meta_value."E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
+        notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([
             'status' => true,
