@@ -169,9 +169,9 @@
                                 <i class="fa fa-circle primary"></i>
                             </div>
                             <div class="col-md-11">
-                                <p>{{ $exp['title'] }}</p>
-                                <p>{{ $exp['company'] }}</p>
-                                <p>{{ $exp['start_date'] }} - {{ $exp['end_date'] }}</p>
+                                <p>{{ $exp['position'] }}</p>
+                                <p>{{ $exp['company_name'] }}</p>
+                                <p>{{ $exp['duration'] }}</p>
                             </div>
                             @endforeach
                             @endif
@@ -189,51 +189,78 @@
                     <div class="card-body">
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Spouse Name:</h6>
-                            <p class="col-md-6">Enrico Lynch</p>
+                            <p class="col-md-6">{{ $applicant->spouse_name }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Spouse NRC:</h6>
-                            <p class="col-md-6">12/SaKhaNa(N)-082719</p>
+                            <p class="col-md-6">{{ $applicant->spouse_nrc }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Occupa-tion:</h6>
-                            <p class="col-md-6">Teacher</p>
+                            <p class="col-md-6">{{ $applicant->spouse_occupation }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Work at:</h6>
-                            <p class="col-md-6">B.E.H.S (6) Botahtaung</p>
+                            <p class="col-md-6">{{ $applicant->spouse_company_name }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8 col-12">
+            <div class="col-lg-4 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Completed Tranining</h4>
+                        <h4>Agent Exp</h4>
                     </div>
+                    @if($applicant->agent_exp != null)
+                    @php $agent_exp = json_decode( $applicant->agent_exp, true ); @endphp
                     <div class="card-body">
                         <div class="mt-1 row">
-                            <div class="col-md-1">
-                                <i class="fa fa-circle primary"></i>
-                            </div>
-                            <h6 class="col-md-7">Module 1 | Introduction</h6>
-                            <p class="col-md-4">( Completed )</p>
+                            <h6 class="col-md-4">Company:</h6>
+                            <p class="col-md-6">{{ $agent_exp['company_name'] }}</p>
                         </div>
                         <div class="mt-1 row">
-                            <div class="col-md-1">
-                                <i class="fa fa-circle primary"></i>
-                            </div>
-                            <h6 class="col-md-7">Module 2 | Tranining</h6>
-                            <p class="col-md-4">( Completed )</p>
+                            <h6 class="col-md-4">Address:</h6>
+                            <p class="col-md-6">{{ $agent_exp['address'] }}</p>
                         </div>
                         <div class="mt-1 row">
-                            <div class="col-md-1">
-                                <i class="fa fa-circle primary"></i>
-                            </div>
-                            <h6 class="col-md-7">Module 3 | Exam</h6>
-                            <p class="col-md-4">( Completed )</p>
+                            <h6 class="col-md-4">Position:</h6>
+                            <p class="col-md-6">{{ $agent_exp['position'] }}</p>
                         </div>
                     </div>
+                    @endif
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Family Agent</h4>
+                    </div>
+                    @if($applicant->family_agent != null)
+                    @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
+                    {{-- {{ dd($family_agent) }} --}}
+                    <div class="card-body">
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Name:</h6>
+                            <p class="col-md-6">{{ $family_agent['name'] }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Position:</h6>
+                            <p class="col-md-6">{{ $family_agent['position'] }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Agent Code:</h6>
+                            <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Relation:</h6>
+                            <p class="col-md-6">{{ $family_agent['relation'] }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">NRC:</h6>
+                            <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
