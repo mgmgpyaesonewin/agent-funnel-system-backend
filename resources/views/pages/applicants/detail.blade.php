@@ -179,9 +179,9 @@
                                 <i class="fa fa-circle primary"></i>
                             </div>
                             <div class="col-md-11">
-                                <p>{{ $exp['position'] }}</p>
-                                <p>{{ $exp['company_name'] }}</p>
-                                <p>{{ $exp['duration'] }}</p>
+                                <p>{{ $exp['position'] ?? '-' }}</p>
+                                <p>{{ $exp['company_name'] ?? '-' }}</p>
+                                <p>{{ $exp['duration'] ?? '-' }}</p>
                             </div>
                             @endforeach
                             @endif
