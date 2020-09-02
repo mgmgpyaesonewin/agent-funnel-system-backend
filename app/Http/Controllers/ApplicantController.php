@@ -9,6 +9,7 @@ use App\Interview;
 use App\Mail\SendStatusNotification;
 use App\Mail\SendWebinarNotification;
 use App\Partner;
+use App\Setting;
 use App\Status;
 use App\Training;
 use Carbon\Carbon;
@@ -16,20 +17,83 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Log;
+use PDF;
 
 class ApplicantController extends Controller
 {
     public function test(Request $req)
     {
-        // dd($req->all);
-        // return $req->pdf;
-        $appli = Applicant::where('temp_id', $req->id)->first();
-        $url = Storage::disk('local')->put('contracts', $req->pdf);
-        $appli->pdf = $url;
+        $applicant = Applicant::where('uuid', $req->id)->first();
+
+        $sign = Storage::disk('public')->put('sign', $req->url);
+
+        Applicant::where('uuid', $req->id)->update([
+            'sign_img' => $sign,
+            'agreement_no' => $applicant->temp_id,
+            'signed_date' => Carbon::now(),
+        ]);
+
+        $applicant = Applicant::where('uuid', $req->id)->first();
+
+        view()->share('applicant', $applicant);
+        $pdf = PDF::loadView('pages.pdf', $applicant);
+
+        $contract = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
+        Storage::disk('public')->put('contracts/'.$applicant->phone.'.pdf', $contract);
+
+        Applicant::where('uuid', $req->id)->update([
+            'pdf' => 'contracts/'.$applicant->phone.'.pdf',
+        ]);
+
+        return response()->json([
+            'contract' => asset('storage/contracts/'.$applicant->phone.'.pdf'),
+        ]);
+    }
+
+    public function detail(Request $req)
+    {
+        // return $req->file('nrc_back');
+        $appli = Applicant::where('uuid', $req->id)->first();
+        $appli->name = $req->name;
+        $appli->dob = $req->dob;
+        $appli->phone = $req->phone;
+        $appli->secondary_phone = $req->alternate_no;
+        $appli->gender = $appli->gender;
+        $appli->preferred_name = $req->preferred_name;
+        $appli->nrc = $req->nrc;
+        $file = $req->file('nrc_front');
+        if ($req->hasFile('nrc_front')) {
+            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $appli->nrc_front_img = $url;
+        }
+        $file = $req->file('nrc_back');
+        if ($req->hasFile('nrc_back')) {
+            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $appli->nrc_back_img = $url;
+        }
+        $appli->myanmar_citizen = $req->myanmar_citizen;
+        $appli->citizen = $req->citizen;
+        $appli->race = $req->race;
+        $appli->married = $req->marital_status;
+        $appli->address = $req->address;
+
+        $appli->city_id = $req->city;
+        $appli->township_id - $req->township;
+        $appli->education = $req->highest_qualification;
+        $appli->email = $req->email;
+        $appli->accept_t_n_c = 1;
         $appli->save();
 
-        return $url;
+        return $appli;
+    }
+
+    public function spouse_update(Request $req)
+    {
+        // return $req->all();
+        $appli = Applicant::where('uuid', $req->id)->first();
+        $appli->update(collect($req->spouse)->except('term_condition')->toArray());
+
+        return $appli;
     }
 
     public function Access_SignBoard(Request $req)
@@ -54,7 +118,7 @@ class ApplicantController extends Controller
         if ($req->hasFile('license_photo')) {
             foreach ($files as $key => $file) {
                 $index = $key + 1;
-                $url = Storage::disk('local')->put('licenses', $file);
+                $url = Storage::disk('public')->put('licenses', $file);
                 $data['license_photo_'.$index] = $url;
             }
         }
@@ -96,6 +160,7 @@ class ApplicantController extends Controller
         $applicant->phone = $request->phone;
         $applicant->dob = $request->dob;
         $applicant->gender = $request->gender;
+        $applicant->uuid = (string) Str::uuid();
         $applicant->current_status = 'lead';
         $applicant->status_id = '1';
 
@@ -127,44 +192,60 @@ class ApplicantController extends Controller
         return  Applicant::create($data);
     }
 
+    public function savePayment(Request $request)
+    {
+        $file = $request->file('file');
+
+        $applicant = Applicant::where('nrc', $request->nrc)->first();
+        $url = Storage::disk('public')->put('payments', $file);
+
+        $applicant->payment = $url;
+        $applicant->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully Created',
+        ]);
+    }
+
     public function pruDNAFilter(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4,5])->get();
+        $statuses = Status::whereIn('id', [1, 4, 5])->get();
 
         return view('pages.applicants.pru_dna_filter', compact('statuses'));
     }
 
     public function pmliFilter(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.pmli_filter', compact('statuses'));
     }
 
     public function onboardedPage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.onboarded', compact('statuses'));
     }
 
     public function traineePage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.trainee', compact('statuses'));
     }
 
     public function certificationPage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,4])->get();
+        $statuses = Status::whereIn('id', [1, 4])->get();
 
         return view('pages.applicants.certification', compact('statuses'));
     }
 
     public function contractPage(Request $request)
     {
-        $statuses = Status::whereIn('id', [1,8,9,10])->get();
+        $statuses = Status::whereIn('id', [1, 8, 9, 10])->get();
 
         return view('pages.applicants.contract', compact('statuses'));
     }
@@ -192,7 +273,11 @@ class ApplicantController extends Controller
                 'assign_bdm_id',
                 'assign_ma_id',
                 'assign_staff_id',
-                'partner_id'
+                'partner_id',
+                'payment',
+                'license_photo_1',
+                'license_photo_2',
+                'pdf'
             )->paginate(35);
 
         return ApplicantResource::collection($applicants);
@@ -222,7 +307,9 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $applicant_id)->first();
 
         // Stage 5
-        notified_applicant_via_viber($applicant->phone, "{$appointment}, {$request->url}");
+        $text = Setting::where('meta_key', 'interview_msg')->first()->meta_value."{$appointment}, {$request->url}";
+
+        notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([
             'status' => true,
@@ -259,7 +346,6 @@ class ApplicantController extends Controller
         $applicant->statuses()->attach($status_id, ['current_status' => $current_status]);
         $applicant->save();
 
-        Log::info('updating applicant');
         // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
 
         return response()->json([
@@ -341,6 +427,11 @@ class ApplicantController extends Controller
             'status_id' => 1,
         ]);
 
+        $applicant = Applicant::where('id', $applicant_id)->first();
+        $text = Setting::where('meta_key', 'exam_msg')->first()->meta_value." {$exam_date}";
+
+        notified_applicant_via_viber($applicant->phone, $text);
+
         return response()->json([
             'status' => true,
             'message' => 'Successfully Saved',
@@ -375,7 +466,8 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        notified_applicant_via_viber($applicant->phone, "E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}");
+        $text = Setting::where('meta_key', 'elearning_msg')->first()->meta_value."E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
+        notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([
             'status' => true,

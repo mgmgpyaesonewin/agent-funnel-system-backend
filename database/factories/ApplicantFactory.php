@@ -18,12 +18,25 @@ $factory->define(Applicant::class, function (Faker $faker) {
         'education' => 'Master\'s Degree',
         'employment' => json_encode([
             [
-                'type' => 'employed',
-                'title' => $faker->jobTitle,
-                'company' => $faker->company,
-                'start_date' => $faker->date('d-m-Y'),
-                'end_date' => $faker->date('d-m-Y'),
+                'industry_type' => 'employed',
+                'position' => $faker->jobTitle,
+                'company_name' => $faker->company,
+                'duration' => '12 months',
+                'address' => '38, Padather Street, Maynigone',
+                'income' => '1,200,000 MMK',
             ],
+        ]),
+        'agent_exp' => json_encode([
+            'company_name' => 'Prudential',
+            'address' => $faker->address,
+            'position' => $faker->jobTitle, 
+        ]),
+        'family_agent' => json_encode([
+            'name' => $faker->name,
+            'position' => $faker->jobTitle,
+            'agent_code' => 'AA-1001',
+            'relation' => 'wife',
+            'nrc' => '12/SaKaNa(N)082719',
         ]),
         'status_id' => 1,
     ];

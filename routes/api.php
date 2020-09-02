@@ -24,9 +24,14 @@ Route::post('/createuser', 'ApplicantController@createuser');
 Route::post('/pdf/{id}', 'ApplicantController@test');
 Route::post('sign_check', 'ApplicantController@Access_SignBoard');
 Route::post('/bank_update/{id}', 'ApplicantController@bank_info_update');
+Route::post('/payment', 'ApplicantController@savePayment');
+Route::post('/detail/{id}', 'ApplicantController@detail');
+Route::post('/spouse_update/{id}', 'ApplicantController@spouse_update');
+
+Route::get('city', 'TemplateFormController@getCity');
+Route::get('township/{id}', 'TemplateFormController@getTownship');
 
 Route::post('/login', 'ApplicantController@login');
-
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users', 'UserController@users');
     Route::post('/applicants', 'ApplicantController@applicants');

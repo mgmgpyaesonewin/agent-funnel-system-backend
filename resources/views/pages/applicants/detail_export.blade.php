@@ -2,23 +2,23 @@
     <tbody>
         <tr>
             <td>Name</td>
-            <td>{{ $user->name }}</td>
+            <td>{{ $applicant->name }}</td>
         </tr>
         <tr>
             <td>Prefered Name</td>
-            <td>{{ $user->email }}</td>
+            <td>{{ $applicant->email }}</td>
         </tr>
         <tr>
             <td>Phone</td>
-            <td>{{ $user->phone }}</td>
+            <td>{{ $applicant->phone }}</td>
         </tr>
         <tr>
             <td>Secondary Phone</td>
-            <td>{{ $user->secondary_phone }}</td>
+            <td>{{ $applicant->secondary_phone }}</td>
         </tr>
         <tr>
             <td>Gender</td>
-            <td>{{ $user->gender }}</td>
+            <td>{{ $applicant->gender }}</td>
         </tr>
         <tr>
             <td>Marital Status</td>
@@ -26,44 +26,40 @@
         </tr>
         <tr>
             <td>NRC</td>
-            <td>{{ $user->nrc }}</td>
+            <td>{{ $applicant->nrc }}</td>
         </tr>
         <tr>
             <td>DOB</td>
-            <td>{{ $user->dob }}</td>
+            <td>{{ $applicant->dob }}</td>
         </tr>
         <tr>
             <td>Address</td>
-            <td>{{ $user->address }}</td>
+            <td>{{ $applicant->address }}</td>
         </tr>
         <tr>
             <td>City</td>
-            <td>{{ $user->email }}</td>
+            <td>{{ $applicant->email }}</td>
         </tr>
         <tr>
             <td>Township</td>
-            <td>{{ $user->email }}</td>
+            <td>{{ $applicant->email }}</td>
         </tr>
         <tr>
-            <td>City</td>
-            <td>{{ $user->email }}</td>
-        </tr>
-        <tr>
-            <td>Myanmar Citizen</td> 
+            <td>Myanmar Citizen</td>
             <td>{{ ($applicant->myanmar_citizen == '1' ? 'Yes' : 'No') }}</td>
         </tr>
         <tr>
             <td>Race</td>
-            <td>{{ $user->race }}</td>
+            <td>{{ $applicant->race }}</td>
         </tr>
         <tr>
             <td>Education</td>
-            <td>{{ $user->education }}</td>
+            <td>{{ $applicant->education }}</td>
         </tr>
         <tr>
             <td colspan="2">Work Experience</td>
         </tr>
-        @if($user->employment != null)
+        @if($applicant->employment != null)
         @php $user = json_decode( $applicant->employment, true ); @endphp
         @foreach ($user as $exp)
         <tr>

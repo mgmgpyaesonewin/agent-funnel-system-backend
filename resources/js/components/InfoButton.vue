@@ -6,14 +6,10 @@
 
 <script>
 export default {
-  props: ["cssClass"],
+  props: ["cssClass", "url"],
   methods: {
     comingSoon() {
-      this.$swal(
-        "Detail",
-        "Will appear here after the frontend integration",
-        "info"
-      );
+      window.open(this.url, "_blank");
     },
   },
 };

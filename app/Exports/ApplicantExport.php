@@ -3,9 +3,10 @@
 namespace App\Exports;
 
 use App\Applicant;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class ApplicantExport implements FromCollection
+class ApplicantExport implements FromView
 {
     private $id;
 
@@ -17,8 +18,10 @@ class ApplicantExport implements FromCollection
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
+    public function view(): View
     {
-        return Applicant::where('id', $this->id)->get();
+        return view('pages.applicants.detail_export', [
+            'applicant' => Applicant::where('id', $this->id)->first(),
+        ]);
     }
 }
