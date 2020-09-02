@@ -17,21 +17,41 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PDF;
 
 class ApplicantController extends Controller
 {
     public function test(Request $req)
     {
-        $appli = Applicant::where('temp_id', $req->id)->first();
-        $url = Storage::disk('public')->put('contracts', $req->pdf);
-        $appli->pdf = $url;
-        $appli->save();
-        return $url;
+        $applicant = Applicant::where('uuid', $req->id)->first();
+
+        $sign = Storage::disk('public')->put('sign', $req->url);
+
+        Applicant::where('uuid', $req->id)->update([
+            'sign_img' => $sign,
+            'agreement_no' => $applicant->temp_id,
+            'signed_date' => Carbon::now(),
+        ]);
+
+        $applicant = Applicant::where('uuid', $req->id)->first();
+
+        view()->share('applicant', $applicant);
+        $pdf = PDF::loadView('pages.pdf', $applicant);
+
+        $contract = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
+        Storage::disk('public')->put('contracts/'.$applicant->phone.'.pdf', $contract);
+
+        Applicant::where('uuid', $req->id)->update([
+            'pdf' => 'contracts/'.$applicant->phone.'.pdf',
+        ]);
+
+        return response()->json([
+            'contract' => asset('storage/contracts/'.$applicant->phone.'.pdf'),
+        ]);
     }
 
     public function detail(Request $req)
     {
-
         // return $req->file('nrc_back');
         $appli = Applicant::where('uuid', $req->id)->first();
         $appli->name = $req->name;
@@ -63,13 +83,16 @@ class ApplicantController extends Controller
         $appli->email = $req->email;
         $appli->accept_t_n_c = 1;
         $appli->save();
+
         return $appli;
     }
+
     public function spouse_update(Request $req)
     {
         // return $req->all();
         $appli = Applicant::where('uuid', $req->id)->first();
         $appli->update(collect($req->spouse)->except('term_condition')->toArray());
+
         return $appli;
     }
 
@@ -79,6 +102,7 @@ class ApplicantController extends Controller
         if ($appli) {
             return ['message' => 'valid'];
         }
+
         return response(['message' => 'invalid'], 422);
     }
 
@@ -108,7 +132,8 @@ class ApplicantController extends Controller
         // return $req->all();
         $valid_appli = Applicant::where('temp_id', $req->tempid)
             ->where('dob', $req->dob)
-            ->first();
+            ->first()
+        ;
         if ($valid_appli) {
             return $valid_appli;
         }
