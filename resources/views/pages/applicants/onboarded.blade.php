@@ -26,10 +26,10 @@
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="btn-group mt-1">
-                                        <v-info-button css-class="btn btn-info">
+                                        <v-info-button css-class="btn btn-info" :url="applicant.license">
                                             <i class="fa fa-id-card-o" aria-hidden="true"></i> Licence
                                         </v-info-button>
-                                        <v-info-button css-class="btn btn-warning">
+                                        <v-info-button css-class="btn btn-warning" :url="applicant.contract">
                                             <i class="fa fa-check-square-o" aria-hidden="true"></i> Contract
                                         </v-info-button>
                                     </div>

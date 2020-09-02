@@ -16,7 +16,7 @@
                         <h3 style="padding-top: 1.5rem;
     padding-left: 19rem;
     color: white;
-                    font-weight: 600;">Applicant's Detail (PA-08070049){{ $applicant->temp_id }}</h3>
+                    font-weight: 600;">Applicant's Detail {{ $applicant->temp_id }}</h3>
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
                         <img src="{{ asset('images/profile/user-uploads/user-13.jpg') }}"
@@ -108,6 +108,12 @@
                         <div class="mt-1 row">
                             <h6 class="col-md-4">NRC:</h6>
                             <p class="col-md-6">{{ $applicant->nrc }}</p>
+                            <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
+                                <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
+                            </v-info-button>
+                            <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
+                                <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
+                            </v-info-button>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">DOB:</h6>
@@ -119,11 +125,15 @@
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">City:</h6>
-                            <p class="col-md-6">Yangon</p>
+                            <p class="col-md-6">
+                                {{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}
+                            </p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Township:</h6>
-                            <p class="col-md-6">SanChaung</p>
+                            <p class="col-md-6">
+                                {{ DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-'}}
+                            </p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Myanmar Citizen:</h6>
