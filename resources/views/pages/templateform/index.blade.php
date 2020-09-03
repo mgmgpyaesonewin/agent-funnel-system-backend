@@ -18,7 +18,7 @@
   <div class="col-12">
     <div class="row">
       @foreach ($templates as $item)
-      <div class="card col-12 col-lg-5 col-md-5 ml-1">
+      <div class="card col-12 col-lg-5 col-md-5 ml-1 @if($item->active == 1) border-warning @endif">
         <div class="card-body">
           <h5 class="card-title">Template Name - {{$item->template_name}}</h5>
           <div class="row">
@@ -39,10 +39,12 @@
               </form>
             </div>
             <div class="ml-1">
+            @if($item->active == 0)
               <form action="{{url('template/activate/'.$item->id)}}" method="post">
                 @csrf
                 <button class="btn btn-success">Activate</button>
               </form>
+            @endif
             </div>
           </div>
         </div>
