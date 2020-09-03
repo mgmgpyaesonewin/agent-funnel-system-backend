@@ -107,12 +107,12 @@
                         <div class="mt-1 row">
                             <h6 class="col-md-4">NRC:</h6>
                             <p class="col-md-6">{{ $applicant->nrc }}
-                            <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
-                                <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
-                            </v-info-button>
-                            <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
-                                <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
-                            </v-info-button>
+                                <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
+                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
+                                </v-info-button>
+                                <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
+                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
+                                </v-info-button>
                             </p>
                         </div>
                         <div class="mt-1 row">
@@ -164,123 +164,132 @@
                             <h6 class="col-md-4">Work at:</h6>
                             <p class="col-md-6">{{ $applicant->spouse_company_name }}</p>
                         </div>
-                    </div>    
-                    <hr>
-                    
-                    <div class="card-header">
-                        <h4>Was a staff of Prudential? </h4> @if($applicant->employment == null) : No @endif
                     </div>
-                    @if($applicant->employment != null)
-                    <div class="card-body"> 
-                        <div class="row">                           
-                            @php $employment = json_decode( $applicant->employment, true ); @endphp
-                            
-                            @foreach ($employment as $exp) 
+                    <hr>
+
+                    <div class="card-header">
+                        <h4>Was a staff of Prudential? </h4> @if($applicant->prudential_agency_exp == null) : No @endif
+                    </div>
+                    @if($applicant->prudential_agency_exp != null)
+                    <div class="card-body">
+                        <div class="row">
+                            @php $employment = json_decode( $applicant->prudential_agency_exp, true ); @endphp
                             <div class="col-md-1 pl-1">
                                 <i class="fa fa-circle primary"></i>
                             </div>
                             <div class="col-md-11">
-                                <p>{{ $exp['title'] ?? '-' }}</p>
-                                <p>{{ $exp['company'] ?? '-' }}</p>
-                                <p>{{ $exp['start_date'].'-'.$exp['end_date'] ?? '-' }}</p>
-                            </div>
-                            @endforeach                            
-                        </div>
-                    </div>
-                    @endif
-
-                    <hr>
-
-                    <div class="card-header">
-                        <h4>Current and past employment details </h4> @if($applicant->agent_exp == null) : No Experience @endif
-                    </div>
-
-                    @if($applicant->agent_exp != null)
-                    <div class="card-body"> 
-                        <div class="row">                            
-                        @php $agent_exp = json_decode( $applicant->agent_exp, true ); @endphp
-                        <div class="card-body">
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Company:</h6>
-                                <p class="col-md-6">{{ $agent_exp['company_name'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Address:</h6>
-                                <p class="col-md-6">{{ $agent_exp['address'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Position:</h6>
-                                <p class="col-md-6">{{ $agent_exp['position'] }}</p>
-                            </div>
-                        </div> 
-                    </div>
-                    @endif
-
-                    <hr>
-                    
-                    <div class="card-header">
-                        <h4>Have any selling experience or acted as an agent </h4> @if($applicant->agent_exp == null) : No @endif
-                    </div>
-
-                    @if($applicant->agent_exp != null)
-                    <div class="card-body"> 
-                        <div class="row">                            
-                        @php $agent_exp = json_decode( $applicant->agent_exp, true ); @endphp
-                        <div class="card-body">
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Company:</h6>
-                                <p class="col-md-6">{{ $agent_exp['company_name'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Address:</h6>
-                                <p class="col-md-6">{{ $agent_exp['address'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Position:</h6>
-                                <p class="col-md-6">{{ $agent_exp['position'] }}</p>
-                            </div>
-                        </div> 
-                    </div>
-                    @endif
-
-                    <hr>
-                    
-                    <div class="card-header">
-                        <h4>Family member as an agent or a staff of Prudential?  </h4> @if($applicant->family_agent == null) : No @endif
-                    </div>
-
-                    @if($applicant->family_agent != null)
-                    <div class="card-body"> 
-                        <div class="row">                            
-                        @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Name:</h6>
-                                <p class="col-md-6">{{ $family_agent['name'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Position:</h6>
-                                <p class="col-md-6">{{ $family_agent['position'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Agent Code:</h6>
-                                <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Relation:</h6>
-                                <p class="col-md-6">{{ $family_agent['relation'] }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">NRC:</h6>
-                                <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
+                                <p>{{ $exp['position'] ?? '-' }}</p>
+                                <p>{{ $exp['department_name'] ?? '-' }}</p>
+                                <p>{{ $exp['duration']?? '-' }}</p>
                             </div>
                         </div>
                     </div>
                     @endif
 
+                    <hr>
+
+                    <div class="card-header">
+                        <h4>Current and past employment details </h4> @if($applicant->employment == null) : No
+                        Experience
+                        @endif
+                    </div>
+
+                    @if($applicant->agent_exp != null)
+                    <div class="card-body">
+                        <div class="row">
+                            @php $employment = json_decode( $applicant->employment, true ); @endphp
+                            <div class="card-body">
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Company:</h6>
+                                    <p class="col-md-6">{{ $employment['company_name'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Address:</h6>
+                                    <p class="col-md-6">{{ $employment['address'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Position:</h6>
+                                    <p class="col-md-6">{{ $employment['position'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Income:</h6>
+                                    <p class="col-md-6">{{ $employment['income'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Industry:</h6>
+                                    <p class="col-md-6">{{ $employment['industry_type'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        <hr>
+
+                        <div class="card-header">
+                            <h4>Have any selling experience or acted as an agent </h4> @if($applicant->agent_exp ==
+                            null) : No @endif
+                        </div>
+
+                        @if($applicant->agent_exp != null)
+                        <div class="card-body">
+                            <div class="row">
+                                @php $agent_exp = json_decode( $applicant->family_agent, true ); @endphp
+                                <div class="card-body">
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">Position:</h6>
+                                        <p class="col-md-6">{{ $agent_exp['position'] }}</p>
+                                    </div>
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">Address:</h6>
+                                        <p class="col-md-6">{{ $agent_exp['address'] }}</p>
+                                    </div>
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">Position:</h6>
+                                        <p class="col-md-6">{{ $agent_exp['position'] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            <hr>
+
+                            <div class="card-header">
+                                <h4>Family member as an agent or a staff of Prudential? </h4>
+                                @if($applicant->family_agent == null) : No @endif
+                            </div>
+
+                            @if($applicant->family_agent != null)
+                            <div class="card-body">
+                                <div class="row">
+                                    @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">Name:</h6>
+                                        <p class="col-md-6">{{ $family_agent['name'] }}</p>
+                                    </div>
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">Position:</h6>
+                                        <p class="col-md-6">{{ $family_agent['position'] }}</p>
+                                    </div>
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">Agent Code:</h6>
+                                        <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
+                                    </div>
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">Relation:</h6>
+                                        <p class="col-md-6">{{ $family_agent['relation'] }}</p>
+                                    </div>
+                                    <div class="mt-1 row">
+                                        <h6 class="col-md-4">NRC:</h6>
+                                        <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        
+
     </section>
 </div>
 @endsection
