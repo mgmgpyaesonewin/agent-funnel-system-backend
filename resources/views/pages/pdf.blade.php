@@ -688,11 +688,11 @@
                            <td width="361">
                               <p>For and on behalf of the Company</p>
                               <p><em><em>Signature</em></em></p>
-                              <img src="{{ public_path().'/storage/'.$applicant->sign_img }}" width="136" height="92">
                            </td>
                            <td width="390">
                               <p>The Advisor</p>
                               <p><em><em>Signature</em></em></p>
+                              <img src="{{ public_path().'/storage/'.$applicant->sign_img }}" width="136" height="92">
                            </td>
                         </tr>
                         <tr>
@@ -746,6 +746,7 @@
                         <tr>
                            <td width="361">
                               <p>Name:</p>
+                              <p>{{ $applicant->name }}</p>
                            </td>
                            <td width="390">
                               <p>Name:</p>
