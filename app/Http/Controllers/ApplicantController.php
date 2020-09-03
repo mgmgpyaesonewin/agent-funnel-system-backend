@@ -343,6 +343,21 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $request->id)->first();
         $applicant->current_status = $current_status;
         $applicant->status_id = $status_id;
+
+        if ('onboard' == $current_status && 7 == $status_id) {
+            $route = env('FRONT_END_URL').'/sign/'.$applicant->uuid;
+            $link = $route;
+            $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value."{$link}";
+            notified_applicant_via_viber($applicant->phone, $this->text);
+        }
+
+        if ('pmli_filter' == $current_status && 11 == $status_id) {
+            $route = env('FRONT_END_URL').'/payment';
+            $link = $route;
+            $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."{$link}";
+            notified_applicant_via_viber($applicant->phone, $this->text);
+        }
+
         $applicant->statuses()->attach($status_id, ['current_status' => $current_status]);
         $applicant->save();
 

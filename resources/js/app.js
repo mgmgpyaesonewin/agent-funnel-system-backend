@@ -43,14 +43,22 @@ Vue.component("v-info-button", require("./components/InfoButton.vue").default);
 Vue.component("v-interview", require("./components/Interview.vue").default);
 Vue.component("v-search-form", require("./components/SearchForm.vue").default);
 Vue.component("v-track", require("./components/Track.vue").default);
+
 Vue.component(
   "v-user-create-form",
   require("./components/UserCreateForm.vue").default
 );
+
 Vue.component(
   "v-template-add-more-input",
   require("./components/AddMoreInput.vue").default
 );
+
+Vue.component(
+  "v-template-add-more-input-edit",
+  require("./components/AddMoreInputEdit.vue").default
+);
+
 Vue.component("v-payment", require("./components/Payment.vue").default);
 
 Vue.prototype.$location = window.location;
