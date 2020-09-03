@@ -11,8 +11,7 @@
 @endsection
 
 @section('content')
-{{-- {{ dd($partners) }} --}}
-
+@include('layouts._flash-message')
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -72,9 +71,9 @@
                         </thead>
                         <tbody>
                             @foreach ($partners as $partner)
-                            <tr data-toggle="collapse" data-target="#accordion" class="clickable">
+                            <tr data-toggle="collapse" data-target="#accordion-{{$partner->id}}" class="clickable">
                                 <th scope="row">{{$partner->id}}</th>
-                                <td class="">{{$partner->pic_name}}</td>
+                                <td class="text-info"><u>{{$partner->pic_name}}</u></td>
                                 <td class="">{{$partner->pic_email}}</td>
                                 <td class="">{{$partner->pic_phone}}</td>
                                 <td class="">{{$partner->company_name}}</td>
@@ -84,19 +83,24 @@
                                     <form method="POST" action="{{route('partners.destroy',$partner->id)}}">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-secondary">Delete</button>
+                                        <button class="btn btn-outline-danger">Delete</button>
                                 </td>
                                 </form>
                             </tr>
                             <tr>
                                 <td colspan="6">
-                                    <div id="accordion" class="collapse">
+                                    <div id="accordion-{{$partner->id}}" class="collapse">
+                                        <table class="table  table-bordered">
+                                        <thead>
+                                        <tr><th colspan="2">User list of {{$partner->company_name}}</th></tr>
+                                        </thead>
                                         @foreach ($partner->users as $user)
-                                        <div>
-                                            <span>{{ $user->name }}</span>
-                                            <span>{{ $user->email }}</span>
-                                        </div>
+                                        <tr>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                        </tr>
                                         @endforeach
+                                        </table>
                                     </div>
                                 </td>
                             </tr>

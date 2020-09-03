@@ -1,14 +1,14 @@
 <template>
   <div class="table-responsive">
     <div class="row" v-if="!isApplicantsEmpty">
-      <div class="col-6">
+      <div class="col-5">
         <h5 style="text-align: initial;line-height: 3rem;">
           Total
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.
         </h5>
       </div>
-      <div class="col-3" v-show="amlStatus && isPartner == 0">
-        <div class="btn-group">
+      <div class="col-4" v-show="amlStatus && isPartner == 0">
+        <div class="btn-group pull-left">
           <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
           <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
         </div>
@@ -45,7 +45,7 @@
           </th>
           <th v-show="age">Age</th>
           <th v-show="gender">Gender</th>
-          <td v-show="exam">Exam Date</td>
+          <th v-show="exam">Exam Date</th>
           <th v-show="channel">Channel</th>
           <th v-show="assign">Assign</th>
           <th v-show="statusCol">Status</th>
@@ -85,8 +85,10 @@
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
           <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }} </td>
-          <td v-show="isPartner == 0 && amlStatus == 1">
-            <slot :applicant="applicant"></slot>
+          <td v-show="isPartner == 0">          
+              <span v-if="currentStatus !== 'pmli_filter' || (applicant.aml_status == 'Passed' && currentStatus == 'pmli_filter') "> 
+                <slot :applicant="applicant"></slot>
+              </span>
           </td>
         </tr>
       </tbody>

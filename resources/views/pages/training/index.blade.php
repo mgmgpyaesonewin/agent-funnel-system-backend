@@ -9,7 +9,7 @@
 @section('title', 'Trainings Information')
 
 @section('content')
-
+@include('layouts._flash-message')
 <div class="row">
   <div class="col-12">
     <div class="card">

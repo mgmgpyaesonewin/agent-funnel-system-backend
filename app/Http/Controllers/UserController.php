@@ -142,8 +142,17 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-
-        return redirect('/users');
+        $check = Applicant::where('assign_admin_id', $user->id)->orwhere('assign_bdm_id', $user->id)->orwhere('assign_ma_id', $user->id)->count();
+        
+        if($check == 0)
+        {
+            $user->delete();
+            return redirect('/users')->with('status', 'Successfully deleted a user');
+        }    
+        else
+        {
+            return redirect('/users')->withErrors(['You cannot delete this user because he/she is assigned to applicants.']);
+        }        
+        
     }
 }

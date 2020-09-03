@@ -82,8 +82,16 @@ class TrainingController extends Controller
 
     public function destroy(Training $training)
     {
-        $training->delete();
-
-        return redirect('/trainings');
+        $check = DB::table('applicant_training')->where('training_id', $training->id)->count();
+        
+        if($check == 0)
+        {
+            $training->delete();
+            return redirect('/trainings')->with('status', 'Successfully deleted a training course');
+        }    
+        else
+        {
+            return redirect('/trainings')->withErrors(['You cannot delete this training course because it is assigned to applicants.']);
+        }
     }
 }

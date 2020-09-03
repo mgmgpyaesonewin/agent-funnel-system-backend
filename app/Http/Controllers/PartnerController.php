@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PartnerRequest;
 use App\Partner;
+use App\Applicant;
 use Illuminate\Http\Request;
 
 class PartnerController extends Controller
@@ -58,8 +59,16 @@ class PartnerController extends Controller
 
     public function destroy(Partner $partner)
     {
-        $partner->delete();
-
-        return redirect('/partners');
+        $check = Applicant::where('partner_id', $partner->id)->count();
+        
+        if($check == 0)
+        {
+            $partner->delete();
+            return redirect('/partners')->with('status', 'Successfully deleted a partner account');
+        }    
+        else
+        {
+            return redirect('/partners')->withErrors(['You cannot delete this partner account because he/she has applicants.']);
+        }
     }
 }
