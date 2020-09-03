@@ -6,7 +6,7 @@
         </tr>
         <tr>
             <td>Prefered Name</td>
-            <td>{{ $applicant->email }}</td>
+            <td>{{ $applicant->preferred_name }}</td>
         </tr>
         <tr>
             <td>Phone</td>
@@ -17,12 +17,16 @@
             <td>{{ $applicant->secondary_phone }}</td>
         </tr>
         <tr>
+            <td>Prefered Name</td>
+            <td>{{ $applicant->email }}</td>
+        </tr>
+        <tr>
             <td>Gender</td>
             <td>{{ $applicant->gender }}</td>
         </tr>
         <tr>
             <td>Marital Status</td>
-            <td>{{ ($applicant->married == '1' ? 'Married' : 'Single') }}</td>
+            <td>{{ $applicant->married }}</td>
         </tr>
         <tr>
             <td>NRC</td>
@@ -38,11 +42,11 @@
         </tr>
         <tr>
             <td>City</td>
-            <td>{{ $applicant->email }}</td>
+            <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
         </tr>
         <tr>
             <td>Township</td>
-            <td>{{ $applicant->email }}</td>
+            <td>{{ DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-'}}</td>
         </tr>
         <tr>
             <td>Myanmar Citizen</td>
@@ -53,28 +57,8 @@
             <td>{{ $applicant->race }}</td>
         </tr>
         <tr>
-            <td>Education</td>
+            <td>Highest Qualification</td>
             <td>{{ $applicant->education }}</td>
         </tr>
-        <tr>
-            <td colspan="2">Work Experience</td>
-        </tr>
-        @if($applicant->employment != null)
-        @php $user = json_decode( $applicant->employment, true ); @endphp
-        @foreach ($user as $exp)
-        <tr>
-            <td>Position</td>
-            <td>{{ $exp['title'] }}</td>
-        </tr>
-        <tr>
-            <td>Company Name</td>
-            <td>{{ $exp['company'] }}</td>
-        </tr>
-        <tr>
-            <td>Duration</td>
-            <td>{{ $exp['start_date'] }} - {{ $exp['end_date'] }}</td>
-        </tr>
-        @endforeach
-        @endif
     </tbody>
 </table>
