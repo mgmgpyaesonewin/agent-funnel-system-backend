@@ -25,6 +25,17 @@ class SendViberNotification
             }
         }
 
+        if ($event->applicant->isDirty('status_id') && 'onboard' == $event->applicant->current_status) {
+            $attributes = $event->applicant->getDirty();
+
+            if (7 == $attributes['status_id'] && 1 == $event->applicant->status_id) {
+                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid;
+                $link = $route;
+                $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value."{$link}";
+                notified_applicant_via_viber($event->applicant->phone, $this->text);
+            }
+        }
+
         if ($event->applicant->isDirty('current_status') && 1 == $event->applicant->status_id) {
             $attributes = $event->applicant->getDirty();
             // Stage 3

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Setting;
+use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    public function index(){
-
+    public function index()
+    {
         $payment = Setting::where('meta_key', 'payment_mandatory')->pluck('meta_value')->first();
         $msg_templates = Setting::where('meta_key', 'like', '%msg%')->get();
-        
+
         return view('pages.setting', compact('payment', 'msg_templates'));
     }
 
@@ -39,21 +39,20 @@ class SettingController extends Controller
 
         $setting = Setting::where('meta_key', 'exam_msg')->first();
         $setting->meta_value = $request->exam_msg;
-        $setting->save();   
-        
+        $setting->save();
+
         $setting = Setting::where('meta_key', 'license_msg')->first();
         $setting->meta_value = $request->license_msg;
-        $setting->save();    
+        $setting->save();
 
         $setting = Setting::where('meta_key', 'contract_msg')->first();
         $setting->meta_value = $request->contract_msg;
         $setting->save();
 
         $setting = Setting::where('meta_key', 'payment_mandatory')->first();
-        $setting->meta_value = ($request->payment_option == 'on' ? '1' : '0');
+        $setting->meta_value = ('on' == $request->payment_option ? '1' : '0');
         $setting->save();
 
         return redirect('/setting')->with('status', 'Successfully Updated the Settings & Viber Messages');
     }
 }
-

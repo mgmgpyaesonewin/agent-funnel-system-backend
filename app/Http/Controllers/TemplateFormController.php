@@ -17,25 +17,25 @@ class TemplateFormController extends Controller
      */
     public function getCity(Request $req)
     {
-        $lang_id = $req->lang === 'my' ? 3 : 1;
-        $cities = DB::table('city_descriptions')
+        $lang_id = 'my' === $req->lang ? 3 : 1;
+
+        return DB::table('city_descriptions')
             ->select('c_id as value', 'name as text')
             ->where('languages_id', $lang_id)->get();
-
-        return $cities;
     }
 
     public function getTownship(Request $req)
     {
         $city_id = $req->id;
-        $lang_id = $req->lang === 'my' ? 3 : 1;
+        $lang_id = 'my' === $req->lang ? 3 : 1;
 
-        $townships = DB::table('townships')
+        return DB::table('townships')
             ->where('city_id', $city_id)
             ->join('township_descriptions', 'townships.id', 'township_descriptions.townships_id')
             ->where('language_id', $lang_id)
             ->select('townships_id as value', 'description_name as text')
-            ->get();
+            ->get()
+        ;
         // $townships = $townships->map(function ($township) {
         //     return [
         //         'city_id' => $township->city_id,
@@ -43,14 +43,15 @@ class TemplateFormController extends Controller
         //         'township_description' => $township->description[0]->description_name,
         //     ];
         // });
-
-        return $townships;
     }
+
     public function index()
     {
-        $templates = TemplateForm::orderby('active','desc')->get();
+        $templates = TemplateForm::orderby('active', 'desc')->get();
+
         return view('pages.templateform.index', compact('templates'));
     }
+
     public function getform(Request $req)
     {
         $templates = TemplateForm::where('active', true)->first();
@@ -59,11 +60,13 @@ class TemplateFormController extends Controller
         if ($applicant) {
             return [
                 'template' => $templates,
-                'applicant' => $applicant
+                'applicant' => $applicant,
             ];
         }
+
         return response('[]', 404);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -73,6 +76,7 @@ class TemplateFormController extends Controller
     {
         return view('pages.templateform.create');
     }
+
     public function activate(Request $req)
     {
         TemplateForm::where('id', '!=', $req->id)->update(['active' => false]);
@@ -111,7 +115,7 @@ class TemplateFormController extends Controller
     public function edit($templateForm)
     {
         $templateForm = TemplateForm::findOrFail($templateForm);
-        //   dd($templateForm);
+
         return view('pages.templateform.edit', compact('templateForm'));
     }
 
@@ -127,12 +131,15 @@ class TemplateFormController extends Controller
     public function update(Template $request, $id)
     {
         $validated_data = $request->validated();
-        $Templatedetail = TemplateForm::findOrFail($id);
-        $template = collect($Templatedetail)->except('id');
+        // dd($validated_data);
+        $template_detail = TemplateForm::findOrFail($id);
+        $template = collect($template_detail)->except('id');
         foreach ($template as $key => $value) {
             $template[$key] = $validated_data[$key] ?? false;
         }
-        $Templatedetail->update($template->toArray());
+        $template_detail->update($template->toArray());
+
+        $template_detail->additional_info = $validated_data['additional_info'];
 
         return  redirect('templateforms');
     }

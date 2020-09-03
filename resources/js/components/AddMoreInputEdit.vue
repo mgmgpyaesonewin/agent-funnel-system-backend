@@ -1,6 +1,6 @@
 <template>
   <div class="col-8">
-    <div class="row mb-2" v-for="(n, index) in length" :key="index">
+    <div class="row mb-2" v-for="(data, index) in info_data" :key="index">
       <label class="form-check-label" for="template_name">Additional Info</label>
       <div class="input-group">
         <input
@@ -8,9 +8,10 @@
           class="form-control"
           placeholder="Additional Information"
           name="additional_info[]"
+          :value="data"
         />
         <div class="input-group-append">
-          <button class="btn btn-outline-primary" type="button" @click="remove">
+          <button class="btn btn-outline-primary" type="button" @click="remove(index)">
             <i class="fa fa-times" aria-hidden="true"></i> Remove
           </button>
         </div>
@@ -29,16 +30,19 @@ export default {
   props: ["additionalInfo"],
   data() {
     return {
-      length: 0,
+      info_data: [],
     };
   },
   methods: {
     add() {
-      this.length += 1;
+      this.info_data.push("");
     },
-    remove() {
-      this.length -= 1;
+    remove(index) {
+      this.info_data.splice(index, 1);
     },
+  },
+  mounted() {
+    this.info_data = this.additionalInfo;
   },
 };
 </script>
