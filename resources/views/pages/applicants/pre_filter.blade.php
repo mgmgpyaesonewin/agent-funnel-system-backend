@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <v-search-form current-status="pre_filter" export-url="pmli_filter" :enable-export="true"
+                        <v-search-form current-status="pre_filter" export-url="pmli_filter" :enable-export="false"
                             :statuses-array="{{ $statuses }}"></v-search-form>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
 @section('title', 'Users Information')
 
 @section('content')
-
+@include('layouts._flash-message')
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -87,7 +87,7 @@
                                     <form method="POST" action="{{route('users.destroy',$user->id)}}">
                                         @method('delete')
                                         @csrf
-                                        <button class="btn btn-secondary">Delete</button>
+                                        <button class="btn btn-outline-danger">Delete</button>
                                     </form>
                                 </td>
                             </tr>

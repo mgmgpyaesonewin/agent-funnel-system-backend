@@ -31,7 +31,7 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
     }
 
     public function map($applicant): array
-    {
+    { 
         return [
             $applicant->id,
             $applicant->name,

@@ -1,14 +1,14 @@
 <template>
   <div class="table-responsive">
     <div class="row" v-if="!isApplicantsEmpty">
-      <div class="col-6">
+      <div class="col-5">
         <h5 style="text-align: initial;line-height: 3rem;">
           Total
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.
         </h5>
       </div>
-      <div class="col-3" v-show="amlStatus && isPartner == 0">
-        <div class="btn-group pull-right">
+      <div class="col-4" v-show="amlStatus && isPartner == 0">
+        <div class="btn-group pull-left">
           <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
           <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
         </div>
@@ -36,14 +36,16 @@
     <table class="table">
       <thead>
         <tr>
-          <th v-show="assignCheckbox === true  && isPartner == 0"></th>
+          <th v-show="isPartner == 0"></th>
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
-          <th v-show="amlStatus">AML/Compliance Check</th>
+          <th v-show="amlStatus">
+            AML/Compliance Check
+          </th>
           <th v-show="age">Age</th>
           <th v-show="gender">Gender</th>
-          <td v-show="exam">Exam Date</td>
+          <th v-show="exam">Exam Date</th>
           <th v-show="channel">Channel</th>
           <th v-show="assign">Assign</th>
           <th v-show="statusCol">Status</th>
@@ -52,8 +54,8 @@
       </thead>
       <tbody>
         <tr v-for="(applicant,i) in applicants.data" :key="i">
-          <td v-show="assignCheckbox === true  && isPartner == 0">
-            <fieldset v-show="applicant.status_id === 1">
+          <td v-show="isPartner == 0">
+            <fieldset>
               <div class="vs-checkbox-con vs-checkbox-primary">
                 <input type="checkbox" v-model="selectedApplicants" :value="applicant.id" />
                 <span class="vs-checkbox">
@@ -82,9 +84,11 @@
             <div class="badge badge-warning">{{ applicant.ma && applicant.ma.name }}</div>
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
-          <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }}</td>
-          <td v-show="isPartner == 0 && amlStatus != 'Pending'">
-            <slot :applicant="applicant"></slot>
+          <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }} </td>
+          <td v-show="isPartner == 0">          
+              <span v-if="currentStatus !== 'pmli_filter' || (applicant.aml_status == 'Passed' && currentStatus == 'pmli_filter') "> 
+                <slot :applicant="applicant"></slot>
+              </span>
           </td>
         </tr>
       </tbody>

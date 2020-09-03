@@ -48,7 +48,7 @@ class TemplateFormController extends Controller
     }
     public function index()
     {
-        $templates = TemplateForm::all();
+        $templates = TemplateForm::orderby('active','desc')->get();
         return view('pages.templateform.index', compact('templates'));
     }
     public function getform(Request $req)
