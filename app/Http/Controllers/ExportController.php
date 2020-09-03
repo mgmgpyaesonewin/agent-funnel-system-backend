@@ -44,7 +44,7 @@ class ExportController extends Controller
     {
         $applicant = Applicant::where('id', 2)->first();
         $applicant->agreement_no = $applicant->temp_id;
-        $applicant->signed_date = Carbon::now();
+        $applicant->signed_date = Carbon::now()->format('d-m-Y');               
 
         view()->share('applicant', $applicant);
         $pdf = PDF::loadView('pages.pdf', $applicant);
