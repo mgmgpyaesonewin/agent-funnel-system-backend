@@ -39,7 +39,11 @@ class SettingController extends Controller
 
         $setting = Setting::where('meta_key', 'exam_msg')->first();
         $setting->meta_value = $request->exam_msg;
-        $setting->save();        
+        $setting->save();   
+        
+        $setting = Setting::where('meta_key', 'license_msg')->first();
+        $setting->meta_value = $request->license_msg;
+        $setting->save();    
 
         $setting = Setting::where('meta_key', 'contract_msg')->first();
         $setting->meta_value = $request->contract_msg;

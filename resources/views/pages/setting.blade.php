@@ -103,6 +103,10 @@
               Examination date reminder (Training Stage)
               @break
 
+              @case('license_msg')
+              License Information Collection (Certification Stage)
+              @break
+
               @case('contract_msg')
               Re-Send Contract (Onboarding Stage)
               @break

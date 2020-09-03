@@ -14,7 +14,7 @@ class ApplicantsImport implements ToModel, WithHeadingRow
      * @return null|\Illuminate\Database\Eloquent\Model
      */
     public function model(array $row)
-    {
+    { 
         return Applicant::updateOrCreate(
             [
                 'id' => $row['no'],
@@ -27,7 +27,7 @@ class ApplicantsImport implements ToModel, WithHeadingRow
                 'nrc' => $row['nrc'],
                 'address' => $row['address'],
                 'dob' => $row['dob'],
-                'aml_check' => $row['aml_check'],
+                'aml_check' => ('Passed' == $row['aml_check'] ? 1 : ('Pending' == $row['aml_check'] ? 0 : 2)), 
                 'current_status' => $row['current_stage'],
                 'status_id' => Status::where('title', $row['status'])->first()->id ?? null,
                 'partner_id' => Partner::where('company_name', $row['partner'])->first()->partner ?? null,
