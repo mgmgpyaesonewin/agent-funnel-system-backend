@@ -56,7 +56,7 @@ class ApplicantController extends Controller
         $appli = Applicant::where('uuid', $req->id)->first();
         $appli->name = $req->name;
         $appli->dob = $req->dob;
-        $appli->phone = $req->phone;
+        $appli->phone = $req->contact_no;
         $appli->secondary_phone = $req->alternate_no;
         $appli->gender = $appli->gender;
         $appli->preferred_name = $req->preferred_name;
