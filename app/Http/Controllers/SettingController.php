@@ -55,4 +55,18 @@ class SettingController extends Controller
 
         return redirect('/setting')->with('status', 'Successfully Updated the Settings & Viber Messages');
     }
+
+    public function document()
+    {
+        $document = Setting::where('meta_key', 'document')->first()->meta_value;
+        return view('pages.document', compact('document'));
+    }
+    public function updateDocument(Request $request)
+    {
+        $setting = Setting::where('meta_key', 'document')->first();
+        $setting->meta_value = $request->document;
+        $setting->save();
+
+        return redirect('/document')->with('status', 'Successfully Updated the Contract');
+    }
 }

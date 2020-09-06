@@ -4,7 +4,7 @@
       "url": "",
       "navheader": "Modules",
       "icon": "",
-	"role": "staff"
+      "role": "staff"
     },
     {
       "url": "/users",
@@ -28,7 +28,7 @@
       "url": "",
       "navheader": "Applicants",
       "icon": "",
-	"role": "all"
+      "role": "all"
     },
     {
       "url": "/lead",
@@ -86,7 +86,7 @@
       "url": "",
       "navheader": "Configurations",
       "icon": "",
-	"role": "staff"
+      "role": "staff"
     },
     {
       "url": "/trainings",
@@ -97,6 +97,12 @@
     {
       "url": "/templateforms",
       "name": "Templates Form",
+      "icon": "feather icon-sidebar",
+      "role": "staff"
+    },
+    {
+      "url": "/document",
+      "name": "Contract Form",
       "icon": "feather icon-sidebar",
       "role": "staff"
     },

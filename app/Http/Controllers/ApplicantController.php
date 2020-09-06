@@ -58,7 +58,7 @@ class ApplicantController extends Controller
         $appli->dob = $req->dob;
         $appli->phone = $req->contact_no;
         $appli->secondary_phone = $req->alternate_no;
-        $appli->gender = $appli->gender;
+    $appli->gender = $appli->gender;
         $appli->preferred_name = $req->preferred_name;
         $appli->nrc = $req->nrc;
         $file = $req->file('nrc_front');
