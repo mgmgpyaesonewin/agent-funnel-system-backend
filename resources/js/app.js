@@ -17,6 +17,9 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
+import CKEditor from "@ckeditor/ckeditor5-vue";
+Vue.use(CKEditor);
+
 Vue.use(VueSweetalert2);
 Vue.use(Loading);
 
@@ -60,6 +63,11 @@ Vue.component(
 );
 
 Vue.component("v-payment", require("./components/Payment.vue").default);
+
+Vue.component(
+  "v-document-editor",
+  require("./components/DocumentEditor.vue").default
+);
 
 Vue.prototype.$location = window.location;
 

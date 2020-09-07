@@ -13,7 +13,7 @@
           <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
         </div>
       </div>
-      <div v-show="userAssign === true && isPartner == 0" class="col-3">
+      <div v-show="userAssign === true && isPartner == 0" class="col-5 d-flex">
         <multi-select
           v-model="selectedUser"
           :options="users"
@@ -24,13 +24,13 @@
           label="name"
           deselect-label="You must choose at least one user"
           placeholder="Choose a User"
-          @select="onSelect"
         >
           <template slot="singleLabel" slot-scope="{ option }">
             <strong>{{ option.name }}</strong>
             is assign as {{ option.role }}
           </template>
         </multi-select>
+        <button class="btn btn-primary small" @click="onSelect(selectedUser)">Assign</button>
       </div>
     </div>
     <table class="table">
@@ -40,9 +40,7 @@
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
-          <th v-show="amlStatus">
-            AML/Compliance Check
-          </th>
+          <th v-show="amlStatus">AML/Compliance Check</th>
           <th v-show="age">Age</th>
           <th v-show="gender">Gender</th>
           <th v-show="exam">Exam Date</th>
@@ -84,11 +82,13 @@
             <div class="badge badge-warning">{{ applicant.ma && applicant.ma.name }}</div>
             <div class="badge badge-secondary">{{ applicant.staff && applicant.staff.name }}</div>
           </td>
-          <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }} </td>
-          <td v-show="isPartner == 0">          
-              <span v-if="currentStatus !== 'pmli_filter' || (applicant.aml_status == 'Passed' && currentStatus == 'pmli_filter') "> 
-                <slot :applicant="applicant"></slot>
-              </span>
+          <td v-show="statusCol">{{ getApplicantStatus(applicant.status_id) }}</td>
+          <td v-show="isPartner == 0">
+            <span
+              v-if="currentStatus !== 'pmli_filter' || (applicant.aml_status == 'Passed' && currentStatus == 'pmli_filter') "
+            >
+              <slot :applicant="applicant"></slot>
+            </span>
           </td>
         </tr>
       </tbody>
@@ -251,5 +251,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.small {
+  height: 40px;
+}
 </style>

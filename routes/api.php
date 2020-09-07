@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 
 Route::get('/getForm', 'TemplateFormController@getform');
 Route::post('/createuser', 'ApplicantController@createuser');
-Route::post('/pdf/{id}', 'ApplicantController@test');
+Route::post('/pdf/{id}', 'ApplicantController@signContract');
 Route::post('sign_check', 'ApplicantController@Access_SignBoard');
 Route::post('/bank_update/{id}', 'ApplicantController@bank_info_update');
 Route::post('/payment', 'ApplicantController@savePayment');
@@ -49,4 +49,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/applicants/learning', 'ApplicantController@saveELearningInfo');
 
     Route::post('/applicants/aml/update', 'ApplicantController@updateAML');
+    Route::post('/document/save', 'SettingController@updateDocument');
 });

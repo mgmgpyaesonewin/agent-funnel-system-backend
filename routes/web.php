@@ -63,7 +63,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', 'UserController');
     Route::get('/applicant/export/{id}', 'ExportController@applicantExport');
     Route::get('/document', 'SettingController@document');
-    Route::post('/document/save', 'SettingController@document');
 });
 
 Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');

@@ -21,7 +21,7 @@ use PDF;
 
 class ApplicantController extends Controller
 {
-    public function test(Request $req)
+    public function signContract(Request $req)
     {
         $applicant = Applicant::where('uuid', $req->id)->first();
 
@@ -39,7 +39,7 @@ class ApplicantController extends Controller
         $pdf = PDF::loadView('pages.pdf', $applicant);
 
         $contract = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
-        Storage::disk('public')->put('contracts/'.$applicant->phone.'.pdf', $contract);
+        Storage::disk('public')->put('contracts/'.$applicant->phone.'-'.Carbon::now()->format('d/m/y_h:m:s').'.pdf', $contract);
 
         Applicant::where('uuid', $req->id)->update([
             'pdf' => 'contracts/'.$applicant->phone.'.pdf',
@@ -58,7 +58,7 @@ class ApplicantController extends Controller
         $appli->dob = $req->dob;
         $appli->phone = $req->contact_no;
         $appli->secondary_phone = $req->alternate_no;
-    $appli->gender = $appli->gender;
+        $appli->gender = $appli->gender;
         $appli->preferred_name = $req->preferred_name;
         $appli->nrc = $req->nrc;
         $file = $req->file('nrc_front');
