@@ -34,19 +34,21 @@ class ApplicantController extends Controller
         ]);
 
         $applicant = Applicant::where('uuid', $req->id)->first();
-
+        $applicant->document = Setting::where('meta_key', 'document')->first()->meta_value;
+        
         view()->share('applicant', $applicant);
         $pdf = PDF::loadView('pages.pdf', $applicant);
 
         $contract = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
-        Storage::disk('public')->put('contracts/'.$applicant->phone.'-'.Carbon::now()->format('d/m/y_h:m:s').'.pdf', $contract);
+        $file = 'contracts/'.$applicant->phone.'-'.Carbon::now()->format('d_m_y_h_m_s').'.pdf';
+        Storage::disk('public')->put($file, $contract);
 
         Applicant::where('uuid', $req->id)->update([
-            'pdf' => 'contracts/'.$applicant->phone.'.pdf',
+            'pdf' => $file,
         ]);
 
         return response()->json([
-            'contract' => asset('storage/contracts/'.$applicant->phone.'.pdf'),
+            'contract' => asset('storage/'.$file),
         ]);
     }
 
