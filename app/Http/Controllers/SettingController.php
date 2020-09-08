@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Setting;
+use App\ImportHistory;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -54,5 +55,17 @@ class SettingController extends Controller
         $setting->save();
 
         return redirect('/setting')->with('status', 'Successfully Updated the Settings & Viber Messages');
+    }
+
+    public function history()
+    {
+        $files = ImportHistory::all();
+        return view('pages.import_history', compact('files'));
+    }
+
+    public function download_history($id)
+    {
+        $filename = ImportHistory::where('id',$id)->pluck('file_name');
+        return response()->download(storage_path("app/public/{$filename[0]}"));
     }
 }

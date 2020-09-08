@@ -157,9 +157,9 @@
             &ldquo;Parties&rdquo;)</p>
          <p>The Parties have agreed to enter into this Agreement under following terms and conditions:</p>
          <ol style="list-style-type:none;margin:0px;padding:0px;">
-            <h2>
-               <li>1. APPOINTMENT AND AUTHORIZATION&nbsp;</li>
-               </h1>
+            
+               <li><h2>1. APPOINTMENT AND AUTHORIZATION&nbsp;</h2></li>
+               
                <ol style="list-style-type:none;">
                   <li>1.1 Subject to the terms and conditions of this Agreement and upon the date of its signing, the
                      Company agrees to authorize the Advisor, and the Advisor&nbsp;agrees to accept such authorization,
@@ -202,9 +202,9 @@
                      first signed by the appointed Supervisor, which would also be a pre-condition for acceptance of the
                      application form by the Company.</li>
                </ol>
-               <h2>
-                  <li>2. OBLIGATIONS OF ADVISOR </li>
-               </h2>
+               
+               <li><h2>2. OBLIGATIONS OF ADVISOR </h2></li>
+               
                <ol style="list-style-type:none;">
                   <li>2.1 The Advisor shall comply with, at all times:</li>
                   <ol type="a">

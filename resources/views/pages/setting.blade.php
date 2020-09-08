@@ -20,15 +20,16 @@
               <form action="{{ url('setting/applicants/import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-
                   <div class="col-md-6">
                     <input type="file" name="file" class="form-control">
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-3">
                     <button type="submit" class="btn btn-warning">Upload</button>
                   </div>
-
+                  <div class="col-md-3">
+                    <a href="{{ url('setting/import_history') }}" class="btn btn-outline-warning px-1">View History</a>
+                  </div>
                 </div>
               </form>
             </span>
@@ -103,9 +104,9 @@
               Examination date reminder (Training Stage)
               @break
 
-              {{-- @case('license_msg')
+              @case('license_msg')
               License Information Collection (Certification Stage)
-              @break --}}
+              @break
 
               @case('contract_msg')
               Re-Send Contract (Onboarding Stage)
