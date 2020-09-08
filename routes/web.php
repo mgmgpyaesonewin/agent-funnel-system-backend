@@ -41,6 +41,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/setting/download_history/{id}', 'SettingController@download_history');
 
+    Route::get('/setting/remove_viber_img/{id}', 'SettingController@remove_viber_img');
+
     Route::get('/training/export/{id}', 'TrainingController@export');
 
     Route::get('/api/user/get_bdm_list', 'UserController@get_bdm_list');

@@ -61,7 +61,7 @@ class ExportController extends Controller
         $updated = collect([$import->getImportResult()]);
         
         $filename = 'ImportHistory'.date('dMY').'_'.date('his').'.xlsx';
-        Excel::store(new ImportBackupExport($org_data, $updated), $filename , 'public');
+        Excel::store(new ImportBackupExport($org_data, $updated), $filename , 'upload');
         
         // save filename to db
         $history = new ImportHistory;
