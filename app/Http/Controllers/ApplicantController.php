@@ -369,7 +369,7 @@ class ApplicantController extends Controller
         }
 
         if ('pmli_filter' == $current_status && 11 == $status_id) {
-            $route = env('FRONT_END_URL').'/payment';
+            $route = env('FRONT_END_URL').'/payment/'.$applicant->uuid;
             $link = $route;
             $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
