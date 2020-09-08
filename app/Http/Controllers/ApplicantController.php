@@ -100,7 +100,11 @@ class ApplicantController extends Controller
     {
         $appli = Applicant::where('uuid', $req->id)->first();
         if ($appli) {
-            return ['message' => 'valid'];
+            $contract = Setting::where('meta_key', 'document')->first()->meta_value;
+            return [
+                'message' => 'valid',
+                'contract' => $contract
+            ];
         }
 
         return response(['message' => 'invalid'], 422);
@@ -488,5 +492,10 @@ class ApplicantController extends Controller
             'status' => true,
             'message' => 'Successfully saved',
         ]);
+    }
+
+    public function validatePayment(Request $request)
+    {
+        return Applicant::where('uuid', $request->uuid)->firstOrFail();
     }
 }
