@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="training" temp-id="true" channel="true" assign="true"  :exam="false"
+                        <v-table ref="table" current-status="training" temp-id="true" channel="true" assign="true"  :exam="false" :user-assign="true"
                             :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <td>

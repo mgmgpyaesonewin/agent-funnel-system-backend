@@ -203,13 +203,24 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('nrc', $request->nrc)->first();
         $url = Storage::disk('public')->put('payments', $file);
 
-        $applicant->payment = $url;
-        $applicant->save();
+        if($applicant)
+        {
+            $applicant->payment = $url;
+            $applicant->save();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Successfully Created',
-        ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Successfully Created',
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Invalid User',
+            ]);
+        }
+        
     }
 
     public function pruDNAFilter(Request $request)
