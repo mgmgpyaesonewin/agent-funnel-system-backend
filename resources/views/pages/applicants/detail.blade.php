@@ -233,7 +233,7 @@
                         @if($applicant->agent_exp != null)
                         <div class="card-body">
                             <div class="row">
-                                @php $agent_exp = json_decode( $applicant->family_agent, true ); @endphp
+                                @php $agent_exp = json_decode( $applicant->agent_exp, true ); @endphp
                                 <div class="card-body">
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Position:</h6>
