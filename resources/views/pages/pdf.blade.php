@@ -193,6 +193,7 @@
                   </td>
                   <td width="390">
                      <p>Name:</p>
+                     <p>{{ $applicant->name }}</p>
                   </td>
                </tr>
                <tr>
@@ -227,7 +228,6 @@
                <tr>
                   <td width="361">
                      <p>Name:</p>
-                     <p>{{ $applicant->name }}</p>
                   </td>
                   <td width="390">
                      <p>Name:</p>
