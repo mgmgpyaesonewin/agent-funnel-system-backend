@@ -26,6 +26,18 @@
                         </span>
                         @enderror
                         </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Status</label>
+                        <select name="enable" class="form-control">
+                            <option value="1" @if($training->enable == '1') selected @endif>Enable</option>
+                            <option value="0" @if($training->enable == '0') selected @endif>Disable</option>
+                        </select>
+                        @error('enable')
+                        <span class="text-danger">                          
+                            {{$errors->get('enable')[0]}}
+                        </span>
+                        @enderror
+                        </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                       </form>
                 </div>

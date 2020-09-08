@@ -28,6 +28,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Total Assigned</th>
                 <th scope="col">Total Completed</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -38,6 +39,13 @@
                 <td class="">{{$data->name}}</td>
                 <td class="">{{ $total_trainee }}</td>
                 <td class="">{{$data->applicants->count()}}</td>
+                <td>
+                  @if ($data->enable == 1)
+                      <h4><span class="badge badge-pill badge-success">Enable</span></h4>
+                  @else
+                      <h4><span class="badge badge-pill ">Disable</span></h4>
+                  @endif
+                </td>
                 <td class="d-flex">
                   <a href="{{ url('training/export/'.$data->id)}}"  class="btn btn-info mr-1">Export</a>
                   <a href="{{route('trainings.edit',$data->id)}}" class="btn btn-warning mr-1">Edit</a>  

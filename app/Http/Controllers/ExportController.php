@@ -67,8 +67,8 @@ class ExportController extends Controller
         $history = new ImportHistory;
         $history->file_name = $filename;
         $history->save();
-
-        return redirect('/setting')->with('status', 'Successfully Imported. ');
+        
+        return redirect('/setting')->with('status', 'Successfully Imported.');
     }
 
     public function applicantExport(Request $request)
