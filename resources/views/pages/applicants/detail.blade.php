@@ -260,32 +260,29 @@
 
                             @if($applicant->family_agent != null)
                             <div class="card-body">
-                                <div class="row">
-                                    @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Name:</h6>
-                                        <p class="col-md-6">{{ $family_agent['name'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Position:</h6>
-                                        <p class="col-md-6">{{ $family_agent['position'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Agent Code:</h6>
-                                        <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Relation:</h6>
-                                        <p class="col-md-6">{{ $family_agent['relation'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">NRC:</h6>
-                                        <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
-                                    </div>
+                                @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Name:</h6>
+                                    <p class="col-md-6">{{ $family_agent['name'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Position:</h6>
+                                    <p class="col-md-6">{{ $family_agent['position'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Agent Code:</h6>
+                                    <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Relation:</h6>
+                                    <p class="col-md-6">{{ $family_agent['relation'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">NRC:</h6>
+                                    <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
                                 </div>
                             </div>
                             @endif
-
                         </div>
                     </div>
                 </div>
