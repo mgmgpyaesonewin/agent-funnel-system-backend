@@ -26,7 +26,7 @@ class AddAgreementNoToApplicantsTable extends Migration
         Schema::table('applicants', function (Blueprint $table) {
             $table->dropColumn('agreement_no');
             $table->dropColumn('signed_date');
-            // $table->dropColumn('sign_img');
+            $table->dropColumn('sign_img');
         });
     }
 }

@@ -13,7 +13,7 @@ use App\Setting;
 use App\Status;
 use App\Training;
 use Carbon\Carbon;
-use Hash;
+use Hash;  
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,6 +23,11 @@ class ApplicantController extends Controller
 {
     public function signContract(Request $req)
     {
+        // applicant_sign
+        // witness_sign
+        // witness_name
+        // contract_version
+        
         $applicant = Applicant::where('uuid', $req->id)->first();
 
         $sign = Storage::disk('public')->put('sign', $req->url);
