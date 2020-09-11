@@ -13,14 +13,14 @@ class CreateContractsTable extends Migration
     {
         Schema::create('contracts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('pdf');
+            $table->string('pdf')->nullable();
             $table->string('agreement_no')->nullable();
             $table->dateTime('signed_date')->nullable();
             $table->string('applicant_sign_img')->nullable();
             $table->string('witness_name')->nullable();
             $table->string('witness_sign_img')->nullable();
             $table->integer('version');
-            $table->bigInteger('applicant_id')->unsigned()->nullable();
+            $table->bigInteger('applicant_id')->unsigned();
             $table->foreign('applicant_id')->references('id')->on('applicants');
             $table->timestamps();
         });

@@ -3,11 +3,18 @@
 namespace App\Listeners;
 
 use App\Events\ApplicantUpdating;
+use App\Interfaces\ContractInterface;
 use App\Setting;
 
 class SendViberNotification
 {
     protected $text = 'default text';
+    protected $contract;
+
+    public function __construct(ContractInterface $contractInterface)
+    {
+        $this->contract = $contractInterface;
+    }
 
     /**
      * Handle the event.
@@ -18,18 +25,8 @@ class SendViberNotification
             $attributes = $event->applicant->getDirty();
 
             if (7 == $attributes['status_id'] && 1 == $event->applicant->status_id) {
-                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid;
-                $link = $route;
-                $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value."{$link}";
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
-            }
-        }
-
-        if ($event->applicant->isDirty('status_id') && 'onboard' == $event->applicant->current_status) {
-            $attributes = $event->applicant->getDirty();
-
-            if (7 == $attributes['status_id'] && 1 == $event->applicant->status_id) {
-                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid;
+                $contract_version = $this->contract->resendContract($event->applicant->id);
+                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
                 $link = $route;
                 $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value."{$link}";
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
@@ -59,7 +56,10 @@ class SendViberNotification
                 $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."It will take you to fill your license forms.{$link}";
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
 
-                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid;
+                // generate a empty contract to check route is not accessible after he had made the contract
+                $contract_version = $this->contract->createRawContract($event->applicant->id);
+
+                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
                 $link = $route;
 
                 $this->text = "Please, Sign your contract. {$link}";

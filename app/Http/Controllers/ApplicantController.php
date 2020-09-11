@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Contract;
 use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
+use App\Interfaces\ContractInterface;
 use App\Interview;
-use App\Mail\SendStatusNotification;
-use App\Mail\SendWebinarNotification;
 use App\Partner;
 use App\Setting;
 use App\Status;
 use App\Training;
 use Carbon\Carbon;
-use Hash;  
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,34 +23,34 @@ class ApplicantController extends Controller
 {
     public function signContract(Request $req)
     {
-        // applicant_sign
-        // witness_sign
-        // witness_name
-        // contract_version
-        
         $applicant = Applicant::where('uuid', $req->id)->first();
 
-        $sign = Storage::disk('public')->put('sign', $req->url);
+        $applicant_sign = Storage::disk('public')->put('sign/applicant', $req->applicant_url);
+        $witness_sign_img = Storage::disk('public')->put('sign/witness', $req->witness_url);
 
-        Applicant::where('uuid', $req->id)->update([
-            'sign_img' => $sign,
-            'agreement_no' => $applicant->temp_id,
-            'signed_date' => Carbon::now(),
-        ]);
+        $contract = Contract::where('version', $req->version)->where('applicant_id', $applicant->id)->first();
+        $contract->agreement_no = $applicant->temp_id;
+        $contract->signed_date = Carbon::now();
+        $contract->applicant_sign_img = $applicant_sign;
+        $contract->witness_name = $req->witness_name;
+        $contract->witness_sign_img = $witness_sign_img;
+        $contract->save();
 
-        $applicant = Applicant::where('uuid', $req->id)->first();
         $applicant->document = Setting::where('meta_key', 'document')->first()->meta_value;
-        
+        $applicant->agreement_no = $contract->agreement_no;
+        $applicant->applicant_sign_img = $contract->applicant_sign_img;
+        $applicant->witness_sign_img = $contract->witness_sign_img;
+        $applicant->witness_name = $contract->witness_name;
+
         view()->share('applicant', $applicant);
         $pdf = PDF::loadView('pages.pdf', $applicant);
 
-        $contract = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
+        $contract_pdf = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
         $file = 'contracts/'.$applicant->phone.'-'.Carbon::now()->format('d_m_y_h_m_s').'.pdf';
-        Storage::disk('public')->put($file, $contract);
+        Storage::disk('public')->put($file, $contract_pdf);
 
-        Applicant::where('uuid', $req->id)->update([
-            'pdf' => $file,
-        ]);
+        $contract->pdf = $file;
+        $contract->save();
 
         return response()->json([
             'contract' => asset('storage/'.$file),
@@ -103,14 +103,15 @@ class ApplicantController extends Controller
         return $appli;
     }
 
-    public function Access_SignBoard(Request $req)
+    public function Access_SignBoard(Request $req, ContractInterface $contractI)
     {
-        $appli = Applicant::where('uuid', $req->id)->first();
-        if ($appli) {
+        $contract_valid = $contractI->isValidContract($req->id, (int) $req->version);
+        if ($contract_valid) {
             $contract = Setting::where('meta_key', 'document')->first()->meta_value;
+
             return [
                 'message' => 'valid',
-                'contract' => $contract
+                'contract' => $contract,
             ];
         }
 
@@ -210,8 +211,7 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('nrc', $request->nrc)->first();
         $url = Storage::disk('public')->put('payments', $file);
 
-        if($applicant)
-        {
+        if ($applicant) {
             $applicant->payment = $url;
             $applicant->save();
 
@@ -220,14 +220,11 @@ class ApplicantController extends Controller
                 'message' => 'Successfully Created',
             ]);
         }
-        else
-        {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid User',
-            ]);
-        }
-        
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Invalid User',
+        ]);
     }
 
     public function pruDNAFilter(Request $request)
@@ -357,7 +354,7 @@ class ApplicantController extends Controller
         return view('pages.applicants.detail', compact('applicant'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, ContractInterface $contract)
     {
         $current_status = $request->current_status;
         $status_id = $request->status_id;
@@ -367,7 +364,8 @@ class ApplicantController extends Controller
         $applicant->status_id = $status_id;
 
         if ('onboard' == $current_status && 7 == $status_id) {
-            $route = env('FRONT_END_URL').'/sign/'.$applicant->uuid;
+            $contract_version = $contract->resendContract($applicant->id);
+            $route = env('FRONT_END_URL').'/sign/'.$applicant->uuid.'?version='.$contract_version;
             $link = $route;
             $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value."{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);

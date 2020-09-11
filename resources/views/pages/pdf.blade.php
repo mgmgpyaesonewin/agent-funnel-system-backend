@@ -173,7 +173,7 @@
                   <td width="390">
                      <p>The Advisor</p>
                      <p><em><em>Signature</em></em></p>
-                     <img src="{{ public_path().'/storage/'.$applicant->sign_img }}" width="136" height="92">
+                     <img src="{{ public_path().'/storage/'.$applicant->applicant_sign_img }}" width="136" height="92">
                   </td>
                </tr>
                <tr>
@@ -212,6 +212,7 @@
                   <td width="390">
                      <p>Witness</p>
                      <p><em><em>Signature</em></em></p>
+                     <img src="{{ public_path().'/storage/'.$applicant->witness_sign_img }}" width="136" height="92">
                   </td>
                </tr>
                <tr>
@@ -231,6 +232,7 @@
                   </td>
                   <td width="390">
                      <p>Name:</p>
+                     <p>{{ $applicant->witness_name }}</p>
                   </td>
                </tr>
             </tbody>
