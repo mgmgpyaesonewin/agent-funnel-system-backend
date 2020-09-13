@@ -308,7 +308,7 @@ class ApplicantController extends Controller
         $applicant_id = $request->applicant_id;
 
         $record = [
-            'appointment' => $appointment,
+            'appointment' => $appointment->format("jS \of F Y \(l\) h:i A"),
             'url' => $request->url,
             'rescheduled' => 0,
             'applicant_id' => $applicant_id,
@@ -457,7 +457,7 @@ class ApplicantController extends Controller
         $exam_date = $request->exam_date;
 
         Applicant::where('id', $applicant_id)->update([
-            'exam_date' => $exam_date,
+            'exam_date' => $exam_date->format("jS \of F Y \(l\)"),
             'current_status' => 'certification',
             'status_id' => 1,
         ]);

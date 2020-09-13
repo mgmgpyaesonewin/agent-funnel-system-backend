@@ -20,6 +20,7 @@ class TrainingResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'enable' => $this->enable,
         ];
     }
 }

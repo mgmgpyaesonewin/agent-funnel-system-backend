@@ -53,7 +53,7 @@ class SendViberNotification
             if ('onboard' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
                 $route = env('FRONT_END_URL').'/login';
                 $link = $route;
-                $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."It will take you to fill your license forms.{$link}";
+                $this->text = Setting::where('meta_key', 'license_msg')->first()->meta_value.' '.$link;
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
 
                 // generate a empty contract to check route is not accessible after he had made the contract
@@ -62,7 +62,7 @@ class SendViberNotification
                 $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
                 $link = $route;
 
-                $this->text = "Please, Sign your contract. {$link}";
+                $this->text = "Please, sign your contract here: {$link}";
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
             }
 

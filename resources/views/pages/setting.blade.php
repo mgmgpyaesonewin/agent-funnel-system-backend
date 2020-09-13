@@ -20,15 +20,16 @@
               <form action="{{ url('setting/applicants/import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-
                   <div class="col-md-6">
                     <input type="file" name="file" class="form-control">
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-3">
                     <button type="submit" class="btn btn-warning">Upload</button>
                   </div>
-
+                  <div class="col-md-3">
+                    <a href="{{ url('setting/import_history') }}" class="btn btn-outline-warning px-1">View History</a>
+                  </div>
                 </div>
               </form>
             </span>
@@ -51,7 +52,7 @@
       </button>
     </div>
     @endif
-    <form action="{{ url('/setting/update_setting') }}" method="post">
+    <form action="{{ url('/setting/update_setting') }}" method="post" enctype="multipart/form-data">
       {{ csrf_field() }}
       <div class="card">
         <div class="card-content">
@@ -77,7 +78,9 @@
           </div>
           @foreach($msg_templates as $temp)
           <div class="form-group row mx-1">
-            <label for="inputPassword" class="col-sm-3 col-form-label">
+            
+            <div class="col-sm-7">
+            <label for="inputPassword" class="col-form-label"><strong>
               @switch($temp->meta_key)
               @case('cv_form_msg')
               Full CV Form link (Leads Stage)
@@ -103,27 +106,38 @@
               Examination date reminder (Training Stage)
               @break
 
-              {{-- @case('license_msg')
+              @case('license_msg')
               License Information Collection (Certification Stage)
-              @break --}}
+              @break
 
               @case('contract_msg')
               Re-Send Contract (Onboarding Stage)
               @break
 
               @endswitch
-            </label>
-            <div class="col-sm-9">
-              <textarea class="form-control" id="exampleFormControlTextarea1" name="{{$temp->meta_key}}"
-                rows="3">{{$temp->meta_value}}</textarea>
+              </strong></label>
+            @php $data = json_decode( $temp->meta_value, true ); @endphp
+              <textarea class="form-control" id="exampleFormControlTextarea1" name="{{$temp->meta_key}}" rows="5">{{$data['text']}}</textarea>
+              <br>
+              <label for="inputPassword" class="col-form-label"><strong>Image to insert in above Viber Message</strong></label>
+              <input type="file" name="{{$temp->meta_key}}_img" class="form-control" accept="image/*">
+              
+            </div>
+            <div class="col-sm-5"> 
+            @if(isset($data['image']) && $data['image'] != '')
+              <label for="inputPassword" class="col-form-label"><strong>Current Image included in this viber message</strong></label>
+              <img class="img-fluid" src="{{$data['image']}}">   
+              <br><br>
+              <center><a href="{{ url('/setting/remove_viber_img/'.$temp->id) }}" class="btn btn-secondary">Remove Image</a></center>     
+            @endif
             </div>
           </div>
-          @endforeach
           <hr>
+          @endforeach
+          
           <div class="form-group row mx-1">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-9">
-              <button type="submit" class="btn btn-primary">Save Changes</button>
+            <div class="col-sm-12">
+              <button type="submit" class="btn btn-primary pull-right">Save Changes</button>
             </div>
           </div>
 

@@ -4,8 +4,10 @@ namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class SheetExport implements FromCollection, WithHeadings{
+class SheetExport implements FromCollection, WithHeadings, WithTitle
+{
     protected $data;
 
     public function __construct($data, $title)
@@ -21,10 +23,13 @@ class SheetExport implements FromCollection, WithHeadings{
 
     public function headings(): array
     {
-
         return [
-            ['Title', $this->title],
             ['Name', 'Phone'],
          ];
+    }
+
+    public function title(): string
+    {
+        return $this->title;
     }
 }

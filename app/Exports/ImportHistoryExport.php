@@ -4,13 +4,26 @@ namespace App\Exports;
 
 use App\Applicant;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
+class ImportHistoryExport implements FromCollection, WithMapping, WithHeadings, WithTitle
 {
     use Exportable;
+
+    public $data;
+
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
+
+    public function collection()
+    {
+        return $this->data;
+    }
 
     public function headings(): array
     {
@@ -48,24 +61,8 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
         ];
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function query()
+    public function title(): string
     {
-        return Applicant::query()->with(['statuses', 'partner'])->select(
-            'uuid',
-            'name',
-            'phone',
-            'email',
-            'gender',
-            'nrc',
-            'address',
-            'dob',
-            'aml_check',
-            'current_status',
-            'status_id',
-            'partner_id'
-        );
+        return 'Before Import';
     }
 }

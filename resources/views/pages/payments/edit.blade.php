@@ -20,7 +20,7 @@
                         @csrf
                         <div class="form-group">
                             <label>Partner</label>
-                            <select name="partner_id">
+                            <select name="partner_id" class="form-control">
                                 @foreach ($partners as $partner)
                                 <option value="{{ $partner->id }}"
                                     selected="{{ $partner->id == $payment->partner_id }}">
