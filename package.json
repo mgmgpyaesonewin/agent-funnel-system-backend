@@ -31,6 +31,7 @@
     "@ckeditor/ckeditor5-vue": "^1.0.2",
     "js-file-download": "^0.4.12",
     "laravel-vue-pagination": "^2.3.1",
+    "vue-clipboard2": "^0.3.1",
     "vue-loading-overlay": "^3.3.2",
     "vue-multiselect": "^2.1.6",
     "vue-sweetalert2": "^3.0.6",

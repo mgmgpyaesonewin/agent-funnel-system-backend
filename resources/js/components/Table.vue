@@ -75,7 +75,7 @@
           <td v-show="age">{{ applicant.age}}</td>
           <td v-show="gender">{{ applicant.gender}}</td>
           <td v-show="exam">{{ applicant.exam_date }}</td>
-          <td v-show="channel">{{ applicant.partner && applicant.partner.name }}</td>
+          <td v-show="channel">{{ applicant.utm_source }}</td>
           <td v-show="assign">
             <div class="badge badge-primary">{{ applicant.admin && applicant.admin.name }}</div>
             <div class="badge badge-info">{{ applicant.bdm && applicant.bdm.name }}</div>

@@ -110,11 +110,11 @@
                                 <p>{{ $applicant->nrc }}</p>
                                 <div>
                                     <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ $applicant->license_photo_1 }}>
+                                        url={{ url('/storage/'.$applicant->nrc_front_img) }}>
                                         <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
                                     </v-info-button>
                                     <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ $applicant->license_photo_1 }}>
+                                        url={{ url('/storage/'.$applicant->nrc_back_img) }}>
                                         <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
                                     </v-info-button>
                                 </div>
@@ -292,6 +292,36 @@
                     </div>
                 </div>
 
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Trainings</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            @foreach ($trainings as $module)
+                            <li>
+                                {{ $module->name }}
+                                @if ($applicant->trainings->contains('id', $module->id))
+                                <span>
+                                    ( <span class="text-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span> )
+                                </span>
+                                @else
+                                <span>( <span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                    )</span>
+                                @endif
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 @endsection

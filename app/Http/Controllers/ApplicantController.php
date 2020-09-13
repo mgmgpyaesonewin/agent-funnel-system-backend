@@ -59,7 +59,6 @@ class ApplicantController extends Controller
 
     public function detail(Request $req)
     {
-        // return $req->file('nrc_back');
         $appli = Applicant::where('uuid', $req->id)->first();
         $appli->name = $req->name;
         $appli->dob = $req->dob;
@@ -70,12 +69,12 @@ class ApplicantController extends Controller
         $appli->nrc = $req->nrc;
         $file = $req->file('nrc_front');
         if ($req->hasFile('nrc_front')) {
-            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $url = Storage::disk('public')->put('nrc_photo', $file);
             $appli->nrc_front_img = $url;
         }
         $file = $req->file('nrc_back');
         if ($req->hasFile('nrc_back')) {
-            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $url = Storage::disk('public')->put('nrc_photo', $file);
             $appli->nrc_back_img = $url;
         }
         $appli->myanmar_citizen = $req->myanmar_citizen;
@@ -85,7 +84,7 @@ class ApplicantController extends Controller
         $appli->address = $req->address;
 
         $appli->city_id = $req->city;
-        $appli->township_id - $req->township;
+        $appli->township_id = $req->township;
         $appli->education = $req->highest_qualification;
         $appli->email = $req->email;
         $appli->accept_t_n_c = 1;
@@ -296,7 +295,8 @@ class ApplicantController extends Controller
                 'payment',
                 'license_photo_1',
                 'license_photo_2',
-                'pdf'
+                'pdf',
+                'utm_source'
             )->paginate(35);
 
         return ApplicantResource::collection($applicants);
@@ -308,7 +308,7 @@ class ApplicantController extends Controller
         $applicant_id = $request->applicant_id;
 
         $record = [
-            'appointment' => $appointment->format("jS \of F Y \(l\) h:i A"),
+            'appointment' => $appointment->format('jS \\of F Y \\(l\\) h:i A'),
             'url' => $request->url,
             'rescheduled' => 0,
             'applicant_id' => $applicant_id,
@@ -349,9 +349,10 @@ class ApplicantController extends Controller
 
     public function applicantsDetail(Request $request)
     {
-        $applicant = Applicant::where('id', $request->id)->first();
+        $applicant = Applicant::with('trainings')->where('id', $request->id)->first();
+        $trainings = Training::all();
 
-        return view('pages.applicants.detail', compact('applicant'));
+        return view('pages.applicants.detail', compact('applicant', 'trainings'));
     }
 
     public function update(Request $request, ContractInterface $contract)
@@ -457,7 +458,7 @@ class ApplicantController extends Controller
         $exam_date = $request->exam_date;
 
         Applicant::where('id', $applicant_id)->update([
-            'exam_date' => $exam_date->format("jS \of F Y \(l\)"),
+            'exam_date' => $exam_date->format('jS \\of F Y \\(l\\)'),
             'current_status' => 'certification',
             'status_id' => 1,
         ]);

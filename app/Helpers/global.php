@@ -62,3 +62,10 @@ if (!function_exists('notified_applicant_via_viber')) {
         }
     }
 }
+
+if (!function_exists('reverse_slug')) {
+    function reverse_slug($slug)
+    {
+        return ucwords(str_replace('-', ' ', $slug));
+    }
+}
