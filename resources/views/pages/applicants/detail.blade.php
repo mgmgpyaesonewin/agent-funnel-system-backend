@@ -16,10 +16,10 @@
                         <h3 style="padding-top: 1.5rem;
     padding-left: 19rem;
     color: white;
-                    font-weight: 600;">Applicant's Detail {{ $applicant->temp_id }}</h3>
+                    font-weight: 600;">Applicant's Detail {{ '- '.$applicant->temp_id }}</h3>
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
-                        <img src="{{ asset('images/profile/user-uploads/user-13.jpg') }}"
+                        <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
                             class="rounded-circle img-border box-shadow-1" alt="Card image">
                         <div class="float-right">
                             <a href="{{ url('/applicant/export/'.$applicant->id) }}"
@@ -68,7 +68,7 @@
                         <h4>About</h4>
                     </div>
                     <div class="card-body">
-                        <div class="mt-1 row">
+                        <div class="row">
                             <h6 class="col-md-4">Name:</h6>
                             <p class="col-md-6">{{ $applicant->name }}</p>
                         </div>
@@ -106,14 +106,19 @@
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">NRC:</h6>
-                            <p class="col-md-6">{{ $applicant->nrc }}
-                                <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
-                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
-                                </v-info-button>
-                                <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
-                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
-                                </v-info-button>
-                            </p>
+                            <div class="col-md-6">
+                                <p>{{ $applicant->nrc }}</p>
+                                <div>
+                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                        url={{ $applicant->license_photo_1 }}>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
+                                    </v-info-button>
+                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                        url={{ $applicant->license_photo_1 }}>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
+                                    </v-info-button>
+                                </div>
+                            </div>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Address:</h6>
