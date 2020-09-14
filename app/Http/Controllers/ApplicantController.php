@@ -200,7 +200,9 @@ class ApplicantController extends Controller
         $data['status_id'] = 1;
         $data['uuid'] = (string) Str::uuid();
 
-        return  Applicant::create($data);
+        return  Applicant::create($data)
+                    ->statuses()
+                    ->attach(1, ['current_status' => 'pre_filter']);
     }
 
     public function savePayment(Request $request)
@@ -326,7 +328,7 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $applicant_id)->first();
 
         // Stage 5
-        $text = Setting::where('meta_key', 'interview_msg')->first()->meta_value."{$appointment}, {$request->url}";
+        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."{$appointment}, {$request->url}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 
@@ -368,14 +370,14 @@ class ApplicantController extends Controller
             $contract_version = $contract->resendContract($applicant->id);
             $route = env('FRONT_END_URL').'/sign/'.$applicant->uuid.'?version='.$contract_version;
             $link = $route;
-            $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value."{$link}";
+            $this->text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
         if ('pmli_filter' == $current_status && 11 == $status_id) {
             $route = env('FRONT_END_URL').'/payment/'.$applicant->uuid;
             $link = $route;
-            $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."{$link}";
+            $this->text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
@@ -405,6 +407,7 @@ class ApplicantController extends Controller
         if ($applicant_training_sessions >= $no_of_training_sessions) {
             $applicant->current_status = 'training';
             $applicant->status_id = 3;
+            $applicant->statuses()->attach(3, ['current_status' => 'training']);
             $applicant->saveQuietly();
         }
 
@@ -458,13 +461,13 @@ class ApplicantController extends Controller
         $exam_date = $request->exam_date;
 
         Applicant::where('id', $applicant_id)->update([
-            'exam_date' => $exam_date->format('jS \\of F Y \\(l\\)'),
+            'exam_date' => $exam_date,
             'current_status' => 'certification',
             'status_id' => 1,
         ]);
 
         $applicant = Applicant::where('id', $applicant_id)->first();
-        $text = Setting::where('meta_key', 'exam_msg')->first()->meta_value." {$exam_date}";
+        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text." {$exam_date}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 
@@ -502,7 +505,7 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = Setting::where('meta_key', 'elearning_msg')->first()->meta_value."E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
+        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
         notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([
