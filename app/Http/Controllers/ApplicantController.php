@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Contract;
 use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
+use App\Interfaces\ContractInterface;
 use App\Interview;
-use App\Mail\SendStatusNotification;
-use App\Mail\SendWebinarNotification;
 use App\Partner;
 use App\Setting;
 use App\Status;
@@ -21,54 +21,60 @@ use PDF;
 
 class ApplicantController extends Controller
 {
-    public function test(Request $req)
+    public function signContract(Request $req)
     {
         $applicant = Applicant::where('uuid', $req->id)->first();
 
-        $sign = Storage::disk('public')->put('sign', $req->url);
+        $applicant_sign = Storage::disk('public')->put('sign/applicant', $req->applicant_url);
+        $witness_sign_img = Storage::disk('public')->put('sign/witness', $req->witness_url);
 
-        Applicant::where('uuid', $req->id)->update([
-            'sign_img' => $sign,
-            'agreement_no' => $applicant->temp_id,
-            'signed_date' => Carbon::now(),
-        ]);
+        $contract = Contract::where('version', $req->version)->where('applicant_id', $applicant->id)->first();
+        $contract->agreement_no = $applicant->temp_id;
+        $contract->signed_date = Carbon::now();
+        $contract->applicant_sign_img = $applicant_sign;
+        $contract->witness_name = $req->witness_name;
+        $contract->witness_sign_img = $witness_sign_img;
+        $contract->save();
 
-        $applicant = Applicant::where('uuid', $req->id)->first();
+        $applicant->document = Setting::where('meta_key', 'document')->first()->meta_value;
+        $applicant->agreement_no = $contract->agreement_no;
+        $applicant->applicant_sign_img = $contract->applicant_sign_img;
+        $applicant->witness_sign_img = $contract->witness_sign_img;
+        $applicant->witness_name = $contract->witness_name;
 
         view()->share('applicant', $applicant);
         $pdf = PDF::loadView('pages.pdf', $applicant);
 
-        $contract = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
-        Storage::disk('public')->put('contracts/' . $applicant->phone . '.pdf', $contract);
+        $contract_pdf = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
+        $file = 'contracts/' . $applicant->phone . '-' . Carbon::now()->format('d_m_y_h_m_s') . '.pdf';
+        Storage::disk('public')->put($file, $contract_pdf);
 
-        Applicant::where('uuid', $req->id)->update([
-            'pdf' => 'contracts/' . $applicant->phone . '.pdf',
-        ]);
+        $contract->pdf = $file;
+        $contract->save();
 
         return response()->json([
-            'contract' => asset('storage/contracts/' . $applicant->phone . '.pdf'),
+            'contract' => asset('storage/' . $file),
         ]);
     }
 
     public function detail(Request $req)
     {
-        // return $req->file('nrc_back');
         $appli = Applicant::where('uuid', $req->id)->first();
         $appli->name = $req->name;
         $appli->dob = $req->dob;
-        $appli->phone = $req->contact_no;
+        $appli->phone = str_replace('-', '', $req->contact_no);
         $appli->secondary_phone = $req->alternate_no;
         $appli->gender = $appli->gender;
         $appli->preferred_name = $req->preferred_name;
         $appli->nrc = $req->nrc;
         $file = $req->file('nrc_front');
         if ($req->hasFile('nrc_front')) {
-            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $url = Storage::disk('public')->put('nrc_photo', $file);
             $appli->nrc_front_img = $url;
         }
         $file = $req->file('nrc_back');
         if ($req->hasFile('nrc_back')) {
-            $url = Storage::disk('local')->put('nrc_photo', $file);
+            $url = Storage::disk('public')->put('nrc_photo', $file);
             $appli->nrc_back_img = $url;
         }
         $appli->myanmar_citizen = $req->myanmar_citizen;
@@ -78,7 +84,7 @@ class ApplicantController extends Controller
         $appli->address = $req->address;
 
         $appli->city_id = $req->city;
-        $appli->township_id - $req->township;
+        $appli->township_id = $req->township;
         $appli->education = $req->highest_qualification;
         $appli->email = $req->email;
         $appli->accept_t_n_c = 1;
@@ -96,11 +102,16 @@ class ApplicantController extends Controller
         return $appli;
     }
 
-    public function Access_SignBoard(Request $req)
+    public function Access_SignBoard(Request $req, ContractInterface $contractI)
     {
-        $appli = Applicant::where('uuid', $req->id)->first();
-        if ($appli) {
-            return ['message' => 'valid'];
+        $contract_valid = $contractI->isValidContract($req->id, (int) $req->version);
+        if ($contract_valid) {
+            $contract = Setting::where('meta_key', 'document')->first()->meta_value;
+
+            return [
+                'message' => 'valid',
+                'contract' => $contract,
+            ];
         }
 
         return response(['message' => 'invalid'], 422);
@@ -188,7 +199,9 @@ class ApplicantController extends Controller
         $data['status_id'] = 1;
         $data['uuid'] = (string) Str::uuid();
 
-        return  Applicant::create($data);
+        return  Applicant::create($data)
+            ->statuses()
+            ->attach(1, ['current_status' => 'pre_filter']);
     }
 
     public function savePayment(Request $request)
@@ -196,11 +209,20 @@ class ApplicantController extends Controller
         $file = $request->file('file');
         $applicant = Applicant::where('nrc', $request->nrc)->first();
         $url = Storage::disk('public')->put('payments', $file);
-        $applicant->payment = $url;
-        $applicant->save();
+
+        if ($applicant) {
+            $applicant->payment = $url;
+            $applicant->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Successfully Created',
+            ]);
+        }
+
         return response()->json([
-            'status' => true,
-            'message' => 'Successfully Created',
+            'status' => false,
+            'message' => 'Invalid User',
         ]);
     }
 
@@ -273,7 +295,8 @@ class ApplicantController extends Controller
                 'payment',
                 'license_photo_1',
                 'license_photo_2',
-                'pdf'
+                'pdf',
+                'utm_source'
             )->paginate(35);
 
         return ApplicantResource::collection($applicants);
@@ -285,7 +308,7 @@ class ApplicantController extends Controller
         $applicant_id = $request->applicant_id;
 
         $record = [
-            'appointment' => $appointment,
+            'appointment' => $appointment->format('jS \\of F Y \\(l\\) h:i A'),
             'url' => $request->url,
             'rescheduled' => 0,
             'applicant_id' => $applicant_id,
@@ -303,7 +326,7 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $applicant_id)->first();
 
         // Stage 5
-        $text = Setting::where('meta_key', 'interview_msg')->first()->meta_value . "{$appointment}, {$request->url}";
+        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text . "{$appointment}, {$request->url}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 
@@ -326,12 +349,13 @@ class ApplicantController extends Controller
 
     public function applicantsDetail(Request $request)
     {
-        $applicant = Applicant::where('id', $request->id)->first();
+        $applicant = Applicant::with('trainings')->where('id', $request->id)->first();
+        $trainings = Training::all();
 
-        return view('pages.applicants.detail', compact('applicant'));
+        return view('pages.applicants.detail', compact('applicant', 'trainings'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, ContractInterface $contract)
     {
         $current_status = $request->current_status;
         $status_id = $request->status_id;
@@ -341,16 +365,17 @@ class ApplicantController extends Controller
         $applicant->status_id = $status_id;
 
         if ('onboard' == $current_status && 7 == $status_id) {
-            $route = env('FRONT_END_URL') . '/sign/' . $applicant->uuid;
+            $contract_version = $contract->resendContract($applicant->id);
+            $route = env('FRONT_END_URL') . '/sign/' . $applicant->uuid . '?version=' . $contract_version;
             $link = $route;
-            $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value . "{$link}";
+            $this->text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text . "{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
         if ('pmli_filter' == $current_status && 11 == $status_id) {
-            $route = env('FRONT_END_URL') . '/payment';
+            $route = env('FRONT_END_URL') . '/payment/' . $applicant->uuid;
             $link = $route;
-            $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value . "{$link}";
+            $this->text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text . "{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
@@ -380,6 +405,7 @@ class ApplicantController extends Controller
         if ($applicant_training_sessions >= $no_of_training_sessions) {
             $applicant->current_status = 'training';
             $applicant->status_id = 3;
+            $applicant->statuses()->attach(3, ['current_status' => 'training']);
             $applicant->saveQuietly();
         }
 
@@ -439,7 +465,7 @@ class ApplicantController extends Controller
         ]);
 
         $applicant = Applicant::where('id', $applicant_id)->first();
-        $text = Setting::where('meta_key', 'exam_msg')->first()->meta_value . " {$exam_date}";
+        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text . " {$exam_date}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 
@@ -477,12 +503,17 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = Setting::where('meta_key', 'elearning_msg')->first()->meta_value . "E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
+        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text . "E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
         notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([
             'status' => true,
             'message' => 'Successfully saved',
         ]);
+    }
+
+    public function validatePayment(Request $request)
+    {
+        return Applicant::where('uuid', $request->uuid)->firstOrFail();
     }
 }

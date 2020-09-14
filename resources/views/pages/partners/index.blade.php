@@ -18,34 +18,41 @@
             <div class="card-content">
                 <div class="card-body">
                     <form action="{{ url('/partners') }}" method="get">
-                    <div class="d-flex">
-                        <div class="px-2">
-                            <fieldset class="form-group">
-                                <label for="name">Name</label> 
-                                <input type="text" name="name" placeholder="Name" class="form-control" value="{{ app('request')->input('name') }}">
-                            </fieldset>
-                        </div>
-                        <div class="px-2">
-                            <fieldset class="form-group">
-                                <label for="partner">Company Name</label> 
-                                <input type="text" name="company" placeholder="Company Name" class="form-control" value="{{ app('request')->input('company') }}">
-                            </fieldset>
-                        </div>
-         
-                    
-                        <div class="px-2">
-                            <div class="row mt-2">
-                            <button type="submit" class="btn btn-primary"> Search </button>
+                        <div class="d-flex">
+                            <div class="px-2">
+                                <fieldset class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" placeholder="Name" class="form-control"
+                                        value="{{ app('request')->input('name') }}">
+                                </fieldset>
                             </div>
-                        </div>
+                            <div class="px-2">
+                                <fieldset class="form-group">
+                                    <label for="partner">Company Name</label>
+                                    <input type="text" name="company" placeholder="Company Name" class="form-control"
+                                        value="{{ app('request')->input('company') }}">
+                                </fieldset>
+                            </div>
+                            <div class="px-2">
+                                <fieldset class="form-group">
+                                    <label for="partner">Company Name</label>
+                                    <input type="text" name="company" placeholder="Company Name" class="form-control"
+                                        value="{{ app('request')->input('company') }}">
+                                </fieldset>
+                            </div>
+                            <div class="px-2">
+                                <div class="row mt-2">
+                                    <button type="submit" class="btn btn-primary"> Search </button>
+                                </div>
+                            </div>
 
-                        </div>        
-                    </div>
-                    </form>
+                        </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>
 <div class="row">
     <div class="col-12">
@@ -66,6 +73,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Company</th>
+                                <th scope="col">UTM Tracking</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -77,6 +85,17 @@
                                 <td class="">{{$partner->pic_email}}</td>
                                 <td class="">{{$partner->pic_phone}}</td>
                                 <td class="">{{$partner->company_name}}</td>
+                                <td class="">
+                                    <div class="d-flex">
+                                        <span>
+                                            {{ $partner->slug }}
+                                        </span>
+                                        <v-copy-clipboard-btn class-css="btn btn-sm"
+                                            text="{{ env('FRONT_END_URL').'/register?utm_source='.$partner->slug }}">
+                                            <i class="fa fa-clipboard text-primary" aria-hidden="true"></i>
+                                        </v-copy-clipboard-btn>
+                                    </div>
+                                </td>
                                 <td class="d-flex">
                                     <a href="{{route('partners.edit',$partner->id)}}"
                                         class="btn btn-warning mr-4">Edit</a>
@@ -88,18 +107,20 @@
                                 </form>
                             </tr>
                             <tr>
-                                <td colspan="6">
+                                <td colspan="7">
                                     <div id="accordion-{{$partner->id}}" class="collapse">
                                         <table class="table  table-bordered">
-                                        <thead>
-                                        <tr><th colspan="2">User list of {{$partner->company_name}}</th></tr>
-                                        </thead>
-                                        @foreach ($partner->users as $user)
-                                        <tr>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                        </tr>
-                                        @endforeach
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="2">User list of {{$partner->company_name}}</th>
+                                                </tr>
+                                            </thead>
+                                            @foreach ($partner->users as $user)
+                                            <tr>
+                                                <td>{{ $user->name }}</td>
+                                                <td>{{ $user->email }}</td>
+                                            </tr>
+                                            @endforeach
                                         </table>
                                     </div>
                                 </td>

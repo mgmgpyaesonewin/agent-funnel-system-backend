@@ -42,7 +42,7 @@ class TrainingController extends Controller
 
     public function getAllTrainings(Request $request)
     {
-        $trainings = Training::all();
+        $trainings = Training::where('enable', '1')->get();
 
         return response()->json([
             'data' => TrainingResource::collection($trainings),

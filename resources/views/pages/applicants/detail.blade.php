@@ -16,10 +16,10 @@
                         <h3 style="padding-top: 1.5rem;
     padding-left: 19rem;
     color: white;
-                    font-weight: 600;">Applicant's Detail {{ $applicant->temp_id }}</h3>
+                    font-weight: 600;">Applicant's Detail {{ '- '.$applicant->temp_id }}</h3>
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
-                        <img src="{{ asset('images/profile/user-uploads/user-13.jpg') }}"
+                        <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
                             class="rounded-circle img-border box-shadow-1" alt="Card image">
                         <div class="float-right">
                             <a href="{{ url('/applicant/export/'.$applicant->id) }}"
@@ -68,7 +68,7 @@
                         <h4>About</h4>
                     </div>
                     <div class="card-body">
-                        <div class="mt-1 row">
+                        <div class="row">
                             <h6 class="col-md-4">Name:</h6>
                             <p class="col-md-6">{{ $applicant->name }}</p>
                         </div>
@@ -106,14 +106,19 @@
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">NRC:</h6>
-                            <p class="col-md-6">{{ $applicant->nrc }}
-                                <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
-                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
-                                </v-info-button>
-                                <v-info-button css-class="btn btn-info" url={{ $applicant->license_photo_1 }}>
-                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
-                                </v-info-button>
-                            </p>
+                            <div class="col-md-6">
+                                <p>{{ $applicant->nrc }}</p>
+                                <div>
+                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                        url={{ url('/storage/'.$applicant->nrc_front_img) }}>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
+                                    </v-info-button>
+                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                        url={{ url('/storage/'.$applicant->nrc_back_img) }}>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
+                                    </v-info-button>
+                                </div>
+                            </div>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Address:</h6>
@@ -233,7 +238,7 @@
                         @if($applicant->agent_exp != null)
                         <div class="card-body">
                             <div class="row">
-                                @php $agent_exp = json_decode( $applicant->family_agent, true ); @endphp
+                                @php $agent_exp = json_decode( $applicant->agent_exp, true ); @endphp
                                 <div class="card-body">
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Position:</h6>
@@ -260,36 +265,63 @@
 
                             @if($applicant->family_agent != null)
                             <div class="card-body">
-                                <div class="row">
-                                    @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Name:</h6>
-                                        <p class="col-md-6">{{ $family_agent['name'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Position:</h6>
-                                        <p class="col-md-6">{{ $family_agent['position'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Agent Code:</h6>
-                                        <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">Relation:</h6>
-                                        <p class="col-md-6">{{ $family_agent['relation'] }}</p>
-                                    </div>
-                                    <div class="mt-1 row">
-                                        <h6 class="col-md-4">NRC:</h6>
-                                        <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
-                                    </div>
+                                @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Name:</h6>
+                                    <p class="col-md-6">{{ $family_agent['name'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Position:</h6>
+                                    <p class="col-md-6">{{ $family_agent['position'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Agent Code:</h6>
+                                    <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Relation:</h6>
+                                    <p class="col-md-6">{{ $family_agent['relation'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">NRC:</h6>
+                                    <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
                                 </div>
                             </div>
                             @endif
-
                         </div>
                     </div>
                 </div>
 
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Trainings</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            @foreach ($trainings as $module)
+                            <li>
+                                {{ $module->name }}
+                                @if ($applicant->trainings->contains('id', $module->id))
+                                <span>
+                                    ( <span class="text-success">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </span> )
+                                </span>
+                                @else
+                                <span>( <span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                    )</span>
+                                @endif
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 @endsection

@@ -112,9 +112,19 @@ class Applicant extends Model
         return $this->belongsToMany('App\Training');
     }
 
+    public function contracts()
+    {
+        return $this->hasMany('App\Contract');
+    }
+
     public function getInterviewScheduleAttribute()
     {
         return $this->interviews()->where('rescheduled', 0)->latest()->first();
+    }
+
+    public function getUtmSourceAttribute($value)
+    {
+        return reverse_slug($value);
     }
 
     public function getAgeAttribute()
@@ -124,7 +134,7 @@ class Applicant extends Model
 
     public function getGenderAttribute($value)
     {
-        return 1 === $value ? 'Male' : 'Female';
+        return 0 === $value ? 'Male' : 'Female';
     }
 
     public function getAmlCheckAttribute($value)

@@ -17,8 +17,13 @@ import "vue-multiselect/dist/vue-multiselect.min.css";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
+import VueClipboard from "vue-clipboard2";
+import CKEditor from "@ckeditor/ckeditor5-vue";
+
+Vue.use(CKEditor);
 Vue.use(VueSweetalert2);
 Vue.use(Loading);
+Vue.use(VueClipboard);
 
 /**
  * The following block of code may be used to automatically register your
@@ -43,23 +48,27 @@ Vue.component("v-info-button", require("./components/InfoButton.vue").default);
 Vue.component("v-interview", require("./components/Interview.vue").default);
 Vue.component("v-search-form", require("./components/SearchForm.vue").default);
 Vue.component("v-track", require("./components/Track.vue").default);
-
 Vue.component(
   "v-user-create-form",
   require("./components/UserCreateForm.vue").default
 );
-
 Vue.component(
   "v-template-add-more-input",
   require("./components/AddMoreInput.vue").default
 );
-
 Vue.component(
   "v-template-add-more-input-edit",
   require("./components/AddMoreInputEdit.vue").default
 );
-
 Vue.component("v-payment", require("./components/Payment.vue").default);
+Vue.component(
+  "v-document-editor",
+  require("./components/DocumentEditor.vue").default
+);
+Vue.component(
+  "v-copy-clipboard-btn",
+  require("./components/CopyToClipboard.vue").default
+);
 
 Vue.prototype.$location = window.location;
 

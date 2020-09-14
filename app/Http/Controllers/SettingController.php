@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Setting;
+use App\ImportHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -17,42 +19,95 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
-        $setting = Setting::where('meta_key', 'cv_form_msg')->first();
-        $setting->meta_value = $request->cv_form_msg;
-        $setting->save();
-
-        $setting = Setting::where('meta_key', 'dna_test_msg')->first();
-        $setting->meta_value = $request->dna_test_msg;
-        $setting->save();
-
-        $setting = Setting::where('meta_key', 'interview_msg')->first();
-        $setting->meta_value = $request->interview_msg;
-        $setting->save();
-
-        $setting = Setting::where('meta_key', 'elearning_msg')->first();
-        $setting->meta_value = $request->elearning_msg;
-        $setting->save();
-
-        $setting = Setting::where('meta_key', 'payment_msg')->first();
-        $setting->meta_value = $request->payment_msg;
-        $setting->save();
-
-        $setting = Setting::where('meta_key', 'exam_msg')->first();
-        $setting->meta_value = $request->exam_msg;
-        $setting->save();
-
-        $setting = Setting::where('meta_key', 'license_msg')->first();
-        $setting->meta_value = $request->license_msg;
-        $setting->save();
-
-        $setting = Setting::where('meta_key', 'contract_msg')->first();
-        $setting->meta_value = $request->contract_msg;
-        $setting->save();
+        foreach($request->all() as $key => $value) {
+            if($key != "payment_option" && $key != "_token")
+                $this->updateTemplate($request, $key, $value);
+        
+        }
 
         $setting = Setting::where('meta_key', 'payment_mandatory')->first();
         $setting->meta_value = ('on' == $request->payment_option ? '1' : '0');
         $setting->save();
 
         return redirect('/setting')->with('status', 'Successfully Updated the Settings & Viber Messages');
+    }
+
+    public function updateTemplate($request, $key, $text)
+    {
+        $setting = Setting::where('meta_key', $key)->first(); 
+
+        if($request->hasFile($key.'_img'))
+        {
+            $path = $request->file($key.'_img')->store('viber', 'public');
+            $value = json_encode([
+                'text' => $text,
+                'image' => $path
+            ]);
+        }
+        else
+        {
+            if($setting)
+            {
+                $img = json_decode( $setting->meta_value, true);
+                $value = json_encode([
+                    'text' => $text,
+                    'image' => (isset($img['image']) ? $img['image'] : '')
+                ]);
+            }
+        }
+        
+        if($setting && $value)
+        {
+            $setting->meta_value = $value;
+            $setting->save();
+        }
+        
+    }
+
+    public function remove_viber_img($id)
+    {
+        $setting = Setting::find($id);
+
+        $jsonArray = json_decode($setting->meta_value);
+       
+        Storage::delete($jsonArray->image);
+
+        unset($jsonArray->image);
+
+        $setting->meta_value = json_encode($jsonArray);
+        $setting->save();
+
+        return redirect()->back();
+    }
+
+    public function history()
+    {
+        $files = ImportHistory::orderby('id', 'desc')->get();
+        return view('pages.import_history', compact('files'));
+    }
+
+    public function download_history($id)
+    {
+        $filename = ImportHistory::where('id',$id)->pluck('file_name');
+        return response()->download(storage_path("app/public/history/{$filename[0]}"));
+    }
+
+    public function document()
+    {
+        $document = Setting::where('meta_key', 'document')->first()->meta_value;
+
+        return view('pages.document', compact('document'));
+    }
+
+    public function updateDocument(Request $request)
+    {
+        $setting = Setting::where('meta_key', 'document')->first();
+        $setting->meta_value = $request->document;
+        $setting->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Updated Successfully',
+        ]);
     }
 }

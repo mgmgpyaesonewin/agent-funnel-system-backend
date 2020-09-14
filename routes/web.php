@@ -34,7 +34,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Setting Dashboards
     Route::get('/setting', 'SettingController@index');
+
     Route::post('/setting/update_setting', 'SettingController@update');
+
+    Route::get('/setting/import_history', 'SettingController@history');
+
+    Route::get('/setting/download_history/{id}', 'SettingController@download_history');
+
+    Route::get('/setting/remove_viber_img/{id}', 'SettingController@remove_viber_img');
 
     Route::get('/training/export/{id}', 'TrainingController@export');
 
@@ -62,6 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('payments', 'PaymentController');
     Route::resource('users', 'UserController');
     Route::get('/applicant/export/{id}', 'ExportController@applicantExport');
+    Route::get('/document', 'SettingController@document');
 });
 
 Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');

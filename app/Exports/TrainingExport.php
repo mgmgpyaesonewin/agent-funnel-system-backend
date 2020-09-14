@@ -28,8 +28,8 @@ class TrainingExport implements WithMultipleSheets{
         // return $sheets;
 
         return [
-            'Completed' => new SheetExport($this->data1, 'List of Completed Applicants for '.$this->title),
-            'Assigned' => new SheetExport($this->data2, 'List of Assigned Applicants for'.$this->title),
+            'Completed' => new SheetExport($this->data1, $this->title.'(Completed)'),
+            'Assigned' => new SheetExport($this->data2, $this->title.'(Assigned)'),
         ];
     }
 }

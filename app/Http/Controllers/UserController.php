@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
-use App\Http\Requests\UserApiRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Partner;
@@ -31,28 +30,28 @@ class UserController extends Controller
     }
 
     public function index(Request $request)
-    { 
+    {
         $name = $request->name;
         $partner = $request->partner;
         $email = $request->email;
-    
-        $users = User::with('partner');
 
-        if(!empty($name)) {            
+        $users = User::with('partner')->where('id', '<>', 1);
+
+        if (!empty($name)) {
             $users->where('name', 'like', '%'.$name.'%');
         }
 
-        if(!empty($email)) {            
+        if (!empty($email)) {
             $users->where('email', '=', $email);
         }
 
-        if(!empty($partner)) { 
-            $users->whereHas('partner', function($users) use($partner){
+        if (!empty($partner)) {
+            $users->whereHas('partner', function ($users) use ($partner) {
                 $users->where('company_name', 'like', '%'.$partner.'%');
             });
         }
 
-       $users = $users->paginate(20);
+        $users = $users->paginate(20);
 
         return view('pages.users.index', compact('users'));
     }
@@ -107,6 +106,7 @@ class UserController extends Controller
     {
         $partners = Partner::all();
         $bdm_list = User::select('id', 'name')->where('is_bdm', 1)->get();
+
         return view('pages.users.edit', compact('user', 'partners', 'bdm_list'));
     }
 
@@ -143,16 +143,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $check = Applicant::where('assign_admin_id', $user->id)->orwhere('assign_bdm_id', $user->id)->orwhere('assign_ma_id', $user->id)->count();
-        
-        if($check == 0)
-        {
+
+        if (0 == $check) {
             $user->delete();
+
             return redirect('/users')->with('status', 'Successfully deleted a user');
-        }    
-        else
-        {
-            return redirect('/users')->withErrors(['You cannot delete this user because he/she is assigned to applicants.']);
-        }        
-        
+        }
+
+        return redirect('/users')->withErrors(['You cannot delete this user because he/she is assigned to applicants.']);
     }
 }

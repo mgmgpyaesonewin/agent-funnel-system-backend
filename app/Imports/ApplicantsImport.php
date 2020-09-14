@@ -5,19 +5,29 @@ namespace App\Imports;
 use App\Applicant;
 use App\Partner;
 use App\Status;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ImportHistoryExport;
+
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Events\AfterImport;
 
 class ApplicantsImport implements ToModel, WithHeadingRow
-{
+{ 
+    use Importable;
+
+    private $rows = [];
+
     /**
      * @return null|\Illuminate\Database\Eloquent\Model
      */
     public function model(array $row)
-    { 
-        return Applicant::updateOrCreate(
+    {
+
+        $result= Applicant::updateOrCreate(
             [
-                'id' => $row['no'],
+                'uuid' => $row['no'],
             ],
             [
                 'name' => $row['name'],
@@ -33,5 +43,13 @@ class ApplicantsImport implements ToModel, WithHeadingRow
                 'partner_id' => Partner::where('company_name', $row['partner'])->first()->partner ?? null,
             ],
         );
+        $row['result'] = ($result->isDirty() ? 'Fail' : (count($result->getChanges()) > 0 ? 'Success' : 'No Changes Made') );
+        array_push($this->rows,$row);
+        
+    }
+
+    public function getImportResult(): array
+    { 
+        return $this->rows;
     }
 }

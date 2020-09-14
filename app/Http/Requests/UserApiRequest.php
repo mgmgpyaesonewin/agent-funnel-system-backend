@@ -27,7 +27,11 @@ class UserApiRequest extends FormRequest
             'name' => 'required',
             'dob' => 'required',
             'gender' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'utm_source' => 'nullable',
+            'utm_medium' => 'nullable',
+            'utm_campaign' => 'nullable',
+            'utm_term' => 'nullable',
         ];
     }
 }

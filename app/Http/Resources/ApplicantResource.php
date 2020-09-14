@@ -30,10 +30,11 @@ class ApplicantResource extends JsonResource
             'bdm' => new UserResource($this->bdm),
             'ma' => new UserResource($this->ma),
             'staff' => new UserResource($this->staff),
+            'utm_source' => $this->utm_source,
             'partner' => new PartnerResource($this->partner),
-            'payment' => asset('storage/'.$this->payment),
-            'license' => asset('storage/'.$this->license_photo_1),
-            'contract' => asset('storage/'.$this->pdf),
+            'payment' => validate_asset($this->payment),
+            'license' => validate_asset($this->license_photo_1),
+            'contract' => validate_asset($this->pdf),
         ];
     }
 }

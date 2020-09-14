@@ -3,9 +3,9 @@
 use GuzzleHttp\Exception\BadResponseException;
 
 function showStatus($status)
- {
-     return $status ? 'Shown' : 'Hidden';
- }
+{
+    return $status ? 'Shown' : 'Hidden';
+}
 
 function classStatus($status)
 {
@@ -19,6 +19,13 @@ function classStatus($status)
 function checkStatus($status)
 {
     return $status ? ' checked ' : '';
+}
+
+if (!function_exists('validate_asset')) {
+    function validate_asset($asset)
+    {
+        return $asset ? asset('storage/'.$asset) : '';
+    }
 }
 
 if (!function_exists('notified_applicant_via_viber')) {
@@ -45,13 +52,20 @@ if (!function_exists('notified_applicant_via_viber')) {
                         ],
                     ],
                 ],
-            ]);    
-        } catch(BadResponseException $e) {
+            ]);
+        } catch (BadResponseException $e) {
             // not working, need to throw
             return response()->json([
                 'status' => false,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
             ]);
         }
+    }
+}
+
+if (!function_exists('reverse_slug')) {
+    function reverse_slug($slug)
+    {
+        return ucwords(str_replace('-', ' ', $slug));
     }
 }
