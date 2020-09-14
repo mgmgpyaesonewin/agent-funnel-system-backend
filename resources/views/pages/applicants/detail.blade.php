@@ -179,13 +179,23 @@
                     <div class="card-body">
                         <div class="row">
                             @php $employment = json_decode( $applicant->prudential_agency_exp, true ); @endphp
-                            <div class="col-md-1 pl-1">
-                                <i class="fa fa-circle primary"></i>
-                            </div>
                             <div class="col-md-11">
-                                <p>{{ $exp['position'] ?? '-' }}</p>
-                                <p>{{ $exp['department_name'] ?? '-' }}</p>
-                                <p>{{ $exp['duration']?? '-' }}</p>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Position:</h6>
+                                    <p class="col-md-6">{{ $employment['position'] ?? '-' }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Department:</h6>
+                                    <p class="col-md-6">{{ $employment['department_name'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Start Date:</h6>
+                                    <p class="col-md-6">{{ $employment['duration_from_date'] }}</p>
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">End Date:</h6>
+                                    <p class="col-md-6">{{ $employment['duration_to_date'] }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
