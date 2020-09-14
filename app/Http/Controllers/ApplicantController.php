@@ -39,14 +39,14 @@ class ApplicantController extends Controller
         $pdf = PDF::loadView('pages.pdf', $applicant);
 
         $contract = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
-        Storage::disk('public')->put('contracts/'.$applicant->phone.'.pdf', $contract);
+        Storage::disk('public')->put('contracts/' . $applicant->phone . '.pdf', $contract);
 
         Applicant::where('uuid', $req->id)->update([
-            'pdf' => 'contracts/'.$applicant->phone.'.pdf',
+            'pdf' => 'contracts/' . $applicant->phone . '.pdf',
         ]);
 
         return response()->json([
-            'contract' => asset('storage/contracts/'.$applicant->phone.'.pdf'),
+            'contract' => asset('storage/contracts/' . $applicant->phone . '.pdf'),
         ]);
     }
 
@@ -119,7 +119,7 @@ class ApplicantController extends Controller
             foreach ($files as $key => $file) {
                 $index = $key + 1;
                 $url = Storage::disk('public')->put('licenses', $file);
-                $data['license_photo_'.$index] = $url;
+                $data['license_photo_' . $index] = $url;
             }
         }
         $appli->update($data);
@@ -132,8 +132,7 @@ class ApplicantController extends Controller
         // return $req->all();
         $valid_appli = Applicant::where('temp_id', $req->tempid)
             ->where('dob', $req->dob)
-            ->first()
-        ;
+            ->first();
         if ($valid_appli) {
             return $valid_appli;
         }
@@ -195,13 +194,10 @@ class ApplicantController extends Controller
     public function savePayment(Request $request)
     {
         $file = $request->file('file');
-
         $applicant = Applicant::where('nrc', $request->nrc)->first();
         $url = Storage::disk('public')->put('payments', $file);
-
         $applicant->payment = $url;
         $applicant->save();
-
         return response()->json([
             'status' => true,
             'message' => 'Successfully Created',
@@ -307,7 +303,7 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $applicant_id)->first();
 
         // Stage 5
-        $text = Setting::where('meta_key', 'interview_msg')->first()->meta_value."{$appointment}, {$request->url}";
+        $text = Setting::where('meta_key', 'interview_msg')->first()->meta_value . "{$appointment}, {$request->url}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 
@@ -345,16 +341,16 @@ class ApplicantController extends Controller
         $applicant->status_id = $status_id;
 
         if ('onboard' == $current_status && 7 == $status_id) {
-            $route = env('FRONT_END_URL').'/sign/'.$applicant->uuid;
+            $route = env('FRONT_END_URL') . '/sign/' . $applicant->uuid;
             $link = $route;
-            $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value."{$link}";
+            $this->text = Setting::where('meta_key', 'contract_msg')->first()->meta_value . "{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
         if ('pmli_filter' == $current_status && 11 == $status_id) {
-            $route = env('FRONT_END_URL').'/payment';
+            $route = env('FRONT_END_URL') . '/payment';
             $link = $route;
-            $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value."{$link}";
+            $this->text = Setting::where('meta_key', 'payment_msg')->first()->meta_value . "{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
@@ -443,7 +439,7 @@ class ApplicantController extends Controller
         ]);
 
         $applicant = Applicant::where('id', $applicant_id)->first();
-        $text = Setting::where('meta_key', 'exam_msg')->first()->meta_value." {$exam_date}";
+        $text = Setting::where('meta_key', 'exam_msg')->first()->meta_value . " {$exam_date}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 
@@ -481,7 +477,7 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = Setting::where('meta_key', 'elearning_msg')->first()->meta_value."E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
+        $text = Setting::where('meta_key', 'elearning_msg')->first()->meta_value . "E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
         notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([

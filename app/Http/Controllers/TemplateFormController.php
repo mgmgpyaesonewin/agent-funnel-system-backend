@@ -34,8 +34,8 @@ class TemplateFormController extends Controller
             ->join('township_descriptions', 'townships.id', 'township_descriptions.townships_id')
             ->where('language_id', $lang_id)
             ->select('townships_id as value', 'description_name as text')
-            ->get()
-        ;
+            ->orderBy('text', 'asc')
+            ->get();
         // $townships = $townships->map(function ($township) {
         //     return [
         //         'city_id' => $township->city_id,
