@@ -1,7 +1,7 @@
 <template>
   <div class="table-responsive">
     <div class="row" v-if="!isApplicantsEmpty">
-      <div class="col-5">
+      <div class="col-3">
         <h5 style="text-align: initial;line-height: 3rem;">
           Total
           <span class="badge badge-primary">{{ applicants.meta.total }}</span> records found.

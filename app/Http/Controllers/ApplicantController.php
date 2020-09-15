@@ -274,7 +274,7 @@ class ApplicantController extends Controller
     public function applicants(Request $request)
     {
         $applicants = Applicant::query()
-            ->with('admin', 'bdm', 'ma', 'staff', 'partner')
+            ->with('admin', 'bdm', 'ma', 'staff', 'partner', 'contracts')
             ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
             ->filter($request->name, $request->phone, $request->aml_status, $request->date)
@@ -468,7 +468,7 @@ class ApplicantController extends Controller
         ]);
 
         $applicant = Applicant::where('id', $applicant_id)->first();
-        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text." {$exam_date}";
+        $text = json_decode(Setting::where('meta_key', 'exam_msg')->first()->meta_value)->text." {$exam_date}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 

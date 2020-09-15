@@ -34,7 +34,7 @@ class ApplicantResource extends JsonResource
             'partner' => new PartnerResource($this->partner),
             'payment' => validate_asset($this->payment),
             'license' => validate_asset($this->license_photo_1),
-            'contract' => validate_asset($this->pdf),
+            'contract' => validate_asset($this->contracts()->latest()->first()->pdf ?? null),
         ];
     }
 }
