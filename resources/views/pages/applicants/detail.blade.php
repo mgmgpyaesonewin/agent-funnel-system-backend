@@ -212,7 +212,8 @@
                     @if($applicant->agent_exp != null)
                     <div class="card-body">
                         <div class="row">
-                            @php $employment = json_decode( $applicant->employment, true ); @endphp
+                            @php $emp = json_decode( $applicant->employment, true ); @endphp
+                            @foreach ($emp as $employment)
                             <div class="card-body">
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Company:</h6>
@@ -235,6 +236,7 @@
                                     <p class="col-md-6">{{ $employment['industry_type'] }}</p>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                         @endif
 
@@ -259,8 +261,8 @@
                                         <p class="col-md-6">{{ $agent_exp['address'] }}</p>
                                     </div>
                                     <div class="mt-1 row">
-                                        <h6 class="col-md-4">Position:</h6>
-                                        <p class="col-md-6">{{ $agent_exp['position'] }}</p>
+                                        <h6 class="col-md-4">Compay Name:</h6>
+                                        <p class="col-md-6">{{ $agent_exp['company_name'] }}</p>
                                     </div>
                                 </div>
                             </div>

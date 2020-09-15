@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Applicant;
+use App\Training;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
@@ -22,6 +23,7 @@ class ApplicantExport implements FromView
     {
         return view('pages.applicants.detail_export', [
             'applicant' => Applicant::where('id', $this->id)->first(),
+            'trainings' => Training::all(),
         ]);
     }
 }
