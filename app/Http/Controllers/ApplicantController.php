@@ -371,14 +371,14 @@ class ApplicantController extends Controller
             $contract_version = $contract->resendContract($applicant->id);
             $route = env('FRONT_END_URL').'/sign/'.$applicant->uuid.'?version='.$contract_version;
             $link = $route;
-            $this->text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."{$link}";
+            $this->text = json_decode(Setting::where('meta_key', 'contract_msg')->first()->meta_value)->text."{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
         if ('pmli_filter' == $current_status && 11 == $status_id) {
             $route = env('FRONT_END_URL').'/payment/'.$applicant->uuid;
             $link = $route;
-            $this->text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."{$link}";
+            $this->text = json_decode(Setting::where('meta_key', 'payment_msg')->first()->meta_value)->text."{$link}";
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
