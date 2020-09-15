@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Setting;
 use App\ImportHistory;
+use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,10 +19,10 @@ class SettingController extends Controller
 
     public function update(Request $request)
     {
-        foreach($request->all() as $key => $value) {
-            if($key != "payment_option" && $key != "_token")
+        foreach ($request->all() as $key => $value) {
+            if ('payment_option' != $key && '_token' != $key) {
                 $this->updateTemplate($request, $key, $value);
-        
+            }
         }
 
         $setting = Setting::where('meta_key', 'payment_mandatory')->first();
@@ -34,34 +34,28 @@ class SettingController extends Controller
 
     public function updateTemplate($request, $key, $text)
     {
-        $setting = Setting::where('meta_key', $key)->first(); 
+        $setting = Setting::where('meta_key', $key)->first();
 
-        if($request->hasFile($key.'_img'))
-        {
+        if ($request->hasFile($key.'_img')) {
             $path = $request->file($key.'_img')->store('viber', 'public');
             $value = json_encode([
                 'text' => $text,
-                'image' => $path
+                'image' => $path,
             ]);
-        }
-        else
-        {
-            if($setting)
-            {
-                $img = json_decode( $setting->meta_value, true);
+        } else {
+            if ($setting) {
+                $img = json_decode($setting->meta_value, true);
                 $value = json_encode([
                     'text' => $text,
-                    'image' => (isset($img['image']) ? $img['image'] : '')
+                    'image' => (isset($img['image']) ? $img['image'] : ''),
                 ]);
             }
         }
-        
-        if($setting && $value)
-        {
+
+        if ($setting && $value) {
             $setting->meta_value = $value;
             $setting->save();
         }
-        
     }
 
     public function remove_viber_img($id)
@@ -69,7 +63,7 @@ class SettingController extends Controller
         $setting = Setting::find($id);
 
         $jsonArray = json_decode($setting->meta_value);
-       
+
         Storage::delete($jsonArray->image);
 
         unset($jsonArray->image);
@@ -83,18 +77,27 @@ class SettingController extends Controller
     public function history()
     {
         $files = ImportHistory::orderby('id', 'desc')->get();
+
         return view('pages.import_history', compact('files'));
     }
 
     public function download_history($id)
     {
-        $filename = ImportHistory::where('id',$id)->pluck('file_name');
+        $filename = ImportHistory::where('id', $id)->pluck('file_name');
+
         return response()->download(storage_path("app/public/history/{$filename[0]}"));
     }
 
     public function document()
     {
         $document = Setting::where('meta_key', 'document')->first()->meta_value;
+
+        return view('pages.document', compact('document'));
+    }
+
+    public function contents()
+    {
+        $document = Setting::where('meta_key', 'table_of_contents')->first()->meta_value;
 
         return view('pages.document', compact('document'));
     }

@@ -35,7 +35,8 @@ class TemplateFormController extends Controller
             ->where('language_id', $lang_id)
             ->select('townships_id as value', 'description_name as text')
             ->orderBy('text', 'asc')
-            ->get();
+            ->get()
+        ;
         // $townships = $townships->map(function ($township) {
         //     return [
         //         'city_id' => $township->city_id,
@@ -131,15 +132,16 @@ class TemplateFormController extends Controller
     public function update(Template $request, $id)
     {
         $validated_data = $request->validated();
-        // dd($validated_data);
         $template_detail = TemplateForm::findOrFail($id);
+        $active = $template_detail->active;
         $template = collect($template_detail)->except('id');
         foreach ($template as $key => $value) {
             $template[$key] = $validated_data[$key] ?? false;
         }
         $template_detail->update($template->toArray());
-
         $template_detail->additional_info = $validated_data['additional_info'];
+        $template_detail->active = $active;
+        $template_detail->save();
 
         return  redirect('templateforms');
     }
