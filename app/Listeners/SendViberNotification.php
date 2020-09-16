@@ -44,12 +44,12 @@ class SendViberNotification
             }
 
             // Stage 4
-            if ('pru_dna_test' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
-                $route = env('FRONT_END_URL').'/applicants/'.$event->applicant->uuid;
-                $link = $route;
-                $this->text = json_decode(Setting::where('meta_key', 'dna_test_msg')->first()->meta_value)->text.' '.$link;
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
-            }
+            // if ('pru_dna_test' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
+            //     $route = env('FRONT_END_URL').'/applicants/'.$event->applicant->uuid;
+            //     $link = $route;
+            //     $this->text = json_decode(Setting::where('meta_key', 'dna_test_msg')->first()->meta_value)->text.' '.$link;
+            //     notified_applicant_via_viber($event->applicant->phone, $this->text);
+            // }
 
             // Stage 9
             if ('onboard' == $attributes['current_status'] && 1 == $event->applicant->status_id) {

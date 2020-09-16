@@ -57,7 +57,7 @@ class TemplateFormController extends Controller
     {
         $templates = TemplateForm::where('active', true)->first();
 
-        $applicant = Applicant::where('uuid', $req->id)->first();
+        $applicant = Applicant::where('uuid', $req->id)->where('current_status', 'pre_filter')->where('status_id', 1)->first();
         if ($applicant) {
             return [
                 'template' => $templates,
