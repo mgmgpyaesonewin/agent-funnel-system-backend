@@ -144,6 +144,39 @@
                             <h6 class="col-md-4">Race:</h6>
                             <p class="col-md-6">{{ $applicant->race }}</p>
                         </div>
+                        <hr />
+                        <div class="card-header">
+                            <h4>Attachments</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mt-1 row">
+                                <h6 class="col-md-4">Contract:</h6>
+                                <div>
+                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                        url={{ url('/storage/'.$applicant->contracts()->latest()->first()->pdf) }}>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> View Contract
+                                    </v-info-button>
+                                </div>
+                            </div>
+                            <div class="mt-1 row">
+                                <h6 class="col-md-4">Payment:</h6>
+                                <div>
+                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                        url={{ url('/storage/'.$applicant->payment) }}>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> View Payment
+                                    </v-info-button>
+                                </div>
+                            </div>
+                            <div class="mt-1 row">
+                                <h6 class="col-md-4">License:</h6>
+                                <div>
+                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                        url={{ url('/storage/'.$applicant->license_photo_1) }}>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> View License
+                                    </v-info-button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
