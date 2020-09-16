@@ -161,28 +161,34 @@
                             <div class="mt-1 row">
                                 <h6 class="col-md-4">Contract:</h6>
                                 <div>
+                                @if($applicant->contracts()->latest()->first())
                                     <v-info-button css-class="btn btn-outline-primary btn-sm"
                                         url={{ url('/storage/'.$applicant->contracts()->latest()->first()->pdf) }}>
                                         <i class="fa fa-id-card-o" aria-hidden="true"></i> View Contract
                                     </v-info-button>
+                                @endif
                                 </div>
                             </div>
                             <div class="mt-1 row">
                                 <h6 class="col-md-4">Payment Receipt:</h6>
                                 <div>
+                                @if($applicant->payment)
                                     <v-info-button css-class="btn btn-outline-primary btn-sm"
                                         url={{ url('/storage/'.$applicant->payment) }}>
                                         <i class="fa fa-id-card-o" aria-hidden="true"></i> View Payment
                                     </v-info-button>
+                                @endif
                                 </div>
                             </div>
                             <div class="mt-1 row">
                                 <h6 class="col-md-4">License:</h6>
                                 <div>
+                                @if($applicant->license_photo_1)
                                     <v-info-button css-class="btn btn-outline-primary btn-sm"
                                         url={{ url('/storage/'.$applicant->license_photo_1) }}>
                                         <i class="fa fa-id-card-o" aria-hidden="true"></i> View License
                                     </v-info-button>
+                                @endif
                                 </div>
                             </div>
                         </div>
