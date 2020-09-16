@@ -13,10 +13,19 @@
             <div class="profile-header mb-2">
                 <div class="relative">
                     <div class="cover-container" style="width: 100%; height: 5rem; background-color: var(--secondary);">
-                        <h3 style="padding-top: 1.5rem;
-    padding-left: 19rem;
-    color: white;
-                    font-weight: 600;">Applicant's Detail {{ '- '.$applicant->temp_id }}</h3>
+                        <h3 style="padding-top: 1.5rem;    padding-left: 19rem;    color: white; font-weight: 600;">Assign to :
+                        @if($applicant->assign_admin_id != '')
+                            {{ $applicant->admin->name}} |
+                        @endif
+
+                        @if($applicant->assign_bdm_id != '')
+                            {{ $applicant->bdm->name}} |
+                        @endif
+
+                        @if($applicant->assign_ma_id != '')
+                            {{ $applicant->ma->name}}
+                        @endif
+                    </h3>
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
                         <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
@@ -37,7 +46,7 @@
                             <span class="navbar-toggler-icon"><i class="feather icon-align-justify"></i></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav justify-content-around w-75 ml-sm-auto">
+                            <!-- <ul class="navbar-nav justify-content-around w-75 ml-sm-auto">
                                 <li class="nav-item px-sm-0">
                                     <a href="#" class="nav-link font-small-3">Information</a>
                                 </li>
@@ -53,7 +62,7 @@
                                 <li class="nav-item px-sm-0">
                                     <a href="#" class="nav-link font-small-3">History</a>
                                 </li>
-                            </ul>
+                            </ul> -->
                         </div>
                     </nav>
                 </div>
@@ -159,7 +168,7 @@
                                 </div>
                             </div>
                             <div class="mt-1 row">
-                                <h6 class="col-md-4">Payment:</h6>
+                                <h6 class="col-md-4">Payment Receipt:</h6>
                                 <div>
                                     <v-info-button css-class="btn btn-outline-primary btn-sm"
                                         url={{ url('/storage/'.$applicant->payment) }}>
@@ -177,13 +186,60 @@
                                 </div>
                             </div>
                         </div>
+                        <hr />
+                        <div class="card-header">
+                            <h4>Bank Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mt-1 row">
+                                <h6 class="col-md-4">Account Name</h6>
+                                <p class="col-md-6">{{ $applicant->bank_account_name }}</p>
+                            </div>
+                            <div class="mt-1 row">
+                                <h6 class="col-md-4">Bank Acoount No.</h6>
+                                <p class="col-md-6">{{ $applicant->bank_account_no }}</p>
+                            </div>
+                            <div class="mt-1 row">
+                                <h6 class="col-md-4">Bank Name</h6>
+                                <p class="col-md-6">{{ $applicant->banK_name }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Training Progress</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    @foreach ($trainings as $module)
+                                    <li>
+                                        {{ $module->name }}
+                                        @if ($applicant->trainings->contains('id', $module->id))
+                                        <span>
+                                            ( <span class="text-success">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                            </span> )
+                                        </span>
+                                        @else
+                                        <span>( <span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                            )</span>
+                                        @endif
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Conflict of Interest</h4>
+                        <h4>Declaration</h4>
                     </div>
                     <div class="card-body">
                         <div class="mt-1 row">
@@ -206,9 +262,9 @@
                     <hr>
 
                     <div class="card-header">
-                        <h4>Was a staff of Prudential? </h4> @if($applicant->prudential_agency_exp == null) : No @endif
+                        <h4>Was a staff of Prudential? </h4> @if($applicant->prudential_agency_exp == null || $applicant->prudential_agency_exp == '') : No @endif
                     </div>
-                    @if($applicant->prudential_agency_exp != null)
+                    @if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
                     <div class="card-body">
                         <div class="row">
                             @php $employment = json_decode( $applicant->prudential_agency_exp, true ); @endphp
@@ -237,12 +293,11 @@
                     <hr>
 
                     <div class="card-header">
-                        <h4>Current and past employment details </h4> @if($applicant->employment == null) : No
-                        Experience
+                        <h4>Current and past employment details </h4> @if($applicant->employment == null || $applicant->employment == '') : No Experience
                         @endif
                     </div>
 
-                    @if($applicant->agent_exp != null)
+                    @if($applicant->employment != null|| $applicant->employment != '')
                     <div class="card-body">
                         <div class="row">
                             @php $emp = json_decode( $applicant->employment, true ); @endphp
@@ -276,11 +331,10 @@
                         <hr>
 
                         <div class="card-header">
-                            <h4>Have any selling experience or acted as an agent </h4> @if($applicant->agent_exp ==
-                            null) : No @endif
+                            <h4>Have any selling experience or acted as an agent </h4> @if($applicant->agent_exp == null || $applicant->agent_exp == '') : No @endif
                         </div>
 
-                        @if($applicant->agent_exp != null)
+                        @if($applicant->agent_exp != null || $applicant->agent_exp != '')
                         <div class="card-body">
                             <div class="row">
                                 @php $agent_exp = json_decode( $applicant->agent_exp, true ); @endphp
@@ -305,10 +359,10 @@
 
                             <div class="card-header">
                                 <h4>Family member as an agent or a staff of Prudential? </h4>
-                                @if($applicant->family_agent == null) : No @endif
+                                @if($applicant->family_agent == null || $applicant->family_agent == '') : No @endif
                             </div>
 
-                            @if($applicant->family_agent != null)
+                            @if($applicant->family_agent != null || $applicant->family_agent != '')
                             <div class="card-body">
                                 @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
                                 <div class="mt-1 row">
@@ -337,36 +391,6 @@
                     </div>
                 </div>
 
-    </section>
-    <section>
-        <div class="row">
-            <div class="col-lg-6 col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Trainings</h4>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            @foreach ($trainings as $module)
-                            <li>
-                                {{ $module->name }}
-                                @if ($applicant->trainings->contains('id', $module->id))
-                                <span>
-                                    ( <span class="text-success">
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                    </span> )
-                                </span>
-                                @else
-                                <span>( <span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
-                                    )</span>
-                                @endif
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 </div>
 @endsection
