@@ -1,6 +1,22 @@
 <table>
     <tbody>
         <tr>
+            <td>Assign To</td>
+            <td>
+            @if($applicant->assign_admin_id != '')
+                {{ $applicant->admin->name}} |
+            @endif
+
+            @if($applicant->assign_bdm_id != '')
+                {{ $applicant->bdm->name}} |
+            @endif
+
+            @if($applicant->assign_ma_id != '')
+                {{ $applicant->ma->name}}
+            @endif
+            </td>
+        </tr>
+        <tr>
             <td>Name</td>
             <td>{{ $applicant->name }}</td>
         </tr>
@@ -63,7 +79,7 @@
             <td>{{ $applicant->education }}</td>
         </tr>
         <tr>
-            <td>Conflict of Interest</td>
+            <td colspan="2"><b>Declaration</b></td>
         </tr>
         <tr>
             <td>Spouse Name</td>
@@ -83,7 +99,11 @@
         </tr>
         <tr>
             <td>Was a staff of Prudential?</td>
+            <td>
+                @if($applicant->prudential_agency_exp == null || $applicant->prudential_agency_exp == '') : No @endif
+            </td>
         </tr>
+        @if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
         @php $employment = json_decode( $applicant->prudential_agency_exp, true ); @endphp
         <tr>
             <td>Position</td>
@@ -101,10 +121,15 @@
             <td>End Date</td>
             <td>{{ $employment['duration_to_date'] ?? '-' }}</td>
         </tr>
+        @endif
         <tr>
             <td>Current and past employment details</td>
+            <td>
+                @if($applicant->employment == null || $applicant->employment == '') : No Experience  @endif
+            </td>
         </tr>
         @php $emp = json_decode( $applicant->employment, true ); @endphp
+        @if($applicant->employment != null|| $applicant->employment != '')
         @foreach ($emp as $employment)
         <tr>
             <td>Position</td>
@@ -123,9 +148,13 @@
             <td>{{ $employment['duration_to_date'] ?? '-' }}</td>
         </tr>
         @endforeach
+        @endif
         <tr>
             <td>Have any selling experience or acted as an agent?</td>
+            <td>@if($applicant->agent_exp == null || $applicant->agent_exp == '') : No @endif</td>
         </tr>
+
+        @if($applicant->agent_exp != null || $applicant->agent_exp != '')
         @php $agent_exp = json_decode( $applicant->agent_exp, true ); @endphp
         <tr>
             <td>Position</td>
@@ -139,9 +168,14 @@
             <td>Company Name</td>
             <td>{{ $agent_exp['company_name'] ?? '-' }}</td>
         </tr>
+        @endif
+
         <tr>
             <td>Family member as an agent or a staff of Prudential?</td>
+            <td>@if($applicant->family_agent == null || $applicant->family_agent == '') : No @endif</td>
         </tr>
+
+        @if($applicant->family_agent != null || $applicant->family_agent != '')
         @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
         <tr>
             <td>Name</td>
@@ -163,8 +197,9 @@
             <td>NRC</td>
             <td>{{ $family_agent['nrc'] }}</td>
         </tr>
+        @endif
         <tr>
-            <td>Trainings</td>
+            <td colspan="2"><b>Training Progress</b></td>
         </tr>
         @foreach($trainings as $module)
         <tr>
@@ -176,5 +211,20 @@
             @endif
         </tr>
         @endforeach
+        <tr>
+            <td colspan="2"><b>Bank Information</b></td>
+        </tr>
+        <tr>
+            <td>Account Name</td>
+            <td>{{ $applicant->bank_account_name }}</td>
+        </tr>
+        <tr>
+            <td>Account No</td>
+            <td>{{ $applicant->bank_account_no }}</td>
+        </tr>
+        <tr>
+            <td>Bank Name</td>
+            <td>{{ $applicant->banK_name }}</td>
+        </tr>
     </tbody>
 </table>
