@@ -107,10 +107,16 @@
       "role": "staff"
     },
     {
-      "url": "/document",
-      "name": "Contract Form",
+      "url": "/document/en",
+      "name": "English Version",
       "icon": "feather icon-sidebar",
-      "role": "staff"
+      "role": "all"
+    },
+    {
+      "url": "/document/my",
+      "name": "Myanmar Version",
+      "icon": "feather icon-sidebar",
+      "role": "all"
     },
     {
       "url": "/setting",
