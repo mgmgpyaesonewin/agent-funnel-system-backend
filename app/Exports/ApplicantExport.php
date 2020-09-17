@@ -10,10 +10,12 @@ use Maatwebsite\Excel\Concerns\FromView;
 class ApplicantExport implements FromView
 {
     private $id;
+    private $type;
 
-    public function __construct($id)
+    public function __construct($type, $id)
     {
         $this->id = $id;
+        $this->type = $type;
     }
 
     /**
@@ -21,7 +23,12 @@ class ApplicantExport implements FromView
      */
     public function view(): View
     {
-        return view('pages.applicants.detail_export', [
+        if($this->type == 'pdf')
+            $page = 'pages.applicants.detail_pdf';
+        else
+            $page = 'pages.applicants.detail_export';
+
+        return view($page, [
             'applicant' => Applicant::where('id', $this->id)->first(),
             'trainings' => Training::all(),
         ]);
