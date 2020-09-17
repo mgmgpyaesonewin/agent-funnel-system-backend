@@ -21,20 +21,21 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="active" status-col="true" temp-id="true" status-col="true" channel="true" :user-assign="true" assign="true"
+                        <v-table ref="table" current-status="active" status-col="true" temp-id="true" status-col="true"
+                            channel="true" :user-assign="true" assign="true"
                             :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <td>
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 8">
                                         <v-button button-class="btn btn-secondary"
                                             :old-current-status="applicant.current_status" new-current-status="active"
-                                            :old-status-id="applicant.status_id" new-status-id="9"
+                                            :old-status-id="applicant.status_id" :new-status-id="9"
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-times" aria-hidden="true"></i> Inactive
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
                                             :old-current-status="applicant.current_status" new-current-status="active"
-                                            :old-status-id="applicant.status_id" new-status-id="10"
+                                            :old-status-id="applicant.status_id" :new-status-id="10"
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-ban" aria-hidden="true"></i> Ceased Association
                                         </v-button>
@@ -42,7 +43,7 @@
                                     <div class="btn-group mt-1" v-show="applicant.status_id === 9">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status" new-current-status="active"
-                                            :old-status-id="applicant.status_id" new-status-id="8"
+                                            :old-status-id="applicant.status_id" :new-status-id="8"
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i> Active
                                         </v-button>

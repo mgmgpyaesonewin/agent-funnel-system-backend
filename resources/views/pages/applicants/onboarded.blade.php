@@ -39,19 +39,19 @@
                                     <div class="btn-group mt-1">
                                         <v-button button-class="btn btn-danger"
                                             :old-current-status="applicant.current_status" new-current-status="onboard"
-                                            :old-status-id="applicant.status_id" new-status-id="7"
+                                            :old-status-id="applicant.status_id" :new-status-id="7"
                                             :applicant-id="applicant.id">
                                             Resend Contract
                                         </v-button>
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status" new-current-status="active"
-                                            :old-status-id="applicant.status_id" new-status-id="8"
+                                            :old-status-id="applicant.status_id" :new-status-id="8" type="accept"
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i>
                                         </v-button>
                                         <v-button button-class="btn btn-secondary"
                                             :old-current-status="applicant.current_status" new-current-status="onboard"
-                                            :old-status-id="applicant.status_id" new-status-id="4"
+                                            :old-status-id="applicant.status_id" :new-status-id="4" type="reject"
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </v-button>
