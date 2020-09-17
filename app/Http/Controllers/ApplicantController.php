@@ -382,7 +382,11 @@ class ApplicantController extends Controller
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
-        $applicant->statuses()->attach($status_id, ['current_status' => $current_status]);
+        $applicant->statuses()->attach($status_id, [
+            'current_status' => $current_status,
+            'user_id' => auth()->user()->id
+        ]);
+        
         $applicant->save();
 
         // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
