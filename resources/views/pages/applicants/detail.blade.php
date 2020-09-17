@@ -31,9 +31,13 @@
                         <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
                             class="rounded-circle img-border box-shadow-1" alt="Card image">
                         <div class="float-right">
-                            <a href="{{ url('/applicant/export/'.$applicant->id) }}"
+                            <a href="{{ url('/applicant/export/excel/'.$applicant->id) }}" title="Download Excel"
                                 class="btn btn-icon btn-icon rounded-circle btn-primary">
-                                <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                            </a>
+                            <a href="{{ url('/applicant/export/pdf/'.$applicant->id) }}" title="Download PDF"
+                                class="btn btn-icon btn-icon rounded-circle btn-primary">
+                                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -134,7 +138,7 @@
                             <p class="col-md-6">{{ $applicant->address }}</p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-4">City:</h6>
+                            <h6 class="col-md-4">State/Region:</h6>
                             <p class="col-md-6">
                                 {{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}
                             </p>
@@ -146,8 +150,8 @@
                             </p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-4">Myanmar Citizen:</h6>
-                            <p class="col-md-6">{{ ($applicant->myanmar_citizen == '1' ? 'Yes' : 'No') }}</p>
+                            <h6 class="col-md-4">Citizenship:</h6>
+                            <p class="col-md-6">{{ ($applicant->myanmar_citizen == '1' ? 'Myanmar' : 'Other') }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Race:</h6>
@@ -249,6 +253,17 @@
                     </div>
                     <div class="card-body">
                         <div class="mt-1 row">
+                            <h6 class="col-md-6">Agree to Terms & Condition:</h6>
+                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-6">Agree that the information provided is true and correct :</h6>
+                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <div class="mt-1 row">
                             <h6 class="col-md-4">Spouse Name:</h6>
                             <p class="col-md-6">{{ $applicant->spouse_name }}</p>
                         </div>
@@ -281,15 +296,15 @@
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Department:</h6>
-                                    <p class="col-md-6">{{ $employment['department_name'] }}</p>
+                                    <p class="col-md-6">{{ $employment['department_name']  ?? '-'}}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Start Date:</h6>
-                                    <p class="col-md-6">{{ $employment['duration_from_date'] }}</p>
+                                    <p class="col-md-6">{{ $employment['duration_from_date'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">End Date:</h6>
-                                    <p class="col-md-6">{{ $employment['duration_to_date'] }}</p>
+                                    <p class="col-md-6">{{ $employment['duration_to_date'] ?? '-' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -311,23 +326,23 @@
                             <div class="card-body">
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Company:</h6>
-                                    <p class="col-md-6">{{ $employment['company_name'] }}</p>
+                                    <p class="col-md-6">{{ $employment['company_name'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Address:</h6>
-                                    <p class="col-md-6">{{ $employment['address'] }}</p>
+                                    <p class="col-md-6">{{ $employment['address'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Position:</h6>
-                                    <p class="col-md-6">{{ $employment['position'] }}</p>
+                                    <p class="col-md-6">{{ $employment['position'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Income:</h6>
-                                    <p class="col-md-6">{{ $employment['income'] }}</p>
+                                    <p class="col-md-6">{{ $employment['income'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Industry:</h6>
-                                    <p class="col-md-6">{{ $employment['industry_type'] }}</p>
+                                    <p class="col-md-6">{{ $employment['industry_type'] ?? '-' }}</p>
                                 </div>
                             </div>
                             @endforeach
@@ -347,15 +362,15 @@
                                 <div class="card-body">
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Position:</h6>
-                                        <p class="col-md-6">{{ $agent_exp['position'] }}</p>
+                                        <p class="col-md-6">{{ $agent_exp['position'] ?? '-' }}</p>
                                     </div>
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Address:</h6>
-                                        <p class="col-md-6">{{ $agent_exp['address'] }}</p>
+                                        <p class="col-md-6">{{ $agent_exp['address'] ?? '-' }}</p>
                                     </div>
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Compay Name:</h6>
-                                        <p class="col-md-6">{{ $agent_exp['company_name'] }}</p>
+                                        <p class="col-md-6">{{ $agent_exp['company_name'] ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -373,23 +388,23 @@
                                 @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Name:</h6>
-                                    <p class="col-md-6">{{ $family_agent['name'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['name'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Position:</h6>
-                                    <p class="col-md-6">{{ $family_agent['position'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['position'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Agent Code:</h6>
-                                    <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['agent_code'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Relation:</h6>
-                                    <p class="col-md-6">{{ $family_agent['relation'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['relation'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">NRC:</h6>
-                                    <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['nrc'] ?? '-' }}</p>
                                 </div>
                             </div>
                             @endif
