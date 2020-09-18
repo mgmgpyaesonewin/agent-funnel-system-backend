@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCorrectInfoToApplicantsTable extends Migration
+class AddSubmitationDateToApplicantsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddCorrectInfoToApplicantsTable extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->integer('correct_info')->default(1);
+            $table->dateTime('dateTime')->default('CURRENT_TIMESTAMP');
         });
     }
 
@@ -26,7 +26,7 @@ class AddCorrectInfoToApplicantsTable extends Migration
     public function down()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->dropColumn('correct_info');
+            $table->dropColumn('dateTime');
         });
     }
 }
