@@ -21,7 +21,9 @@ class TemplateFormController extends Controller
 
         return DB::table('city_descriptions')
             ->select('c_id as value', 'name as text')
-            ->where('languages_id', $lang_id)->get();
+            ->where('languages_id', $lang_id)
+            ->orderby('text', 'asc')
+            ->get();
     }
 
     public function getTownship(Request $req)

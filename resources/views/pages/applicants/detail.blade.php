@@ -235,22 +235,23 @@
                             <div class="card-header">
                                 <h4>Activity Log</h4>
                             </div>
-                            <div class="card-body">
-                                <div class="mt-1 row">
-                                    <h6 class="col-md-4">Registered</h6>
-                                    <p class="col-md-6">
-                                        {{$applicant->created_at ?? '-'}}
-                                    </p>
-                                </div>
+                            <div class="card-body">                                
                             @foreach ($activities as $row)
                                 <!-- Lead -->
-                                @if($row->status_id == '1' && $row->current_status == 'pre_filter')
+                                @if($row->status_id == '1' && $row->current_status == 'lead')
                                 <div class="mt-1 row">
-                                    <h6 class="col-md-4">Lead Stage</h6>
+                                    <h6 class="col-md-4">Registered</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
                                     </p>  
                                  </div>
+                                 @elseif($row->status_id == '1' && $row->current_status == 'pre_filter')  
+                                 <div class="mt-1 row">
+                                    <h6 class="col-md-4">Lead Stage</h6>
+                                    <p class="col-md-6">
+                                        {{$applicant->created_at ?? '-'}}
+                                    </p>
+                                </div>
                                 @elseif($row->status_id == '4' && $row->current_status == 'lead')  
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Lead Stage</h6>
