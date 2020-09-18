@@ -117,7 +117,7 @@ class ApplicantController extends Controller
     {
         $contract_valid = $contractI->isValidContract($req->id, (int) $req->version);
         if ($contract_valid) {
-            $contract = Setting::where('meta_key', 'document')->first()->meta_value;
+            $contract = Setting::where('meta_key', "document_{$req->lang}")->first()->meta_value;
 
             return [
                 'message' => 'valid',
