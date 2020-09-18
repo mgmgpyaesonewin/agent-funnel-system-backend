@@ -59,7 +59,7 @@ class TemplateFormController extends Controller
         $templates = TemplateForm::where('active', true)->first();
 
         $applicant = Applicant::where('uuid', $req->id)->where('current_status', 'pre_filter')->where('status_id', 1)->first();
-        $term_condition = Setting::where('meta_key', "document_tnc{$req->lang}")->first()->meta_value;
+        $term_condition = Setting::where('meta_key', "document_tnc_{$req->lang}")->first()->meta_value;
 
         if ($applicant) {
             return [
