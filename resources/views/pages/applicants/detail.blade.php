@@ -31,9 +31,13 @@
                         <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
                             class="rounded-circle img-border box-shadow-1" alt="Card image">
                         <div class="float-right">
-                            <a href="{{ url('/applicant/export/'.$applicant->id) }}"
+                            <a href="{{ url('/applicant/export/excel/'.$applicant->id) }}" title="Download Excel"
                                 class="btn btn-icon btn-icon rounded-circle btn-primary">
-                                <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                            </a>
+                            <a href="{{ url('/applicant/export/pdf/'.$applicant->id) }}" title="Download PDF"
+                                class="btn btn-icon btn-icon rounded-circle btn-primary">
+                                <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
@@ -44,26 +48,7 @@
                             data-target="navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"><i class="feather icon-align-justify"></i></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <!-- <ul class="navbar-nav justify-content-around w-75 ml-sm-auto">
-                                <li class="nav-item px-sm-0">
-                                    <a href="#" class="nav-link font-small-3">Information</a>
-                                </li>
-                                <li class="nav-item px-sm-0">
-                                    <a href="#" class="nav-link font-small-3">Education</a>
-                                </li>
-                                <li class="nav-item px-sm-0">
-                                    <a href="#" class="nav-link font-small-3">Experience</a>
-                                </li>
-                                <li class="nav-item px-sm-0">
-                                    <a href="#" class="nav-link font-small-3">Certification</a>
-                                </li>
-                                <li class="nav-item px-sm-0">
-                                    <a href="#" class="nav-link font-small-3">History</a>
-                                </li>
-                            </ul> -->
-                        </div>
+                        </button>                        
                     </nav>
                 </div>
             </div>
@@ -134,7 +119,7 @@
                             <p class="col-md-6">{{ $applicant->address }}</p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-4">City:</h6>
+                            <h6 class="col-md-4">State/Region:</h6>
                             <p class="col-md-6">
                                 {{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}
                             </p>
@@ -146,8 +131,8 @@
                             </p>
                         </div>
                         <div class="mt-1 row">
-                            <h6 class="col-md-4">Myanmar Citizen:</h6>
-                            <p class="col-md-6">{{ ($applicant->myanmar_citizen == '1' ? 'Yes' : 'No') }}</p>
+                            <h6 class="col-md-4">Citizenship:</h6>
+                            <p class="col-md-6">{{ ($applicant->myanmar_citizen == '1' ? 'Myanmar' : 'Other') }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Race:</h6>
@@ -213,6 +198,7 @@
                     </div>
                 </div>
 
+                <!-- Training -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -241,12 +227,186 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Activity Log -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Activity Log</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Registered</h6>
+                                    <p class="col-md-6">
+                                        {{$applicant->created_at ?? '-'}}
+                                    </p>
+                                </div>
+                            @foreach ($activities as $row)
+                                <!-- Lead -->
+                                @if($row->status_id == '1' && $row->current_status == 'pre_filter')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Lead Stage</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>  
+                                 </div>
+                                @elseif($row->status_id == '4' && $row->current_status == 'lead')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Lead Stage</h6>
+                                    <p class="col-md-8">
+                                        Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>   
+                                 </div>                           
+                                @endif
+                                
+
+                                <!-- Background Check -->
+                                @if($row->status_id == '1' && $row->current_status == 'pru_dna_test')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Background Check Stage</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>  
+                                </div>
+                                @elseif($row->status_id == '4' && $row->current_status == 'pre_filter')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Background Check Stage</h6>
+                                    <p class="col-md-8">
+                                        Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>   
+                                </div>                           
+                                @endif                               
+
+                                <!-- PRUDNA  -->
+                                @if($row->status_id == '1' && $row->current_status == 'pmli_filter')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">PruDNA Stage</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>  
+                                </div>
+                                @elseif($row->status_id == '4' && $row->current_status == 'pru_dna_test')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">PruDNA Stage</h6>
+                                    <p class="col-md-8">
+                                        Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p> 
+                                </div>                             
+                                @endif
+                                <!-- PMLI  -->
+                                @if($row->status_id == '1' && $row->current_status == 'pmli_filter')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">PMLI Filter Stage</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>  
+                                </div>
+                                @elseif($row->status_id == '4' && $row->current_status == 'pmli_filter')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">PMLI Filter Stage</h6>
+                                    <p class="col-md-8">
+                                        Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p> 
+                                </div>                             
+                                @endif
+
+                                 <!-- Training  -->
+                                @if($row->status_id == '3' && $row->current_status == 'pmli_filter')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Training Stage</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>  
+                                </div>                            
+                                @endif
+
+                                <!-- Certification  -->
+                                @if($row->status_id == '1' && $row->current_status == 'onboard')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Certification Stage (Pass)</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>  
+                                </div>
+                                @elseif($row->status_id == '4' && $row->current_status == 'certification')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Certification Stage</h6>
+                                    <p class="col-md-8">
+                                        Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p> 
+                                </div>                             
+                                @endif
+
+                                 <!-- Onboarding  -->
+                                @if($row->status_id == '4' && $row->current_status == 'onboard')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Onboarding Stage</h6>
+                                    <p class="col-md-8">
+                                        Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p> 
+                                </div>                             
+                                @endif
+
+                                 <!-- Active Agent  -->
+                                 @if($row->status_id == '8')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Active Agent</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p> 
+                                </div>                             
+                                @endif
+
+                                <!-- InActive Agent  -->
+                                @if($row->status_id == '9')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Inactive Agent</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p> 
+                                </div>                             
+                                @endif
+
+                                <!-- Active Agent  -->
+                                @if($row->status_id == '10')  
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Ceased Association</h6>
+                                    <p class="col-md-8">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p> 
+                                </div>                             
+                                @endif
+                                
+                                
+                            @endforeach
+                                
+
+                                
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="col-lg-6 col-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Declaration</h4>
                     </div>
+                    <div class="card-body">
+                        <div class="mt-1 row">
+                            <h6 class="col-md-6">Agree to Terms & Condition:</h6>
+                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-6">Agree that the information provided is true and correct :</h6>
+                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="card-body">
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Spouse Name:</h6>
@@ -281,15 +441,15 @@
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Department:</h6>
-                                    <p class="col-md-6">{{ $employment['department_name'] }}</p>
+                                    <p class="col-md-6">{{ $employment['department_name']  ?? '-'}}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Start Date:</h6>
-                                    <p class="col-md-6">{{ $employment['duration_from_date'] }}</p>
+                                    <p class="col-md-6">{{ $employment['duration_from_date'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">End Date:</h6>
-                                    <p class="col-md-6">{{ $employment['duration_to_date'] }}</p>
+                                    <p class="col-md-6">{{ $employment['duration_to_date'] ?? '-' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -311,23 +471,23 @@
                             <div class="card-body">
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Company:</h6>
-                                    <p class="col-md-6">{{ $employment['company_name'] }}</p>
+                                    <p class="col-md-6">{{ $employment['company_name'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Address:</h6>
-                                    <p class="col-md-6">{{ $employment['address'] }}</p>
+                                    <p class="col-md-6">{{ $employment['address'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Position:</h6>
-                                    <p class="col-md-6">{{ $employment['position'] }}</p>
+                                    <p class="col-md-6">{{ $employment['position'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Income:</h6>
-                                    <p class="col-md-6">{{ $employment['income'] }}</p>
+                                    <p class="col-md-6">{{ $employment['income'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Industry:</h6>
-                                    <p class="col-md-6">{{ $employment['industry_type'] }}</p>
+                                    <p class="col-md-6">{{ $employment['industry_type'] ?? '-' }}</p>
                                 </div>
                             </div>
                             @endforeach
@@ -347,15 +507,15 @@
                                 <div class="card-body">
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Position:</h6>
-                                        <p class="col-md-6">{{ $agent_exp['position'] }}</p>
+                                        <p class="col-md-6">{{ $agent_exp['position'] ?? '-' }}</p>
                                     </div>
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Address:</h6>
-                                        <p class="col-md-6">{{ $agent_exp['address'] }}</p>
+                                        <p class="col-md-6">{{ $agent_exp['address'] ?? '-' }}</p>
                                     </div>
                                     <div class="mt-1 row">
                                         <h6 class="col-md-4">Compay Name:</h6>
-                                        <p class="col-md-6">{{ $agent_exp['company_name'] }}</p>
+                                        <p class="col-md-6">{{ $agent_exp['company_name'] ?? '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -373,23 +533,23 @@
                                 @php $family_agent = json_decode( $applicant->family_agent, true ); @endphp
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Name:</h6>
-                                    <p class="col-md-6">{{ $family_agent['name'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['name'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Position:</h6>
-                                    <p class="col-md-6">{{ $family_agent['position'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['position'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Agent Code:</h6>
-                                    <p class="col-md-6">{{ $family_agent['agent_code'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['agent_code'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Relation:</h6>
-                                    <p class="col-md-6">{{ $family_agent['relation'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['relation'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">NRC:</h6>
-                                    <p class="col-md-6">{{ $family_agent['nrc'] }}</p>
+                                    <p class="col-md-6">{{ $family_agent['nrc'] ?? '-' }}</p>
                                 </div>
                             </div>
                             @endif

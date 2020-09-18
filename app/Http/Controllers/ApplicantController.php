@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PDF;
+use DB;
 
 class ApplicantController extends Controller
 {
@@ -364,8 +365,12 @@ class ApplicantController extends Controller
     {
         $applicant = Applicant::with('trainings')->where('id', $request->id)->first();
         $trainings = Training::all();
+        $activities = DB::table('applicant_status')->select('status_id','current_status', 'name', 'applicant_status.created_at')
+                        ->leftjoin('users', 'users.id', 'applicant_status.user_id')
+                        ->where('applicant_id', $request->id)
+                        ->get();
 
-        return view('pages.applicants.detail', compact('applicant', 'trainings'));
+        return view('pages.applicants.detail', compact('applicant', 'trainings', 'activities'));
     }
 
     public function update(Request $request, ContractInterface $contract)

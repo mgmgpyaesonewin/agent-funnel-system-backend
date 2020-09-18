@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Applicant;
+use App\Training;
 use App\ImportHistory;
 use App\Exports\ApplicantExport;
 use App\Exports\ApplicantsExport;
@@ -71,9 +72,14 @@ class ExportController extends Controller
         return redirect('/setting')->with('status', 'Successfully Imported.');
     }
 
-    public function applicantExport(Request $request)
+    public function applicantExport($type, Request $request)
     {
-        return Excel::download(new ApplicantExport($request->id), 'applicant.xlsx');
+        if($type == 'pdf')
+            return Excel::download(new ApplicantExport('pdf',$request->id), 'applicant.pdf');
+        else
+            return Excel::download(new ApplicantExport('excel',$request->id), 'applicant.xlsx');
+
+        
     }
 
     public function pdf(Request $request)

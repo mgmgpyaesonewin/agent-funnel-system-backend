@@ -74,7 +74,7 @@ class Applicant extends Model
 
     public function statuses()
     {
-        return $this->belongsToMany('App\Status')->withPivot('current_status')->withTimestamps();
+        return $this->belongsToMany('App\Status')->withPivot('current_status', 'user_id')->withTimestamps();
     }
 
     public function interviews()
