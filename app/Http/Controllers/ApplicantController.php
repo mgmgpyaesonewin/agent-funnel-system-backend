@@ -106,9 +106,8 @@ class ApplicantController extends Controller
 
     public function spouse_update(Request $req)
     {
-        // return $req->all();
         $appli = Applicant::where('uuid', $req->id)->first();
-        $appli->update(collect($req->spouse)->except('term_condition')->toArray());
+        $appli->update(collect($req->spouse)->except('term_condition', 'correct_info')->toArray());
 
         return $appli;
     }
