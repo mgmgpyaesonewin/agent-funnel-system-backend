@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Setting;
 use App\Http\Requests\Template;
 use App\TemplateForm;
 use Illuminate\Http\Request;
@@ -58,10 +59,13 @@ class TemplateFormController extends Controller
         $templates = TemplateForm::where('active', true)->first();
 
         $applicant = Applicant::where('uuid', $req->id)->where('current_status', 'pre_filter')->where('status_id', 1)->first();
+        $term_condition = Setting::where('meta_key', "document_tnc")->first()->meta_value;
+
         if ($applicant) {
             return [
                 'template' => $templates,
                 'applicant' => $applicant,
+                'term_condition' => $term_condition
             ];
         }
 

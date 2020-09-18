@@ -122,7 +122,7 @@ class ApplicantController extends Controller
 
             return [
                 'message' => 'valid',
-                'contract' => $contract,
+                'contract' => $contract
             ];
         }
 

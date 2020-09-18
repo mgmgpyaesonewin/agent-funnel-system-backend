@@ -95,14 +95,7 @@ class SettingController extends Controller
 
         return view("pages.contract.{$lang}", compact('document'));
     }
-
-    public function contents()
-    {
-        $document = Setting::where('meta_key', 'table_of_contents')->first()->meta_value;
-
-        return view('pages.document', compact('document'));
-    }
-
+    
     public function updateDocument(Request $request)
     {
         $setting = Setting::where('meta_key', "document_{$request->lang}")->first();
