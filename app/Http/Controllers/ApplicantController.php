@@ -39,7 +39,7 @@ class ApplicantController extends Controller
         $contract->witness_sign_img = $witness_sign_img;
         $contract->save();
 
-        $applicant->document = Setting::where('meta_key', 'document')->first()->meta_value;
+        $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
         $applicant->agreement_no = $contract->agreement_no;
         $applicant->applicant_sign_img = $contract->applicant_sign_img;
         $applicant->witness_sign_img = $contract->witness_sign_img;
