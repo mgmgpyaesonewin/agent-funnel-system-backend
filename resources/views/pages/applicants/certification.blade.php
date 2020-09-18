@@ -26,7 +26,8 @@
                             :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
+                                    <div class="btn-group mt-1"
+                                        v-show="applicant.status_id === 1 && isDatePast(applicant.exam_date)">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status" new-current-status="onboard"
                                             :old-status-id="applicant.status_id" :new-status-id="1"

@@ -79,5 +79,12 @@ Vue.prototype.$location = window.location;
  */
 
 const app = new Vue({
-  el: "#app"
+  el: "#app",
+  methods: {
+    isDatePast(date) {
+      let [day, month, year] = date.split("-");
+      let dateObj = new Date(`${year}-${month}-${day}`);
+      return dateObj < new Date();
+    }
+  }
 });
