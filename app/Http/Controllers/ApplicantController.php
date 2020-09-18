@@ -62,9 +62,8 @@ class ApplicantController extends Controller
 
     public function generateAgentCode($applicant_id)
     {
-        $raw_agent_code = str_pad($applicant_id, 5, "0", STR_PAD_LEFT);
-        $agent_code_arr = str_split($raw_agent_code, "3");
-        $agent_code = implode(",", $agent_code_arr);
+        $raw_agent_code = "2".str_pad($applicant_id, 6, "0", STR_PAD_LEFT);
+        $agent_code = "0".number_format($raw_agent_code);
         return $agent_code;
     }
 
