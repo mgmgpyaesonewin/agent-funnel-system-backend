@@ -14,7 +14,7 @@ class AddCorrectInfoToApplicantsTable extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->integer('correct_info')->default(1);
+            $table->integer('correct_info')->default(1)->after('agent_code');
         });
     }
 
