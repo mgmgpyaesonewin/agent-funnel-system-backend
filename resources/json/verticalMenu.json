@@ -101,6 +101,13 @@
       "role": "staff"
     },
     {
+      "url": "/setting",
+      "name": "Settings",
+      "slug": "configure",
+      "icon": "feather icon-settings",
+      "role": "staff"
+    },
+    {
       "url": "",
       "navheader": "Contract",
       "icon": "",
@@ -119,11 +126,10 @@
       "role": "all"
     },
     {
-      "url": "/setting",
-      "name": "Settings",
-      "slug": "configure",
-      "icon": "feather icon-settings",
-      "role": "staff"
+      "url": "/document/tnc",
+      "name": "Terms And Conditions",
+      "icon": "feather icon-sidebar",
+      "role": "all"
     }
   ]
 }
