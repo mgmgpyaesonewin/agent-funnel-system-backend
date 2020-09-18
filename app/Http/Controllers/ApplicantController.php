@@ -133,7 +133,8 @@ class ApplicantController extends Controller
         $appli = Applicant::find($req->id);
         $data['bank_account_no'] = $req->account_no;
         $data['bank_account_name'] = $req->name;
-        $data['bank_name'] = $req->bank_name;
+        $data['bank_name'] = json_decode($req->bank_name)->name;
+        $data['swift_code'] = json_decode($req->bank_name)->code;
         $data['license_no'] = $req->license_number;
         // // return $data;
         $files = $req->file('license_photo');
