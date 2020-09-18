@@ -51,7 +51,8 @@
                                                 Approve
                                             </span>
                                         </v-button>
-                                        <v-payment :image="applicant.payment" v-show="applicant.status_id === 11">
+                                        <v-payment :image="applicant.payment"
+                                            v-show="applicant.status_id === 11 && applicant.payment">
                                         </v-payment>
                                         <v-button button-class="btn btn-danger" v-show="applicant.status_id === 1"
                                             :old-current-status="applicant.current_status"
