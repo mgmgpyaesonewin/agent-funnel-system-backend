@@ -12,6 +12,15 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
 {
     use Exportable;
 
+    private $from;
+    private $to;
+
+    public function __construct($from, $to)
+    {
+        $this->from = $from;
+        $this->to = $to;
+    }
+
     public function headings(): array
     {
         return [
@@ -26,16 +35,7 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
             'AML Check',
             'Current Stage',
             'Status',
-            'Partner',
-            'Registered At',
-            'Background Check',
-            'Pru DNA Filter',
-            'PMLI Filter',
-            'Payment Made At',
-            'Training Started At',
-            'Certification',
-            'Onboarding',
-            'Contract Active',
+            'Partner'
         ];
     }
 
@@ -53,16 +53,7 @@ class ApplicantsExport implements FromQuery, WithHeadings, WithMapping
             $applicant->aml_check,
             $applicant->current_status,
             $applicant->statuses->last()->title ?? 'New',
-            $applicant->partner->company_name ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 1)->wherePivot('current_status', 'lead')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 1)->wherePivot('current_status', 'pre_filter')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 1)->wherePivot('current_status', 'pru_dna_test')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 5)->wherePivot('current_status', 'pru_dna_test')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 11)->wherePivot('current_status', 'pmli_filter')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 3)->wherePivot('current_status', 'training')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 3)->wherePivot('current_status', 'pmli_filter')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 1)->wherePivot('current_status', 'onboard')->first()->pivot->created_at ?? '-',
-            $applicant->statuses()->wherePivot('status_id', 8)->wherePivot('current_status', 'active')->first()->pivot->created_at ?? '-'
+            $applicant->partner->company_name ?? '-'
         ];
     }
 

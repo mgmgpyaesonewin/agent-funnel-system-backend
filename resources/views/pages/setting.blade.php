@@ -10,7 +10,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <span class="float-right">
-              <a href="{{ url('setting/applicants/export')}}" class="btn btn-info">Export</a>
+            <button type="button" class="btn btn-info" onclick='openModal()'>Export</button>
             </span>
             Download Applicants Information
           </li>
@@ -147,4 +147,74 @@
 </div>
 @endif
 </form>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true"
+    role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Export Options</h5>
+                <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <form action="{{ url('/setting/applicants/export') }}" method="post" id="export-form">
+                {{ csrf_field() }}
+                <div class="form-group row mx-1">
+                  <label for="inputPassword" class="col-sm-4 col-form-label">From</label>
+                  <div class="col-sm-8">
+                    <input type="date" name="from">
+                  </div>
+                </div>
+                <div class="form-group row mx-1">
+                  <label for="inputPassword" class="col-sm-4 col-form-label">To</label>
+                  <div class="col-sm-8">
+                    <input type="date" name="from">
+                  </div>
+                </div>
+                <div class="form-group row mx-1">
+                  <label for="inputPassword" class="col-sm-4 col-form-label">Type</label>
+                  <div class="col-sm-8">
+                    <select name="type" class="form-control">
+                        <option>-- Choose --</option>
+                        <option value="audit">For Audit</option>
+                        <option value="dcms">For DCMS</option>
+                        <option value="check">For PruDNA/AML Check</option>
+                        <option value="import">Import Template</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+                <button type="submit" class="btn btn-primary" form="export-form">Download</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>
 @endsection
+<script>
+
+function openModal() {
+    document.getElementById("backdrop").style.display = "block"
+    document.getElementById("exampleModal").style.display = "block"
+    document.getElementById("exampleModal").className += "show"
+}
+function closeModal() {
+    document.getElementById("backdrop").style.display = "none"
+    document.getElementById("exampleModal").style.display = "none"
+    document.getElementById("exampleModal").className += document.getElementById("exampleModal").className.replace("show", "")
+}
+// Get the modal
+var modal = document.getElementById('exampleModal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        closeModal()
+    }
+}
+</script>

@@ -23,9 +23,19 @@ class ExportController extends Controller
         return Excel::download(new PMLIFilterExport(), 'applicants-pmli-filter.xlsx');
     }
 
-    public function applicantsExport()
+    public function applicantsExport(Request $request)
     {
-        return Excel::download(new ApplicantsExport(), 'applicants.xlsx');
+        $fromDate = date('Y-m-d H:i:s', strtotime($request->from));
+        $toDate = date('Y-m-d H:i:s',strtotime('+23 hour +59 minutes +59 seconds',strtotime($request->to)));
+
+        if($request->type == 'audit')
+            return Excel::download(new ApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+        else if($request->type == 'dcms')
+            return Excel::download(new ApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+        else if($request->type == 'check')
+            return Excel::download(new ApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+        else 
+            return Excel::download(new ApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
     }
 
     public function applicantsImport(Request $request)
