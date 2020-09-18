@@ -69,7 +69,7 @@ class ApplicantController extends Controller
     }
 
     public function detail(Request $req)
-    {
+    {        
         $appli = Applicant::where('uuid', $req->id)->first();
         $appli->name = $req->name;
         $appli->dob = $req->dob;
@@ -322,7 +322,7 @@ class ApplicantController extends Controller
         $applicant_id = $request->applicant_id;
 
         $record = [
-            'appointment' => $appointment->format('jS \\of F Y \\(l\\) h:i A'),
+            'appointment' => $appointment,
             'url' => $request->url,
             'rescheduled' => 0,
             'applicant_id' => $applicant_id,
@@ -340,7 +340,7 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $applicant_id)->first();
 
         // Stage 5
-        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."{$appointment}, {$request->url}";
+        $text = json_decode(Setting::where('meta_key', 'interview_msg')->first()->meta_value)->text." Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$request->url}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 
@@ -525,7 +525,7 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text."E-Learning Link {$applicant->e_learning}, Username is {$applicant->username}, Password is {$request->password}";
+        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
         notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([

@@ -31,7 +31,7 @@
                                             :old-current-status="applicant.current_status" new-current-status="active"
                                             :old-status-id="applicant.status_id" :new-status-id="9"
                                             :applicant-id="applicant.id">
-                                            <i class="fa fa-times" aria-hidden="true"></i> Inactive
+                                            <i class="fa fa-times" aria-hidden="true"></i> Suspended
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
                                             :old-current-status="applicant.current_status" new-current-status="active"
