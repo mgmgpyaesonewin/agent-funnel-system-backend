@@ -24,6 +24,8 @@ class ApplicantController extends Controller
     public function signContract(Request $req)
     {
         $applicant = Applicant::where('uuid', $req->id)->first();
+        $applicant->agent_code = $this->generateAgentCode($applicant->id);
+        $applicant->save();
 
         $applicant_sign = Storage::disk('public')->put('sign/applicant', $req->applicant_url);
         $witness_sign_img = Storage::disk('public')->put('sign/witness', $req->witness_url);
@@ -55,6 +57,14 @@ class ApplicantController extends Controller
         return response()->json([
             'contract' => asset('storage/'.$file),
         ]);
+    }
+
+    public function generateAgentCode($applicant_id)
+    {
+        $raw_agent_code = str_pad($applicant_id, 5, "0", STR_PAD_LEFT);
+        $agent_code_arr = str_split($raw_agent_code, "3");
+        $agent_code = implode(",", $agent_code_arr);
+        return $agent_code;
     }
 
     public function detail(Request $req)
