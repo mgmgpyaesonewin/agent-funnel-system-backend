@@ -379,6 +379,7 @@ class ApplicantController extends Controller
         $current_status = $request->current_status;
         $status_id = $request->status_id;
 
+        // TODO: Query should be applicant::find instead of where.
         $applicant = Applicant::where('id', $request->id)->first();
         $applicant->current_status = $current_status;
         $applicant->status_id = $status_id;
@@ -395,6 +396,14 @@ class ApplicantController extends Controller
             $route = env('FRONT_END_URL').'/payment/'.$applicant->uuid;
             $link = $route;
             $this->text = json_decode(Setting::where('meta_key', 'payment_msg')->first()->meta_value)->text."{$link}";
+            notified_applicant_via_viber($applicant->phone, $this->text);
+        }
+
+        // Background Check Invalid Information - re-send viber message
+        if ('pre_filter' == $current_status && 7 == $status_id) {
+            $route = env('FRONT_END_URL').'/applicants/'.$applicant->uuid;
+            $link = $route;
+            $this->text = "Your information is invalid. ".json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text.' '.$link;
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
