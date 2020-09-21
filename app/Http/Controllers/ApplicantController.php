@@ -497,7 +497,7 @@ class ApplicantController extends Controller
         ]);
 
         $applicant = Applicant::where('id', $applicant_id)->first();
-        $text = json_decode(Setting::where('meta_key', 'exam_msg')->first()->meta_value)->text." {$exam_date->format('jS \\of F Y \\(l\\) h:i A')}";
+        $text = json_decode(Setting::where('meta_key', 'exam_msg')->first()->meta_value)->text." {$exam_date}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 

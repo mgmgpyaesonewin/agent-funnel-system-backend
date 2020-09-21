@@ -8,6 +8,7 @@ use App\Exports\ApplicantsExport;
 use App\Exports\ImportBackupExport;
 use App\Exports\PMLIFilterExport;
 use App\Exports\PruDnaAmlCheckApplicantsExport;
+use App\Exports\AuditApplicantsExport;
 use App\ImportHistory;
 use App\Imports\ApplicantsImport;
 use Carbon\Carbon;
@@ -29,7 +30,7 @@ class ExportController extends Controller
         $toDate = date('Y-m-d H:i:s', strtotime('+23 hour +59 minutes +59 seconds', strtotime($request->to)));
 
         if ('audit' == $request->type) {
-            return Excel::download(new ApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+            return Excel::download(new AuditApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
         }
         if ('dcms' == $request->type) {
             return Excel::download(new ApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
