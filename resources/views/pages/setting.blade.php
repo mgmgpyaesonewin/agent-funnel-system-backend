@@ -10,7 +10,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <span class="float-right">
-              <a href="{{ url('setting/applicants/export')}}" class="btn btn-info">Export</a>
+              <button type="button" class="btn btn-info" onclick='openModal()'>Export</button>
             </span>
             Download Applicants Information
           </li>
@@ -78,63 +78,67 @@
           </div>
           @foreach($msg_templates as $temp)
           <div class="form-group row mx-1">
-            
+
             <div class="col-sm-7">
-            <label for="inputPassword" class="col-form-label"><strong>
-              @switch($temp->meta_key)
-              @case('cv_form_msg')
-              Full CV Form link (Leads Stage)
-              @break
+              <label for="inputPassword" class="col-form-label"><strong>
+                  @switch($temp->meta_key)
+                  @case('cv_form_msg')
+                  Full CV Form link (Leads Stage)
+                  @break
 
-              @case('dna_test_msg')
-              PruDNA Test link (Pre-filter)
-              @break
+                  @case('dna_test_msg')
+                  PruDNA Test link (Pre-filter)
+                  @break
 
-              @case('interview_msg')
-              Interview Details (PruDNA Filter)
-              @break
+                  @case('interview_msg')
+                  Interview Details (PruDNA Filter)
+                  @break
 
-              @case('payment_msg')
-              Ask for payment receipt (PMLI Filter)
-              @break
+                  @case('payment_msg')
+                  Ask for payment receipt (PMLI Filter)
+                  @break
 
-              @case('elearning_msg')
-              Send E-Learning link (PMLI Filter)
-              @break
+                  @case('elearning_msg')
+                  Send E-Learning link (PMLI Filter)
+                  @break
 
-              @case('exam_msg')
-              Examination date reminder (Training Stage)
-              @break
+                  @case('exam_msg')
+                  Examination date reminder (Training Stage)
+                  @break
 
-              @case('license_msg')
-              License Information Collection (Certification Stage)
-              @break
+                  @case('license_msg')
+                  License Information Collection (Certification Stage)
+                  @break
 
-              @case('contract_msg')
-              Re-Send Contract (Onboarding Stage)
-              @break
+                  @case('contract_msg')
+                  Re-Send Contract (Onboarding Stage)
+                  @break
 
-              @endswitch
-              </strong></label>
-            @php $data = json_decode( $temp->meta_value, true ); @endphp
-              <textarea class="form-control" id="exampleFormControlTextarea1" name="{{$temp->meta_key}}" rows="5">{{$data['text']}}</textarea>
+                  @endswitch
+                </strong></label>
+              @php $data = json_decode( $temp->meta_value, true ); @endphp
+              <textarea class="form-control" id="exampleFormControlTextarea1" name="{{$temp->meta_key}}"
+                rows="5">{{$data['text']}}</textarea>
               <br>
-              <label for="inputPassword" class="col-form-label"><strong>Image to insert in above Viber Message</strong></label>
+              <label for="inputPassword" class="col-form-label"><strong>Image to insert in above Viber
+                  Message</strong></label>
               <input type="file" name="{{$temp->meta_key}}_img" class="form-control" accept="image/*">
-              
+
             </div>
-            <div class="col-sm-5"> 
-            @if(isset($data['image']) && $data['image'] != '')
-              <label for="inputPassword" class="col-form-label"><strong>Current Image included in this viber message</strong></label>
-              <img class="img-fluid" src="{{$data['image']}}">   
+            <div class="col-sm-5">
+              @if(isset($data['image']) && $data['image'] != '')
+              <label for="inputPassword" class="col-form-label"><strong>Current Image included in this viber
+                  message</strong></label>
+              <img class="img-fluid" src="{{$data['image']}}">
               <br><br>
-              <center><a href="{{ url('/setting/remove_viber_img/'.$temp->id) }}" class="btn btn-secondary">Remove Image</a></center>     
-            @endif
+              <center><a href="{{ url('/setting/remove_viber_img/'.$temp->id) }}" class="btn btn-secondary">Remove
+                  Image</a></center>
+              @endif
             </div>
           </div>
           <hr>
           @endforeach
-          
+
           <div class="form-group row mx-1">
             <div class="col-sm-12">
               <button type="submit" class="btn btn-primary pull-right">Save Changes</button>
@@ -147,4 +151,73 @@
 </div>
 @endif
 </form>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true"
+  role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Export Options</h5>
+        <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url('/setting/applicants/export') }}" method="post" id="export-form">
+          {{ csrf_field() }}
+          <div class="form-group row mx-1">
+            <label for="inputPassword" class="col-sm-4 col-form-label">From</label>
+            <div class="col-sm-8">
+              <input type="date" name="from">
+            </div>
+          </div>
+          <div class="form-group row mx-1">
+            <label for="inputPassword" class="col-sm-4 col-form-label">To</label>
+            <div class="col-sm-8">
+              <input type="date" name="to">
+            </div>
+          </div>
+          <div class="form-group row mx-1">
+            <label for="inputPassword" class="col-sm-4 col-form-label">Type</label>
+            <div class="col-sm-8">
+              <select name="type" class="form-control">
+                <option>-- Choose --</option>
+                <option value="audit">For Audit</option>
+                <option value="dcms">For DCMS</option>
+                <option value="check">For PruDNA/AML Check</option>
+                <option value="import">Import Template</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal()">Close</button>
+        <button type="submit" class="btn btn-primary" form="export-form">Download</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>
 @endsection
+<script>
+  function openModal() {
+    document.getElementById("backdrop").style.display = "block"
+    document.getElementById("exampleModal").style.display = "block"
+    document.getElementById("exampleModal").className += "show"
+}
+function closeModal() {
+    document.getElementById("backdrop").style.display = "none"
+    document.getElementById("exampleModal").style.display = "none"
+    document.getElementById("exampleModal").className += document.getElementById("exampleModal").className.replace("show", "")
+}
+// Get the modal
+var modal = document.getElementById('exampleModal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        closeModal()
+    }
+}
+</script>
