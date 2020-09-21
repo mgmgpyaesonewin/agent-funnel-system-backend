@@ -68,6 +68,15 @@
             <td style="height:17px;vertical-align: center"> &nbsp;  <b>Highest Qualification</b></td>
             <td> &nbsp;  {{ $applicant->education }}</td>
         </tr>
+        @php $info = json_decode( $applicant->additional_info, true ); @endphp
+        @if($info)
+        @foreach ($info as $key => $val)
+        <tr>
+            <td style="height:17px;vertical-align: center"> &nbsp;  <b>{{ $key }}</b></td>
+            <td> &nbsp;  {{ $info[$val] }}</td>
+        </tr>
+        @endforeach
+        @endif
         <tr>
             <td  colspan="2" style="background-color:#ed1b36;color:#fff;height:22px;vertical-align: center"><b> &nbsp;  Declaration</b></td>
         </tr>        
@@ -230,17 +239,21 @@
         <tr>
             <td style="height:17px;vertical-align: center"> &nbsp;  <b>Bank Name</b></td>
             <td> &nbsp;  {{ $applicant->banK_name }}</td>
+        </tr>     
+        <tr>
+            <td style="height:17px;vertical-align: center"> &nbsp;  <b>Swift Code</b></td>
+            <td> &nbsp;  {{ $applicant->swift_code }}</td>
         </tr>        
         <tr>
             <td colspan="2"  style="background-color:#ed1b36;color:#fff;height:22px;vertical-align: center"><b> &nbsp;  For INTERNAL USE</b></td>
         </tr>
         <tr>
             <td style="height:17px;vertical-align: center"> &nbsp;  <b>Agree to Terms and Condition </b></td>
-            <td> &nbsp; {{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }} </td>
+            <td> &nbsp; {{  $applicant->accept_t_n_c == '1' ? 'Yes' : '-' }} </td>
         </tr>
         <tr>
             <td style="height:17px;vertical-align: center"> &nbsp;  <b>Agree that the information provided is true and correct</b> </td>
-            <td> &nbsp;  {{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }} </td>
+            <td> &nbsp;  {{ $applicant->correct_info == '1' ? 'Yes' : '-' }} </td>
         </tr>
         <tr>
             <td style="height:17px;vertical-align: center"> &nbsp; <b>Assign To</b></td>
@@ -257,6 +270,18 @@
                 {{ $applicant->ma->name}}
             @endif
             </td>
+        </tr>
+        <tr>
+            <td style="height:17px;vertical-align: center"> &nbsp;  <b>Agent Code</b> </td>
+            <td> &nbsp;  {{ $applicant->agent_code}} </td>
+        </tr>
+        <tr>
+            <td style="height:17px;vertical-align: center"> &nbsp;  <b>UTM Source</b> </td>
+            <td> &nbsp;  {{ $applicant->utm_source}} </td>
+        </tr>
+        <tr>
+            <td style="height:17px;vertical-align: center"> &nbsp;  <b>Current Status</b> </td>
+            <td> &nbsp;  {{ strtoupper($applicant->current_status)}} </td>
         </tr>
     </tbody>
 </table>

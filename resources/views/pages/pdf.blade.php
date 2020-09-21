@@ -108,7 +108,7 @@
       <b>and</b>
    </p>
    <p class="western" align="CENTER" style="margin-top: 0.17in; margin-bottom: 3.42in; widows: 0; orphans: 0">
-      <b>[Name of Management AssociateFinancial Advisor]</b>
+      <b>{{ strtoupper($applicant->name ?? '') }}</b>
    </p>
    <p class="western" align="CENTER">Agreement No: {{ $applicant->agreement_no ?? '' }}</p>
    <div>
@@ -129,7 +129,7 @@
             <li>TERM AND TERMINATION</li>
             <li>CONDUCT BEFORE AND AFTER TERMINATION</li>
             <li>ASSIGNMENT</li>
-            <li>ORCE MAJEURE</li>
+            <li>FORCE MAJEURE</li>
             <li>ANTI-BRIBERY AND ANTI-MONEY LAUNDERING</li>
             <li>FRAUD REPORTING</li>
             <li>CONFIDENTIALITY</li>
@@ -139,8 +139,8 @@
       </p>
    </div>
    <div>
-      <p>
-         This &nbsp;Financial Advisor&nbsp;Agreement (&ldquo;Agreement&rdquo;)&nbsp;is made on the
+      <p style='overflow:hidden;page-break-before:always;'>
+         This &nbsp;Financial Advisor&nbsp;Agreement (&ldquo;Agreement&rdquo;)&nbsp;is made on the 
          <b>{{ $applicant->signed_date ?? '' }}</b> by and between,
       </p>
       <p>Prudential Myanmar Life Insurance Limited, a private limited company incorporated under the laws of the
@@ -169,6 +169,7 @@
                   <td width="361">
                      <p>For and on behalf of the Company</p>
                      <p><em><em>Signature</em></em></p>
+                     <div style="height:92px"></div>
                   </td>
                   <td width="390">
                      <p>The Advisor</p>
@@ -185,11 +186,15 @@
                   </td>
                   <td width="390">
                      <p>&nbsp;</p>
+                     <p>&nbsp;</p>
+                     <p>&nbsp;</p>
+                     <p>&nbsp;</p>
                   </td>
                </tr>
                <tr>
                   <td width="361">
                      <p>Name:</p>
+                     <p>&nbsp;</p>
                   </td>
                   <td width="390">
                      <p>Name:</p>
@@ -208,6 +213,7 @@
                   <td width="361">
                      <p>Witness</p>
                      <p><em><em>Signature</em></em></p>
+                     <div style="height:92px"></div>
                   </td>
                   <td width="390">
                      <p>Witness</p>
@@ -224,11 +230,15 @@
                   </td>
                   <td width="390">
                      <p>&nbsp;</p>
+                     <p>&nbsp;</p>
+                     <p>&nbsp;</p>
+                     <p>&nbsp;</p>
                   </td>
                </tr>
                <tr>
                   <td width="361">
                      <p>Name:</p>
+                     <p>&nbsp;</p>
                   </td>
                   <td width="390">
                      <p>Name:</p>

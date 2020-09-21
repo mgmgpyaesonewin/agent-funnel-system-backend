@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-{{-- @section('title', 'Applicants Detail Information') --}}
+@section('title', 'Applicants Detail Information')
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/pages/users.css')) }}">
@@ -12,24 +12,13 @@
         <div class="col-12">
             <div class="profile-header mb-2">
                 <div class="relative">
-                    <div class="cover-container" style="width: 100%; height: 5rem; background-color: var(--secondary);">
-                        <h3 style="padding-top: 1.5rem;    padding-left: 19rem;    color: white; font-weight: 600;">Assign to :
-                        @if($applicant->assign_admin_id != '')
-                            {{ $applicant->admin->name}} |
-                        @endif
-
-                        @if($applicant->assign_bdm_id != '')
-                            {{ $applicant->bdm->name}} |
-                        @endif
-
-                        @if($applicant->assign_ma_id != '')
-                            {{ $applicant->ma->name}}
-                        @endif
-                    </h3>
+                    <div class="cover-container d-none d-sm-block" style="width: 100%; height: 5rem; background-color: var(--secondary);">  
+                        <h3 class="text-center text-primary pt-1">Applicant Details</3>                    
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
                         <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
                             class="rounded-circle img-border box-shadow-1" alt="Card image">
+                        
                         <div class="float-right">
                             <a href="{{ url('/applicant/export/excel/'.$applicant->id) }}" title="Download Excel"
                                 class="btn btn-icon btn-icon rounded-circle btn-primary">
@@ -48,13 +37,64 @@
                             data-target="navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"><i class="feather icon-align-justify"></i></span>
-                        </button>                        
+                        </button>                    
                     </nav>
                 </div>
             </div>
         </div>
     </div>
     <section id="profile-info">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                @if($applicant->current_status != '')
+                                <h5 style="color: #606060; font-weight: 500;"><b>Current Status</b> :
+                                <span class="badge badge-info">{{ strtoupper($applicant->current_status)}}</span>
+                                </h5>
+                                @endif
+                                <h5 style="color: #606060; font-weight: 500;"><b>Assign to</b> :
+                                @if($applicant->assign_admin_id != '')
+                                    {{ $applicant->admin->name}} |
+                                @endif
+
+                                @if($applicant->assign_bdm_id != '')
+                                    {{ $applicant->bdm->name}} |
+                                @endif
+
+                                @if($applicant->assign_ma_id != '')
+                                    {{ $applicant->ma->name}}
+                                @endif
+                                </h5>
+                                
+                                @if($applicant->utm_source != '')
+                                <h5 style="color: #606060; font-weight: 500;"><b>UTM Source</b> :
+                                    {{ $applicant->utm_source}}
+                                </h5>
+                                @endif                           
+                            </div>
+                            <div class="col-md-6">                               
+                                
+                                @if($applicant->temp_id != '')
+                                <h4 style="color: #606060; font-weight: 600;">Temporary ID :
+                                    <span class="badge badge-primary">{{ $applicant->temp_id}}</span>
+                                </h4>
+                                @endif 
+                                @if($applicant->temp_id != '')
+                                <h4 style="color: #606060; font-weight: 600;">Agent Code :
+                                    {{ $applicant->agent_code}}
+                                </h4>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-6 col-12">
                 <div class="card">
@@ -138,62 +178,78 @@
                             <h6 class="col-md-4">Race:</h6>
                             <p class="col-md-6">{{ $applicant->race }}</p>
                         </div>
+                        
+                        @php $info = json_decode( $applicant->additional_info, true ); @endphp
+                        @if($info)
                         <hr />
                         <div class="card-header">
+                            <h4>Additional Info</h4>
+                        </div>
+                            @foreach ($info as $key => $val)
+                            <div class="mt-1 row">
+                                <h6 class="col-md-4">{{ $key }} :</h6>
+                                <p class="col-md-6">{{ $info[$val] }}</p>
+                            </div>
+                            @endforeach
+                        @endif
+                        <hr />
+                        <div class="card-header pl-0">
                             <h4>Attachments</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Contract:</h6>
-                                <div>
-                                @if($applicant->contracts()->latest()->first())
-                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ url('/storage/'.$applicant->contracts()->latest()->first()->pdf) }}>
-                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> View Contract
-                                    </v-info-button>
-                                @endif
-                                </div>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Payment Receipt:</h6>
-                                <div>
-                                @if($applicant->payment)
-                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ url('/storage/'.$applicant->payment) }}>
-                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> View Payment
-                                    </v-info-button>
-                                @endif
-                                </div>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">License:</h6>
-                                <div>
-                                @if($applicant->license_photo_1)
-                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ url('/storage/'.$applicant->license_photo_1) }}>
-                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> View License
-                                    </v-info-button>
-                                @endif
-                                </div>
+                        </div>                           
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Payment:</h6>
+                            <div>
+                            @if($applicant->payment)
+                                <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                    url={{ url('/storage/'.$applicant->payment) }}>
+                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> View Payment
+                                </v-info-button>
+                            @endif
                             </div>
                         </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">License:</h6>
+                            <div>
+                            @if($applicant->license_photo_1)
+                            {{ $applicant->license_no }}
+                                <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                    url={{ url('/storage/'.$applicant->license_photo_1) }}>
+                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> View License
+                                </v-info-button>
+                            @endif
+                            </div>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Contract:</h6>
+                            <div>
+                            @if($applicant->contracts()->latest()->first())
+                                <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                    url={{ url('/storage/'.$applicant->contracts()->latest()->first()->pdf) }}>
+                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> View Contract
+                                </v-info-button>
+                            @endif
+                            </div>
+                        </div>
+                        
                         <hr />
-                        <div class="card-header">
+                        <div class="card-header pl-0">
                             <h4>Bank Information</h4>
                         </div>
-                        <div class="card-body">
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Account Name</h6>
-                                <p class="col-md-6">{{ $applicant->bank_account_name }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Bank Acoount No.</h6>
-                                <p class="col-md-6">{{ $applicant->bank_account_no }}</p>
-                            </div>
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">Bank Name</h6>
-                                <p class="col-md-6">{{ $applicant->banK_name }}</p>
-                            </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Account Name</h6>
+                            <p class="col-md-6">{{ $applicant->bank_account_name }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Bank Acoount No.</h6>
+                            <p class="col-md-6">{{ $applicant->bank_account_no }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Bank Name</h6>
+                            <p class="col-md-6">{{ $applicant->banK_name }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Swift Code</h6>
+                            <p class="col-md-6">{{ $applicant->swift_code }}</p>
                         </div>
                     </div>
                 </div>
@@ -203,9 +259,33 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Training Progress</h4>
+                                <h4>Training Details</h4>
                             </div>
                             <div class="card-body">
+                                @if($applicant->e_learning != '')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">E-learning URL</h6>
+                                    <p class="col-md-8">
+                                        {{$applicant->e_learning}}
+                                    </p>  
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Username</h6>
+                                    <p class="col-md-8">
+                                        {{$applicant->username}}
+                                    </p>  
+                                </div>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Password</h6>
+                                    <p class="col-md-8">
+                                        {{$applicant->password}}
+                                    </p>  
+                                </div>
+                                <hr>
+                                @endif
+                                <div class="card-header pt-0">
+                                    <h5>Progress</h5>
+                                </div>
                                 <ul>
                                     @foreach ($trainings as $module)
                                     <li>
@@ -223,6 +303,15 @@
                                     </li>
                                     @endforeach
                                 </ul>
+                                @if($applicant->exam_date != '')
+                                <hr>
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Exam Date</h6>
+                                    <p class="col-md-8">
+                                        {{$applicant->exam_date}}
+                                    </p>  
+                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -249,7 +338,7 @@
                                  <div class="mt-1 row">
                                     <h6 class="col-md-4">Lead Stage</h6>
                                     <p class="col-md-6">
-                                        {{$applicant->created_at ?? '-'}}
+                                    Approved by {{$applicant->created_at ?? '-'}}
                                     </p>
                                 </div>
                                 @elseif($row->status_id == '4' && $row->current_status == 'lead')  
@@ -378,13 +467,7 @@
                                     </p> 
                                 </div>                             
                                 @endif
-                                
-                                
                             @endforeach
-                                
-
-                                
-
                                 </ul>
                             </div>
                         </div>
@@ -398,13 +481,13 @@
                         <h4>Declaration</h4>
                     </div>
                     <div class="card-body">
-                        <div class="mt-1 row">
+                        <div class="mt-1 row"> 
                             <h6 class="col-md-6">Agree to Terms & Condition:</h6>
-                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                            <p class="col-md-6">{{  $applicant->accept_t_n_c == 1 ? 'Yes' : '-' }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-6">Agree that the information provided is true and correct :</h6>
-                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                            <p class="col-md-6">{{ $applicant->correct_info == '1' ? 'Yes' : '-' }}</p>
                         </div>
                     </div>
                     <hr>
@@ -469,7 +552,7 @@
                         <div class="row">
                             @php $emp = json_decode( $applicant->employment, true ); @endphp
                             @foreach ($emp as $employment)
-                            <div class="card-body">
+                            <div class="card-body col-12">
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Company:</h6>
                                     <p class="col-md-6">{{ $employment['company_name'] ?? '-' }}</p>

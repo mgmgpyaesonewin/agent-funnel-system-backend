@@ -31,16 +31,16 @@ class ExportController extends Controller
         $toDate = date('Y-m-d H:i:s', strtotime('+23 hour +59 minutes +59 seconds', strtotime($request->to)));
 
         if ('audit' == $request->type) {
-            return Excel::download(new AuditApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+            return Excel::download(new AuditApplicantsExport($fromDate, $toDate), 'ApplicantsAuditExport'.date('dMY').'.xlsx');
         }
         if ('dcms' == $request->type) {
-            return Excel::download(new DCMSApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+            return Excel::download(new DCMSApplicantsExport($fromDate, $toDate), 'ApplicantsForDCMS'.date('dMY').'.xlsx');
         }
         if ('check' == $request->type) {
-            return Excel::download(new PruDnaAmlCheckApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+            return Excel::download(new PruDnaAmlCheckApplicantsExport($fromDate, $toDate), 'ApplicantsforCheck'.date('dMY').'.xlsx');
         }
 
-        return Excel::download(new ApplicantsExport($fromDate, $toDate), 'applicants.xlsx');
+        return Excel::download(new ApplicantsExport($fromDate, $toDate), 'ApplicantsForImport'.date('dMY').'.xlsx');
     }
 
     public function applicantsImport(Request $request)
@@ -66,7 +66,8 @@ class ExportController extends Controller
             'aml_check',
             'current_status',
             'status_id',
-            'partner_id'
+            'partner_id',
+            'utm_source'
         )->whereIn('uuid', $ids)->get();
 
         // Update DB

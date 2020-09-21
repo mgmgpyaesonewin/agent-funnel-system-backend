@@ -44,6 +44,7 @@ class ApplicantController extends Controller
         $applicant->applicant_sign_img = $contract->applicant_sign_img;
         $applicant->witness_sign_img = $contract->witness_sign_img;
         $applicant->witness_name = $contract->witness_name;
+        $applicant->signed_date = $contract->signed_date;
 
         view()->share('applicant', $applicant);
         $pdf = PDF::loadView('pages.pdf', $applicant);
@@ -107,7 +108,9 @@ class ApplicantController extends Controller
     public function spouse_update(Request $req)
     {
         $appli = Applicant::where('uuid', $req->id)->first();
-        $appli->update(collect($req->spouse)->except('term_condition', 'correct_info')->toArray());
+        $appli->update(collect($req->spouse)->toArray());
+        $appli->accept_t_n_c = '1';
+        $appli->correct_info = '1';
         $appli->submitted_date = Carbon::now();
         $appli->save();
 
@@ -535,7 +538,7 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
+        $text = json_decode(Setting::where('meta_key', 'elearning_msg')->first()->meta_value)->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
         notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([

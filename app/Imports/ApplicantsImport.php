@@ -41,6 +41,7 @@ class ApplicantsImport implements ToModel, WithHeadingRow
                 'current_status' => $row['current_stage'],
                 'status_id' => Status::where('title', $row['status'])->first()->id ?? null,
                 'partner_id' => Partner::where('company_name', $row['partner'])->first()->partner ?? null,
+                'utm_source' => $row['utm_source'] ?? null,
             ],
         );
         $row['result'] = ($result->isDirty() ? 'Fail' : (count($result->getChanges()) > 0 ? 'Success' : 'No Changes Made') );

@@ -8,10 +8,10 @@
         </h5>
       </div>
       <div class="col-4" v-show="amlStatus && isPartner == 0">
-        <div class="btn-group pull-left">
+        <!--div class="btn-group pull-left">
           <button type="button" class="btn btn-success" @click="updateAMLStatus(1)">Pass</button>
           <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
-        </div>
+        </div-->
       </div>
       <div v-show="userAssign === true && isPartner == 0" class="col-5 d-flex">
         <multi-select
@@ -40,7 +40,12 @@
           <th>#</th>
           <th>Name</th>
           <th>Phone</th>
-          <th v-show="amlStatus">AML/Compliance Check</th>
+          <th v-show="amlStatus">AML/Compliance Check <br>
+            <div class="btn-group">
+              <button type="button" class="btn btn-success btn-sm" @click="updateAMLStatus(1)">Pass</button>
+              <button type="button" class="btn btn-danger btn-sm" @click="updateAMLStatus(2)">Fail</button>
+            </div>
+          </th>
           <th v-show="age">Age</th>
           <th v-show="gender">Gender</th>
           <th v-show="exam">Exam Date</th>
