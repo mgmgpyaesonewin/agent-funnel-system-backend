@@ -62,6 +62,17 @@
             <td> &nbsp;  Highest Qualification</td>
             <td> &nbsp;  {{ $applicant->education }}</td>
         </tr>
+        @php $infos = json_decode( $applicant->additional_info, true ); @endphp
+        @if($infos)
+        @foreach ($infos as $info)
+        @if(isset($info['value']))
+        <tr>
+            <td> &nbsp;  <b>{{ $info['key'] }}</b></td>
+            <td> &nbsp;  {{ $info['value'] }}</td>
+        </tr>
+        @endif
+        @endforeach
+        @endif
         <tr>
             <td colspan="2"><b> &nbsp;  Declaration</b></td>
         </tr>        

@@ -68,13 +68,15 @@
             <td style="height:17px;vertical-align: center"> &nbsp;  <b>Highest Qualification</b></td>
             <td> &nbsp;  {{ $applicant->education }}</td>
         </tr>
-        @php $info = json_decode( $applicant->additional_info, true ); @endphp
-        @if($info)
-        @foreach ($info as $key => $val)
+        @php $infos = json_decode( $applicant->additional_info, true ); @endphp
+        @if($infos)
+        @foreach ($infos as $info)
+        @if(isset($info['value']))
         <tr>
-            <td style="height:17px;vertical-align: center"> &nbsp;  <b>{{ $key }}</b></td>
-            <td> &nbsp;  {{ $info[$val] }}</td>
+            <td style="height:17px;vertical-align: center"> &nbsp;  <b>{{ $info['key'] }}</b></td>
+            <td> &nbsp;  {{ $info['value'] }}</td>
         </tr>
+        @endif
         @endforeach
         @endif
         <tr>
