@@ -535,7 +535,7 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
+        $text = json_decode(Setting::where('meta_key', 'elearning_msg')->first()->meta_value)->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
         notified_applicant_via_viber($applicant->phone, $text);
 
         return response()->json([
