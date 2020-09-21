@@ -1,22 +1,6 @@
 <table>
     <tbody>
         <tr>
-            <td> &nbsp; Assign To</td>
-            <td>  &nbsp; 
-            @if($applicant->assign_admin_id != '')
-                {{ $applicant->admin->name}} |
-            @endif
-
-            @if($applicant->assign_bdm_id != '')
-                {{ $applicant->bdm->name}} |
-            @endif
-
-            @if($applicant->assign_ma_id != '')
-                {{ $applicant->ma->name}}
-            @endif
-            </td>
-        </tr>
-        <tr>
             <td> &nbsp;  Name</td>
             <td> &nbsp;  {{ $applicant->name }}</td>
         </tr>
@@ -207,7 +191,19 @@
         </tr>
         @endif
         <tr>
-            <td colspan="2"><b> &nbsp;  Training Progress</b></td>
+            <td colspan="2"><b> &nbsp;  Training Details</b></td>
+        </tr>
+        <tr>
+            <td> &nbsp;  E-learning URL</td>
+            <td> &nbsp;  {{ $applicant->e_learning }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp;  User Name</td>
+            <td> &nbsp;  {{ $applicant->username }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp;  Password</td>
+            <td> &nbsp;  {{ $applicant->password }}</td>
         </tr>
         @foreach($trainings as $module)
         <tr>
@@ -219,6 +215,14 @@
             @endif
         </tr>
         @endforeach
+        <tr>
+            <td> &nbsp;  Exam Date</td>
+            <td> &nbsp;  {{ $applicant->exam_date }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp;  License</td>
+            <td> &nbsp;  {{ $applicant->license_no }}</td>
+        </tr>
         <tr>
             <td colspan="2"><b> &nbsp;  Bank Information</b></td>
         </tr>
@@ -233,6 +237,42 @@
         <tr>
             <td> &nbsp;  Bank Name</td>
             <td> &nbsp;  {{ $applicant->banK_name }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp;  Swift Code</td>
+            <td> &nbsp;  {{ $applicant->swift_code }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp; Assign To</td>
+            <td>  &nbsp; 
+            @if($applicant->assign_admin_id != '')
+                {{ $applicant->admin->name}} |
+            @endif
+
+            @if($applicant->assign_bdm_id != '')
+                {{ $applicant->bdm->name}} |
+            @endif
+
+            @if($applicant->assign_ma_id != '')
+                {{ $applicant->ma->name}}
+            @endif
+            </td>
+        </tr>
+        <tr>
+            <td> &nbsp;  Temporary ID</td>
+            <td> &nbsp;  {{ $applicant->temp_id }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp;  Agent Code</td>
+            <td> &nbsp;  {{ $applicant->agent_code }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp;  Current Status</td>
+            <td> &nbsp;  {{ $applicant->current_status }}</td>
+        </tr>
+        <tr>
+            <td> &nbsp;  UTM Source</td>
+            <td> &nbsp;  {{ $applicant->utm_source }}</td>
         </tr>
     </tbody>
 </table>
