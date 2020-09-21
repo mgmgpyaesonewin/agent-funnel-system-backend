@@ -74,14 +74,16 @@
             <td>{{ $applicant->married }}</td>
             <td> - </td>
             <td>{{ $applicant->submitted_date }}</td> {{-- TODO: Exam Past Date --}}
-            <td>{{ $applicant->township_id }}</td>
-            <td>{{ $applicant->city_id }}</td>
+            <td>{{ DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-' }}
+            </td>
+            <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
             <td>{{ $applicant->phone }}</td>
             <td>{{ $applicant->phone }}</td>
             <td>{{ $applicant->email }}</td>
             <td>{{ $applicant->address }}</td>
-            <td>{{ $applicant->township_id }}</td>
-            <td>{{ $applicant->city_id }}</td>
+            <td>{{ DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-' }}
+            </td>
+            <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
             <td>Myanmar</td>
             <td>{{ $applicant->education }}</td>
             <td> - </td>
