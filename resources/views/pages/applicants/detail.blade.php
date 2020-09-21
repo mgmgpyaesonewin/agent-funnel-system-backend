@@ -179,19 +179,23 @@
                             <p class="col-md-6">{{ $applicant->race }}</p>
                         </div>
                         
-                        @php $info = json_decode( $applicant->additional_info, true ); @endphp
-                        @if($info)
+                        
+                        @php $infos = json_decode( $applicant->additional_info, true ); @endphp                        
+                        @if($infos)
                         <hr />
-                        <div class="card-header">
+                        <div class="card-header pl-0">
                             <h4>Additional Info</h4>
                         </div>
-                            @foreach ($info as $key => $val)
+                            @foreach ($infos as $info)
+                            @if(isset($info['value']))
                             <div class="mt-1 row">
-                                <h6 class="col-md-4">{{ $key }} :</h6>
-                                <p class="col-md-6">{{ $info[$val] }}</p>
+                                <h6 class="col-md-4">{{ $info['key'] }} :</h6>
+                                <p class="col-md-6">{{ $info['value'] }}</p>
                             </div>
+                            @endif
                             @endforeach
                         @endif
+                        
                         <hr />
                         <div class="card-header pl-0">
                             <h4>Attachments</h4>
