@@ -75,6 +75,19 @@
             <th>Bank Account No</th>
             <th>Payee Name</th>
             <th>Swift Code</th>
+            <th>Previous Company Name</th>
+            <th>Previous Company Cessation Date</th>
+            <th>Nominee Name</th>
+            <th>Nominee Nationality</th>
+            <th>Nominee NRIC</th>
+            <th>Nominee Passport No</th>
+            <th>Nominee Age</th>
+            <th>Nominee Address1</th>
+            <th>Nominee Contact no.</th>
+            <th>Nominee Relationship with Applicant</th>
+            <th>Payee ID Type</th>
+            <th>Spouse Citizenship</th>
+            <th>Nominee State</th>
         </tr>
     </thead>
     <tbody>
@@ -196,6 +209,21 @@
             <td>{{ $applicant->bank_account_no }}</td>
             <td>{{ $applicant->name }}</td>
             <td>{{ $applicant->swift_code }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         @endforeach
     </tbody>
