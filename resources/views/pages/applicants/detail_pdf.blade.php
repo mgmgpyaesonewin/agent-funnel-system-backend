@@ -249,11 +249,11 @@
         </tr>
         <tr>
             <td style="height:17px;vertical-align: center"> &nbsp;  <b>Agree to Terms and Condition </b></td>
-            <td> &nbsp; {{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }} </td>
+            <td> &nbsp; {{  $applicant->accept_t_n_c == '1' ? 'Yes' : '-' }} </td>
         </tr>
         <tr>
             <td style="height:17px;vertical-align: center"> &nbsp;  <b>Agree that the information provided is true and correct</b> </td>
-            <td> &nbsp;  {{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }} </td>
+            <td> &nbsp;  {{ $applicant->correct_info == '1' ? 'Yes' : '-' }} </td>
         </tr>
         <tr>
             <td style="height:17px;vertical-align: center"> &nbsp; <b>Assign To</b></td>

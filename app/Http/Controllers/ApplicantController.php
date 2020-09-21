@@ -107,7 +107,9 @@ class ApplicantController extends Controller
     public function spouse_update(Request $req)
     {
         $appli = Applicant::where('uuid', $req->id)->first();
-        $appli->update(collect($req->spouse)->except('term_condition', 'correct_info')->toArray());
+        $appli->update(collect($req->spouse)->toArray());
+        $appli->accept_t_n_c = '1';
+        $appli->correct_info = '1';
         $appli->submitted_date = Carbon::now();
         $appli->save();
 

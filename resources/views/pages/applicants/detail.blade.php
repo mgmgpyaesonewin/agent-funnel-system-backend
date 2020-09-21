@@ -12,20 +12,8 @@
         <div class="col-12">
             <div class="profile-header mb-2">
                 <div class="relative">
-                    <div class="cover-container" style="width: 100%; height: 5rem; background-color: var(--secondary);">
-                        <h3 style="padding-top: 1.5rem;    padding-left: 19rem;    color: #606060; font-weight: 600;">Assign to :
-                        @if($applicant->assign_admin_id != '')
-                            {{ $applicant->admin->name}} |
-                        @endif
-
-                        @if($applicant->assign_bdm_id != '')
-                            {{ $applicant->bdm->name}} |
-                        @endif
-
-                        @if($applicant->assign_ma_id != '')
-                            {{ $applicant->ma->name}}
-                        @endif
-                        </h3>                        
+                    <div class="cover-container d-none d-sm-block" style="width: 100%; height: 5rem; background-color: var(--secondary);">  
+                        <h3 class="text-center text-primary pt-1">Applicant Details</3>                    
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
                         <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
@@ -63,6 +51,33 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
+                                @if($applicant->current_status != '')
+                                <h5 style="color: #606060; font-weight: 500;"><b>Current Status</b> :
+                                <span class="badge badge-info">{{ strtoupper($applicant->current_status)}}</span>
+                                </h5>
+                                @endif
+                                <h5 style="color: #606060; font-weight: 500;"><b>Assign to</b> :
+                                @if($applicant->assign_admin_id != '')
+                                    {{ $applicant->admin->name}} |
+                                @endif
+
+                                @if($applicant->assign_bdm_id != '')
+                                    {{ $applicant->bdm->name}} |
+                                @endif
+
+                                @if($applicant->assign_ma_id != '')
+                                    {{ $applicant->ma->name}}
+                                @endif
+                                </h5>
+                                
+                                @if($applicant->utm_source != '')
+                                <h5 style="color: #606060; font-weight: 500;"><b>UTM Source</b> :
+                                    {{ $applicant->utm_source}}
+                                </h5>
+                                @endif                           
+                            </div>
+                            <div class="col-md-6">                               
+                                
                                 @if($applicant->temp_id != '')
                                 <h4 style="color: #606060; font-weight: 600;">Temporary ID :
                                     <span class="badge badge-primary">{{ $applicant->temp_id}}</span>
@@ -72,18 +87,6 @@
                                 <h4 style="color: #606060; font-weight: 600;">Agent Code :
                                     {{ $applicant->agent_code}}
                                 </h4>
-                                @endif                           
-                            </div>
-                            <div class="col-md-6">                                
-                                @if($applicant->current_status != '')
-                                <h5 style="color: #606060; font-weight: 500;">Current Status :
-                                <span class="badge badge-info">{{ strtoupper($applicant->current_status)}}</span>
-                                </h5>
-                                @endif
-                                @if($applicant->utm_source != '')
-                                <h5 style="color: #606060; font-weight: 500;">UTM Source :
-                                    {{ $applicant->utm_source}}
-                                </h5>
                                 @endif
                             </div>
                         </div>
@@ -478,13 +481,13 @@
                         <h4>Declaration</h4>
                     </div>
                     <div class="card-body">
-                        <div class="mt-1 row">
+                        <div class="mt-1 row"> 
                             <h6 class="col-md-6">Agree to Terms & Condition:</h6>
-                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                            <p class="col-md-6">{{  $applicant->accept_t_n_c == 1 ? 'Yes' : '-' }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-6">Agree that the information provided is true and correct :</h6>
-                            <p class="col-md-6">{{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }}</p>
+                            <p class="col-md-6">{{ $applicant->correct_info == '1' ? 'Yes' : '-' }}</p>
                         </div>
                     </div>
                     <hr>
@@ -549,7 +552,7 @@
                         <div class="row">
                             @php $emp = json_decode( $applicant->employment, true ); @endphp
                             @foreach ($emp as $employment)
-                            <div class="card-body">
+                            <div class="card-body col-12">
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Company:</h6>
                                     <p class="col-md-6">{{ $employment['company_name'] ?? '-' }}</p>

@@ -67,11 +67,11 @@
         </tr>        
         <tr>
             <td> &nbsp;  Agree to Terms and Condition </td>
-            <td> &nbsp; {{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }} </td>
+            <td> &nbsp; {{{ $applicant->accept_t_n_c == '1' ? 'Yes' : '-' }} </td>
         </tr>
         <tr>
             <td> &nbsp;  Agree that the information provided is true and correct </td>
-            <td> &nbsp;  {{ ( ($applicant->nrc != '' && $applicant->city != '') ? 'Yes' : '-') }} </td>
+            <td> &nbsp;  {{  $applicant->correct_info == '1' ? 'Yes' : '-' }} </td>
         </tr>
         <tr>
             <td> &nbsp;  Spouse Name</td>
