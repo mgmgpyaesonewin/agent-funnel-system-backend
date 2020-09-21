@@ -58,6 +58,23 @@
             <th>Previous-Type of Industry</th>
             @endforeach
             @endforeach
+            <th>Do you have any selling experience or have acted as an agent either directly or indirectly in the life
+                insurance
+                industry or similar institutions?</th>
+            <th>Company Name</th>
+            <th>Position Held</th>
+            <th>Are any of your family member (including spouse and children) an agent or a staff of CUSTOMER</th>
+            <th>Name</th>
+            <th>NRC</th>
+            <th>Agent</th>
+            <th>Company Name</th>
+            <th>Position Held</th>
+            <th>Relation to Applicant</th>
+            <th>Payee ID No</th>
+            <th>Bank Account Name</th>
+            <th>Bank Account No</th>
+            <th>Payee Name</th>
+            <th>Swift Code</th>
         </tr>
     </thead>
     <tbody>
@@ -68,23 +85,23 @@
             <td>{{ $applicant->nrc }}</td>
             <td>{{ $applicant->dob }}</td>
             <td>{{ $applicant->gender }}</td>
-            <td>{{ $applicant->myanmar_citizen }}</td>
-            <td>Country</td>
+            <td>{{ $applicant->myanmar_citizen === 1 ? 'Myanmar' : $applicant->citizen }}</td>
+            <td>{{ $applicant->myanmar_citizen === 1 ? 'Myanmar' : 'Other' }}</td>
             <td>{{ $applicant->race }}</td>
             <td>{{ $applicant->married }}</td>
             <td> - </td>
-            <td>{{ $applicant->submitted_date }}</td> {{-- TODO: Exam Past Date --}}
+            <td>
+                {{ DB::table('applicant_status')->where([['applicant_id', $applicant->id],['current_status', 'pru_dna_test'],['status_id', 5]])->first()->created_at ?? "-" }}
+            </td>
             <td>{{ DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-' }}
             </td>
-            <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
-            <td>{{ $applicant->phone }}</td>
+            <td>{{ $applicant->secondary_phone }}</td>
             <td>{{ $applicant->phone }}</td>
             <td>{{ $applicant->email }}</td>
             <td>{{ $applicant->address }}</td>
-            <td>{{ DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-' }}
-            </td>
             <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
             <td>Myanmar</td>
+            <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
             <td>{{ $applicant->education }}</td>
             <td> - </td>
             <td>{{ $applicant->spouse_name }}</td>
@@ -122,13 +139,63 @@
                 {{ json_decode($applicant->employment)[0]->industry_type ?? "-"}}
             </td>
             @foreach ($employment as $e)
-            <th></th>
-            <th>{{ $e->position }}</th>
-            <th>{{ $e->duration_from_date }}</th>
-            <th>{{ $e->duration_to_date }}</th>
-            <th>{{ $e->income }}</th>
-            <th>{{ $e->industry_type }}</th>
+            <td></td>
+            <td>{{ $e->position }}</td>
+            <td>{{ $e->duration_from_date }}</td>
+            <td>{{ $e->duration_to_date }}</td>
+            <td>{{ $e->income }}</td>
+            <td>{{ $e->industry_type }}</td>
             @endforeach
+            @if($applicant->agent_exp != null || $applicant->agent_exp != '')
+            <td>Yes</td>
+            @else
+            <td>No</td>
+            @endif
+            <td>
+                @if($applicant->agent_exp != null || $applicant->agent_exp != '')
+                {{ json_decode($applicant->agent_exp)->company_name ?? "-"  }}
+                @endif
+            </td>
+            <td>
+                @if($applicant->agent_exp != null || $applicant->agent_exp != '')
+                {{ json_decode($applicant->agent_exp)->position ?? "-"  }}
+                @endif
+            </td>
+            <td>
+                @if($applicant->family_agent != null || $applicant->family_agent != '')
+                {{ json_decode($applicant->family_agent)->name ?? "-"  }}
+                @endif
+            </td>
+            <td>
+                @if($applicant->family_agent != null || $applicant->family_agent != '')
+                {{ json_decode($applicant->family_agent)->nrc ?? "-"  }}
+                @endif
+            </td>
+            <td>
+                @if($applicant->family_agent != null || $applicant->family_agent != '')
+                {{ json_decode($applicant->family_agent)->agent_code ?? "-"  }}
+                @endif
+            </td>
+            <td>
+                @if($applicant->family_agent != null || $applicant->family_agent != '')
+                {{ json_decode($applicant->family_agent)->company_name ?? "-"  }}
+                @endif
+            </td>
+            <td>
+                @if($applicant->family_agent != null || $applicant->family_agent != '')
+                {{ json_decode($applicant->family_agent)->position ?? "-"  }}
+                @endif
+            </td>
+            <td>
+                @if($applicant->family_agent != null || $applicant->family_agent != '')
+                {{ json_decode($applicant->family_agent)->relation ?? "-"  }}
+                @endif
+            </td>
+            <td>{{ $applicant->nrc }}</td>
+            <td>{{ $applicant->bank_account_name }}</td>
+            <td>{{ $applicant->bank_account_no }}</td>
+            <td>{{ $applicant->name }}</td>
+            <td>{{ $applicant->swift_code }}</td>
         </tr>
         @endforeach
     </tbody>
