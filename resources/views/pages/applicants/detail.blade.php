@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-{{-- @section('title', 'Applicants Detail Information') --}}
+@section('title', 'Applicants Detail Information')
 
 @section('page-style')
 <link rel="stylesheet" href="{{ asset(mix('css/pages/users.css')) }}">

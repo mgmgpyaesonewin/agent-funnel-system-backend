@@ -44,6 +44,7 @@ class ApplicantController extends Controller
         $applicant->applicant_sign_img = $contract->applicant_sign_img;
         $applicant->witness_sign_img = $contract->witness_sign_img;
         $applicant->witness_name = $contract->witness_name;
+        $applicant->signed_date = $contract->signed_date;
 
         view()->share('applicant', $applicant);
         $pdf = PDF::loadView('pages.pdf', $applicant);
