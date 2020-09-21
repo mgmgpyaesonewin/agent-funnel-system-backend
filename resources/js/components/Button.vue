@@ -9,21 +9,49 @@
 import { EventBus } from "../event-bus.js";
 
 export default {
-  props: [
-    "buttonClass",
-    "applicantId",
-    "oldCurrentStatus",
-    "newCurrentStatus",
-    "oldStatusId",
-    "newStatusId",
-    "eLearning",
-  ],
+  props: {
+    buttonClass: String,
+    applicantId: Number,
+    oldCurrentStatus: String,
+    newCurrentStatus: String,
+    oldStatusId: Number,
+    newStatusId: Number,
+    eLearning: Boolean,
+    type: {
+      type: String,
+      default: "neutral",
+    },
+  },
+  data() {
+    return {
+      alert: {
+        neutral: {
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+        },
+        inconsidertion: {
+          title: "Inconsider User?",
+          text: "Do you want to re-consider this user?",
+          icon: "info",
+        },
+        accept: {
+          title: "Accept User?",
+          text: "Do you want to accept this user?",
+          icon: "success",
+        },
+        reject: {
+          title: "Reject User?",
+          text: "Do you want to reject this user?",
+          icon: "error",
+        },
+      },
+    };
+  },
   methods: {
     update() {
       this.$swal({
-        title: "Are you sure you want ?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
+        ...this.alert[this.type],
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",

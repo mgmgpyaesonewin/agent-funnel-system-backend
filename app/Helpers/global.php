@@ -24,7 +24,7 @@ function checkStatus($status)
 if (!function_exists('validate_asset')) {
     function validate_asset($asset)
     {
-        return $asset ? asset('storage/'.$asset) : '';
+        return $asset ? asset('storage/'.$asset) : null;
     }
 }
 

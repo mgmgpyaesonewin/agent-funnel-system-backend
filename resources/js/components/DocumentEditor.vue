@@ -37,6 +37,7 @@ export default {
       axios
         .post("/document/save", {
           document: this.editorData,
+          lang: window.location.pathname.split("/")[2],
         })
         .then(({ data }) => {
           console.log(data);

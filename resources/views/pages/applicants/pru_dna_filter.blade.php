@@ -33,12 +33,12 @@
                                     <v-button button-class="btn btn-success" v-show="applicant.status_id === 1"
                                         :old-current-status="applicant.current_status"
                                         :old-status-id="applicant.status_id" new-current-status="pru_dna_test"
-                                        new-status-id="5" :applicant-id="applicant.id">
+                                        :new-status-id="5" :applicant-id="applicant.id">
                                         Pass
                                     </v-button>
                                     <v-button button-class="btn btn-danger" v-show="applicant.status_id === 1"
                                         :old-current-status="applicant.current_status" new-current-status="pru_dna_test"
-                                        :old-status-id="applicant.status_id" new-status-id="4"
+                                        :old-status-id="applicant.status_id" :new-status-id="4"
                                         :applicant-id="applicant.id">
                                         Fail
                                     </v-button>

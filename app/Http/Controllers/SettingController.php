@@ -88,23 +88,17 @@ class SettingController extends Controller
         return response()->download(storage_path("app/public/history/{$filename[0]}"));
     }
 
-    public function document()
+    public function document(Request $request)
     {
-        $document = Setting::where('meta_key', 'document')->first()->meta_value;
+        $lang = $request->lang;
+        $document = Setting::where('meta_key', "document_{$lang}")->first()->meta_value;
 
-        return view('pages.document', compact('document'));
+        return view("pages.contract.{$lang}", compact('document'));
     }
-
-    public function contents()
-    {
-        $document = Setting::where('meta_key', 'table_of_contents')->first()->meta_value;
-
-        return view('pages.document', compact('document'));
-    }
-
+    
     public function updateDocument(Request $request)
     {
-        $setting = Setting::where('meta_key', 'document')->first();
+        $setting = Setting::where('meta_key', "document_{$request->lang}")->first();
         $setting->meta_value = $request->document;
         $setting->save();
 

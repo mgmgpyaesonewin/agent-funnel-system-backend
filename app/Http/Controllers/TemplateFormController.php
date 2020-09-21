@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Applicant;
 use App\Http\Requests\Template;
+use App\Setting;
 use App\TemplateForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,8 @@ class TemplateFormController extends Controller
             ->select('c_id as value', 'name as text')
             ->where('languages_id', $lang_id)
             ->orderby('text', 'asc')
-            ->get();
+            ->get()
+        ;
     }
 
     public function getTownship(Request $req)
@@ -59,11 +61,14 @@ class TemplateFormController extends Controller
     {
         $templates = TemplateForm::where('active', true)->first();
 
-        $applicant = Applicant::where('uuid', $req->id)->where('current_status', 'pre_filter')->where('status_id', 1)->first();
+        $applicant = Applicant::where('uuid', $req->id)->whereNull('submitted_date')->where('current_status', 'pre_filter')->whereIn('status_id', [1, 7])->first();
+        $term_condition = Setting::where('meta_key', "document_tnc_{$req->lang}")->first()->meta_value;
+
         if ($applicant) {
             return [
                 'template' => $templates,
                 'applicant' => $applicant,
+                'term_condition' => $term_condition,
             ];
         }
 

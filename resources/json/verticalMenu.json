@@ -84,6 +84,42 @@
     },
     {
       "url": "",
+      "navheader": "Contract",
+      "icon": "",
+      "role": "staff"
+    },
+    {
+      "url": "/document/en",
+      "name": "English Version",
+      "icon": "feather icon-sidebar",
+      "role": "all"
+    },
+    {
+      "url": "/document/my",
+      "name": "Myanmar Version",
+      "icon": "feather icon-sidebar",
+      "role": "all"
+    },
+    {
+      "url": "",
+      "navheader": "Terms And Conditions",
+      "icon": "",
+      "role": "staff"
+    },
+    {
+      "url": "/document/tnc_en",
+      "name": "English Version",
+      "icon": "feather icon-sidebar",
+      "role": "all"
+    },
+    {
+      "url": "/document/tnc_my",
+      "name": "Myanmar Version",
+      "icon": "feather icon-sidebar",
+      "role": "all"
+    },
+    {
+      "url": "",
       "navheader": "Configurations",
       "icon": "",
       "role": "staff"
@@ -97,18 +133,6 @@
     {
       "url": "/templateforms",
       "name": "Templates Form",
-      "icon": "feather icon-sidebar",
-      "role": "staff"
-    },
-    {
-      "url": "",
-      "navheader": "Contract",
-      "icon": "",
-      "role": "staff"
-    },
-    {
-      "url": "/document",
-      "name": "Contract Form",
       "icon": "feather icon-sidebar",
       "role": "staff"
     },

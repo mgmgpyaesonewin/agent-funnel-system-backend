@@ -25,6 +25,8 @@ class ApplicantController extends Controller
     public function signContract(Request $req)
     {
         $applicant = Applicant::where('uuid', $req->id)->first();
+        $applicant->agent_code = $this->generateAgentCode($applicant->id);
+        $applicant->save();
 
         $applicant_sign = Storage::disk('public')->put('sign/applicant', $req->applicant_url);
         $witness_sign_img = Storage::disk('public')->put('sign/witness', $req->witness_url);
@@ -56,6 +58,13 @@ class ApplicantController extends Controller
         return response()->json([
             'contract' => asset('storage/'.$file),
         ]);
+    }
+
+    public function generateAgentCode($applicant_id)
+    {
+        $raw_agent_code = "2".str_pad($applicant_id, 6, "0", STR_PAD_LEFT);
+        $agent_code = "0".number_format($raw_agent_code);
+        return $agent_code;
     }
 
     public function detail(Request $req)
@@ -97,9 +106,10 @@ class ApplicantController extends Controller
 
     public function spouse_update(Request $req)
     {
-        // return $req->all();
         $appli = Applicant::where('uuid', $req->id)->first();
-        $appli->update(collect($req->spouse)->except('term_condition')->toArray());
+        $appli->update(collect($req->spouse)->except('term_condition', 'correct_info')->toArray());
+        $appli->submitted_date = Carbon::now();
+        $appli->save();
 
         return $appli;
     }
@@ -108,11 +118,11 @@ class ApplicantController extends Controller
     {
         $contract_valid = $contractI->isValidContract($req->id, (int) $req->version);
         if ($contract_valid) {
-            $contract = Setting::where('meta_key', 'document')->first()->meta_value;
+            $contract = Setting::where('meta_key', "document_{$req->lang}")->first()->meta_value;
 
             return [
                 'message' => 'valid',
-                'contract' => $contract,
+                'contract' => $contract
             ];
         }
 
@@ -124,7 +134,8 @@ class ApplicantController extends Controller
         $appli = Applicant::find($req->id);
         $data['bank_account_no'] = $req->account_no;
         $data['bank_account_name'] = $req->name;
-        $data['bank_name'] = $req->bank_name;
+        $data['bank_name'] = json_decode($req->bank_name)->name;
+        $data['swift_code'] = json_decode($req->bank_name)->code;
         $data['license_no'] = $req->license_number;
         // // return $data;
         $files = $req->file('license_photo');
@@ -368,6 +379,7 @@ class ApplicantController extends Controller
         $current_status = $request->current_status;
         $status_id = $request->status_id;
 
+        // TODO: Query should be applicant::find instead of where.
         $applicant = Applicant::where('id', $request->id)->first();
         $applicant->current_status = $current_status;
         $applicant->status_id = $status_id;
@@ -384,6 +396,14 @@ class ApplicantController extends Controller
             $route = env('FRONT_END_URL').'/payment/'.$applicant->uuid;
             $link = $route;
             $this->text = json_decode(Setting::where('meta_key', 'payment_msg')->first()->meta_value)->text."{$link}";
+            notified_applicant_via_viber($applicant->phone, $this->text);
+        }
+
+        // Background Check Invalid Information - re-send viber message
+        if ('pre_filter' == $current_status && 7 == $status_id) {
+            $route = env('FRONT_END_URL').'/applicants/'.$applicant->uuid;
+            $link = $route;
+            $this->text = "Your information is invalid. ".json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text.' '.$link;
             notified_applicant_via_viber($applicant->phone, $this->text);
         }
 
@@ -477,7 +497,7 @@ class ApplicantController extends Controller
         ]);
 
         $applicant = Applicant::where('id', $applicant_id)->first();
-        $text = json_decode(Setting::where('meta_key', 'exam_msg')->first()->meta_value)->text." {$exam_date->format('jS \\of F Y \\(l\\) h:i A')}";
+        $text = json_decode(Setting::where('meta_key', 'exam_msg')->first()->meta_value)->text." {$exam_date}";
 
         notified_applicant_via_viber($applicant->phone, $text);
 

@@ -21,21 +21,23 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body text-center">
-                        <v-table ref="table" current-status="certification" :temp-id="true" :exam="true" channel="true" assign="true" :user-assign="true"
-                            status-col="true" :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
+                        <v-table ref="table" current-status="certification" :temp-id="true" :exam="true" channel="true"
+                            assign="true" :user-assign="true" status-col="true"
+                            :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <td>
-                                    <div class="btn-group mt-1" v-show="applicant.status_id === 1">
+                                    <div class="btn-group mt-1"
+                                        v-show="applicant.status_id === 1 && isDatePast(applicant.exam_date)">
                                         <v-button button-class="btn btn-success"
                                             :old-current-status="applicant.current_status" new-current-status="onboard"
-                                            :old-status-id="applicant.status_id" new-status-id="1"
+                                            :old-status-id="applicant.status_id" :new-status-id="1"
                                             :applicant-id="applicant.id">
                                             <i class="fa fa-check" aria-hidden="true"></i> Passed
                                         </v-button>
                                         <v-button button-class="btn btn-danger"
                                             :old-current-status="applicant.current_status"
                                             new-current-status="certification" :old-status-id="applicant.status_id"
-                                            new-status-id="4" :applicant-id="applicant.id">
+                                            :new-status-id="4" :applicant-id="applicant.id">
                                             <i class="fa fa-times" aria-hidden="true"></i> Failed
                                         </v-button>
                                     </div>
