@@ -175,8 +175,12 @@
                 @if($applicant->agent_exp != null || $applicant->agent_exp != '')
                 {{ json_decode($applicant->agent_exp)->position ?? "-"  }}
                 @endif
-            </td>            
-            <td>@if($applicant->family_agent != null || $applicant->family_agent != '') Yes @else No @endif</td>
+            </td>  
+            @if($applicant->family_agent != null || $applicant->family_agent != '')
+            <td>Yes</td>
+            @else
+            <td>No</td>
+            @endif
             <td>
                 @if($applicant->family_agent != null || $applicant->family_agent != '')
                 {{ json_decode($applicant->family_agent)->name ?? "-"  }}
