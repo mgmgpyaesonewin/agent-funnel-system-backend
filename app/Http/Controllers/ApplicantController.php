@@ -193,7 +193,7 @@ class ApplicantController extends Controller
 
         if (null != auth()->user()->partner_id) {
             $partner = Partner::find(auth()->user()->partner_id);
-            $applicant->utm_source = $partner->company_name;
+            $applicant->utm_source = $partner->slug;
         }
 
         $applicant->save();
@@ -218,7 +218,7 @@ class ApplicantController extends Controller
 
         return  Applicant::create($data)
             ->statuses()
-            ->attach(1, ['current_status' => 'pre_filter'])
+            ->attach(1, ['current_status' => 'lead'])
         ;
     }
 
