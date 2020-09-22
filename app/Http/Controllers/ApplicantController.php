@@ -17,7 +17,7 @@ use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PDF;
+use DOMPDF;
 use DB;
 
 class ApplicantController extends Controller
@@ -47,7 +47,7 @@ class ApplicantController extends Controller
         $applicant->signed_date = $contract->signed_date;
 
         view()->share('applicant', $applicant);
-        $pdf = PDF::loadView('pages.pdf', $applicant);
+        $pdf = DOMPDF::loadView('pages.pdf', $applicant);
 
         $contract_pdf = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
         $file = 'contracts/'.$applicant->phone.'-'.Carbon::now()->format('d_m_y_h_m_s').'.pdf';
