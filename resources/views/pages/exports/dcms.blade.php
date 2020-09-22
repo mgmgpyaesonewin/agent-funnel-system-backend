@@ -1,6 +1,7 @@
 <table>
     <thead>
         <tr>
+            <th>Agent Code</th>
             <th>Applicant's Name(as per NRIC)</th>
             <th>Preferred Name</th>
             <th>ID No.</th>
@@ -66,7 +67,7 @@
             <th>Are any of your family member (including spouse and children) an agent or a staff of CUSTOMER</th>
             <th>Name</th>
             <th>NRC</th>
-            <th>Agent</th>
+            <th>Agent Code</th>
             <th>Company Name</th>
             <th>Position Held</th>
             <th>Relation to Applicant</th>
@@ -93,6 +94,7 @@
     <tbody>
         @foreach($applicants as $applicant)
         <tr>
+            <td>{{ $applicant->agent_code }}</td>
             <td>{{ $applicant->name }}</td>
             <td>{{ $applicant->preferred_name }}</td>
             <td>{{ $applicant->nrc }}</td>
@@ -104,16 +106,16 @@
             <td>{{ $applicant->married }}</td>
             <td> - </td>
             <td>
-                {{ DB::table('applicant_status')->where([['applicant_id', $applicant->id],['current_status', 'pru_dna_test'],['status_id', 5]])->first()->created_at ?? "-" }}
+                {{ DB::table('applicant_status')->where([['applicant_id', $applicant->id],['current_status', 'onboard'],['status_id', 1]])->first()->created_at ?? "-" }}
             </td>
-            <td>{{ DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-' }}
+            <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}
             </td>
             <td>{{ $applicant->secondary_phone }}</td>
             <td>{{ $applicant->phone }}</td>
             <td>{{ $applicant->email }}</td>
             <td>{{ $applicant->address }}</td>
             <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
-            <td>Myanmar</td>
+            <td>{{ $applicant->myanmar_citizen === 1 ? 'Myanmar' : $applicant->citizen }}</td>
             <td>{{ DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-' }}</td>
             <td>{{ $applicant->education }}</td>
             <td> - </td>
@@ -133,8 +135,8 @@
                 {{ json_decode($applicant->prudential_agency_exp)->duration_to_date ?? "-" }}@endif</td>
             <td>@if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
                 {{ json_decode($applicant->prudential_agency_exp)->duration_from_date ?? "-" }}@endif</td>
-            <td>
-                {{ json_decode($applicant->employment)[0]->company_name ?? "-"}}
+            <td> 
+                 {{  json_decode($applicant->employment)[0]->company_name ?? "-" }}
             </td>
             <td>
                 {{ json_decode($applicant->employment)[0]->position ?? "-"}}
@@ -173,7 +175,8 @@
                 @if($applicant->agent_exp != null || $applicant->agent_exp != '')
                 {{ json_decode($applicant->agent_exp)->position ?? "-"  }}
                 @endif
-            </td>
+            </td>            
+            <td>@if($applicant->family_agent != null || $applicant->family_agent != '') Yes @else No @endif</td>
             <td>
                 @if($applicant->family_agent != null || $applicant->family_agent != '')
                 {{ json_decode($applicant->family_agent)->name ?? "-"  }}
@@ -221,7 +224,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>{{ $applicant->nrc }}</td>
             <td></td>
             <td></td>
         </tr>
