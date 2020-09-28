@@ -32,33 +32,6 @@
             <th>Position Held</th>
             <th>From</th>
             <th>To</th>
-            <th>Please provide your current and past employment details if any.</th>
-            {{-- Current Postion --}}
-            <th>Current-Company Name</th>
-            <th>Current-Position Held</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Current-Annual Income</th>
-            <th>Current-Type of Industry</th>
-            {{-- Pervious --}}
-            @foreach($applicants as $applicant)
-            @php
-            $employment = json_decode($applicant->employment);
-            if (isset($employment) && is_array($employment)) {
-            array_shift($employment);
-            } else {
-            $employment = [];
-            }
-            @endphp
-            @foreach ($employment as $e)
-            <th>Previous-Company Name</th>
-            <th>Previous-Position Held</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Previous-Annual Income</th>
-            <th>Previous-Type of Industry</th>
-            @endforeach
-            @endforeach
             <th>Do you have any selling experience or have acted as an agent either directly or indirectly in the life
                 insurance
                 industry or similar institutions?</th>
@@ -89,6 +62,24 @@
             <th>Payee ID Type</th>
             <th>Spouse Citizenship</th>
             <th>Nominee State</th>
+            {{-- Employment --}}
+            <th>Please provide your current and past employment details if any.</th>
+            {{-- Current Postion --}}
+            <th>Current-Company Name</th>
+            <th>Current-Position Held</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Current-Annual Income</th>
+            <th>Current-Type of Industry</th>
+            {{-- Pervious --}}
+            @for($employment = 0; $employment < $max_employments; $employment++) <th>Previous-Company Name</th>
+                <th>Previous-Position Held</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Previous-Annual Income</th>
+                <th>Previous-Type of Industry</th>
+                @endfor
+                {{-- Pervious End --}}
         </tr>
     </thead>
     <tbody>
@@ -123,44 +114,31 @@
             <td>{{ $applicant->spouse_nrc }}</td>
             <td>{{ $applicant->spouse_occupation }}</td>
             <td>{{ $applicant->spouse_company_name }}</td>
-            <td>@if($applicant->prudential_agency_exp == null || $applicant->prudential_agency_exp == '') : No @endif
-            </td>
-            <td>@if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
-                {{ json_decode($applicant->prudential_agency_exp)->department_name }} @endif </td>
-            <td>@if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
-                {{ json_decode($applicant->prudential_agency_exp)->position }}@endif</td>
-            <td>@if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
-                {{ json_decode($applicant->prudential_agency_exp)->position }}@endif</td>
-            <td>@if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
-                {{ json_decode($applicant->prudential_agency_exp)->duration_to_date ?? "-" }}@endif</td>
-            <td>@if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
-                {{ json_decode($applicant->prudential_agency_exp)->duration_from_date ?? "-" }}@endif</td>
-            <td> 
-                 {{  json_decode($applicant->employment)[0]->company_name ?? "-" }}
+            <td>
+                @if($applicant->prudential_agency_exp == null || $applicant->prudential_agency_exp == '')
+                No
+                @endif
             </td>
             <td>
-                {{ json_decode($applicant->employment)[0]->position ?? "-"}}
+                @if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
+                {{ json_decode($applicant->prudential_agency_exp)->department_name }}
+                @endif
             </td>
             <td>
-                {{ json_decode($applicant->employment)[0]->duration_from_date ?? "-" }}
+                @if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
+                {{ json_decode($applicant->prudential_agency_exp)->position }}
+                @endif
             </td>
             <td>
-                {{ json_decode($applicant->employment)[0]->duration_to_date ?? "-"}}
+                @if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
+                {{ json_decode($applicant->prudential_agency_exp)->duration_to_date ?? "-" }}
+                @endif
             </td>
             <td>
-                {{ json_decode($applicant->employment)[0]->income ?? "-" }}
+                @if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
+                {{ json_decode($applicant->prudential_agency_exp)->duration_from_date ?? "-" }}
+                @endif
             </td>
-            <td>
-                {{ json_decode($applicant->employment)[0]->industry_type ?? "-"}}
-            </td>
-            @foreach ($employment as $e)
-            <td></td>
-            <td>{{ $e->position }}</td>
-            <td>{{ $e->duration_from_date }}</td>
-            <td>{{ $e->duration_to_date }}</td>
-            <td>{{ $e->income }}</td>
-            <td>{{ $e->industry_type }}</td>
-            @endforeach
             @if($applicant->agent_exp != null || $applicant->agent_exp != '')
             <td>Yes</td>
             @else
@@ -175,7 +153,7 @@
                 @if($applicant->agent_exp != null || $applicant->agent_exp != '')
                 {{ json_decode($applicant->agent_exp)->position ?? "-"  }}
                 @endif
-            </td>  
+            </td>
             @if($applicant->family_agent != null || $applicant->family_agent != '')
             <td>Yes</td>
             @else
@@ -228,9 +206,38 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ $applicant->nrc }}</td>
             <td></td>
-            <td></td>
+            <td>
+                {{  $applicant->employments[0]->company_name ?? "-" }}
+            </td>
+            {{-- START employment exp --}}
+            <td>
+                {{  $applicant->employments[0]->company_name ?? "-" }}
+            </td>
+            <td>
+                {{ $applicant->employments[0]->position ?? "-"}}
+            </td>
+            <td>
+                {{ $applicant->employments[0]->duration_from_date ?? "-" }}
+            </td>
+            <td>
+                {{ $applicant->employments[0]->duration_to_date ?? "-"}}
+            </td>
+            <td>
+                {{ $applicant->employments[0]->income ?? "-" }}
+            </td>
+            <td>
+                {{ $applicant->employments[0]->industry_type ?? "-"}}
+            </td>
+            @foreach ($applicant->employments as $e)
+            <td>{{ $e->company_name }}</td>
+            <td>{{ $e->position }}</td>
+            <td>{{ $e->duration_from_date }}</td>
+            <td>{{ $e->duration_to_date }}</td>
+            <td>{{ $e->income }}</td>
+            <td>{{ $e->industry_type }}</td>
+            @endforeach
+            {{-- END employment exp --}}
         </tr>
         @endforeach
     </tbody>

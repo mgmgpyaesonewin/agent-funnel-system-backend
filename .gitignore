@@ -20,3 +20,4 @@ public/mix-manifest.json
 storage/framework/laravel-excel
 dist
 .bitmap
+storage/.DS_Store
