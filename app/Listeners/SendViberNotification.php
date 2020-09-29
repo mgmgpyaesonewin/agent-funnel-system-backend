@@ -2,18 +2,22 @@
 
 namespace App\Listeners;
 
+use App\Classes\Viber\ContentType;
 use App\Events\ApplicantUpdating;
 use App\Interfaces\ContractInterface;
-use App\Setting;
+use App\Services\Interfaces\ViberServiceInterface;
+use Config;
 
 class SendViberNotification
 {
     protected $text = 'default text';
     protected $contract;
+    protected $viber;
 
-    public function __construct(ContractInterface $contractInterface)
+    public function __construct(ContractInterface $contractInterface, ViberServiceInterface $viberInterface)
     {
         $this->contract = $contractInterface;
+        $this->viber = $viberInterface;
     }
 
     /**
@@ -26,10 +30,18 @@ class SendViberNotification
 
             if (7 == $attributes['status_id'] && 1 == $event->applicant->status_id) {
                 $contract_version = $this->contract->resendContract($event->applicant->id);
-                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
-                $link = $route;
-                $this->text = json_decode(Setting::where('meta_key', 'contract_msg')->first()->meta_value)->text.' '.$link;
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
+
+                $link = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
+                $text = $this->viber->getMetaValueByKey('contract_msg')->text.' '.$link;
+                $image = $this->viber->getMetaValueByKey('contract_msg')->image;
+
+                // Set Viber Content
+                $viber_content = new ContentType();
+                $viber_content->setText($text);
+                $viber_content->setImage($image);
+                $viber_content->setAction($link);
+
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
             }
         }
 
@@ -37,41 +49,72 @@ class SendViberNotification
             $attributes = $event->applicant->getDirty();
             // Stage 3
             if ('pre_filter' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
-                $route = env('FRONT_END_URL').'/applicants/'.$event->applicant->uuid;
-                $link = $route;
-                $this->text = json_decode(Setting::where('meta_key', 'cv_form_msg')->first()->meta_value)->text.' '.$link;
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
+                $link = env('FRONT_END_URL').'/applicants/'.$event->applicant->uuid;
+                $text = $this->viber->getMetaValueByKey('cv_form_msg')->text.' '.$link;
+                $image = $this->viber->getMetaValueByKey('cv_form_msg')->image;
+
+                // Set Viber Content
+                $viber_content = new ContentType();
+                $viber_content->setText($text);
+                $viber_content->setImage($image);
+                $viber_content->setAction($link);
+
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
             }
 
             // Stage 4
             if ('pru_dna_test' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
-                $this->text = json_decode(Setting::where('meta_key', 'dna_test_msg')->first()->meta_value)->text;
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
+                $text = $this->viber->getMetaValueByKey('dna_test_msg')->text;
+
+                // Set Viber Content
+                $viber_content = new ContentType();
+                $viber_content->setText($text);
+
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.simple'), $viber_content);
             }
 
             // Stage 9
             if ('onboard' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
-                $route = env('FRONT_END_URL').'/login';
-                $link = $route;
-                $this->text = json_decode(Setting::where('meta_key', 'license_msg')->first()->meta_value)->text.' '.$link;
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
+                $link = env('FRONT_END_URL').'/login';
+                $text = $this->viber->getMetaValueByKey('license_msg')->text.' '.$link;
+                $image = $this->viber->getMetaValueByKey('license_msg')->image;
+
+                // Set Viber Content
+                $viber_content = new ContentType();
+                $viber_content->setText($text);
+                $viber_content->setImage($image);
+                $viber_content->setAction($link);
+
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
 
                 // generate a empty contract to check route is not accessible after he had made the contract
                 $contract_version = $this->contract->createRawContract($event->applicant->id);
 
-                $route = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
-                $link = $route;
+                $link = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
+                $text = "Please, sign your contract here: {$link}";
 
-                $this->text = "Please, sign your contract here: {$link}";
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
+                // Set Viber Content
+                $viber_content = new ContentType();
+                $viber_content->setText($text);
+
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.simple'), $viber_content);
             }
 
             // View Payment
             if ('pmli_filter' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
-                $route = env('FRONT_END_URL').'/payment/'.$event->applicant->uuid;
-                $link = $route;
-                $this->text = json_decode(Setting::where('meta_key', 'payment_msg')->first()->meta_value)->text.' '.$link;
                 notified_applicant_via_viber($event->applicant->phone, $this->text);
+
+                $link = env('FRONT_END_URL').'/payment/'.$event->applicant->uuid;
+                $text = $this->viber->getMetaValueByKey('payment_msg')->text.' '.$link;
+                $image = $this->viber->getMetaValueByKey('payment_msg')->image;
+
+                // Set Viber Content
+                $viber_content = new ContentType();
+                $viber_content->setText($text);
+                $viber_content->setImage($image);
+                $viber_content->setAction($link);
+
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
             }
 
             $event->applicant->saveQuietly();

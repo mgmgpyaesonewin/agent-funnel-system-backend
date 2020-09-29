@@ -1,5 +1,6 @@
 <?php
 
+use App\Setting;
 use GuzzleHttp\Exception\BadResponseException;
 
 function showStatus($status)
@@ -29,11 +30,18 @@ if (!function_exists('validate_asset')) {
 }
 
 if (!function_exists('notified_applicant_via_viber')) {
-    function notified_applicant_via_viber($phone, $text)
+    function notified_applicant_via_viber($phone, $meta_key, $link = null)
     {
         try {
             $client = new \GuzzleHttp\Client();
             $phone = ltrim($phone, '0');
+
+            $meta_value = json_decode(Setting::where('meta_key', $meta_key)->first()->meta_value);
+            $text = $meta_value->text.' '.$link;
+            $img = $meta_value->image;
+            $caption = 'View';
+            $action = $link ?? '#';
+
             $client->request('POST', env('VIBER_API'), [
                 'auth' => ['7b3327d3', 'wQdVYaU9NRIiatsv'],
                 'json' => [
@@ -47,8 +55,13 @@ if (!function_exists('notified_applicant_via_viber')) {
                     ],
                     'message' => [
                         'content' => [
-                            'type' => 'text',
-                            'text' => $text,
+                            'type' => 'custom',
+                            'custom' => [
+                                '#txt' => $text,
+                                '#img' => $img,
+                                '#caption' => $caption,
+                                '#action' => $action,
+                            ],
                         ],
                     ],
                 ],
