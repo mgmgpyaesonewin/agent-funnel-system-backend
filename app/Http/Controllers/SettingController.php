@@ -111,10 +111,14 @@ class SettingController extends Controller
     public function signatures()
     {
         $contractor_signatures_setting = Setting::where('meta_key', 'contractor_signature')->first();
+        $id = $contractor_signatures_setting->id;
         $contractor_signatures_setting = json_decode($contractor_signatures_setting->meta_value, true);
+        $contractor_signatures_setting['id'] = $id;
 
         $witness_signatures_setting = Setting::where('meta_key', 'witness_signature')->first();
+        $id = $witness_signatures_setting->id;
         $witness_signatures_setting = json_decode($witness_signatures_setting->meta_value, true);
+        $witness_signatures_setting['id'] = $id;
 
         return view('pages.signatures', compact('contractor_signatures_setting', 'witness_signatures_setting'));
     }

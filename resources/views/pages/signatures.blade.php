@@ -65,6 +65,27 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-4">
+                            @if(isset($contractor_signatures_setting['image'])&&$contractor_signatures_setting['image']!='')
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="col-form-label">
+                                        <strong>Contractor Signature</strong>
+                                    </label>
+                                </div>
+                                <div class="col-12 my-1">
+                                    <img class="img-fluid"
+                                        src="{{ asset('storage/'.$contractor_signatures_setting['image']) }}">
+                                </div>
+                                <div class="col-12 my-1">
+                                    <a href="{{ url('/setting/remove_viber_img/'.$contractor_signatures_setting['id']) }}"
+                                        class="btn btn-secondary btn-block">
+                                        Remove Sign
+                                    </a>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
                     </div>
                     <hr />
                     <div class="row">
@@ -116,6 +137,27 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-sm-4">
+                            @if(isset($witness_signatures_setting['image']) && $witness_signatures_setting['image']!='')
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="col-form-label">
+                                        <strong>Witness Signature</strong>
+                                    </label>
+                                </div>
+                                <div class="col-12 my-1">
+                                    <img class="img-fluid"
+                                        src="{{ asset('storage/'.$witness_signatures_setting['image']) }}">
+                                </div>
+                                <div class="col-12 my-1">
+                                    <a href="{{ url('/setting/remove_viber_img/'.$witness_signatures_setting['id']) }}"
+                                        class="btn btn-secondary btn-block">
+                                        Remove Sign
+                                    </a>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </form>
