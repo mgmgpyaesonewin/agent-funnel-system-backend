@@ -70,6 +70,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('users', 'UserController');
     Route::get('/document/{lang}', 'SettingController@document');
     Route::get('/applicant/export/{type}/{id}', 'ExportController@applicantExport');
+    Route::get('/signatures', 'SettingController@signatures');
+    Route::post('/signatures/update', 'SettingController@updateSignatures');
 });
 
 Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');

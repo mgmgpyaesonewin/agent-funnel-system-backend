@@ -95,7 +95,7 @@ class SettingController extends Controller
 
         return view("pages.contract.{$lang}", compact('document'));
     }
-    
+
     public function updateDocument(Request $request)
     {
         $setting = Setting::where('meta_key', "document_{$request->lang}")->first();
@@ -106,5 +106,77 @@ class SettingController extends Controller
             'status' => true,
             'message' => 'Updated Successfully',
         ]);
+    }
+
+    public function signatures()
+    {
+        $contractor_signatures_setting = Setting::where('meta_key', 'contractor_signature')->first();
+        $contractor_signatures_setting = json_decode($contractor_signatures_setting->meta_value, true);
+
+        $witness_signatures_setting = Setting::where('meta_key', 'witness_signature')->first();
+        $witness_signatures_setting = json_decode($witness_signatures_setting->meta_value, true);
+
+        return view('pages.signatures', compact('contractor_signatures_setting', 'witness_signatures_setting'));
+    }
+
+    public function updateSignatures(Request $request)
+    {
+        $contractor_name = $request->contractor_name;
+        $contractor_title = $request->contractor_title;
+
+        $contractor_signatures_setting = Setting::where('meta_key', 'contractor_signature')->first();
+
+        if ($request->hasFile('contractor_sign')) {
+            $path = $request->file('contractor_sign')->store('signatures', 'public');
+            $value = json_encode([
+                'name' => $contractor_name,
+                'title' => $contractor_title,
+                'image' => $path,
+            ]);
+        } else {
+            if ($contractor_signatures_setting) {
+                $img = json_decode($contractor_signatures_setting->meta_value, true);
+                $value = json_encode([
+                    'name' => $contractor_name,
+                    'title' => $contractor_title,
+                    'image' => (isset($img['image']) ? $img['image'] : ''),
+                ]);
+            }
+        }
+
+        if ($contractor_signatures_setting && $value) {
+            $contractor_signatures_setting->meta_value = $value;
+            $contractor_signatures_setting->save();
+        }
+
+        $witness_name = $request->witness_name;
+        $witness_title = $request->witness_title;
+
+        $witness_signatures_setting = Setting::where('meta_key', 'witness_signature')->first();
+
+        if ($request->hasFile('witness_sign')) {
+            $path = $request->file('witness_sign')->store('signatures', 'public');
+            $value = json_encode([
+                'name' => $witness_name,
+                'title' => $witness_title,
+                'image' => $path,
+            ]);
+        } else {
+            if ($witness_signatures_setting) {
+                $img = json_decode($witness_signatures_setting->meta_value, true);
+                $value = json_encode([
+                    'name' => $witness_name,
+                    'title' => $witness_title,
+                    'image' => (isset($img['image']) ? $img['image'] : ''),
+                ]);
+            }
+        }
+
+        if ($witness_signatures_setting && $value) {
+            $witness_signatures_setting->meta_value = $value;
+            $witness_signatures_setting->save();
+        }
+
+        return redirect('/signatures')->with('status', 'Successfully Updated the Signatures');
     }
 }

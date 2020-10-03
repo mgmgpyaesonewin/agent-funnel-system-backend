@@ -89,6 +89,12 @@
       "role": "staff"
     },
     {
+      "url": "/signatures",
+      "name": "Signatures",
+      "icon": "fa fa-pencil",
+      "role": "all"
+    },
+    {
       "url": "/document/en",
       "name": "English Version",
       "icon": "feather icon-sidebar",

@@ -129,7 +129,7 @@
               @if(isset($data['image']) && $data['image'] != '')
               <label for="inputPassword" class="col-form-label"><strong>Current Image included in this viber
                   message</strong></label>
-              <img class="img-fluid" src="{{$data['image']}}">
+              <img class="img-fluid" src="{{ asset('storage/'.$data['image']) }}">
               <br><br>
               <center><a href="{{ url('/setting/remove_viber_img/'.$temp->id) }}" class="btn btn-secondary">Remove
                   Image</a></center>
