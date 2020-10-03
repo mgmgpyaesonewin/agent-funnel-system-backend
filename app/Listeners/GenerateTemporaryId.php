@@ -2,11 +2,21 @@
 
 namespace App\Listeners;
 
+use App\Classes\Viber\ContentType;
 use App\Events\ApplicantUpdating;
+use App\Services\Interfaces\ViberServiceInterface;
 use Carbon\Carbon;
+use Config;
 
 class GenerateTemporaryId
 {
+    protected $viber;
+
+    public function __construct(ViberServiceInterface $viberInterface)
+    {
+        $this->viber = $viberInterface;
+    }
+
     /**
      * Handle the event.
      */
@@ -19,7 +29,11 @@ class GenerateTemporaryId
                 $event->applicant->status_id = 1;
                 $event->applicant->current_status = 'training';
                 $event->applicant->saveQuietly();
-                notified_applicant_via_viber($event->applicant->phone, "Your TempID is {$event->applicant->temp_id}");
+
+                $viber_content = new ContentType();
+                $viber_content->setText("Your TempID is {$event->applicant->temp_id}");
+
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.simple'), $viber_content);
             }
         }
     }

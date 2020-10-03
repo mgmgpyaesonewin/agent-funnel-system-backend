@@ -6,13 +6,14 @@ use App\Classes\Viber\ContentType;
 use App\Services\Interfaces\ViberServiceInterface;
 use App\Setting;
 use Config;
-use GuzzleHttp\Exception\BadResponseException;
+use Exception;
+use Log;
 
 class ViberService implements ViberServiceInterface
 {
-    public function getMetaValueByKey(string $meta_key): string
+    public function getMetaValueByKey(string $meta_key): object
     {
-        return json_decode(Setting::where('meta_key', $this->meta_key)->first()->meta_value);
+        return json_decode(Setting::where('meta_key', $meta_key)->first()->meta_value);
     }
 
     public function send(string $phone, int $contentType, ContentType $content)
@@ -36,11 +37,13 @@ class ViberService implements ViberServiceInterface
     private function sendTextNotification($phone, $text)
     {
         $message = [
-            'type' => 'text',
-            'text' => $text,
+            'content' => [
+                'type' => 'text',
+                'text' => $text,
+            ],
         ];
 
-        $this->sendViberXHRRequest($phone, $text);
+        $this->sendViberXHRRequest($phone, $message);
     }
 
     private function sendCustomNotification($phone, $text, $image, $action = '#')
@@ -81,7 +84,8 @@ class ViberService implements ViberServiceInterface
                     'message' => $message,
                 ],
             ]);
-        } catch (BadResponseException $e) {
+        } catch (Exception $e) {
+            Log::error($e);
         }
     }
 }

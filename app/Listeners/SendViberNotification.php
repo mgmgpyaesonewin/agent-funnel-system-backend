@@ -10,7 +10,6 @@ use Config;
 
 class SendViberNotification
 {
-    protected $text = 'default text';
     protected $contract;
     protected $viber;
 
@@ -102,8 +101,6 @@ class SendViberNotification
 
             // View Payment
             if ('pmli_filter' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
-                notified_applicant_via_viber($event->applicant->phone, $this->text);
-
                 $link = env('FRONT_END_URL').'/payment/'.$event->applicant->uuid;
                 $text = $this->viber->getMetaValueByKey('payment_msg')->text.' '.$link;
                 $image = $this->viber->getMetaValueByKey('payment_msg')->image;
