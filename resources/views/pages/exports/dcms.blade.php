@@ -44,11 +44,6 @@
             <th>Company Name</th>
             <th>Position Held</th>
             <th>Relation to Applicant</th>
-            <th>Payee ID No</th>
-            <th>Bank Account Name</th>
-            <th>Bank Account No</th>
-            <th>Payee Name</th>
-            <th>Swift Code</th>
             <th>Previous Company Name</th>
             <th>Previous Company Cessation Date</th>
             <th>Nominee Name</th>
@@ -60,6 +55,11 @@
             <th>Nominee Contact no.</th>
             <th>Nominee Relationship with Applicant</th>
             <th>Payee ID Type</th>
+            <th>Payee ID No</th>
+            <th>Bank Name</th>
+            <th>Bank Account No</th>
+            <th>Payee Name</th>
+            <th>Swift Code</th>
             <th>Spouse Citizenship</th>
             <th>Nominee State</th>
             {{-- Employment --}}
@@ -189,22 +189,22 @@
                 {{ json_decode($applicant->family_agent)->relation ?? "-"  }}
                 @endif
             </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td>{{ $applicant->nrc }}</td>
             <td>{{ $applicant->bank_account_name }}</td>
             <td>{{ $applicant->bank_account_no }}</td>
             <td>{{ $applicant->name }}</td>
             <td>{{ $applicant->swift_code }}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
             <td></td>
             <td></td>
             <td>

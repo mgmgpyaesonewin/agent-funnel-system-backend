@@ -51,7 +51,7 @@
 
             {{-- // Lead submitted date --}}
             @if($row->status_id == '1' && $row->current_status == 'lead')
-            <td>Approved</td>
+            <td>{{ empty($row->created_at) ? "Approved" : "Pending" }}</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'lead')

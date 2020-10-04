@@ -90,13 +90,16 @@ class SendViberNotification
                 $contract_version = $this->contract->createRawContract($event->applicant->id);
 
                 $link = env('FRONT_END_URL').'/sign/'.$event->applicant->uuid.'?version='.$contract_version;
-                $text = "Please, sign your contract here: {$link}";
+                $text = $this->viber->getMetaValueByKey('sign_contract_msg')->text;
+                $image = $this->viber->getMetaValueByKey('sign_contract_msg')->image;
 
                 // Set Viber Content
                 $viber_content = new ContentType();
                 $viber_content->setText($text);
+                $viber_content->setImage($image);
+                $viber_content->setAction($link);
 
-                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.simple'), $viber_content);
+                $this->viber->send($event->applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
             }
 
             // View Payment

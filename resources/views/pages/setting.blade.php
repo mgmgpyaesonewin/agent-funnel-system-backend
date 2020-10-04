@@ -114,6 +114,10 @@
                   Re-Send Contract (Onboarding Stage)
                   @break
 
+                  @case('sign_contract_msg')
+                  Sign Contract (Onboarding Stage)
+                  @break
+
                   @endswitch
                 </strong></label>
               @php $data = json_decode( $temp->meta_value, true ); @endphp

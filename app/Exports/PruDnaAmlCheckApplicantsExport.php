@@ -51,10 +51,10 @@ class PruDnaAmlCheckApplicantsExport implements FromQuery, WithHeadings, WithMap
             $applicant->phone,
             $applicant->gender,
             $applicant->dob,
-            1 == $applicant->myanmar_citizen ? 'Myanmar' : 'Other',
+            0 == $applicant->myanmar_citizen ? 'Myanmar' : 'Other',
             $this->getCurrentPositionHeld($applicant->employment),
             $applicant->nrc,
-            "Myanmar", // TODO: extract from database
+            'Myanmar', // TODO: extract from database
             $applicant->address,
             DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-', // TODO: change to model
             DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-', // TODO: change to model
@@ -65,15 +65,16 @@ class PruDnaAmlCheckApplicantsExport implements FromQuery, WithHeadings, WithMap
 
     public function getCurrentPositionHeld($employment)
     {
-        if($this->validateData($employment)) {
+        if ($this->validateData($employment)) {
             $employment = json_decode($employment);
             foreach ($employment as $emp) {
-                if($this->isValidEmploymentDate($emp->duration_to_date)) {
+                if ($this->isValidEmploymentDate($emp->duration_to_date)) {
                     return $emp->company_name;
                 }
             }
         }
-        return "-";
+
+        return '-';
     }
 
     public function validateData($employment)
@@ -90,7 +91,8 @@ class PruDnaAmlCheckApplicantsExport implements FromQuery, WithHeadings, WithMap
     public function isValidEmploymentDate($date)
     {
         $date = Carbon::parse($date);
-        return ($date->isCurrentMonth() || $date->gte(Carbon::now()));
+
+        return $date->isCurrentMonth() || $date->gte(Carbon::now());
     }
 
     public function query()

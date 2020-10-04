@@ -61,8 +61,8 @@ export default {
           if (this.eLearning && this.newStatusId == 3) {
             this.$swal
               .fire({
-                title: "Enter your e-learing URL",
-                html: `<input id="swal-input-url" class="swal2-input" placeholder="Enter your e-learing URL" type="url">
+                title: "Training Information",
+                html: `<input id="swal-input-url" class="swal2-input" placeholder="Enter your e-learning URL" type="url">
                   <input id="swal-input-username" class="swal2-input" placeholder="Enter Username" type="text">
                   <input id="swal-input-password" class="swal2-input" placeholder="Enter Password" type="password">
                   `,
