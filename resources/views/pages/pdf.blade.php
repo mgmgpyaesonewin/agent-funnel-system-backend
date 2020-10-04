@@ -140,7 +140,7 @@
    </div>
    <div>
       <p style='overflow:hidden;page-break-before:always;'>
-         This &nbsp;Financial Advisor&nbsp;Agreement (&ldquo;Agreement&rdquo;)&nbsp;is made on the 
+         This &nbsp;Financial Advisor&nbsp;Agreement (&ldquo;Agreement&rdquo;)&nbsp;is made on the
          <b>{{ $applicant->signed_date ?? '' }}</b> by and between,
       </p>
       <p>Prudential Myanmar Life Insurance Limited, a private limited company incorporated under the laws of the
@@ -169,7 +169,8 @@
                   <td width="361">
                      <p>For and on behalf of the Company</p>
                      <p><em><em>Signature</em></em></p>
-                     <div style="height:92px"></div>
+                     <img src="{{ public_path().'/storage/'.$applicant->contractor_signature->image }}" width="136"
+                        height="92">
                   </td>
                   <td width="390">
                      <p>The Advisor</p>
@@ -182,10 +183,8 @@
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
-                     <p>&nbsp;</p>
                   </td>
                   <td width="390">
-                     <p>&nbsp;</p>
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
@@ -194,7 +193,9 @@
                <tr>
                   <td width="361">
                      <p>Name:</p>
-                     <p>&nbsp;</p>
+                     <p>{{ $applicant->contractor_signature->name}}</p>
+                     <p>Title:</p>
+                     <p>{{ $applicant->contractor_signature->title }}</p>
                   </td>
                   <td width="390">
                      <p>Name:</p>
@@ -213,7 +214,8 @@
                   <td width="361">
                      <p>Witness</p>
                      <p><em><em>Signature</em></em></p>
-                     <div style="height:92px"></div>
+                     <img src="{{ public_path().'/storage/'.$applicant->witness_signature->image }}" width="136"
+                        height="92">
                   </td>
                   <td width="390">
                      <p>Witness</p>
@@ -226,10 +228,8 @@
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
-                     <p>&nbsp;</p>
                   </td>
                   <td width="390">
-                     <p>&nbsp;</p>
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
                      <p>&nbsp;</p>
@@ -238,7 +238,9 @@
                <tr>
                   <td width="361">
                      <p>Name:</p>
-                     <p>&nbsp;</p>
+                     <p>{{ $applicant->witness_signature->name }}</p>
+                     <p>Title:</p>
+                     <p>{{ $applicant->witness_signature->title }}</p>
                   </td>
                   <td width="390">
                      <p>Name:</p>

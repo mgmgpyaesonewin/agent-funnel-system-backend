@@ -49,7 +49,7 @@ class SendViberNotification
             // Stage 3
             if ('pre_filter' == $attributes['current_status'] && 1 == $event->applicant->status_id) {
                 $link = env('FRONT_END_URL').'/applicants/'.$event->applicant->uuid;
-                $text = $this->viber->getMetaValueByKey('cv_form_msg')->text.' '.$link;
+                $text = $this->viber->getMetaValueByKey('cv_form_msg')->text;
                 $image = $this->viber->getMetaValueByKey('cv_form_msg')->image;
 
                 // Set Viber Content

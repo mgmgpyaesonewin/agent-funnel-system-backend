@@ -53,7 +53,7 @@ class ViberService implements ViberServiceInterface
                 'type' => 'custom',
                 'custom' => [
                     '#txt' => $text,
-                    '#img' => $image,
+                    '#img' => empty($image) ? 'https://pruweb.mmparttime.com/_nuxt/img/horizon_logo.259270c.png' : $image,
                     '#caption' => Config::get('constants.viber.btn_text'),
                     '#action' => $action,
                 ],

@@ -48,6 +48,8 @@ class ApplicantController extends Controller
         $applicant->witness_sign_img = $contract->witness_sign_img;
         $applicant->witness_name = $contract->witness_name;
         $applicant->signed_date = $contract->signed_date->format('jS \\of F Y \\(l\\)');
+        $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
+        $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
 
         view()->share('applicant', $applicant);
         $pdf = DOMPDF::loadView('pages.pdf', $applicant);
@@ -323,7 +325,7 @@ class ApplicantController extends Controller
         return ApplicantResource::collection($applicants);
     }
 
-    public function scheduleAppointment(Request $request)
+    public function scheduleAppointment(Request $request, ViberServiceInterface $viber)
     {
         $appointment = Carbon::parse("{$request->date} {$request->time}");
         $applicant_id = $request->applicant_id;
@@ -350,8 +352,8 @@ class ApplicantController extends Controller
         $text = json_decode(Setting::where('meta_key', 'interview_msg')->first()->meta_value)->text." Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$request->url}";
 
         $link = $request->url;
-        $text = $this->viber->getMetaValueByKey('interview_msg')->text." Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$link}";
-        $image = $this->viber->getMetaValueByKey('interview_msg')->image;
+        $text = $viber->getMetaValueByKey('interview_msg')->text." Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$link}";
+        $image = $viber->getMetaValueByKey('interview_msg')->image;
 
         // Set Viber Content
         $viber_content = new ContentType();
@@ -359,7 +361,7 @@ class ApplicantController extends Controller
         $viber_content->setImage($image);
         $viber_content->setAction($link);
 
-        $this->viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
+        $viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
 
         return response()->json([
             'status' => true,
@@ -385,12 +387,13 @@ class ApplicantController extends Controller
         $activities = DB::table('applicant_status')->select('status_id', 'current_status', 'name', 'applicant_status.created_at')
             ->leftjoin('users', 'users.id', 'applicant_status.user_id')
             ->where('applicant_id', $request->id)
-            ->get();
+            ->get()
+        ;
 
         return view('pages.applicants.detail', compact('applicant', 'trainings', 'activities'));
     }
 
-    public function update(Request $request, ContractInterface $contract)
+    public function update(Request $request, ContractInterface $contract, ViberServiceInterface $viber)
     {
         $current_status = $request->current_status;
         $status_id = $request->status_id;
@@ -403,8 +406,8 @@ class ApplicantController extends Controller
         if ('onboard' == $current_status && 7 == $status_id) {
             $contract_version = $contract->resendContract($applicant->id);
             $link = env('FRONT_END_URL').'/sign/'.$applicant->uuid.'?version='.$contract_version;
-            $text = $this->viber->getMetaValueByKey('contract_msg')->text.' '.$link;
-            $image = $this->viber->getMetaValueByKey('contract_msg')->image;
+            $text = $viber->getMetaValueByKey('contract_msg')->text;
+            $image = $viber->getMetaValueByKey('contract_msg')->image;
 
             // Set Viber Content
             $viber_content = new ContentType();
@@ -412,14 +415,14 @@ class ApplicantController extends Controller
             $viber_content->setImage($image);
             $viber_content->setAction($link);
 
-            $this->viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
+            $viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
         }
 
         if ('pmli_filter' == $current_status && 11 == $status_id) {
             $link = env('FRONT_END_URL').'/payment/'.$applicant->uuid;
 
-            $text = $this->viber->getMetaValueByKey('payment_msg')->text.' '.$link;
-            $image = $this->viber->getMetaValueByKey('payment_msg')->image;
+            $text = $viber->getMetaValueByKey('payment_msg')->text;
+            $image = $viber->getMetaValueByKey('payment_msg')->image;
 
             // Set Viber Content
             $viber_content = new ContentType();
@@ -427,7 +430,7 @@ class ApplicantController extends Controller
             $viber_content->setImage($image);
             $viber_content->setAction($link);
 
-            $this->viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
+            $viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
         }
 
         // Background Check Invalid Information - re-send viber message

@@ -3,20 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Contract;
 use App\Exports\ApplicantExport;
 use App\Exports\ApplicantsExport;
+use App\Exports\AuditApplicantsExport;
+use App\Exports\DCMSApplicantsExport;
 use App\Exports\ImportBackupExport;
 use App\Exports\PMLIFilterExport;
 use App\Exports\PruDnaAmlCheckApplicantsExport;
-use App\Exports\AuditApplicantsExport;
-use App\Exports\DCMSApplicantsExport;
 use App\ImportHistory;
 use App\Imports\ApplicantsImport;
+use App\Setting;
 use Carbon\Carbon;
 use DB;
+use DOMPDF;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use PDF;
 
 class ExportController extends Controller
 {
@@ -101,10 +103,18 @@ class ExportController extends Controller
     {
         $applicant = Applicant::where('id', 2)->first();
         $applicant->agreement_no = $applicant->temp_id;
-        $applicant->signed_date = Carbon::now()->format('d-m-Y');
+        $contract = Contract::where('version', 1)->where('applicant_id', 2)->first();
+        $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
+        $applicant->agreement_no = $contract->agreement_no;
+        $applicant->applicant_sign_img = $contract->applicant_sign_img;
+        $applicant->witness_sign_img = $contract->witness_sign_img;
+        $applicant->witness_name = $contract->witness_name;
+        $applicant->signed_date = Carbon::parse($contract->signed_date)->format('d-m-Y');
+        $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
+        $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
 
         view()->share('applicant', $applicant);
-        $pdf = PDF::loadView('pages.pdf', $applicant);
+        $pdf = DOMPDF::loadView('pages.pdf', $applicant);
 
         return $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->stream('contract.pdf');
     }
