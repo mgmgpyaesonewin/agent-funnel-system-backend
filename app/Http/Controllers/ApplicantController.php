@@ -578,11 +578,11 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = $this->viber->getMetaValueByKey('elearning_msg')->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
+        $text = $viber->getMetaValueByKey('elearning_msg')->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
         // Set Viber Content
         $viber_content = new ContentType();
         $viber_content->setText($text);
-        $this->viber->send($applicant->phone, Config::get('constants.viber.content_type.simple'), $viber_content);
+        $viber->send($applicant->phone, Config::get('constants.viber.content_type.simple'), $viber_content);
 
         return response()->json([
             'status' => true,
