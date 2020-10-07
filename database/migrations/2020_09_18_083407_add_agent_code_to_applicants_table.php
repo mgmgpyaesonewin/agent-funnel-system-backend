@@ -14,7 +14,7 @@ class AddAgentCodeToApplicantsTable extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->string('agent_code')->after('assign_staff_id');
+            $table->string('agent_code')->nullable()->after('assign_staff_id');
         });
     }
 
