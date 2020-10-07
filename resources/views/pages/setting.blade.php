@@ -118,6 +118,10 @@
                   Sign Contract (Onboarding Stage)
                   @break
 
+                  @case('active_contract_msg')
+                  Active Contract (Contract & Agent)
+                  @break
+
                   @endswitch
                 </strong></label>
               @php $data = json_decode( $temp->meta_value, true ); @endphp

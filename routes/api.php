@@ -31,6 +31,7 @@ Route::post('/spouse_update/{id}', 'ApplicantController@spouse_update');
 
 Route::get('city', 'TemplateFormController@getCity');
 Route::get('township/{id}', 'TemplateFormController@getTownship');
+Route::post('certificate', 'ApplicantController@certificate');
 
 Route::post('/login', 'ApplicantController@login');
 Route::group(['middleware' => 'auth:api'], function () {

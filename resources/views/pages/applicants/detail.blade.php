@@ -12,13 +12,14 @@
         <div class="col-12">
             <div class="profile-header mb-2">
                 <div class="relative">
-                    <div class="cover-container d-none d-sm-block" style="width: 100%; height: 5rem; background-color: var(--secondary);">  
-                        <h3 class="text-center text-primary pt-1">Applicant Details</3>                    
+                    <div class="cover-container d-none d-sm-block"
+                        style="width: 100%; height: 5rem; background-color: var(--secondary);">
+                        <h3 class="text-center text-primary pt-1">Applicant Details</3>
                     </div>
                     <div class="profile-img-container d-flex align-items-center justify-content-between">
                         <img src="https://dummyimage.com/80x80/ed1c4/fff.png&text={{ $applicant->name[0] }}"
                             class="rounded-circle img-border box-shadow-1" alt="Card image">
-                        
+
                         <div class="float-right">
                             <a href="{{ url('/applicant/export/excel/'.$applicant->id) }}" title="Download Excel"
                                 class="btn btn-icon btn-icon rounded-circle btn-primary">
@@ -37,7 +38,7 @@
                             data-target="navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"><i class="feather icon-align-justify"></i></span>
-                        </button>                    
+                        </button>
                     </nav>
                 </div>
             </div>
@@ -53,36 +54,36 @@
                             <div class="col-md-6">
                                 @if($applicant->current_status != '')
                                 <h5 style="color: #606060; font-weight: 500;"><b>Current Status</b> :
-                                <span class="badge badge-info">{{ strtoupper($applicant->current_status)}}</span>
+                                    <span class="badge badge-info">{{ strtoupper($applicant->current_status)}}</span>
                                 </h5>
                                 @endif
                                 <h5 style="color: #606060; font-weight: 500;"><b>Assign to</b> :
-                                @if($applicant->assign_admin_id != '')
+                                    @if($applicant->assign_admin_id != '')
                                     {{ $applicant->admin->name}} |
-                                @endif
+                                    @endif
 
-                                @if($applicant->assign_bdm_id != '')
+                                    @if($applicant->assign_bdm_id != '')
                                     {{ $applicant->bdm->name}} |
-                                @endif
+                                    @endif
 
-                                @if($applicant->assign_ma_id != '')
+                                    @if($applicant->assign_ma_id != '')
                                     {{ $applicant->ma->name}}
-                                @endif
+                                    @endif
                                 </h5>
-                                
+
                                 @if($applicant->utm_source != '')
                                 <h5 style="color: #606060; font-weight: 500;"><b>UTM Source</b> :
                                     {{ $applicant->utm_source}}
                                 </h5>
-                                @endif                           
+                                @endif
                             </div>
-                            <div class="col-md-6">                               
-                                
+                            <div class="col-md-6">
+
                                 @if($applicant->temp_id != '')
                                 <h4 style="color: #606060; font-weight: 600;">Temporary ID :
                                     <span class="badge badge-primary">{{ $applicant->temp_id}}</span>
                                 </h4>
-                                @endif 
+                                @endif
                                 @if($applicant->temp_id != '')
                                 <h4 style="color: #606060; font-weight: 600;">Agent Code :
                                     {{ $applicant->agent_code}}
@@ -139,6 +140,17 @@
                             <p class="col-md-6">{{ $applicant->education }}</p>
                         </div>
                         <div class="mt-1 row">
+                            <div class="col-md-12">
+                                @if(!empty($applicant->certificate))
+                                <img src="{{ asset('storage/'.$applicant->certificate) }}"
+                                    style="width: 100%; max-width: 300px; height: auto;" />
+                                @else
+                                <v-certificate-file-upload applicant-uuid="{{ $applicant->uuid }}">
+                                </v-certificate-file-upload>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="mt-1 row">
                             <h6 class="col-md-4">NRC:</h6>
                             <div class="col-md-6">
                                 <p>{{ $applicant->nrc }}</p>
@@ -178,73 +190,73 @@
                             <h6 class="col-md-4">Race:</h6>
                             <p class="col-md-6">{{ $applicant->race }}</p>
                         </div>
-                        
-                        
-                        @php $infos = json_decode( $applicant->additional_info, true ); @endphp                        
+
+
+                        @php $infos = json_decode( $applicant->additional_info, true ); @endphp
                         @if($infos)
                         <hr />
                         <div class="card-header pl-0">
                             <h4>Additional Info</h4>
                         </div>
-                            @foreach ($infos as $info)
-                            @if(isset($info['value']))
-                            <div class="mt-1 row">
-                                <h6 class="col-md-4">{{ $info['key'] }} :</h6>
-                                <p class="col-md-6">{{ $info['value'] }}</p>
-                            </div>
-                            @endif
-                            @endforeach
+                        @foreach ($infos as $info)
+                        @if(isset($info['value']))
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">{{ $info['key'] }} :</h6>
+                            <p class="col-md-6">{{ $info['value'] }}</p>
+                        </div>
                         @endif
-                        
+                        @endforeach
+                        @endif
+
                         <hr />
                         <div class="card-header pl-0">
                             <h4>Attachments</h4>
-                        </div>                           
+                        </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Payment:</h6>
                             <div>
-                            @if($applicant->payment)
+                                @if($applicant->payment)
                                 <v-info-button css-class="btn btn-outline-primary btn-sm"
                                     url={{ url('/storage/'.$applicant->payment) }}>
                                     <i class="fa fa-id-card-o" aria-hidden="true"></i> View Payment
                                 </v-info-button>
-                            @endif
+                                @endif
                             </div>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">License:</h6>
                             <div>
-                            @if($applicant->license_photo_1)
-                            {{ $applicant->license_no }} <br>
+                                @if($applicant->license_photo_1)
+                                {{ $applicant->license_no }} <br>
                                 <v-info-button css-class="btn btn-outline-primary btn-sm"
                                     url={{ url('/storage/'.$applicant->license_photo_1) }}>
                                     <i class="fa fa-id-card-o" aria-hidden="true"></i> View License
                                 </v-info-button>
-                            @endif
+                                @endif
                             </div>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Contract:</h6>
                             <div>
-                            @if(count($applicant->contracts) > 1)
+                                @if(count($applicant->contracts) > 1)
                                 @foreach($applicant->contracts as $contract)
-                                Version {{ $contract->version  }} : 
+                                Version {{ $contract->version  }} :
                                 <v-info-button css-class="btn btn-outline-primary btn-sm"
                                     url={{ url('/storage/'.$contract->pdf) }}>
                                     <i class="fa fa-id-card-o" aria-hidden="true"></i> View Contract
                                 </v-info-button> <br>
                                 @endforeach
-                            @else                            
+                                @else
                                 @if($applicant->contracts()->latest()->first())
-                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ url('/storage/'.$applicant->contracts()->latest()->first()->pdf) }}>
-                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> View Contract
-                                    </v-info-button>
+                                <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                    url={{ url('/storage/'.$applicant->contracts()->latest()->first()->pdf) }}>
+                                    <i class="fa fa-id-card-o" aria-hidden="true"></i> View Contract
+                                </v-info-button>
                                 @endif
-                            @endif
+                                @endif
                             </div>
                         </div>
-                        
+
                         <hr />
                         <div class="card-header pl-0">
                             <h4>Bank Information</h4>
@@ -281,19 +293,19 @@
                                     <h6 class="col-md-4">E-learning URL</h6>
                                     <p class="col-md-8">
                                         {{$applicant->e_learning}}
-                                    </p>  
+                                    </p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Username</h6>
                                     <p class="col-md-8">
                                         {{$applicant->username}}
-                                    </p>  
+                                    </p>
                                 </div>
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Password</h6>
                                     <p class="col-md-8">
                                         {{$applicant->password}}
-                                    </p>  
+                                    </p>
                                 </div>
                                 <hr>
                                 @endif
@@ -311,7 +323,8 @@
                                             </span> )
                                         </span>
                                         @else
-                                        <span>( <span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                        <span>( <span class="text-danger"><i class="fa fa-times"
+                                                    aria-hidden="true"></i></span>
                                             )</span>
                                         @endif
                                     </li>
@@ -323,8 +336,8 @@
                                     <h6 class="col-md-4">Exam Date</h6>
                                     <p class="col-md-8">
                                         {{$applicant->exam_date}}
-                                    </p>  
-                                 </div>
+                                    </p>
+                                </div>
                                 @endif
                             </div>
                         </div>
@@ -338,32 +351,32 @@
                             <div class="card-header">
                                 <h4>Activity Log</h4>
                             </div>
-                            <div class="card-body">                                
-                            @foreach ($activities as $row)
+                            <div class="card-body">
+                                @foreach ($activities as $row)
                                 <!-- Lead -->
                                 @if($row->status_id == '1' && $row->current_status == 'lead')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Registered</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>  
-                                 </div>
-                                 @elseif($row->status_id == '1' && $row->current_status == 'pre_filter')  
-                                 <div class="mt-1 row">
-                                    <h6 class="col-md-4">Lead Stage</h6>
-                                    <p class="col-md-6">
-                                    Approved by {{$applicant->created_at ?? '-'}}
                                     </p>
                                 </div>
-                                @elseif($row->status_id == '4' && $row->current_status == 'lead')  
+                                @elseif($row->status_id == '1' && $row->current_status == 'pre_filter')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Lead Stage</h6>
+                                    <p class="col-md-6">
+                                        Approved by {{$applicant->created_at ?? '-'}}
+                                    </p>
+                                </div>
+                                @elseif($row->status_id == '4' && $row->current_status == 'lead')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Lead Stage</h6>
                                     <p class="col-md-8">
                                         Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>   
-                                 </div>                           
+                                    </p>
+                                </div>
                                 @endif
-                                
+
 
                                 <!-- Background Check -->
                                 @if($row->status_id == '1' && $row->current_status == 'pru_dna_test')
@@ -371,16 +384,16 @@
                                     <h6 class="col-md-4">Background Check Stage</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>  
+                                    </p>
                                 </div>
-                                @elseif($row->status_id == '4' && $row->current_status == 'pre_filter')  
+                                @elseif($row->status_id == '4' && $row->current_status == 'pre_filter')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Background Check Stage</h6>
                                     <p class="col-md-8">
                                         Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>   
-                                </div>                           
-                                @endif                               
+                                    </p>
+                                </div>
+                                @endif
 
                                 <!-- PRUDNA  -->
                                 @if($row->status_id == '1' && $row->current_status == 'pmli_filter')
@@ -388,15 +401,15 @@
                                     <h6 class="col-md-4">PruDNA Stage</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>  
+                                    </p>
                                 </div>
-                                @elseif($row->status_id == '4' && $row->current_status == 'pru_dna_test')  
+                                @elseif($row->status_id == '4' && $row->current_status == 'pru_dna_test')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">PruDNA Stage</h6>
                                     <p class="col-md-8">
                                         Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p> 
-                                </div>                             
+                                    </p>
+                                </div>
                                 @endif
                                 <!-- PMLI  -->
                                 @if($row->status_id == '1' && $row->current_status == 'pmli_filter')
@@ -404,25 +417,25 @@
                                     <h6 class="col-md-4">PMLI Filter Stage</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>  
+                                    </p>
                                 </div>
-                                @elseif($row->status_id == '4' && $row->current_status == 'pmli_filter')  
+                                @elseif($row->status_id == '4' && $row->current_status == 'pmli_filter')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">PMLI Filter Stage</h6>
                                     <p class="col-md-8">
                                         Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p> 
-                                </div>                             
+                                    </p>
+                                </div>
                                 @endif
 
-                                 <!-- Training  -->
+                                <!-- Training  -->
                                 @if($row->status_id == '3' && $row->current_status == 'pmli_filter')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Training Stage</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>  
-                                </div>                            
+                                    </p>
+                                </div>
                                 @endif
 
                                 <!-- Certification  -->
@@ -431,57 +444,57 @@
                                     <h6 class="col-md-4">Certification Stage (Pass)</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p>  
+                                    </p>
                                 </div>
-                                @elseif($row->status_id == '4' && $row->current_status == 'certification')  
+                                @elseif($row->status_id == '4' && $row->current_status == 'certification')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Certification Stage</h6>
                                     <p class="col-md-8">
                                         Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p> 
-                                </div>                             
+                                    </p>
+                                </div>
                                 @endif
 
-                                 <!-- Onboarding  -->
-                                @if($row->status_id == '4' && $row->current_status == 'onboard')  
+                                <!-- Onboarding  -->
+                                @if($row->status_id == '4' && $row->current_status == 'onboard')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Onboarding Stage</h6>
                                     <p class="col-md-8">
                                         Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p> 
-                                </div>                             
+                                    </p>
+                                </div>
                                 @endif
 
-                                 <!-- Active Agent  -->
-                                 @if($row->status_id == '8')  
+                                <!-- Active Agent  -->
+                                @if($row->status_id == '8')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Active Agent</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p> 
-                                </div>                             
+                                    </p>
+                                </div>
                                 @endif
 
                                 <!-- InActive Agent  -->
-                                @if($row->status_id == '9')  
+                                @if($row->status_id == '9')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Inactive Agent</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p> 
-                                </div>                             
+                                    </p>
+                                </div>
                                 @endif
 
                                 <!-- Active Agent  -->
-                                @if($row->status_id == '10')  
+                                @if($row->status_id == '10')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Ceased Association</h6>
                                     <p class="col-md-8">
                                         Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
-                                    </p> 
-                                </div>                             
+                                    </p>
+                                </div>
                                 @endif
-                            @endforeach
+                                @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -495,7 +508,7 @@
                         <h4>Declaration</h4>
                     </div>
                     <div class="card-body">
-                        <div class="mt-1 row"> 
+                        <div class="mt-1 row">
                             <h6 class="col-md-6">Agree to Terms & Condition:</h6>
                             <p class="col-md-6">{{  $applicant->accept_t_n_c == 1 ? 'Yes' : '-' }}</p>
                         </div>
@@ -526,7 +539,8 @@
                     <hr>
 
                     <div class="card-header">
-                        <h4>Was a staff of Prudential? </h4> @if($applicant->prudential_agency_exp == null || $applicant->prudential_agency_exp == '') : No @endif
+                        <h4>Was a staff of Prudential? </h4> @if($applicant->prudential_agency_exp == null ||
+                        $applicant->prudential_agency_exp == '') : No @endif
                     </div>
                     @if($applicant->prudential_agency_exp != null || $applicant->prudential_agency_exp != '')
                     <div class="card-body">
@@ -557,7 +571,8 @@
                     <hr>
 
                     <div class="card-header">
-                        <h4>Current and past employment details </h4> @if($applicant->employment == null || $applicant->employment == '') : No Experience
+                        <h4>Current and past employment details </h4> @if($applicant->employment == null ||
+                        $applicant->employment == '') : No Experience
                         @endif
                     </div>
 
@@ -595,7 +610,8 @@
                         <hr>
 
                         <div class="card-header">
-                            <h4>Have any selling experience or acted as an agent </h4> @if($applicant->agent_exp == null || $applicant->agent_exp == '') : No @endif
+                            <h4>Have any selling experience or acted as an agent </h4> @if($applicant->agent_exp == null
+                            || $applicant->agent_exp == '') : No @endif
                         </div>
 
                         @if($applicant->agent_exp != null || $applicant->agent_exp != '')

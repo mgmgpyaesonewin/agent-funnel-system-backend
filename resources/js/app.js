@@ -70,6 +70,11 @@ Vue.component(
   require("./components/CopyToClipboard.vue").default
 );
 
+Vue.component(
+  "v-certificate-file-upload",
+  require("./components/CertificateFileUpload.vue").default
+);
+
 Vue.prototype.$location = window.location;
 
 /**

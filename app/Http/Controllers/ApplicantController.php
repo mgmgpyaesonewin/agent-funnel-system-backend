@@ -369,6 +369,27 @@ class ApplicantController extends Controller
         ]);
     }
 
+    public function certificate(Request $request)
+    {
+        $applicant = Applicant::where('uuid', $request->uuid)->first();
+        if ($request->hasFile('certificate')) {
+            $path = $request->file('certificate')->store('certificates', 'public');
+            $applicant->certificate = $path;
+            $applicant->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Successfully Created',
+                'certificate' => asset('storage/'.$path),
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'Invalid File',
+        ]);
+    }
+
     public function setupWebinar(Request $request)
     {
         $applicant = Applicant::where('id', $request->id)->first();
@@ -391,6 +412,33 @@ class ApplicantController extends Controller
         ;
 
         return view('pages.applicants.detail', compact('applicant', 'trainings', 'activities'));
+    }
+
+    public function signContractorContract($id)
+    {
+        $applicant = Applicant::where('id', $id)->first();
+        $contract = Contract::where('applicant_id', $applicant->id)->latest()->first();
+
+        $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
+        $applicant->agreement_no = $contract->agreement_no;
+        $applicant->applicant_sign_img = $contract->applicant_sign_img;
+        $applicant->witness_sign_img = $contract->witness_sign_img;
+        $applicant->witness_name = $contract->witness_name;
+        $applicant->signed_date = Carbon::parse($contract->signed_date)->format('dd-MM-YY');
+        $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
+        $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
+
+        view()->share('applicant', $applicant);
+        $pdf = DOMPDF::loadView('pages.pdf', $applicant);
+
+        $contract_pdf = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
+        $file = 'contracts/'.$applicant->phone.'-'.Carbon::now()->format('d_m_y_h_m_s').'.pdf';
+        Storage::disk('public')->put($file, $contract_pdf);
+
+        $contract->pdf = $file;
+        $contract->save();
+
+        return asset('storage/'.$file);
     }
 
     public function update(Request $request, ContractInterface $contract, ViberServiceInterface $viber)
@@ -436,8 +484,8 @@ class ApplicantController extends Controller
         // Background Check Invalid Information - re-send viber message
         if ('pre_filter' == $current_status && 7 == $status_id) {
             $link = env('FRONT_END_URL').'/applicants/'.$applicant->uuid;
-            $text = 'Your information is invalid. '.$this->viber->getMetaValueByKey('cv_form_msg')->text.' '.$link;
-            $image = $this->viber->getMetaValueByKey('cv_form_msg')->image;
+            $text = 'Your information is invalid. '.$viber->getMetaValueByKey('cv_form_msg')->text.' '.$link;
+            $image = $viber->getMetaValueByKey('cv_form_msg')->image;
 
             // Set Viber Content
             $viber_content = new ContentType();
@@ -445,7 +493,21 @@ class ApplicantController extends Controller
             $viber_content->setImage($image);
             $viber_content->setAction($link);
 
-            $this->viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
+            $viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
+        }
+
+        if ('active' == $current_status && 8 == $status_id) {
+            $link = $this->signContractorContract($applicant->id);
+            $text = 'Your information is invalid. '.$viber->getMetaValueByKey('cv_form_msg')->text.' '.$link;
+            $image = $viber->getMetaValueByKey('cv_form_msg')->image;
+
+            // Set Viber Content
+            $viber_content = new ContentType();
+            $viber_content->setText($text);
+            $viber_content->setImage($image);
+            $viber_content->setAction($link);
+
+            $viber->send($applicant->phone, Config::get('constants.viber.content_type.custom'), $viber_content);
         }
 
         $applicant->statuses()->attach($status_id, [
