@@ -48,8 +48,8 @@ class ApplicantController extends Controller
         $applicant->witness_sign_img = $contract->witness_sign_img;
         $applicant->witness_name = $contract->witness_name;
         $applicant->signed_date = $contract->signed_date->format('jS \\of F Y \\(l\\)');
-        $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
-        $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
+        // $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
+        // $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
 
         view()->share('applicant', $applicant);
         $pdf = DOMPDF::loadView('pages.pdf', $applicant);

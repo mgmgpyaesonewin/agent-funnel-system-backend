@@ -169,8 +169,10 @@
                   <td width="361">
                      <p>For and on behalf of the Company</p>
                      <p><em><em>Signature</em></em></p>
+                     @if(!empty($contractor_signature))
                      <img src="{{ public_path().'/storage/'.$applicant->contractor_signature->image }}" width="136"
                         height="92">
+                     @endif
                   </td>
                   <td width="390">
                      <p>The Advisor</p>
@@ -193,9 +195,11 @@
                <tr>
                   <td width="361">
                      <p>Name:</p>
+                     @if(!empty($contractor_signature))
                      <p>{{ $applicant->contractor_signature->name}}</p>
                      <p>Title:</p>
                      <p>{{ $applicant->contractor_signature->title }}</p>
+                     @endif
                   </td>
                   <td width="390">
                      <p>Name:</p>
@@ -212,10 +216,12 @@
                </tr>
                <tr>
                   <td width="361">
+                     @if(!empty($witness_signature))
                      <p>Witness</p>
                      <p><em><em>Signature</em></em></p>
                      <img src="{{ public_path().'/storage/'.$applicant->witness_signature->image }}" width="136"
                         height="92">
+                     @endif
                   </td>
                   <td width="390">
                      <p>Witness</p>
@@ -238,9 +244,11 @@
                <tr>
                   <td width="361">
                      <p>Name:</p>
+                     @if(!empty($witness_signature))
                      <p>{{ $applicant->witness_signature->name }}</p>
                      <p>Title:</p>
                      <p>{{ $applicant->witness_signature->title }}</p>
+                     @endif
                   </td>
                   <td width="390">
                      <p>Name:</p>

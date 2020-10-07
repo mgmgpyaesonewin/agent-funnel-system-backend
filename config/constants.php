@@ -13,6 +13,6 @@ return [
             'simple' => 1,
             'custom' => 2,
         ],
-        'btn_text' => 'Click Me',
+        'btn_text' => 'Click Here',
     ],
 ];
