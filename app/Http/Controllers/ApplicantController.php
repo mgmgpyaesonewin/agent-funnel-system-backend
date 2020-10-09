@@ -498,8 +498,8 @@ class ApplicantController extends Controller
 
         if ('active' == $current_status && 8 == $status_id) {
             $link = $this->signContractorContract($applicant->id);
-            $text = 'Your information is invalid. '.$viber->getMetaValueByKey('cv_form_msg')->text.' '.$link;
-            $image = $viber->getMetaValueByKey('cv_form_msg')->image;
+            $text = $viber->getMetaValueByKey('active_contract_msg')->text.' '.$link;
+            $image = $viber->getMetaValueByKey('active_contract_msg')->image;
 
             // Set Viber Content
             $viber_content = new ContentType();
