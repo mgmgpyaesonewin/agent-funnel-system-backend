@@ -36,7 +36,7 @@ class ContentType
 
     public function getImage(): string
     {
-        return $this->image;
+        return asset("storage/{$this->image}");
     }
 
     public function getMetaKey(): string
