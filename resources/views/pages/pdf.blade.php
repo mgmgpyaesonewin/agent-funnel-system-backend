@@ -171,24 +171,25 @@
                      <p><em><em>Signature</em></em></p>
                      @if(!empty($contractor_signature))
                      <img src="{{ public_path().'/storage/'.$applicant->contractor_signature->image }}" width="136"
-                        height="92">
+                        height="92" />
+                     @else
+                     <div style="height:95px"></div>
                      @endif
                   </td>
                   <td width="390">
                      <p>The Advisor</p>
                      <p><em><em>Signature</em></em></p>
-                     <img src="{{ public_path().'/storage/'.$applicant->applicant_sign_img }}" width="136" height="92">
+                     <p>
+                        <img src="{{ public_path().'/storage/'.$applicant->applicant_sign_img }}" width="136"
+                           height="92" />
+                     </p>
                   </td>
                </tr>
                <tr>
                   <td width="361">
                      <p>&nbsp;</p>
-                     <p>&nbsp;</p>
-                     <p>&nbsp;</p>
                   </td>
                   <td width="390">
-                     <p>&nbsp;</p>
-                     <p>&nbsp;</p>
                      <p>&nbsp;</p>
                   </td>
                </tr>
@@ -232,12 +233,8 @@
                <tr>
                   <td width="361">
                      <p>&nbsp;</p>
-                     <p>&nbsp;</p>
-                     <p>&nbsp;</p>
                   </td>
                   <td width="390">
-                     <p>&nbsp;</p>
-                     <p>&nbsp;</p>
                      <p>&nbsp;</p>
                   </td>
                </tr>

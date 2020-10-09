@@ -110,12 +110,29 @@ class ExportController extends Controller
         $applicant->witness_sign_img = $contract->witness_sign_img;
         $applicant->witness_name = $contract->witness_name;
         $applicant->signed_date = Carbon::parse($contract->signed_date)->format('d-m-Y');
-        $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
-        $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
+        // $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
+        // $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
 
         view()->share('applicant', $applicant);
         $pdf = DOMPDF::loadView('pages.pdf', $applicant);
 
         return $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->stream('contract.pdf');
+    }
+
+    public function pdfView(Request $request)
+    {
+        $applicant = Applicant::where('id', 2)->first();
+        $applicant->agreement_no = $applicant->temp_id;
+        $contract = Contract::where('version', 1)->where('applicant_id', 2)->first();
+        $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
+        $applicant->agreement_no = $contract->agreement_no;
+        $applicant->applicant_sign_img = $contract->applicant_sign_img;
+        $applicant->witness_sign_img = $contract->witness_sign_img;
+        $applicant->witness_name = $contract->witness_name;
+        $applicant->signed_date = Carbon::parse($contract->signed_date)->format('d-m-Y');
+        $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
+        $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
+
+        return view('pages.pdf', compact('applicant'));
     }
 }

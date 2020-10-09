@@ -16,6 +16,8 @@
 Auth::routes(['register' => false]);
 
 Route::get('pdf', 'ExportController@pdf');
+Route::get('pdf/view', 'ExportController@pdfView');
+
 
 Route::group(['middleware' => 'auth'], function () {
     // Route url
