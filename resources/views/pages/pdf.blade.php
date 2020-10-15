@@ -163,10 +163,10 @@
       <p class="western" align="JUSTIFY" style="margin-top: 0.17in; margin-bottom: 0.08in; page-break-before: always">
          <p><br /><strong><strong>IN WITNESS</strong></strong>&nbsp;whereof this Agreement has been executed by
             the Parties on the date first above written.</p>
-         <table width="100%">
+         <table width="100%" border="1">
             <tbody>
                <tr>
-                  <td width="390" valign="top">
+                  <td width="50%" valign="top">
                      <p>For and on behalf of the Company</p>
                      <p><em><em>Signature</em></em></p>
                      @if(!empty($contractor_signature))
@@ -176,7 +176,7 @@
                      <div style="height:95px"></div>
                      @endif
                   </td>
-                  <td width="390" valign="top">
+                  <td width="50%" valign="top">
                      <p>The Advisor</p>
                      <p><em><em>Signature</em></em></p>
                      <p>
@@ -186,19 +186,18 @@
                   </td>
                </tr>
                <tr>
-                  <td width="390" valign="top">
+                  <td width="50%" valign="top">
                      @if(!empty($contractor_signature))
                      <p>Name: {{ $applicant->contractor_signature->name}}</p>
-                     <p>Title:{{ $applicant->contractor_signature->title }}</p>
+                     <p>Title: {{ $applicant->contractor_signature->title }}</p>
                      @endif
                   </td>
-                  <td width="390" valign="top">
-                     <p>Name:</p>
-                     <p>{{ $applicant->name }}</p>
+                  <td width="50%" valign="top">
+                     <p>Name: {{ $applicant->name }}</p>
                   </td>
                </tr>
                <tr>
-                  <td width="390" valign="top">
+                  <td width="50%" valign="top">
                      @if(!empty($witness_signature))
                      <p>Witness</p>
                      <p><em><em>Signature</em></em></p>
@@ -206,21 +205,21 @@
                         height="92">
                      @endif
                   </td>
-                  <td width="390" valign="top">
+                  <td width="50%" valign="top">
                      <p>Witness</p>
                      <p><em><em>Signature</em></em></p>
                      <img src="{{ public_path().'/storage/'.$applicant->witness_sign_img }}" width="136" height="92">
                   </td>
                </tr>
                <tr>
-                  <td width="390" valign="top">
+                  <td width="50%" valign="top">
                      @if(!empty($witness_signature))
                      <p>Name: {{ $applicant->witness_signature->name }}</p>
-                     <p>Title:{{ $applicant->witness_signature->title }}</p>
+                     <p>Title: {{ $applicant->witness_signature->title }}</p>
                      @endif
                   </td>
-                  <td width="390" valign="top">
-                     <p>Name:{{ $applicant->witness_name }}</p>
+                  <td width="50%" valign="top">
+                     <p>Name: {{ $applicant->witness_name }}</p>
                   </td>
                </tr>
             </tbody>
