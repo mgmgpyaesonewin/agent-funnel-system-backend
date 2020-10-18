@@ -18,7 +18,6 @@ Auth::routes(['register' => false]);
 Route::get('pdf', 'ExportController@pdf');
 Route::get('pdf/view', 'ExportController@pdfView');
 
-
 Route::group(['middleware' => 'auth'], function () {
     // Route url
     Route::get('/', 'DashboardController@dashboardAnalytics')->name('home');
@@ -67,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('template/activate/{id}', 'TemplateFormController@activate');
     Route::resource('templateforms', 'TemplateFormController');
     Route::resource('trainings', 'TrainingController');
+    Route::resource('sessions', 'BOPSessionController');
     Route::resource('partners', 'PartnerController');
     Route::resource('payments', 'PaymentController');
     Route::resource('users', 'UserController');
