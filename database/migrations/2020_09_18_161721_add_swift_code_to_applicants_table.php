@@ -12,7 +12,7 @@ class AddSwiftCodeToApplicantsTable extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->string('swift_code')->after('banK_name');
+            $table->string('swift_code')->nullable()->after('banK_name');
         });
     }
 

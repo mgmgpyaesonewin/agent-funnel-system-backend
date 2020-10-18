@@ -12,7 +12,7 @@ class AddAdditionalInfoToApplicantsTable extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->json('additional_info')->after('family_agent');
+            $table->json('additional_info')->nullable()->after('family_agent');
         });
     }
 

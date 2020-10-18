@@ -29,7 +29,7 @@ $factory->define(Applicant::class, function (Faker $faker) {
         'agent_exp' => json_encode([
             'company_name' => 'Prudential',
             'address' => $faker->address,
-            'position' => $faker->jobTitle, 
+            'position' => $faker->jobTitle,
         ]),
         'family_agent' => json_encode([
             'name' => $faker->name,

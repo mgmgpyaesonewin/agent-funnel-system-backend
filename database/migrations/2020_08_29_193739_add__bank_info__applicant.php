@@ -8,27 +8,23 @@ class AddBankInfoApplicant extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->string('bank_account_no');
-            $table->string('bank_account_name');
-            $table->string('banK_name');
-            $table->string('license_no');
-            $table->string('license_photo_1');
-            $table->string('pdf');
+            $table->string('bank_account_no')->nullable();
+            $table->string('bank_account_name')->nullable();
+            $table->string('banK_name')->nullable();
+            $table->string('license_no')->nullable();
+            $table->string('license_photo_1')->nullable();
+            $table->string('pdf')->nullable();
             $table->uuid('uuid');
-            $table->string('license_photo_2');
+            $table->string('license_photo_2')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

@@ -12,7 +12,7 @@ class AddExamDateToApplicantsTable extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->string('exam_date')->after('utm_term');
+            $table->string('exam_date')->nullable()->after('utm_term');
         });
     }
 

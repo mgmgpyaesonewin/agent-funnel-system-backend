@@ -372,8 +372,11 @@ class ApplicantController extends Controller
     public function certificate(Request $request)
     {
         $applicant = Applicant::where('uuid', $request->uuid)->first();
+
         if ($request->hasFile('certificate')) {
-            $path = $request->file('certificate')->store('certificates', 'public');
+            $file = $request->file('certificate');
+            $path = $file->store('certificates', 'public');
+
             $applicant->certificate = $path;
             $applicant->save();
 
