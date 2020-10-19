@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\BOPSession;
+use App\Http\Requests\BOPSessionRequest;
+use Carbon\Carbon;
+use DB;
+use Exception;
 use Illuminate\Http\Request;
 
 class BOPSessionController extends Controller
@@ -14,6 +18,9 @@ class BOPSessionController extends Controller
      */
     public function index()
     {
+        $sessions = BOPSession::paginate(15);
+
+        return view('pages.b_o_p_sessions.index', compact('sessions'));
     }
 
     /**
@@ -23,6 +30,7 @@ class BOPSessionController extends Controller
      */
     public function create()
     {
+        return view('pages.b_o_p_sessions.create');
     }
 
     /**
@@ -30,8 +38,24 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BOPSessionRequest $request)
     {
+        DB::beginTransaction();
+
+        try {
+            $data = $request->validated();
+
+            $session = new BOPSession();
+            $session->title = $data['title'];
+            $session->session = Carbon::parse("{$data['date']} {$data['time']}");
+            $session->url = $data['url'];
+            $session->save();
+            DB::commit();
+
+            return redirect('/sessions')->with('message', 'Created Successfully');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**

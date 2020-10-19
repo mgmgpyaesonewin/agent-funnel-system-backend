@@ -75,6 +75,11 @@ Vue.component(
   require("./components/CertificateFileUpload.vue").default
 );
 
+Vue.component(
+  "v-bop-sessions-date-time-picker",
+  require("./components/BOPSessions/DateTimePicker.vue").default
+);
+
 Vue.prototype.$location = window.location;
 
 /**
