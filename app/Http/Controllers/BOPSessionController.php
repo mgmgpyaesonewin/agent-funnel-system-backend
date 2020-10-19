@@ -7,7 +7,6 @@ use App\Http\Requests\BOPSessionRequest;
 use Carbon\Carbon;
 use DB;
 use Exception;
-use Illuminate\Http\Request;
 
 class BOPSessionController extends Controller
 {
@@ -18,7 +17,7 @@ class BOPSessionController extends Controller
      */
     public function index()
     {
-        $sessions = BOPSession::paginate(15);
+        $sessions = BOPSession::latest()->paginate(15);
 
         return view('pages.b_o_p_sessions.index', compact('sessions'));
     }
@@ -72,8 +71,9 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(BOPSession $bOPSession)
+    public function edit(BOPSession $session)
     {
+        return view('pages.b_o_p_sessions.edit', compact('session'));
     }
 
     /**
@@ -81,8 +81,23 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BOPSession $bOPSession)
+    public function update(BOPSessionRequest $request, BOPSession $session)
     {
+        DB::beginTransaction();
+
+        try {
+            $data = $request->validated();
+
+            $session->title = $data['title'];
+            $session->session = Carbon::parse("{$data['date']} {$data['time']}");
+            $session->url = $data['url'];
+            $session->save();
+            DB::commit();
+
+            return redirect('/sessions')->with('message', 'Updated Successfully');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**
@@ -90,7 +105,17 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BOPSession $bOPSession)
+    public function destroy(BOPSession $session)
     {
+        DB::beginTransaction();
+
+        try {
+            $session->delete();
+            DB::commit();
+
+            return redirect('/sessions')->with('message', 'Deleted Successfully');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 }

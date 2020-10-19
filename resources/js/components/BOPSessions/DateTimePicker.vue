@@ -35,6 +35,8 @@ export default {
     type: String,
     placeholder: String,
     name: String,
+    edit: Boolean,
+    dataValue: String,
   },
   data() {
     return {
@@ -45,6 +47,11 @@ export default {
     notBeforeToday(date) {
       return date < new Date(new Date().setHours(0, 0, 0, 0));
     },
+  },
+  mounted() {
+    if (this.edit) {
+      this.value = this.dataValue;
+    }
   },
 };
 </script>

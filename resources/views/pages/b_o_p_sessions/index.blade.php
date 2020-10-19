@@ -9,32 +9,42 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-body table-responsive">
-                    <div class="d-flex">
+                    <div class="d-flex mb-2">
                         <div class="ml-auto">
                             <a href="{{url('sessions/create')}}" class="btn btn-primary">Create</a>
                         </div>
                     </div>
+                    @if (session()->has('message'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <p class="mb-0">{{ session('message') }}</p>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    @endif
 
                     <table class="table table-striped table-bordered">
                         <thead>
-                            <tr class="d-flex">
-                                <th class="col-1">#</th>
-                                <th class="col-2">Title</th>
-                                <th class="col-2">Date</th>
-                                <th class="col-2">Time</th>
-                                <th class="col-3">URL</th>
-                                <th class="col-2">Action</th>
+                            <tr>
+                                <th>#</th>
+                                <th style="max-width: 8rem;">Title</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th style="max-width: 10rem;">URL</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($sessions as $session)
-                            <tr class="d-flex">
-                                <th class="col-1">{{ $session->id }}</th>
-                                <td class="col-2">{{ $session->title }}</td>
-                                <td class="col-2">{{ $session->session }}</td>
-                                <td class="col-2">{{ $session->session }}</td>
-                                <td class="col-3">{{ $session->url }}</td>
-                                <td class="col-2">
+                            <tr>
+                                <th>{{ $session->id }}</th>
+                                <td style="max-width: 8rem;">{{ $session->title }}</td>
+                                <td>{{ $session->getDate() }}</td>
+                                <td>{{ $session->getTime() }}</td>
+                                <td style="max-width: 10rem;">
+                                    <a href="{{ $session->url }}" class="alert-link">{{ $session->url }}</a>
+                                </td>
+                                <td>
                                     <div class="row">
                                         <a href="{{route('sessions.edit',$session->id)}}"
                                             class="btn btn-warning mr-1">Edit</a>
