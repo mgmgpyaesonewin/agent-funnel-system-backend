@@ -121,9 +121,9 @@ class ExportController extends Controller
 
     public function pdfView(Request $request)
     {
-        $applicant = Applicant::where('id', 1)->first();
+        $applicant = Applicant::where('id', 601)->first();
         $applicant->agreement_no = $applicant->temp_id;
-        $contract = Contract::where('version', 1)->where('applicant_id', 1)->first();
+        $contract = Contract::where('version', 1)->where('applicant_id', 601)->first();
         $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
         $applicant->agreement_no = $contract->agreement_no;
         $applicant->applicant_sign_img = $contract->applicant_sign_img;
