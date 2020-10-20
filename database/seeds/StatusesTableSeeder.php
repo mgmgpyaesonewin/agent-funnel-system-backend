@@ -21,6 +21,7 @@ class StatusesTableSeeder extends Seeder
             ['id' => 8, 'title' => 'Active'],
             ['id' => 9, 'title' => 'Inactive'],
             ['id' => 10, 'title' => 'Ceased Association'],
+            ['id' => 11, 'title' => 'Waiting Payment'],
         ];
 
         foreach ($items as $item) {
