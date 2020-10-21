@@ -4,12 +4,14 @@
 
 use App\Applicant;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(Applicant::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'phone' => $faker->phoneNumber,
         'dob' => $faker->dateTimeBetween('-30 years', '-18 years'),
+        'uuid' => (string) Str::uuid(),
         'gender' => $faker->numberBetween(0, 1),
         'nrc' => $faker->numerify('12/SaKhaNa(N)######'),
         'current_status' => 'pre_filter',
