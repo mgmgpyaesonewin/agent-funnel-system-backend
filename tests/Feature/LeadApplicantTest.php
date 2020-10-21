@@ -9,7 +9,6 @@ use App\Status;
 use App\User;
 use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -42,7 +41,6 @@ class LeadApplicantTest extends TestCase
     public function leadNewApplicantOnAcceptedShouldBeSetAsBopNew()
     {
         // given
-        Event::fake();
         $new_status_id = Status::where('title', 'New')->first()->id;
         $applicant = factory(Applicant::class)->create([
             'phone' => '09796874359',
@@ -71,7 +69,6 @@ class LeadApplicantTest extends TestCase
         $this->assertEquals($applicant_status->current_status, 'bop_session');
         $this->assertEquals($applicant_status->status_id, $new_status_id);
 
-        Event::assertDispatched(InviteBopSession::class);
         $invited_session = DB::table('applicant_bop_session')
             ->where('applicant_id', $applicant->id)
             ->where('bop_session_id', $session->id)
