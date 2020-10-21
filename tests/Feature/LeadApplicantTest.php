@@ -26,7 +26,6 @@ class LeadApplicantTest extends TestCase
     {
         parent::setUp();
         $this->withoutExceptionHandling();
-        Event::fake();
 
         $this->admin = factory(User::class)->create([
             'is_admin' => 1,
@@ -75,7 +74,5 @@ class LeadApplicantTest extends TestCase
             ->where('attendance_status', 'invited')->first();
 
         $this->assertEquals($invited_session->id, $session->id);
-
-        Event::assertDispatched(NotifiedApplicant::class);
     }
 }

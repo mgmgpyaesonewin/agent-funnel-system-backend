@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Applicant;
 use App\Classes\Viber\ContentType;
 use App\Contract;
+use App\Events\InviteBOPSession;
 use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
 use App\Interfaces\ContractInterface;
@@ -453,6 +454,13 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $request->id)->first();
         $applicant->current_status = $current_status;
         $applicant->status_id = $status_id;
+
+        if ('bop_session' == $current_status && '1' == $status_id) {
+            if (!isset($request->session_id)) {
+                return;
+            }
+            event(new InviteBOPSession($applicant->id, $request->session_id));
+        }
 
         if ('onboard' == $current_status && 7 == $status_id) {
             $contract_version = $contract->resendContract($applicant->id);

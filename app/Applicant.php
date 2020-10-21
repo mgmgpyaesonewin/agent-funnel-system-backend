@@ -77,6 +77,11 @@ class Applicant extends Model
         return $this->belongsToMany('App\Status')->withPivot('current_status', 'user_id')->withTimestamps();
     }
 
+    public function bop_sessions()
+    {
+        return $this->belongsToMany('App\BOPSession')->withPivot('attendance_status')->withTimestamps();
+    }
+
     public function interviews()
     {
         return $this->hasMany('App\Interview', 'applicants_id');

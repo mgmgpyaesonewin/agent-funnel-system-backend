@@ -18,4 +18,9 @@ class BOPSession extends Model
     {
         return Carbon::parse($this->session)->format('h:i A');
     }
+
+    public function applicants()
+    {
+        return $this->belongsToMany('App\Applicant')->withPivot('attendance_status')->withTimestamps();
+    }
 }
