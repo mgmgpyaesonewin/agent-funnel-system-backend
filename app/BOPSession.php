@@ -5,8 +5,9 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class BOPSession extends Model
+class BopSession extends Model
 {
+    protected $table = 'bop_sessions';
     protected $guarded = [];
 
     public function getDate()
@@ -21,6 +22,6 @@ class BOPSession extends Model
 
     public function applicants()
     {
-        return $this->belongsToMany('App\Applicant')->withPivot('attendance_status')->withTimestamps();
+        return $this->belongsToMany('App\Applicant', 'applicant_bop_session')->withPivot('attendance_status')->withTimestamps();
     }
 }

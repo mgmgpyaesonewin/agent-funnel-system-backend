@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\BOPSession;
+use App\BopSession;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -10,7 +10,7 @@ use Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class BOPSessionTest extends TestCase
+class BopSessionTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -19,7 +19,7 @@ class BOPSessionTest extends TestCase
     {
         $dateTime = now();
 
-        $session = BOPSession::create([
+        $session = BopSession::create([
             'title' => 'Some Title',
             'session' => $dateTime,
             'url' => 'Some URL',

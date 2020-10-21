@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\BOPSession;
+use App\BopSession;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,7 +12,7 @@ use Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class BOPSessionTest extends TestCase
+class BopSessionTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -34,9 +34,9 @@ class BOPSessionTest extends TestCase
     /**
      * @test
      */
-    public function prudentialAdminCanCreateBOPSession()
+    public function prudentialAdminCanCreateBopSession()
     {
-        $session = factory(BOPSession::class)->make();
+        $session = factory(BopSession::class)->make();
 
         $response = $this->actingAs($this->admin)->post('/sessions', [
             'title' => $session->title,
@@ -45,7 +45,7 @@ class BOPSessionTest extends TestCase
             'url' => $session->url,
         ]);
 
-        $created_session = BOPSession::first();
+        $created_session = BopSession::first();
 
         $response->assertRedirect('/sessions');
         $this->assertEquals($session->title, $created_session->title);
@@ -55,9 +55,9 @@ class BOPSessionTest extends TestCase
     }
 
     /** @test */
-    public function userCanSeeBOPSessions()
+    public function userCanSeeBopSessions()
     {
-        $sessions = factory(BOPSession::class, 15)->create();
+        $sessions = factory(BopSession::class, 15)->create();
 
         $response = $this->actingAs($this->admin)->get('/sessions');
 
@@ -69,9 +69,9 @@ class BOPSessionTest extends TestCase
     }
 
     /** @test */
-    public function prudentialAdminCanEditBOPSessions()
+    public function prudentialAdminCanEditBopSessions()
     {
-        $session = factory(BOPSession::class)->create();
+        $session = factory(BopSession::class)->create();
 
         $response = $this->actingAs($this->admin)->get("/sessions/{$session->id}/edit");
 
@@ -86,10 +86,10 @@ class BOPSessionTest extends TestCase
     }
 
     /** @test */
-    public function prudentialAdminCanUpdateBOPSession()
+    public function prudentialAdminCanUpdateBopSession()
     {
-        $session = factory(BOPSession::class)->create();
-        $session_to_update = factory(BOPSession::class)->make();
+        $session = factory(BopSession::class)->create();
+        $session_to_update = factory(BopSession::class)->make();
 
         $response = $this->actingAs($this->admin)->put(route('sessions.update', $session->id), [
             'title' => $session_to_update->title,
@@ -101,7 +101,7 @@ class BOPSessionTest extends TestCase
         $response->assertRedirect('/sessions');
         $response->assertSessionHas('message', 'Updated Successfully');
 
-        $updatedSession = BOPSession::find($session->id);
+        $updatedSession = BopSession::find($session->id);
         $this->assertEquals($session_to_update->title, $updatedSession->title);
         $this->assertEquals($session_to_update->getDate(), $updatedSession->getDate());
         $this->assertEquals($session_to_update->getTime(), $updatedSession->getTime());
@@ -111,13 +111,13 @@ class BOPSessionTest extends TestCase
     /** @test */
     public function adminCanDeleteSession()
     {
-        $session = factory(BOPSession::class)->create();
+        $session = factory(BopSession::class)->create();
         $response = $this->actingAs($this->admin)->delete(route('sessions.destroy', $session->id));
 
         $response->assertRedirect('/sessions');
         $response->assertSessionHas('message', 'Deleted Successfully');
 
-        $isSessionDeletedCount = count(BOPSession::where('id', $session->id)->get());
+        $isSessionDeletedCount = count(BopSession::where('id', $session->id)->get());
         $this->assertEquals($isSessionDeletedCount, 0);
     }
 }

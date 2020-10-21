@@ -3,9 +3,9 @@
 namespace App\Listeners;
 
 use App\Applicant;
-use App\BOPSession;
+use App\BopSession;
 use App\Classes\Viber\ContentType;
-use App\Events\InviteBOPSession;
+use App\Events\InviteBopSession;
 use App\Services\Interfaces\ViberServiceInterface;
 use Config;
 
@@ -21,10 +21,10 @@ class NotifyApplicant
     /**
      * Handle the event.
      */
-    public function handle(InviteBOPSession $event)
+    public function handle(InviteBopSession $event)
     {
         $applicant = Applicant::where('id', $event->applicant_id)->first();
-        $session = BOPSession::where('id', $event->session_id)->first();
+        $session = BopSession::where('id', $event->session_id)->first();
 
         $text = $this->viber->getMetaValueByKey('bop_session_msg')->text.' '.$session->title;
         $image = $this->viber->getMetaValueByKey('bop_session_msg')->image;

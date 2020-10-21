@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Applicant;
 use App\Classes\Viber\ContentType;
 use App\Contract;
-use App\Events\InviteBOPSession;
+use App\Events\InviteBopSession;
 use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
 use App\Interfaces\ContractInterface;
@@ -459,7 +459,7 @@ class ApplicantController extends Controller
             if (!isset($request->session_id)) {
                 return;
             }
-            event(new InviteBOPSession($applicant->id, $request->session_id));
+            event(new InviteBopSession($applicant->id, $request->session_id));
         }
 
         if ('onboard' == $current_status && 7 == $status_id) {

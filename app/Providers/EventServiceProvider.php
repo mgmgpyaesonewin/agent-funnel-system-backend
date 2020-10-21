@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use App\Events\ApplicantUpdating;
-use App\Events\InviteBOPSession;
+use App\Events\InviteBopSession;
 use App\Listeners\GenerateTemporaryId;
-use App\Listeners\InviteApplicantBOPSession;
+use App\Listeners\InviteApplicantBopSession;
 use App\Listeners\NotifyApplicant;
 use App\Listeners\SendViberNotification;
 use Illuminate\Auth\Events\Registered;
@@ -28,8 +28,8 @@ class EventServiceProvider extends ServiceProvider
             GenerateTemporaryId::class,
             SendViberNotification::class,
         ],
-        InviteBOPSession::class => [
-            InviteApplicantBOPSession::class,
+        InviteBopSession::class => [
+            InviteApplicantBopSession::class,
             NotifyApplicant::class,
         ],
     ];

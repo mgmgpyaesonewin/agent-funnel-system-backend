@@ -66,7 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('template/activate/{id}', 'TemplateFormController@activate');
     Route::resource('templateforms', 'TemplateFormController');
     Route::resource('trainings', 'TrainingController');
-    Route::resource('sessions', 'BOPSessionController');
+    Route::resource('sessions', 'BopSessionController');
     Route::resource('partners', 'PartnerController');
     Route::resource('payments', 'PaymentController');
     Route::resource('users', 'UserController');

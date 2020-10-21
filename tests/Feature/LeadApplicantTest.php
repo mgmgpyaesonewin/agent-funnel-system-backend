@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Applicant;
-use App\BOPSession;
+use App\BopSession;
 use App\Status;
 use App\User;
 use DB;
@@ -49,7 +49,7 @@ class LeadApplicantTest extends TestCase
             'status_id' => $new_status_id,
         ]);
 
-        $session = factory(BOPSession::class)->create();
+        $session = factory(BopSession::class)->create();
 
         // when
         $this->actingAs($this->admin, 'api')->post("/api/applicants/update/{$applicant->id}", [
@@ -67,8 +67,8 @@ class LeadApplicantTest extends TestCase
         $this->assertEquals($applicant_status->current_status, 'bop_session');
         $this->assertEquals($applicant_status->status_id, $new_status_id);
 
-        Event::assertDispatched(InviteBOPSession::class);
-        $invited_session = DB::table('applicant_b_o_p_session')
+        Event::assertDispatched(InviteBopSession::class);
+        $invited_session = DB::table('applicant_bop_session')
             ->where('applicant_id', $applicant->id)
             ->where('b_o_p_session_id', $session->id)
             ->where('attendance_status', 'invited')->first();

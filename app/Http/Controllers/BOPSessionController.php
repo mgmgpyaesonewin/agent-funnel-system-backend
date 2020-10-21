@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\BOPSession;
-use App\Http\Requests\BOPSessionRequest;
+use App\BopSession;
+use App\Http\Requests\BopSessionRequest;
 use Carbon\Carbon;
 use DB;
 use Exception;
 
-class BOPSessionController extends Controller
+class BopSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class BOPSessionController extends Controller
      */
     public function index()
     {
-        $sessions = BOPSession::latest()->paginate(15);
+        $sessions = BopSession::latest()->paginate(15);
 
         return view('pages.b_o_p_sessions.index', compact('sessions'));
     }
@@ -37,14 +37,14 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(BOPSessionRequest $request)
+    public function store(BopSessionRequest $request)
     {
         DB::beginTransaction();
 
         try {
             $data = $request->validated();
 
-            $session = new BOPSession();
+            $session = new BopSession();
             $session->title = $data['title'];
             $session->session = Carbon::parse("{$data['date']} {$data['time']}");
             $session->url = $data['url'];
@@ -62,7 +62,7 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(BOPSession $bOPSession)
+    public function show(BopSession $bOPSession)
     {
     }
 
@@ -71,7 +71,7 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(BOPSession $session)
+    public function edit(BopSession $session)
     {
         return view('pages.b_o_p_sessions.edit', compact('session'));
     }
@@ -81,7 +81,7 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(BOPSessionRequest $request, BOPSession $session)
+    public function update(BopSessionRequest $request, BopSession $session)
     {
         DB::beginTransaction();
 
@@ -105,7 +105,7 @@ class BOPSessionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BOPSession $session)
+    public function destroy(BopSession $session)
     {
         DB::beginTransaction();
 

@@ -5,7 +5,7 @@ namespace App\Events;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class InviteBOPSession
+class InviteBopSession
 {
     use Dispatchable;
     use SerializesModels;
