@@ -76,4 +76,29 @@ class LeadApplicantTest extends TestCase
 
         $this->assertEquals($invited_session->id, $session->id);
     }
+
+    /** @test */
+    public function leadNewNotInterestedApplicantsShouldBeSetAsBopSessionRejected()
+    {
+        // given
+        $status_new_id = Status::where('title', 'New')->first()->id;
+        $status_rejected_id = Status::where('title', 'Rejected')->first()->id;
+        $applicant = factory(Applicant::class)->create([
+            'phone' => '09796874359',
+            'current_status' => 'lead',
+            'status_id' => $status_new_id,
+        ]);
+
+        // when
+        $this->actingAs($this->admin, 'api')->post("/api/applicants/update/{$applicant->id}", [
+            'current_status' => 'bop_session',
+            'status_id' => $status_rejected_id,
+        ]);
+
+        // then
+        $updated_applicant = Applicant::where('id', $applicant->id)->first();
+
+        $this->assertEquals('bop_session', $updated_applicant->current_status);
+        $this->assertEquals($updated_applicant->status_id, $status_rejected_id);
+    }
 }
