@@ -18,7 +18,6 @@ class CreateApplicantBopSessionTable extends Migration
             $table->bigInteger('bop_session_id')->unsigned()->nullable();
             $table->foreign('bop_session_id')->references('id')->on('bop_sessions');
             $table->enum('attendance_status', ['invited', 'present', 'absent']);
-
             $table->timestamps();
         });
     }

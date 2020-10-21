@@ -79,7 +79,7 @@ class Applicant extends Model
 
     public function bop_sessions()
     {
-        return $this->belongsToMany('App\BopSession', 'applicant_bop_session')->withPivot('attendance_status')->withTimestamps();
+        return $this->belongsToMany('App\BopSession')->withPivot('attendance_status')->withTimestamps();
     }
 
     public function interviews()

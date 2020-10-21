@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Applicant;
 use App\BopSession;
+use App\Setting;
 use App\Status;
 use App\User;
 use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use JWTAuth;
 use Tests\TestCase;
 
 /**
@@ -42,6 +42,7 @@ class LeadApplicantTest extends TestCase
     public function leadNewApplicantOnAcceptedShouldBeSetAsBopNew()
     {
         // given
+        Event::fake();
         $new_status_id = Status::where('title', 'New')->first()->id;
         $applicant = factory(Applicant::class)->create([
             'phone' => '09796874359',
@@ -50,6 +51,9 @@ class LeadApplicantTest extends TestCase
         ]);
 
         $session = factory(BopSession::class)->create();
+        factory(Setting::class)->create([
+            'meta_key' => 'bop_session_msg',
+        ]);
 
         // when
         $this->actingAs($this->admin, 'api')->post("/api/applicants/update/{$applicant->id}", [
@@ -70,7 +74,7 @@ class LeadApplicantTest extends TestCase
         Event::assertDispatched(InviteBopSession::class);
         $invited_session = DB::table('applicant_bop_session')
             ->where('applicant_id', $applicant->id)
-            ->where('b_o_p_session_id', $session->id)
+            ->where('bop_session_id', $session->id)
             ->where('attendance_status', 'invited')->first();
 
         $this->assertEquals($invited_session->id, $session->id);
