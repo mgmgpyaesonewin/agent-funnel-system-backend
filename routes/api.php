@@ -52,4 +52,6 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::post('/applicants/aml/update', 'ApplicantController@updateAML');
     Route::post('/document/save', 'SettingController@updateDocument');
+
+    Route::get('/sessions', 'BopSessionController@getAllSessions');
 });

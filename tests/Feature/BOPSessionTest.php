@@ -120,4 +120,16 @@ class BopSessionTest extends TestCase
         $isSessionDeletedCount = count(BopSession::where('id', $session->id)->get());
         $this->assertEquals($isSessionDeletedCount, 0);
     }
+
+    /** @test */
+    public function getAllBopSessions()
+    {
+        $sessions = factory(BopSession::class, 20)->create();
+        $response = $this->actingAs($this->admin, 'api')->get('/api/sessions');
+
+        $data = $response->getOriginalContent();
+
+        $this->assertEquals(true, $data['status']);
+        $this->assertCount(count($sessions), $data['sessions']);
+    }
 }

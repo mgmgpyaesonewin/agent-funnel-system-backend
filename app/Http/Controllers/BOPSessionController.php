@@ -22,6 +22,14 @@ class BopSessionController extends Controller
         return view('pages.b_o_p_sessions.index', compact('sessions'));
     }
 
+    public function getAllSessions()
+    {
+        return response()->json([
+            'status' => true,
+            'sessions' => BopSession::all()
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
