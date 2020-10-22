@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     // SY Ends
 
     Route::get('/pre_filter', 'ApplicantController@preFilterPage');
+    Route::get('/bop_session', 'ApplicantController@bopSessionPage');
     Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');
     Route::get('/pmli_filter', 'ApplicantController@pmliFilter');
     Route::get('/trainee', 'ApplicantController@traineePage');

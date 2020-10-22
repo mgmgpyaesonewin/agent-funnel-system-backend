@@ -214,6 +214,13 @@ class ApplicantController extends Controller
         return view('pages.applicants.pre_filter', compact('statuses'));
     }
 
+    public function bopSessionPage(Request $request)
+    {
+        $statuses = Status::whereIn('id', [1, 4])->get();
+
+        return view('pages.applicants.bop_session', compact('statuses'));
+    }
+
     public function createuser(UserApiRequest $req)
     {
         $data = $req->validated();
@@ -456,10 +463,9 @@ class ApplicantController extends Controller
         $applicant->status_id = $status_id;
 
         if ('bop_session' == $current_status && '1' == $status_id) {
-            if (!isset($request->session_id)) {
-                return;
+            if (isset($request->session_id)) {
+                event(new InviteBopSession($applicant->id, $request->session_id));
             }
-            event(new InviteBopSession($applicant->id, $request->session_id));
         }
 
         if ('onboard' == $current_status && 7 == $status_id) {

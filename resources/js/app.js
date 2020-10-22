@@ -80,6 +80,11 @@ Vue.component(
   require("./components/BOPSessions/DateTimePicker.vue").default
 );
 
+Vue.component(
+  "v-bop-sessions-button",
+  require("./components/BOPSessions/Button.vue").default
+);
+
 Vue.prototype.$location = window.location;
 
 /**

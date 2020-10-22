@@ -94,7 +94,7 @@ class BopSessionTest extends TestCase
         $response = $this->actingAs($this->admin)->put(route('sessions.update', $session->id), [
             'title' => $session_to_update->title,
             'date' => $session_to_update->getDate(),
-            'time' => $session_to_update->getTIme(),
+            'time' => $session_to_update->getTime(),
             'url' => $session_to_update->url,
         ]);
 
@@ -121,6 +121,15 @@ class BopSessionTest extends TestCase
         $this->assertEquals($isSessionDeletedCount, 0);
     }
 
+    public function bopSessionsPageExist()
+    {
+        $response = $this->actingAs($this->admin)->get('/bop_session');
+
+        $response->assertStatus(200);
+        $response->assertViewIs('pages.b_o_p_sessions.index');
+        
+    }
+
     /** @test */
     public function getAllBopSessions()
     {
@@ -131,5 +140,24 @@ class BopSessionTest extends TestCase
 
         $this->assertEquals(true, $data['status']);
         $this->assertCount(count($sessions), $data['sessions']);
+    }
+
+    /** @test */
+    public function searchBopSessions()
+    {
+        factory(BopSession::class)->create([
+            'title' => 'Just BOP Session'
+        ]);
+
+        $session = factory(BopSession::class)->create([
+            'title' => 'Test BOP Session'
+        ]);
+
+        $response = $this->actingAs($this->admin, 'api')->get('/api/sessions?q=Test');
+
+        $data = $response->getOriginalContent();
+
+        $this->assertEquals(true, $data['status']);
+        $this->assertCount(1, $data['sessions']);
     }
 }

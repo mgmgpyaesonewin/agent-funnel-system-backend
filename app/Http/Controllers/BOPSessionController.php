@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\BopSession;
 use App\Http\Requests\BopSessionRequest;
+use App\Http\Resources\BopSessionResource;
 use Carbon\Carbon;
 use DB;
 use Exception;
+use Illuminate\Http\Request;
 
 class BopSessionController extends Controller
 {
@@ -22,11 +24,16 @@ class BopSessionController extends Controller
         return view('pages.b_o_p_sessions.index', compact('sessions'));
     }
 
-    public function getAllSessions()
+    public function getAllSessions(Request $request)
     {
+        $keyword = $request->q;
+        $bop_sessions = BopSession::when($keyword, function ($query, $keyword) {
+                            return $query->where('title', 'like', "%{$keyword}%");
+                        })->get();
+
         return response()->json([
             'status' => true,
-            'sessions' => BopSession::all()
+            'sessions' => BopSessionResource::collection($bop_sessions)
         ]);
     }
 

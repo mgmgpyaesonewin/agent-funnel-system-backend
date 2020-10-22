@@ -38,6 +38,13 @@
       "role": "all"
     },
     {
+      "url": "/bop_session",
+      "name": "BOP Session",
+      "slug": "bop_session",
+      "icon": "feather icon-list",
+      "role": "all"
+    },
+    {
       "url": "/pre_filter",
       "name": "Background Check",
       "slug": "pending",
