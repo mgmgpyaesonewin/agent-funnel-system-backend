@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'BOP Sessions')
+@section('title', 'Business Opportunity Presentation Sessions')
 
 @section('content')
 @include('layouts._flash-message')
@@ -49,9 +49,9 @@
                                         <a href="{{route('sessions.edit',$session->id)}}"
                                             class="btn btn-warning mr-1">Edit</a>
                                         <form method="POST" action="{{route('sessions.destroy',$session->id)}}">
-                                            @method('delete')
+                                            @method('DELETE')
                                             @csrf
-                                            <button class="btn btn-outline-danger">Delete</button>
+                                            <button type="submit" class="btn btn-outline-danger">Delete</button>
                                         </form>
                                     </div>
                                 </td>

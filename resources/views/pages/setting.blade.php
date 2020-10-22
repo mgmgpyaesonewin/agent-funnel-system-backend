@@ -122,6 +122,10 @@
                   Active Contract (Contract & Agent)
                   @break
 
+                  @case('bop_session_msg')
+                  Business Opportunity Presentation (BOP Session Stage)
+                  @break
+
                   @endswitch
                 </strong></label>
               @php $data = json_decode( $temp->meta_value, true ); @endphp

@@ -123,7 +123,6 @@ class BopSessionController extends Controller
     public function destroy(BopSession $session)
     {
         DB::beginTransaction();
-
         try {
             $session->delete();
             DB::commit();

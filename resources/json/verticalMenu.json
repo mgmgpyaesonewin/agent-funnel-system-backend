@@ -25,6 +25,12 @@
       "role": "staff"
     },
     {
+      "url": "/sessions",
+      "name": "Presentation Session",
+      "icon": "fa fa-television",
+      "role": "staff"
+    },
+    {
       "url": "",
       "navheader": "Applicants",
       "icon": "",
@@ -41,7 +47,7 @@
       "url": "/bop_session",
       "name": "BOP Session",
       "slug": "bop_session",
-      "icon": "feather icon-list",
+      "icon": "fa fa-television",
       "role": "all"
     },
     {

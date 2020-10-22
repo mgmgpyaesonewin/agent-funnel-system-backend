@@ -26,12 +26,12 @@
                             :is-partner="{{ auth()->user()->partner_id != null ? 1 : 0 }}">
                             <template scope="{ applicant }">
                                 <div class="btn-group mt-1" v-show="applicant.status_id === 1">
-                                    <v-bop-sessions-button button-class="btn btn-success"
+                                    <v-button button-class="btn btn-success"
                                         :old-current-status="applicant.current_status" new-current-status="pre_filter"
                                         :old-status-id="applicant.status_id" :new-status-id="1"
-                                        :applicant-id="applicant.id">
+                                        :applicant-id="applicant.id" type="accept">
                                         <i class="fa fa-check" aria-hidden="true"></i>
-                                    </v-bop-sessions-button>
+                                    </v-button>
                                     <v-button button-class="btn btn-secondary"
                                         :old-current-status="applicant.current_status" new-current-status="bop_session"
                                         :old-status-id="applicant.status_id" :new-status-id="4"
