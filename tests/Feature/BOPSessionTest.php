@@ -127,7 +127,6 @@ class BopSessionTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertViewIs('pages.b_o_p_sessions.index');
-        
     }
 
     /** @test */
@@ -146,11 +145,11 @@ class BopSessionTest extends TestCase
     public function searchBopSessions()
     {
         factory(BopSession::class)->create([
-            'title' => 'Just BOP Session'
+            'title' => 'Just BOP Session',
         ]);
 
         $session = factory(BopSession::class)->create([
-            'title' => 'Test BOP Session'
+            'title' => 'Test BOP Session',
         ]);
 
         $response = $this->actingAs($this->admin, 'api')->get('/api/sessions?q=Test');

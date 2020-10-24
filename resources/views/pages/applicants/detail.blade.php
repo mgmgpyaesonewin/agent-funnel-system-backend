@@ -280,6 +280,24 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>B.O.P Sessions</h4>
+                            </div>
+                            <div class="card-body">
+                                <ul>
+                                    @foreach ($applicant->bop_sessions as $session)
+                                    <li>
+                                        {{ $session->title }} ({{ $session->getDate().' '.$session->getTime() }})
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Training -->
                 <div class="row">
                     <div class="col-12">

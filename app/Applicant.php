@@ -192,4 +192,11 @@ class Applicant extends Model
             return $this->save($options);
         });
     }
+
+    public function inviteBopSession($session_id)
+    {
+        $this->bop_sessions()->attach($session_id, [
+            'attendance_status' => 'invited',
+        ]);
+    }
 }
