@@ -13,6 +13,7 @@ class UserObserver
     public function created(User $user)
     {
         $user->utm_source = $this->generateUtmSource($user->name, $user->id);
+        $user->saveQuietly();
     }
 
     /**

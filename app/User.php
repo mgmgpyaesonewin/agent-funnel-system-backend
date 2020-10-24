@@ -118,4 +118,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo('App\Partner');
     }
+
+    public function saveQuietly(array $options = [])
+    {
+        return static::withoutEvents(function () use ($options) {
+            return $this->save($options);
+        });
+    }
 }
