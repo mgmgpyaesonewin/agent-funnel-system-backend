@@ -101,4 +101,29 @@ class LeadApplicantTest extends TestCase
         $this->assertEquals('bop_session', $updated_applicant->current_status);
         $this->assertEquals($updated_applicant->status_id, $status_rejected_id);
     }
+
+    /** @test */
+    public function newApplicantWithBdmUTMSourceShouldBeAssignForBdm()
+    {
+        $bdm = factory(User::class)->create([
+            'is_admin' => 0,
+            'is_bdm' => 1,
+            'is_ma' => 0,
+            'is_staff' => 0,
+        ]);
+
+        $applicant = factory(Applicant::class)->make();
+
+        $this->post('/api/createuser', [
+            'name' => $applicant->name,
+            'dob' => $applicant->dob,
+            'gender' => 'male',
+            'phone' => '09796874359',
+            'utm_source' => $bdm->utm_source,
+        ]);
+
+        $created_applicant = Applicant::first();
+
+        $this->assertEquals($bdm->id, $created_applicant->assign_bdm_id);
+    }
 }

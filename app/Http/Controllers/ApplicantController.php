@@ -224,15 +224,13 @@ class ApplicantController extends Controller
     public function createuser(UserApiRequest $req)
     {
         $data = $req->validated();
+
         $data['phone'] = str_replace('-', '', $data['phone']);
         $data['current_status'] = 'lead';
         $data['status_id'] = 1;
         $data['uuid'] = (string) Str::uuid();
 
-        return  Applicant::create($data)
-            ->statuses()
-            ->attach(1, ['current_status' => 'lead'])
-        ;
+        return  Applicant::create($data)->statuses()->attach(1, ['current_status' => 'lead']);
     }
 
     public function savePayment(Request $request)

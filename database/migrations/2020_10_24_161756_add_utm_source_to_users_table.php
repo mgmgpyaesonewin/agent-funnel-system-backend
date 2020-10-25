@@ -12,7 +12,7 @@ class AddUtmSourceToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('utm_source')->nullable();
+            $table->string('utm_source')->nullable()->after('partner_id');
         });
     }
 

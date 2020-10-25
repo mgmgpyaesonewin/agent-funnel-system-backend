@@ -17,7 +17,7 @@ class CreateApplicantStatusTable extends Migration
             $table->foreign('applicant_id')->references('id')->on('applicants');
             $table->bigInteger('status_id')->unsigned()->nullable();
             $table->foreign('status_id')->references('id')->on('statuses');
-            $table->enum('current_status', ['pre_filter', 'bop_session', 'pru_dna_test', 'pmli_filter', 'training', 'certification', 'onboard']);
+            $table->enum('current_status', ['pre_filter', 'bop_session', 'pru_dna_test', 'pmli_filter', 'training', 'certification', 'onboard', 'active', 'lead', 'waiting_payment']);
             $table->timestamps();
         });
     }
