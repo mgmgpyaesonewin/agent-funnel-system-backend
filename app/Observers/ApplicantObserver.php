@@ -16,22 +16,24 @@ class ApplicantObserver
         $utm_source = Str::lower($applicant->utm_source);
 
         // Get user to Assign
-        $user = User::where('utm_source', $utm_source)->first();
+        $user = User::whereNull('partner_id')->where('utm_source', $utm_source)->first();
 
-        if ($user->is_admin) {
-            $applicant->assign_admin_id = $user->id;
-        }
+        if (!empty($user)) {
+            if ($user->is_admin) {
+                $applicant->assign_admin_id = $user->id;
+            }
 
-        if ($user->is_bdm) {
-            $applicant->assign_bdm_id = $user->id;
-        }
+            if ($user->is_bdm) {
+                $applicant->assign_bdm_id = $user->id;
+            }
 
-        if ($user->is_ma) {
-            $applicant->assign_ma_id = $user->id;
-        }
+            if ($user->is_ma) {
+                $applicant->assign_ma_id = $user->id;
+            }
 
-        if ($user->is_staff) {
-            $applicant->assign_staff_id = $user->id;
+            if ($user->is_staff) {
+                $applicant->assign_staff_id = $user->id;
+            }
         }
     }
 

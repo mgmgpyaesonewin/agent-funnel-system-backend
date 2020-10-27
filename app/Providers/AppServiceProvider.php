@@ -4,12 +4,16 @@ namespace App\Providers;
 
 use App\Applicant;
 use App\Observers\ApplicantObserver;
+use App\Observers\PartnerObserver;
 use App\Observers\UserObserver;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\ServiceProvider;
+use App\Partner;
+use App\Services\ApplicantService;
+use App\Services\Interfaces\ApplicantServiceInterface;
 use App\Services\Interfaces\ViberServiceInterface;
 use App\Services\ViberService;
 use App\User;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +28,11 @@ class AppServiceProvider extends ServiceProvider
             ViberServiceInterface::class,
             ViberService::class
         );
+
+        $this->app->bind(
+            ApplicantServiceInterface::class,
+            ApplicantService::class
+        );
     }
 
     /**
@@ -36,5 +45,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         User::observe(UserObserver::class);
         Applicant::observe(ApplicantObserver::class);
+        Partner::observe(PartnerObserver::class);
     }
 }

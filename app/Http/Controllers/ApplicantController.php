@@ -11,6 +11,7 @@ use App\Http\Resources\ApplicantResource;
 use App\Interfaces\ContractInterface;
 use App\Interview;
 use App\Partner;
+use App\Services\Interfaces\ApplicantServiceInterface;
 use App\Services\Interfaces\ViberServiceInterface;
 use App\Setting;
 use App\Status;
@@ -450,7 +451,7 @@ class ApplicantController extends Controller
         return asset('storage/'.$file);
     }
 
-    public function update(Request $request, ContractInterface $contract, ViberServiceInterface $viber)
+    public function update(Request $request, ContractInterface $contract, ViberServiceInterface $viber, ApplicantServiceInterface $applicantService)
     {
         $current_status = $request->current_status;
         $status_id = $request->status_id;
@@ -464,6 +465,10 @@ class ApplicantController extends Controller
             if (isset($request->session_id)) {
                 event(new InviteBopSession($applicant->id, $request->session_id));
             }
+        }
+
+        if ('pre_filter' == $applicant->current_status && 1 == $applicant->status_id) {
+            $applicant->assign_ma_id = $applicantService->getUserToAssign();
         }
 
         if ('onboard' == $current_status && 7 == $status_id) {
@@ -531,6 +536,12 @@ class ApplicantController extends Controller
         ]);
 
         $applicant->save();
+
+        if ('pre_filter' == $applicant->current_status && 1 == $applicant->status_id) {
+            $setting = Setting::where('meta_key', 'auto_assign_ma_user_current_id')->first();
+            $setting->meta_value = $applicant->assign_ma_id;
+            $setting->save();
+        }
 
         // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
 
