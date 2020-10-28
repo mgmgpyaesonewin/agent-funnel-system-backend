@@ -12,7 +12,7 @@ class ApplicantService implements ApplicantServiceInterface
     {
         $user_id = (int) Setting::where('meta_key', 'auto_assign_ma_user_current_id')->first()->meta_value;
 
-        if (0 === $user_id) {
+        if (0 === $user_id || empty(User::where('id', '>', $user_id)->ma()->min('id'))) {
             return User::ma()->first()->id;
         }
 

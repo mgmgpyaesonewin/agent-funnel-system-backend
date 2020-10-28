@@ -84,6 +84,12 @@ class BopSessionApplicantTest extends TestCase
             'status_id' => $new_status_id,
         ]);
 
+        $applicant_3 = factory(Applicant::class)->create([
+            'phone' => '09796874359',
+            'current_status' => 'bop_session',
+            'status_id' => $new_status_id,
+        ]);
+
         $this->actingAs($admin_user, 'api')->post("/api/applicants/update/{$applicant->id}", [
             'current_status' => 'pre_filter',
             'status_id' => $new_status_id,
@@ -94,11 +100,19 @@ class BopSessionApplicantTest extends TestCase
             'status_id' => $new_status_id,
         ]);
 
+        $this->actingAs($admin_user, 'api')->post("/api/applicants/update/{$applicant_3->id}", [
+            'current_status' => 'pre_filter',
+            'status_id' => $new_status_id,
+        ]);
+
         // then
         $updated_applicant = Applicant::where('id', $applicant->id)->first();
         $this->assertEquals($updated_applicant->assign_ma_id, $ma_user->id);
 
         $updated_applicant_2 = Applicant::where('id', $applicant_2->id)->first();
         $this->assertEquals($updated_applicant_2->assign_ma_id, $ma_user_2->id);
+
+        $updated_applicant_3 = Applicant::where('id', $applicant->id)->first();
+        $this->assertEquals($updated_applicant_3->assign_ma_id, $ma_user->id);
     }
 }
