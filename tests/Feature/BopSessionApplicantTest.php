@@ -63,12 +63,19 @@ class BopSessionApplicantTest extends TestCase
             'user_id' => $bdm_user->id,
         ]);
 
+        $bdm_user_2 = factory(User::class)->create([
+            'is_admin' => 0,
+            'is_bdm' => 1,
+            'is_ma' => 0,
+            'is_staff' => 0,
+        ]);
+
         $ma_user_2 = factory(User::class)->create([
             'is_admin' => 0,
             'is_bdm' => 0,
             'is_ma' => 1,
             'is_staff' => 0,
-            'user_id' => $bdm_user->id,
+            'user_id' => $bdm_user_2->id,
         ]);
 
         $new_status_id = Status::where('title', 'New')->first()->id;
@@ -108,11 +115,14 @@ class BopSessionApplicantTest extends TestCase
         // then
         $updated_applicant = Applicant::where('id', $applicant->id)->first();
         $this->assertEquals($updated_applicant->assign_ma_id, $ma_user->id);
+        $this->assertEquals($updated_applicant->assign_bdm_id, $bdm_user->id);
 
         $updated_applicant_2 = Applicant::where('id', $applicant_2->id)->first();
         $this->assertEquals($updated_applicant_2->assign_ma_id, $ma_user_2->id);
+        $this->assertEquals($updated_applicant_2->assign_bdm_id, $bdm_user_2->id);
 
         $updated_applicant_3 = Applicant::where('id', $applicant->id)->first();
         $this->assertEquals($updated_applicant_3->assign_ma_id, $ma_user->id);
+        $this->assertEquals($updated_applicant->assign_bdm_id, $bdm_user->id);
     }
 }
