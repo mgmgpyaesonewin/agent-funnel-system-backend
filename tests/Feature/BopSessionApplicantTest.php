@@ -19,7 +19,7 @@ class BopSessionApplicantTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function bopSessionApplicantOnAcceptedShouldBeAssiginForUser()
+    public function bop_session_applicant_on_accepted_should_be_assign_for_user()
     {
         $this->withoutExceptionHandling();
 

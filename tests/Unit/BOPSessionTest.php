@@ -17,7 +17,7 @@ class BopSessionTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function itHasTitleSessionDateTimeURL()
+    public function it_has_title_session_date_time_url()
     {
         $dateTime = now();
 
@@ -33,7 +33,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function itShouldShownInApplicantDetail()
+    public function it_should_shown_in_applicant_detail()
     {
         // given
         $sessions = factory(BopSession::class, 3)->create();

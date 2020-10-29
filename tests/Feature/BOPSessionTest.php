@@ -34,7 +34,7 @@ class BopSessionTest extends TestCase
     /**
      * @test
      */
-    public function prudentialAdminCanCreateBopSession()
+    public function prudential_admin_can_create_bop_session()
     {
         $session = factory(BopSession::class)->make();
 
@@ -55,7 +55,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function userCanSeeBopSessions()
+    public function user_can_see_bop_sessions()
     {
         $sessions = factory(BopSession::class, 15)->create();
 
@@ -71,7 +71,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function prudentialAdminCanEditBopSessions()
+    public function prudential_admin_can_edit_bop_sessions()
     {
         $session = factory(BopSession::class)->create();
 
@@ -88,7 +88,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function prudentialAdminCanUpdateBopSession()
+    public function prudential_admin_can_update_bop_session()
     {
         $session = factory(BopSession::class)->create();
         $session_to_update = factory(BopSession::class)->make();
@@ -111,7 +111,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function adminCanDeleteSession()
+    public function admin_can_delete_session()
     {
         $session = factory(BopSession::class)->create();
         $response = $this->actingAs($this->admin)->delete(route('sessions.destroy', $session->id));
@@ -132,7 +132,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function getAllBopSessions()
+    public function get_all_bop_sessions()
     {
         $sessions = factory(BopSession::class, 20)->create();
         $response = $this->actingAs($this->admin, 'api')->get('/api/sessions');
@@ -144,7 +144,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function searchBopSessions()
+    public function search_bop_sessions()
     {
         factory(BopSession::class)->create([
             'title' => 'Just BOP Session',

@@ -22,7 +22,7 @@ class PartnerTest extends TestCase
     use WithFaker;
 
     /** @test */
-    public function itShouldHasSlug()
+    public function it_should_has_slug()
     {
         $company = $this->faker->company;
         $slug = Str::slug($company);

@@ -15,7 +15,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function userHaveTheirOwnUTM()
+    public function user_have_their_own_utm()
     {
         $user = factory(User::class)->create([
             'name' => 'Pyae Sone',

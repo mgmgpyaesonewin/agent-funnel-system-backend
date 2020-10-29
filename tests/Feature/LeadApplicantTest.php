@@ -38,7 +38,7 @@ class LeadApplicantTest extends TestCase
     }
 
     /** @test */
-    public function leadNewApplicantOnAcceptedShouldBeSetAsBopNew()
+    public function lead_new_applicant_on_accepted_should_be_set_as_bop_new()
     {
         // given
         $new_status_id = Status::where('title', 'New')->first()->id;
@@ -78,7 +78,7 @@ class LeadApplicantTest extends TestCase
     }
 
     /** @test */
-    public function leadNewNotInterestedApplicantsShouldBeSetAsBopSessionRejected()
+    public function lead_new_not_interested_applicants_should_be_set_as_bop_session_rejected()
     {
         // given
         $status_new_id = Status::where('title', 'New')->first()->id;
@@ -103,7 +103,7 @@ class LeadApplicantTest extends TestCase
     }
 
     /** @test */
-    public function newApplicantWithBdmUTMSourceShouldBeAssignForBdm()
+    public function new_applicant_with_bdm_utm_source_should_be_assign_for_bdm()
     {
         $bdm = factory(User::class)->create([
             'is_admin' => 0,

@@ -418,8 +418,7 @@ class ApplicantController extends Controller
         $activities = DB::table('applicant_status')->select('status_id', 'current_status', 'name', 'applicant_status.created_at')
             ->leftjoin('users', 'users.id', 'applicant_status.user_id')
             ->where('applicant_id', $request->id)
-            ->get()
-        ;
+            ->get();
 
         return view('pages.applicants.detail', compact('applicant', 'trainings', 'activities'));
     }

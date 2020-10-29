@@ -18,7 +18,7 @@ class UploadCertificateFileTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function aCertificateCanBeUploaded()
+    public function a_certificate_can_be_uploaded()
     {
         $this->withoutExceptionHandling();
 
