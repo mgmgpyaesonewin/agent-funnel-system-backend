@@ -64,7 +64,9 @@ class BopSessionTest extends TestCase
         $data = $response->getOriginalContent()->getData();
 
         $response->assertStatus(200);
+        $response->assertSuccessful();
         $response->assertViewIs('pages.b_o_p_sessions.index');
+        $response->assertSee('Create');
         $this->assertCount(count($sessions), $data['sessions']);
     }
 

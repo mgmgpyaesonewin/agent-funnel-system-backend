@@ -468,7 +468,9 @@ class ApplicantController extends Controller
         }
 
         if ('pre_filter' == $applicant->current_status && 1 == $applicant->status_id) {
-            $applicant->assign_ma_id = $applicantService->getUserToAssign();
+            if (empty($applicant->assign_ma_id)) {
+                $applicant->assign_ma_id = $applicantService->getUserToAssign();
+            }
         }
 
         if ('onboard' == $current_status && 7 == $status_id) {
@@ -539,8 +541,11 @@ class ApplicantController extends Controller
 
         if ('pre_filter' == $applicant->current_status && 1 == $applicant->status_id) {
             $setting = Setting::where('meta_key', 'auto_assign_ma_user_current_id')->first();
-            $setting->meta_value = $applicant->assign_ma_id;
-            $setting->save();
+
+            if ($applicant->assign_ma_id == $applicantService->getUserToAssign()) {
+                $setting->meta_value = $applicant->assign_ma_id;
+                $setting->save();
+            }
         }
 
         // Mail::to($applicant->email)->send(new SendStatusNotification($applicant));
