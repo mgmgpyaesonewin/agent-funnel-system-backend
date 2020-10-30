@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Create New Lead') 
+@section('title', 'Create New Lead')
 
 @section('title', 'Create Training')
 {{-- {{dd($errors->all())}} --}}
@@ -10,7 +10,7 @@
         <div class="card">
             <div class="card-content">
                 <div class="card-body">
-                    <form action="{{url('save_lead')}}" method="POST" >
+                    <form action="{{url('save_lead')}}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="exampleInputEmail1">Name</label>
@@ -32,26 +32,25 @@
                             <ul class="list-unstyled mb-0">
                                 <li class="d-inline-block mr-2">
                                     <fieldset>
-                                    <label>
-                                        <input type="radio" name="gender" value="1">
-                                        Male
-                                    </label>
+                                        <label>
+                                            <input type="radio" name="gender" value="0">
+                                            Male
+                                        </label>
                                     </fieldset>
                                 </li>
                                 <li class="d-inline-block mr-2">
                                     <fieldset>
-                                    <label>
-                                        <input type="radio" name="gender" value="0">
-                                        Female
-                                    </label>
+                                        <label>
+                                            <input type="radio" name="gender" value="1">
+                                            Female
+                                        </label>
                                     </fieldset>
                                 </li>
                             </ul>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
-                      </form>
+                    </form>
                 </div>
-               
             </div>
         </div>
     </div>

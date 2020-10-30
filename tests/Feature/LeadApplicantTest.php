@@ -7,9 +7,11 @@ use App\BopSession;
 use App\Setting;
 use App\Status;
 use App\User;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 
 /**
  * @internal
@@ -18,6 +20,7 @@ use Tests\TestCase;
 class LeadApplicantTest extends TestCase
 {
     use RefreshDatabase;
+    use WithFaker;
 
     protected $admin;
 
@@ -35,6 +38,35 @@ class LeadApplicantTest extends TestCase
 
         // $token = JWTAuth::fromUser($this->admin);
         // $this->admin->token = $token;
+    }
+
+    /** @test */
+    public function admin_can_create_a_new_lead()
+    {
+        $name = $this->faker->name;
+        $phone = $this->faker->phoneNumber;
+        $dob = $this->faker->dateTimeBetween('-30 years', '-18 years');
+        $gender = $this->faker->numberBetween(0, 1);
+
+        $response = $this->actingAs($this->admin)->post('/save_lead', [
+            'name' => $name,
+            'phone' => $phone,
+            'dob' => $dob,
+            'gender' => $gender,
+        ]);
+
+        $response->assertRedirect('/lead');
+        $response->assertSessionHas('status', 'Successfully created new lead');
+
+        $applicant = Applicant::find(1);
+        $this->assertEquals($name, $applicant->name);
+        $this->assertEquals($phone, $applicant->phone);
+
+        $age = Carbon::parse($dob)->age;
+        $this->assertEquals($age, $applicant->age);
+
+        $gender = $gender === 0 ? 'Male' : 'Female';
+        $this->assertEquals($gender, $applicant->gender);
     }
 
     /** @test */
