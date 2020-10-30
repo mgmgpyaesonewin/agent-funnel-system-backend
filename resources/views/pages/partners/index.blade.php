@@ -92,7 +92,6 @@
                                         </span>
                                         <v-copy-clipboard-btn class-css="btn btn-sm"
                                             text="{{ env('FRONT_END_URL').'/register?utm_source='.$partner->slug }}">
-                                            <i class="fa fa-clipboard text-primary" aria-hidden="true"></i>
                                         </v-copy-clipboard-btn>
                                     </div>
                                 </td>
