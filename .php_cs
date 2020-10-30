@@ -9,7 +9,6 @@ return PhpCsFixer\Config::create()
         'method_separation' => true,
         'no_multiline_whitespace_before_semicolons' => true,
         'single_quote' => true,
-
         'binary_operator_spaces' => array(
             'align_double_arrow' => false,
             'align_equals' => false,
@@ -21,7 +20,7 @@ return PhpCsFixer\Config::create()
         ),
         // 'cast_spaces' => true,
         // 'class_definition' => array('singleLine' => true),
-        'concat_space' => array('spacing' => 'one'),
+        'concat_space' => array('spacing' => 'none'),
         'declare_equal_normalize' => true,
         'function_typehint_space' => true,
         'hash_to_slash_comment' => true,

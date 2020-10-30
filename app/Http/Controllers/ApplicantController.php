@@ -147,7 +147,7 @@ class ApplicantController extends Controller
         $data['bank_name'] = json_decode($req->bank_name)->name;
         $data['swift_code'] = json_decode($req->bank_name)->code;
         $data['license_no'] = $req->license_number;
-        // // return $data;
+        $data['bank_branch_name'] = $req->bank_branch_name;
         $files = $req->file('license_photo');
         if ($req->hasFile('license_photo')) {
             foreach ($files as $key => $file) {
@@ -166,8 +166,7 @@ class ApplicantController extends Controller
         // return $req->all();
         $valid_appli = Applicant::where('temp_id', $req->tempid)
             ->where('dob', $req->dob)
-            ->first()
-        ;
+            ->first();
         if ($valid_appli) {
             return $valid_appli;
         }
