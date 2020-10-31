@@ -47,7 +47,7 @@ $configData = Helper::applClasses();
       </div>
     </div>
     @endif
-
+    <v-auth :auth="{{ auth()->user() }}" v-on:saved="auth"></v-auth>
   </div>
   <!-- End: Content-->
 

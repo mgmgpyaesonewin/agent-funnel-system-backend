@@ -35,6 +35,19 @@ Vue.use(VueClipboard);
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+Vue.component("v-auth", {
+  name: "v-auth",
+  template: `<span></span>`,
+  props: ["auth"],
+  methods: {
+    saveAuth() {
+      this.$emit("saved", this.auth);
+    }
+  },
+  mounted() {
+    this.saveAuth();
+  }
+});
 
 Vue.component("multi-select", Multiselect);
 
@@ -95,11 +108,20 @@ Vue.prototype.$location = window.location;
 
 const app = new Vue({
   el: "#app",
+  data() {
+    return {
+      auth_user: ""
+    };
+  },
   methods: {
     isDatePast(date) {
       let [day, month, year] = date.split("-");
       let dateObj = new Date(`${year}-${month}-${day}`);
       return dateObj < new Date();
+    },
+    auth(value) {
+      console.log(value);
+      this.auth_user = value;
     }
   }
 });
