@@ -24,7 +24,7 @@
             </ul>
 
             <ul class="nav navbar-nav float-left">
-              <li class="nav-item white"> Welcome <b>{{ Auth::user()->name }}</b> !</li>
+              <li class="nav-item white"> Welcome <b>{{ Auth::user()->name }}</b>!</li>
             </ul>
           </div>
           <ul class="nav navbar-nav float-right">
@@ -111,7 +111,16 @@
                 </form>
               </div>
             </li> -->
-            <li class="nav-item"><a class="nav-link mx-2" href="javascript:void(0)"
+            <li class="nav-item">
+              <div class="d-flex my-1 align-items-center">
+                <strong class="white mx-1">{{ Auth::user()->utm_source }}</strong>
+                <v-copy-clipboard-btn class-css="btn btn-sm btn-secondary"
+                  text="{{ env('FRONT_END_URL').'/register?utm_source='.Auth::user()->utm_source }}">
+                </v-copy-clipboard-btn>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2" href="javascript:void(0)"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                   class="feather icon-power"></i></a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
