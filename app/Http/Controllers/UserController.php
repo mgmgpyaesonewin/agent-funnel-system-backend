@@ -130,7 +130,13 @@ class UserController extends Controller
 
         unset($data['role']);
 
-        $user->update($request->validated());
+        $user->is_admin = 0;
+        $user->is_bdm = 0;
+        $user->is_ma = 0;
+        $user->is_staff = 0;
+        $user->save();
+
+        $user->update($data);
 
         return redirect('/users');
     }
