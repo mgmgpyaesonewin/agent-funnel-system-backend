@@ -20,7 +20,8 @@
                             <label for="sessionTitle" class="col-form-label">
                                 <strong>Title</strong>
                             </label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Session Title">
+                            <input type="text" class="form-control" name="title" placeholder="Enter Session Title"
+                                value={{ old('title') }}>
                             @error('title')
                             <span class="text-danger">
                                 {{$errors->first('title')}}
@@ -34,10 +35,10 @@
                                         <strong>Date</strong>
                                     </label>
                                     <v-bop-sessions-date-time-picker format="DD-MM-YYYY" type="date"
-                                        placeholder="Choose Session Date" name="date" />
+                                        placeholder="Choose Session Date" name="date"></v-bop-sessions-date-time-picker>
                                     @error('date')
                                     <span class="text-danger">
-                                        {{$errors->first('title')}}
+                                        {{$errors->first('date')}}
                                     </span>
                                     @enderror
                                 </div>
@@ -48,7 +49,7 @@
                                         <strong>Time</strong>
                                     </label>
                                     <v-bop-sessions-date-time-picker format="hh:mm a" type="time"
-                                        placeholder="Choose Session Time" name="time" />
+                                        placeholder="Choose Session Time" name="time"></v-bop-sessions-date-time-picker>
                                     @error('time')
                                     <span class="text-danger">
                                         {{$errors->first('time')}}
@@ -61,7 +62,8 @@
                             <label for="sessionURL" class="col-form-label">
                                 <strong>URL</strong>
                             </label>
-                            <input type="text" class="form-control" name="url" placeholder="Enter Session URL">
+                            <input type="text" class="form-control" name="url" placeholder="Enter Session URL"
+                                value="{{ old('url') }}">
                             @error('url')
                             <span class="text-danger">
                                 {{$errors->first('url')}}

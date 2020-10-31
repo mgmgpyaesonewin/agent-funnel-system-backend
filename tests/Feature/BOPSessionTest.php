@@ -21,7 +21,6 @@ class BopSessionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->withoutExceptionHandling();
 
         $this->admin = factory(User::class)->create([
             'is_admin' => 1,
@@ -29,6 +28,26 @@ class BopSessionTest extends TestCase
             'is_ma' => 0,
             'is_staff' => 0,
         ]);
+    }
+
+    /**
+     * @test
+     * @dataProvider requiredFormValidationProvider
+     */
+    public function it_validates_form($formInput, $formInputValue)
+    {
+        $this->actingAs($this->admin)->post('/sessions', [$formInput => $formInputValue])
+            ->assertSessionHasErrors($formInput);
+    }
+
+    public function requiredFormValidationProvider()
+    {
+        return [
+            ['title', ''],
+            ['date', ''],
+            ['time', ''],
+            ['url', ''],
+        ];
     }
 
     /**
