@@ -8,6 +8,7 @@ use App\Listeners\GenerateTemporaryId;
 use App\Listeners\InviteApplicantBopSession;
 use App\Listeners\NotifyApplicant;
 use App\Listeners\SendViberNotification;
+use App\Listeners\AssignBDMWhenMAisAssigned;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
         ApplicantUpdating::class => [
             GenerateTemporaryId::class,
             SendViberNotification::class,
+            AssignBDMWhenMAisAssigned::class,
         ],
         InviteBopSession::class => [
             InviteApplicantBopSession::class,

@@ -9,7 +9,8 @@ $configData = Helper::applClasses();
   @include('panels.sidebar')
 
   <!-- BEGIN: Content-->
-  <div class="app-content content" id="app">
+  <div class="app-content content" id="app" auth-data="{{ auth()->user() }}">
+    <v-auth :auth="{{ auth()->user() }}" v-on:saved="auth"></v-auth>
     <!-- BEGIN: Header-->
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -47,7 +48,6 @@ $configData = Helper::applClasses();
       </div>
     </div>
     @endif
-    <v-auth :auth="{{ auth()->user() }}" v-on:saved="auth"></v-auth>
   </div>
   <!-- End: Content-->
 

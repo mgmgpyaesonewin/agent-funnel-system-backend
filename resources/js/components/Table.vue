@@ -14,7 +14,7 @@
           <button type="button" class="btn btn-danger" @click="updateAMLStatus(2)">Fail</button>
         </div-->
       </div>
-      <div v-show="userAssign === true && isPartner == 0" class="col-5 d-flex">
+      <div v-if="assignUser" class="col-5 d-flex">
         <multi-select
           v-model="selectedUser"
           :options="users"
@@ -106,16 +106,19 @@
           <td v-show="exam">{{ applicant.exam_date }}</td>
           <td v-show="channel">{{ applicant.utm_source }}</td>
           <td v-show="assign">
-            <div class="badge badge-primary">
+            <div class="badge badge-primary" v-show="assignedAdmin(applicant)">
               {{ applicant.admin && applicant.admin.name }}
             </div>
-            <div class="badge badge-info">
+            <div class="badge badge-info" v-show="assignedBdm(applicant)">
               {{ applicant.bdm && applicant.bdm.name }}
             </div>
-            <div class="badge badge-warning">
+            <div class="badge badge-warning" v-show="assignedMa(applicant)">
               {{ applicant.ma && applicant.ma.name }}
             </div>
-            <div class="badge badge-secondary">
+            <div
+              class="badge badge-secondary"
+              v-show="assignedStaff(applicant)"
+            >
               {{ applicant.staff && applicant.staff.name }}
             </div>
           </td>
@@ -147,9 +150,11 @@
 <script>
 import Pagination from "laravel-vue-pagination";
 import { EventBus } from "../event-bus.js";
+import PermissionMixin from "../mixins/permissions.js";
 import Constant from "../constant.js";
 
 export default {
+  mixins: [PermissionMixin],
   components: {
     "v-pagination": Pagination,
   },
@@ -192,8 +197,23 @@ export default {
         this.applicants.constructor === Object
       );
     },
+    assignUser() {
+      return this.userAssign && this.isPartner == 0 && this.allowAssignUser;
+    },
   },
   methods: {
+    assignedAdmin(applicant) {
+      return applicant.admin && applicant.admin.name;
+    },
+    assignedBdm(applicant) {
+      return applicant.bdm && applicant.bdm.name;
+    },
+    assignedMa(applicant) {
+      return applicant.ma && applicant.ma.name;
+    },
+    assignedStaff(applicant) {
+      return applicant.staff && applicant.staff.name;
+    },
     updateApplicantsList() {
       let payload = {};
 

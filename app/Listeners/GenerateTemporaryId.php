@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Classes\Viber\ContentType;
 use App\Events\ApplicantUpdating;
 use App\Services\Interfaces\ViberServiceInterface;
-use App\User;
 use Carbon\Carbon;
 use Config;
 
@@ -22,15 +21,10 @@ class GenerateTemporaryId
      * Handle the event.
      */
     public function handle(ApplicantUpdating $event)
-    {
-        // Assign BDM on every MA was assigned
-        if ($event->applicant->isDirty('assign_ma_id')) {
-            $event->applicant->assign_bdm_id = User::where('id', $event->applicant->getDirty()['assign_ma_id'])->first()->user_id;
-            $event->applicant->saveQuietly();
-        }
-
+    {        
         // Generate Temporary ID
         if ($event->applicant->isDirty('status_id') && 'pmli_filter' == $event->applicant->current_status) {
+            dd($event->applicant->getDirty());
             $attributes = $event->applicant->getDirty();
             if (3 == $attributes['status_id']) {
                 $event->applicant->temp_id = 'PA'.Carbon::now()->format('m').Carbon::now()->format('d').str_pad($event->applicant->id, 4, '0', STR_PAD_LEFT);

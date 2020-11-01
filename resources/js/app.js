@@ -120,7 +120,6 @@ const app = new Vue({
       return dateObj < new Date();
     },
     auth(value) {
-      console.log(value);
       this.auth_user = value;
     }
   }
