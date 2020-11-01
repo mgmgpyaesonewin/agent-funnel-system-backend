@@ -41,7 +41,7 @@
                                     <v-bop-sessions-button button-class="btn btn-danger"
                                         :old-current-status="applicant.current_status" new-current-status="bop_session"
                                         :old-status-id="applicant.status_id" :new-status-id="1"
-                                        :applicant-id="applicant.id">
+                                        :applicant-id="applicant.id" :bop-sessions="{{ json_encode($bop_sessions) }}">
                                         <i class="fa fa-refresh" aria-hidden="true"></i>
                                     </v-bop-sessions-button>
                                 </div>

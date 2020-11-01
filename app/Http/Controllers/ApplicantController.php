@@ -221,8 +221,10 @@ class ApplicantController extends Controller
     public function bopSessionPage(Request $request)
     {
         $statuses = Status::whereIn('id', [1, 4])->get();
+        $bop_sessions = BopSession::latest()->take(20)->get();
+        $bop_sessions = BopSessionResource::collection($bop_sessions);
 
-        return view('pages.applicants.bop_session', compact('statuses'));
+        return view('pages.applicants.bop_session', compact('statuses', 'bop_sessions'));
     }
 
     public function createuser(UserApiRequest $req)
