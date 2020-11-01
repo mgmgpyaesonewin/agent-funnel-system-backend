@@ -28,6 +28,7 @@ class AssignBDMWhenMAisAssigned
         // Assign BDM on every MA was assigned
         if ($event->applicant->wasChanged('assign_ma_id')) {
             $event->applicant->assign_bdm_id = User::where('id', $event->applicant->getChanges()['assign_ma_id'])->first()->user_id;
+            $event->applicant->saveQuietly();
         }
     }
 }
