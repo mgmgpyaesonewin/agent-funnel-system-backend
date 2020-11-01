@@ -63,10 +63,9 @@ class BopSessionTest extends TestCase
             'time' => $session->session->toTimeString(),
             'url' => $session->url,
         ]);
+        $response->assertRedirect('/sessions');
 
         $created_session = BopSession::first();
-
-        $response->assertRedirect('/sessions');
         $this->assertEquals($session->title, $created_session->title);
         $this->assertEquals(Carbon::parse($session->session)->toDateString(), Carbon::parse($created_session->session)->toDateString());
         $this->assertEquals(Carbon::parse($session->session)->toTimeString(), Carbon::parse($created_session->session)->toTimeString());
