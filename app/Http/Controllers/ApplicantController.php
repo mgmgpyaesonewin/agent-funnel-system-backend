@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\BopSession;
 use App\Classes\Viber\ContentType;
 use App\Contract;
 use App\Events\InviteBopSession;
 use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
+use App\Http\Resources\BopSessionResource;
 use App\Interfaces\ContractInterface;
 use App\Interview;
 use App\Partner;
@@ -177,8 +179,10 @@ class ApplicantController extends Controller
     public function leadPage(Request $request)
     {
         $statuses = Status::whereIn('id', [1, 4])->get();
+        $bop_sessions = BopSession::latest()->take(20)->get();
+        $bop_sessions = BopSessionResource::collection($bop_sessions);
 
-        return view('pages.applicants.lead', compact('statuses'));
+        return view('pages.applicants.lead', compact('statuses', 'bop_sessions'));
     }
 
     public function create_lead()

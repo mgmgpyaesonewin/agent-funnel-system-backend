@@ -31,6 +31,7 @@
             <a href="{{url('create_lead')}}" class="btn btn-primary pull-right">Create</a>
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card">
@@ -44,7 +45,7 @@
                                     <v-bop-sessions-button button-class="btn btn-success"
                                         :old-current-status="applicant.current_status" new-current-status="bop_session"
                                         :old-status-id="applicant.status_id" :new-status-id="1"
-                                        :applicant-id="applicant.id">
+                                        :applicant-id="applicant.id" :bop-sessions="{{ json_encode($bop_sessions) }}">
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                     </v-bop-sessions-button>
                                     <v-button button-class="btn btn-secondary"

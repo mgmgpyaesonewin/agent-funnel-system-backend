@@ -83,6 +83,7 @@ export default {
     newCurrentStatus: String,
     oldStatusId: Number,
     newStatusId: Number,
+    bopSessions: Array,
   },
   data() {
     return {
@@ -120,6 +121,8 @@ export default {
         });
     },
   },
-  mounted() {},
+  mounted() {
+    this.sessions = this.bopSessions;
+  },
 };
 </script>
