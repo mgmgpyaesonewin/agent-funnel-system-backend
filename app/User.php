@@ -124,6 +124,22 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo('App\Partner');
     }
 
+    public function getParent()
+    {
+        if (!isset($this->user_id)) {
+            return null;
+        }
+        return $this->where('id', $this->user_id)->first();
+    }
+
+    public function getMaChildren()
+    {
+        if ($this->is_bdm !== 1) {
+            return null;
+        }
+        return $this->where('user_id', $this->id)->get();
+    }
+
     public function saveQuietly(array $options = [])
     {
         return static::withoutEvents(function () use ($options) {

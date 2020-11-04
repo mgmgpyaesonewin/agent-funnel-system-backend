@@ -76,6 +76,8 @@
                                     <th scope="col">UTM</th>
                                     <th scope="col">Partner</th>
                                     <th scope="col">Role</th>
+                                    <th scope="col">Assigend BDM</th>
+                                    <th scope="col">Assigend MA</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -97,6 +99,22 @@
                                     </td>
                                     <td class="">{{ $user->partner->company_name ?? '-' }}</td>
                                     <td class="">{{$user->role}}</td>
+                                    <td>
+                                        <div class="badge badge-pill badge-primary">
+                                            @if($user->is_ma === 1)
+                                            {{ $user->getParent()->name }}
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if($user->is_bdm === 1)
+                                        @foreach ($user->getMaChildren() as $ma_user)
+                                        <div class="badge badge-pill badge-info">
+                                            {{ $ma_user->name }}
+                                        </div>
+                                        @endforeach
+                                        @endif
+                                    </td>
                                     <td class="d-flex">
                                         <a href="{{route('users.edit',$user->id)}}"
                                             class="btn btn-warning mr-4">Edit</a>
