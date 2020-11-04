@@ -85,7 +85,7 @@
                                 </h4>
                                 @endif
                                 @if($applicant->temp_id != '')
-                                <h4 style="color: #606060; font-weight: 600;">Agent Code :
+                                <h4 style="color: #606060; font-weight: 600;">Agent ID :
                                     {{ $applicant->agent_code}}
                                 </h4>
                                 @endif
@@ -272,6 +272,10 @@
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Bank Name</h6>
                             <p class="col-md-6">{{ $applicant->banK_name }}</p>
+                        </div>
+                        <div class="mt-1 row">
+                            <h6 class="col-md-4">Bank Branch Name</h6>
+                            <p class="col-md-6">{{ $applicant->bank_branch_name }}</p>
                         </div>
                         <div class="mt-1 row">
                             <h6 class="col-md-4">Swift Code</h6>

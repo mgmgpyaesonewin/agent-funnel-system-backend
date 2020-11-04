@@ -163,7 +163,7 @@
       <p class="western" align="JUSTIFY" style="margin-top: 0.17in; margin-bottom: 0.08in; page-break-before: always">
          <p><br /><strong><strong>IN WITNESS</strong></strong>&nbsp;whereof this Agreement has been executed by
             the Parties on the date first above written.</p>
-         <table width="100%" border="1">
+         <table width="100%" border="0">
             <tbody>
                <tr>
                   <td width="50%" valign="top">
