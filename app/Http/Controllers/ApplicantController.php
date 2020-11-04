@@ -310,7 +310,6 @@ class ApplicantController extends Controller
             ->role(auth()->user())
             ->state($request->current_status, $request->status_id)
             ->filter($request->name, $request->phone, $request->aml_status, $request->date)
-            ->orderBy('id')
             ->select(
                 'id',
                 'name',
@@ -332,7 +331,7 @@ class ApplicantController extends Controller
                 'license_photo_2',
                 'pdf',
                 'utm_source'
-            )->paginate(35);
+            )->latest()->paginate(35);
 
         return ApplicantResource::collection($applicants);
     }
