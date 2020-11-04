@@ -12,5 +12,9 @@
         "phpdebugbar",
         "pmli",
         "sweetalert"
-    ]
+    ],
+    "[blade]": {
+        "editor.defaultFormatter": "onecentlin.laravel-blade",
+        "editor.formatOnSave": false
+    },
 }

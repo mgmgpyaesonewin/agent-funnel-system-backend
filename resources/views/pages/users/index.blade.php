@@ -38,14 +38,11 @@
                                         class="form-control" value="{{ app('request')->input('partner') }}">
                                 </fieldset>
                             </div>
-
-
                             <div class="px-2">
                                 <div class="row mt-2">
                                     <button type="submit" class="btn btn-primary"> Search </button>
                                 </div>
                             </div>
-
                         </div>
                 </div>
                 </form>
@@ -65,7 +62,6 @@
                             <a href="{{url('users/create')}}" class="btn btn-primary">Create</a>
                         </div>
                     </div>
-
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered">
                             <thead>
@@ -102,17 +98,17 @@
                                     <td>
                                         <div class="badge badge-pill badge-primary">
                                             @if($user->is_ma === 1)
-                                            {{ $user->getParent()->name }}
+                                                {{ $user->getParent()->name }}
                                             @endif
                                         </div>
                                     </td>
                                     <td>
                                         @if($user->is_bdm === 1)
-                                        @foreach ($user->getMaChildren() as $ma_user)
-                                        <div class="badge badge-pill badge-info">
-                                            {{ $ma_user->name }}
-                                        </div>
-                                        @endforeach
+                                            @foreach ($user->getMaChildren() as $ma_user)
+                                                <div class="badge badge-pill badge-info">
+                                                    {{ $ma_user->name }}
+                                                </div>
+                                            @endforeach
                                         @endif
                                     </td>
                                     <td class="d-flex">
