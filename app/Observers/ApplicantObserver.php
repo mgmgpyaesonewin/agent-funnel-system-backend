@@ -29,6 +29,9 @@ class ApplicantObserver
 
             if ($user->is_ma) {
                 $applicant->assign_ma_id = $user->id;
+
+                $bdm_user = User::where('id', $user->user_id)->first();
+                $applicant->assign_bdm_id = $bdm_user->id;
             }
 
             if ($user->is_staff) {

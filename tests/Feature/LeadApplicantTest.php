@@ -158,4 +158,38 @@ class LeadApplicantTest extends TestCase
 
         $this->assertEquals($bdm->id, $created_applicant->assign_bdm_id);
     }
+
+    /** @test */
+    public function new_applicant_with_ma_utm_source_should_be_assign_for_both_parent_bdm_and_ma()
+    {
+        $bdm = factory(User::class)->create([
+            'is_admin' => 0,
+            'is_bdm' => 1,
+            'is_ma' => 0,
+            'is_staff' => 0,
+        ]);
+
+        $ma = factory(User::class)->create([
+            'is_admin' => 0,
+            'is_bdm' => 0,
+            'is_ma' => 1,
+            'is_staff' => 0,
+            'user_id' => $bdm->id,
+        ]);
+
+        $applicant = factory(Applicant::class)->make();
+
+        $this->post('/api/createuser', [
+            'name' => $applicant->name,
+            'dob' => $applicant->dob,
+            'gender' => 'male',
+            'phone' => '09796874359',
+            'utm_source' => $ma->utm_source,
+        ]);
+
+        $created_applicant = Applicant::first();
+
+        $this->assertEquals($bdm->id, $created_applicant->assign_bdm_id);
+        $this->assertEquals($ma->id, $created_applicant->assign_ma_id);
+    }
 }
