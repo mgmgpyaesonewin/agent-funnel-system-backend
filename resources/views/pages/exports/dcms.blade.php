@@ -1,7 +1,7 @@
 <table>
     <thead>
         <tr>
-            <th>Agent Code</th>
+            <th>Agent ID</th>
             <th>Applicant's Name(as per NRIC)</th>
             <th>Preferred Name</th>
             <th>ID No.</th>
@@ -40,7 +40,7 @@
             <th>Are any of your family member (including spouse and children) an agent or a staff of CUSTOMER</th>
             <th>Name</th>
             <th>NRC</th>
-            <th>Agent Code</th>
+            <th>Agent ID</th>
             <th>Company Name</th>
             <th>Position Held</th>
             <th>Relation to Applicant</th>

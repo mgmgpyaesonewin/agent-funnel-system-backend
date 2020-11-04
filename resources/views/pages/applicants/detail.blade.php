@@ -676,7 +676,7 @@
                                     <p class="col-md-6">{{ $family_agent['position'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">
-                                    <h6 class="col-md-4">Agent Code:</h6>
+                                    <h6 class="col-md-4">Agent ID:</h6>
                                     <p class="col-md-6">{{ $family_agent['agent_code'] ?? '-' }}</p>
                                 </div>
                                 <div class="mt-1 row">

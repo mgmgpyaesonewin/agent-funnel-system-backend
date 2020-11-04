@@ -189,7 +189,7 @@
             <td> &nbsp;  {{ $family_agent['position'] }}</td>
         </tr>
         <tr>
-            <td> &nbsp;  Agent Code</td>
+            <td> &nbsp;  Agent ID</td>
             <td> &nbsp;  {{ $family_agent['agent_code'] }}</td>
         </tr>
         <tr>
@@ -274,7 +274,7 @@
             <td> &nbsp;  {{ $applicant->temp_id }}</td>
         </tr>
         <tr>
-            <td> &nbsp;  Agent Code</td>
+            <td> &nbsp;  Agent ID</td>
             <td> &nbsp;  {{ $applicant->agent_code }}</td>
         </tr>
         <tr>

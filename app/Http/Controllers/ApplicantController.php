@@ -72,7 +72,7 @@ class ApplicantController extends Controller
 
     public function generateAgentCode($applicant_id)
     {
-        $raw_agent_code = '2'.str_pad($applicant_id, 6, '0', STR_PAD_LEFT);
+        $raw_agent_code = '22'.str_pad($applicant_id, 5, '0', STR_PAD_LEFT);
 
         return '0'.number_format($raw_agent_code);
     }
