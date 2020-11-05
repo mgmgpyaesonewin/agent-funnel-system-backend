@@ -41,4 +41,13 @@ class Contract extends Model
     {
         return $this->belongsTo('App\Applicant');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+        self::created(function ($model) {
+            $model->agreement_no = "Version {$model->id}";
+            $model->save();
+        });
+    }
 }

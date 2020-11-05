@@ -70,11 +70,9 @@ class ApplicantController extends Controller
         ]);
     }
 
-    public function generateAgentCode($applicant_id)
+    public function generateAgentCode($applicant_id) : string
     {
-        $raw_agent_code = '22'.str_pad($applicant_id, 5, '0', STR_PAD_LEFT);
-
-        return '0'.number_format($raw_agent_code);
+        return '022'.str_pad($applicant_id, 5, '0', STR_PAD_LEFT);
     }
 
     public function detail(Request $req)
@@ -418,7 +416,7 @@ class ApplicantController extends Controller
     public function applicantsDetail(Request $request)
     {
         $applicant = Applicant::with('trainings')->where('id', $request->id)->first();
-        $trainings = Training::all();
+        $trainings = Training::enable()->get();
         $activities = DB::table('applicant_status')->select('status_id', 'current_status', 'name', 'applicant_status.created_at')
             ->leftjoin('users', 'users.id', 'applicant_status.user_id')
             ->where('applicant_id', $request->id)

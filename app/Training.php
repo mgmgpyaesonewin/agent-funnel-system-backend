@@ -39,4 +39,9 @@ class Training extends Model
     {
         return $this->belongsToMany('App\Applicant');
     }
+
+    public function scopeEnable($query)
+    {
+        return $query->where('enable', 1);
+    }
 }
