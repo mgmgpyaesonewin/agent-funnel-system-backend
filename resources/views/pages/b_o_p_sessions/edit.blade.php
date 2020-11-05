@@ -31,7 +31,7 @@
                                     </label>
                                     <v-bop-sessions-date-time-picker format="DD-MM-YYYY" type="date"
                                         placeholder="Choose Session Date" name="date" :edit="true"
-                                        data-value="{{ $session->getDate() }}" />
+                                        data-value="{{ $session->getDate() }}"></v-bop-sessions-date-time-picker>
                                     @error('date')
                                     <span class="text-danger">
                                         {{$errors->first('title')}}
@@ -44,9 +44,13 @@
                                     <label for="sessionTime" class="col-form-label">
                                         <strong>Time</strong>
                                     </label>
-                                    <v-bop-sessions-date-time-picker format="hh:mm A" type="time"
-                                        placeholder="Choose Session Time" name="time" :edit="true"
-                                        data-value="{{ $session->getTime() }}" />
+                                    <v-bop-sessions-date-time-picker
+                                        format="hh:mm A" type="time"
+                                        placeholder="Choose Session Time"
+                                        name="time"
+                                        :edit="true"
+                                        data-value="{{ $session->getTime() }}">
+                                    </v-bop-sessions-date-time-picker>
                                     @error('time')
                                     <span class="text-danger">
                                         {{$errors->first('time')}}
@@ -65,6 +69,18 @@
                             <span class="text-danger">
                                 {{$errors->first('url')}}
                             </span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="enableSelect">Status</label>
+                            <select name="enable" class="form-control">
+                                <option value="1" @if($session->enable == '1') selected @endif>Enable</option>
+                                <option value="0" @if($session->enable == '0') selected @endif>Disable</option>
+                            </select>
+                            @error('enable')
+                                <span class="text-danger">
+                                  {{ $errors->first('enable') }}
+                                </span>
                             @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Save</button>

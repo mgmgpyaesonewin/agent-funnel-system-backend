@@ -14,8 +14,6 @@ class BopSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -39,15 +37,13 @@ class BopSessionController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
         return view('pages.b_o_p_sessions.create');
     }
 
-    /**
+    /*
      * Store a newly created resource in storage.
      *
      * @return \Illuminate\Http\Response
@@ -106,6 +102,7 @@ class BopSessionController extends Controller
             $session->title = $data['title'];
             $session->session = Carbon::parse("{$data['date']} {$data['time']}");
             $session->url = $data['url'];
+            $session->enable = $data['enable'];
             $session->save();
             DB::commit();
 
@@ -115,7 +112,7 @@ class BopSessionController extends Controller
         }
     }
 
-    /**
+    /*
      * Remove the specified resource from storage.
      *
      * @return \Illuminate\Http\Response

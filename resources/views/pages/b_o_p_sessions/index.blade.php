@@ -31,6 +31,7 @@
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th style="max-width: 10rem;">URL</th>
+                                <th scope="col">Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -43,6 +44,13 @@
                                 <td>{{ $session->getTime() }}</td>
                                 <td style="max-width: 10rem;">
                                     <a href="{{ $session->url }}" class="alert-link">{{ $session->url }}</a>
+                                </td>
+                                <td>
+                                  @if ($session->enable == 1)
+                                    <h4><span class="badge badge-pill badge-success">Enable</span></h4>
+                                  @else
+                                    <h4><span class="badge badge-pill">Disable</span></h4>
+                                  @endif
                                 </td>
                                 <td>
                                     <div class="row">

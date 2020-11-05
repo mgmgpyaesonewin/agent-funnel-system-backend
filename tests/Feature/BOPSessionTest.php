@@ -182,4 +182,54 @@ class BopSessionTest extends TestCase
         $this->assertEquals(true, $data['status']);
         $this->assertCount(1, $data['sessions']);
     }
+
+    /** @test */
+    public function user_can_disable_status()
+    {
+        $session = factory(BopSession::class)->create();
+        $session_to_update = factory(BopSession::class)->make();
+
+        $response = $this->actingAs($this->admin)->put(route('sessions.update', $session->id), [
+            'title' => $session_to_update->title,
+            'date' => $session_to_update->getDate(),
+            'time' => $session_to_update->getTime(),
+            'url' => $session_to_update->url,
+            'enable' => 0
+        ]);
+
+        $response->assertRedirect('/sessions');
+        $response->assertSessionHas('message', 'Updated Successfully');
+
+        $updatedSession = BopSession::find($session->id);
+        $this->assertEquals($session_to_update->title, $updatedSession->title);
+        $this->assertEquals($session_to_update->getDate(), $updatedSession->getDate());
+        $this->assertEquals($session_to_update->getTime(), $updatedSession->getTime());
+        $this->assertIsInt(0, $updatedSession->enable);
+        $this->assertEquals(0, $updatedSession->enable);
+    }
+
+    /** @test */
+    public function user_can_enable_disabled_status()
+    {
+        $session = factory(BopSession::class)->create();
+        $session_to_update = factory(BopSession::class)->make();
+
+        $response = $this->actingAs($this->admin)->put(route('sessions.update', $session->id), [
+            'title' => $session_to_update->title,
+            'date' => $session_to_update->getDate(),
+            'time' => $session_to_update->getTime(),
+            'url' => $session_to_update->url,
+            'enable' => 1
+        ]);
+
+        $response->assertRedirect('/sessions');
+        $response->assertSessionHas('message', 'Updated Successfully');
+
+        $updatedSession = BopSession::find($session->id);
+        $this->assertEquals($session_to_update->title, $updatedSession->title);
+        $this->assertEquals($session_to_update->getDate(), $updatedSession->getDate());
+        $this->assertEquals($session_to_update->getTime(), $updatedSession->getTime());
+        $this->assertIsInt(1, $updatedSession->enable);
+        $this->assertEquals(1, $updatedSession->enable);
+    }
 }
