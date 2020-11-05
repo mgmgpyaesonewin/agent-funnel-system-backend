@@ -22,3 +22,4 @@ dist
 .bitmap
 storage/.DS_Store
 app/Http/.DS_Store
+.idea

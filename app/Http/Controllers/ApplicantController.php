@@ -569,7 +569,7 @@ class ApplicantController extends Controller
         $applicant->trainings()->sync($trainings);
 
         $applicant_training_sessions = Applicant::withCount('trainings')->where('id', $applicant_id)->first()->trainings_count;
-        $no_of_training_sessions = Training::count();
+        $no_of_training_sessions = Training::where('enable', 1)->count();
 
         if ($applicant_training_sessions >= $no_of_training_sessions) {
             $applicant->current_status = 'training';

@@ -24,7 +24,6 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property null|int                                                                                                  $notifications_count
  * @property \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[]                                        $tokens
  * @property null|int                                                                                                  $tokens_count
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
@@ -38,6 +37,21 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $is_bdm
+ * @property int $is_ma
+ * @property int $is_staff
+ * @property int|null $user_id
+ * @property int|null $partner_id
+ * @property string|null $utm_source
+ * @property-read mixed $role
+ * @property-read \App\Partner|null $partner
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User ma()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsBdm($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsMa($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsStaff($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePartnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUtmSource($value)
  */
 class User extends Authenticatable implements JWTSubject
 {

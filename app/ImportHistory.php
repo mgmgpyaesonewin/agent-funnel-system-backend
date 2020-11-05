@@ -19,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reason whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reason whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $file_name
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\ImportHistory whereFileName($value)
  */
 class ImportHistory extends Model
 {

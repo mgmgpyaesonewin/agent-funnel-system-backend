@@ -19,6 +19,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reason whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reason whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $meta_key
+ * @property string|null $meta_value
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereMetaKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Setting whereMetaValue($value)
  */
 class Setting extends Model
 {

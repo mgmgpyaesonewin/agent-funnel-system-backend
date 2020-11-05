@@ -2,6 +2,7 @@
   <div>
     <button
       :class="buttonClass"
+      class="btn-group-last"
       data-toggle="modal"
       :data-target="`#bopSessionModel-${applicantId}`"
     >
@@ -126,3 +127,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btn-group-last {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+</style>

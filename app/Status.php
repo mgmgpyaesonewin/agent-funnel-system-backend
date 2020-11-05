@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string                          $title
  * @property null|\Illuminate\Support\Carbon $created_at
  * @property null|\Illuminate\Support\Carbon $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Status newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Status newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Status query()
@@ -20,6 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Status whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Status whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Applicant[] $applicants
+ * @property-read int|null $applicants_count
  */
 class Status extends Model
 {

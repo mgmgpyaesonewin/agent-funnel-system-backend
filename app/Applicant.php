@@ -30,7 +30,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property null|int                        $reason_id
  * @property null|\Illuminate\Support\Carbon $created_at
  * @property null|\Illuminate\Support\Carbon $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant query()
@@ -56,6 +55,134 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereWorkingExperience($value)
  * @mixin \Eloquent
+ * @property string|null $temp_id
+ * @property string|null $preferred_name
+ * @property string|null $nrc_front_img
+ * @property string|null $nrc_back_img
+ * @property int $myanmar_citizen
+ * @property string|null $citizen
+ * @property string|null $race
+ * @property string|null $married
+ * @property int|null $city_id
+ * @property int|null $township_id
+ * @property string|null $secondary_phone
+ * @property int $accept_t_n_c
+ * @property string|null $spouse_name
+ * @property string|null $spouse_nrc
+ * @property string|null $spouse_occupation
+ * @property string|null $spouse_company_name
+ * @property mixed|null $prudential_agency_exp
+ * @property mixed|null $employment
+ * @property mixed|null $agent_exp
+ * @property mixed|null $family_agent
+ * @property mixed $additional_info
+ * @property string|null $utm_source
+ * @property string|null $utm_medium
+ * @property string|null $utm_campaign
+ * @property string|null $utm_term
+ * @property string $exam_date
+ * @property string|null $username
+ * @property string|null $password
+ * @property string|null $e_learning
+ * @property int $aml_check
+ * @property string|null $payment
+ * @property string $current_status
+ * @property int|null $partner_id
+ * @property int|null $assign_admin_id
+ * @property int|null $assign_bdm_id
+ * @property int|null $assign_ma_id
+ * @property int|null $assign_staff_id
+ * @property string $agent_code
+ * @property int $correct_info
+ * @property string|null $submitted_date
+ * @property string|null $certificate
+ * @property string $bank_account_no
+ * @property string $bank_account_name
+ * @property string $banK_name
+ * @property string|null $bank_branch_name
+ * @property string $swift_code
+ * @property string $license_no
+ * @property string $license_photo_1
+ * @property string $pdf
+ * @property string $uuid
+ * @property string $license_photo_2
+ * @property string|null $agreement_no
+ * @property string|null $signed_date
+ * @property string|null $sign_img
+ * @property-read \App\User|null $admin
+ * @property-read \App\User|null $bdm
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BopSession[] $bop_sessions
+ * @property-read int|null $bop_sessions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Contract[] $contracts
+ * @property-read int|null $contracts_count
+ * @property-read mixed $age
+ * @property-read mixed $interview_schedule
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Interview[] $interviews
+ * @property-read int|null $interviews_count
+ * @property-read \App\User|null $ma
+ * @property-read \App\Partner|null $partner
+ * @property-read \App\User|null $staff
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Status[] $statuses
+ * @property-read int|null $statuses_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Training[] $trainings
+ * @property-read int|null $trainings_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant filter($name = null, $phone = null, $aml_status = null, $date = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant role($auth)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant state($current_status = null, $status_ids_arr = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAcceptTNC($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAdditionalInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAgentCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAgentExp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAgreementNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAmlCheck($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAssignAdminId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAssignBdmId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAssignMaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereAssignStaffId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereBanKName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereBankAccountName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereBankAccountNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereBankBranchName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereCertificate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereCitizen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereCityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereCorrectInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereCurrentStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereELearning($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereEmployment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereExamDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereFamilyAgent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereLicenseNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereLicensePhoto1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereLicensePhoto2($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereMarried($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereMyanmarCitizen($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereNrcBackImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereNrcFrontImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant wherePartnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant wherePayment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant wherePdf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant wherePreferredName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant wherePrudentialAgencyExp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereRace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSecondaryPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSignImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSignedDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSpouseCompanyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSpouseName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSpouseNrc($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSpouseOccupation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSubmittedDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereSwiftCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereTempId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereTownshipId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereUsername($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereUtmCampaign($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereUtmMedium($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereUtmSource($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereUtmTerm($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Applicant whereUuid($value)
  */
 class Applicant extends Model
 {
