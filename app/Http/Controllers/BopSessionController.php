@@ -25,7 +25,7 @@ class BopSessionController extends Controller
     public function getAllSessions(Request $request)
     {
         $keyword = $request->q;
-        $bop_sessions = BopSession::when($keyword, function ($query, $keyword) {
+        $bop_sessions = BopSession::enable()->when($keyword, function ($query, $keyword) {
             return $query->where('title', 'like', "%{$keyword}%");
         })->get();
 

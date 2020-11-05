@@ -33,18 +33,28 @@ class BopSession extends Model
     protected $table = 'bop_sessions';
     protected $guarded = [];
 
-    public function getDate()
+  public function getDate()
     {
         return Carbon::parse($this->session)->format('d-m-Y');
     }
 
-    public function getViberDateFormat() {
-      return Carbon::parse($this->session)->format('jS \\of F Y \\(l\\) h:i A');
+    public function getViberDateFormat()
+    {
+        return Carbon::parse($this->session)->format('jS \\of F Y \\(l\\) h:i A');
     }
 
     public function getTime()
     {
         return Carbon::parse($this->session)->format('h:i A');
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeEnable($query)
+    {
+        return $query->where('enable', 1);
     }
 
     public function applicants()
