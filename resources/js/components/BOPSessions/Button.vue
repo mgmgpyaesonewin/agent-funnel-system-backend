@@ -13,6 +13,7 @@
       :id="`bopSessionModel-${applicantId}`"
       tabindex="-1"
     >
+
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -132,5 +133,9 @@ export default {
 .btn-group-last {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.btn-group-first {
+  border-radius: 0.4285rem 0 0 0.4285rem;
 }
 </style>

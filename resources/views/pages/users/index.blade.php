@@ -113,7 +113,7 @@
                                     </td>
                                     <td class="d-flex">
                                         <a href="{{route('users.edit',$user->id)}}"
-                                            class="btn btn-warning mr-4">Edit</a>
+                                            class="btn btn-warning mr-1">Edit</a>
                                         <form method="POST" action="{{route('users.destroy',$user->id)}}">
                                             @method('delete')
                                             @csrf
