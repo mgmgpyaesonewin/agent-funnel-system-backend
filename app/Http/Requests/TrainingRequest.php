@@ -24,8 +24,8 @@ class TrainingRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required',
-            'enable'=>'required'
+            'name' => 'required',
+            'enable' => 'integer'
         ];
     }
 }
