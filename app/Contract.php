@@ -46,7 +46,7 @@ class Contract extends Model
     {
         parent::boot();
         self::created(function ($model) {
-            $model->agreement_no = "Version {$model->id}";
+            $model->agreement_no = str_pad($model->id, 5, '0', STR_PAD_LEFT);
             $model->save();
         });
     }

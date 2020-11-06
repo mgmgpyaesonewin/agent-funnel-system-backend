@@ -25,6 +25,6 @@ class ContractTest extends TestCase
 
         $contract = Contract::find(1);
         $this->assertEquals($original_contract->version, $contract->version);
-        $this->assertEquals('Version 1', $contract->agreement_no);
+        $this->assertEquals('00001', $contract->agreement_no);
     }
 }
