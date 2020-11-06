@@ -39,7 +39,6 @@ class ApplicantController extends Controller
         $witness_sign_img = Storage::disk('public')->put('sign/witness', $req->witness_url);
 
         $contract = Contract::where('version', $req->version)->where('applicant_id', $applicant->id)->first();
-        $contract->agreement_no = $applicant->temp_id;
         $contract->signed_date = Carbon::now();
         $contract->applicant_sign_img = $applicant_sign;
         $contract->witness_name = $req->witness_name;
