@@ -44,7 +44,14 @@ class Template extends FormRequest
             'email' => 'nullable|boolean',
             'conflict_interest' => 'nullable|boolean',
             'term_condition' => 'nullable|boolean',
-            'additional_info' => 'nullable',
+            'additional_info' => 'nullable|array',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'template_name' => 'Template Name',
         ];
     }
 }

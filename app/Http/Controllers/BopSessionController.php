@@ -69,15 +69,6 @@ class BopSessionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BopSession $bOPSession)
-    {
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @return \Illuminate\Http\Response

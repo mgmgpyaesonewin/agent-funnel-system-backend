@@ -14,6 +14,7 @@
     <a href="{{route('templateforms.create')}}" class="btn btn-primary float-right">Create</a>
   </div>
 </div>
+
 <div class="row">
   <div class="col-12">
     <div class="row">

@@ -6,50 +6,14 @@ use App\Applicant;
 use App\Http\Requests\Template;
 use App\Setting;
 use App\TemplateForm;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class TemplateFormController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getCity(Request $req)
-    {
-        $lang_id = 'my' === $req->lang ? 3 : 1;
-
-        return DB::table('city_descriptions')
-            ->select('c_id as value', 'name as text')
-            ->where('languages_id', $lang_id)
-            ->orderby('text', 'asc')
-            ->get()
-        ;
-    }
-
-    public function getTownship(Request $req)
-    {
-        $city_id = $req->id;
-        $lang_id = 'my' === $req->lang ? 3 : 1;
-
-        return DB::table('townships')
-            ->where('city_id', $city_id)
-            ->join('township_descriptions', 'townships.id', 'township_descriptions.townships_id')
-            ->where('language_id', $lang_id)
-            ->select('townships_id as value', 'description_name as text')
-            ->orderBy('text', 'asc')
-            ->get()
-        ;
-        // $townships = $townships->map(function ($township) {
-        //     return [
-        //         'city_id' => $township->city_id,
-        //         'township_id' => $township->id,
-        //         'township_description' => $township->description[0]->description_name,
-        //     ];
-        // });
-    }
-
     public function index()
     {
         $templates = TemplateForm::orderby('active', 'desc')->get();
@@ -78,7 +42,7 @@ class TemplateFormController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -98,19 +62,20 @@ class TemplateFormController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @param Template $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Template $request)
     {
-        TemplateForm::create($request->all());
+        $data = $request->all();
+
+        if (!isset($data['additional_info'])) {
+            $data['additional_info'] = [];
+        }
+
+        TemplateForm::create($data);
 
         return redirect('templateforms');
-    }
-
-    public function show(TemplateForm $TemplateForm)
-    {
-        //
-        // dd($TemplateForm);
     }
 
     /**
@@ -118,7 +83,7 @@ class TemplateFormController extends Controller
      *
      * @param \App\TemplateForm $templateForm
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($templateForm)
     {
@@ -130,11 +95,10 @@ class TemplateFormController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\TemplateForm        $templateForm
-     * @param mixed                    $id
+     * @param Template $request
+     * @param mixed $id
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function update(Template $request, $id)
     {
@@ -156,9 +120,9 @@ class TemplateFormController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\TemplateForm $templateForm
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $req
+     * @return Response
+     * @throws \Exception
      */
     public function destroy(Request $req)
     {
@@ -166,5 +130,42 @@ class TemplateFormController extends Controller
         $temp->delete();
 
         return redirect('templateforms');
+    }
+
+    /**
+     * Display a listing of City resource.
+     *
+     * @return Collection
+     */
+    public function getCity(Request $req)
+    {
+        $lang_id = 'my' === $req->lang ? 3 : 1;
+
+        return DB::table('city_descriptions')
+      ->select('c_id as value', 'name as text')
+      ->where('languages_id', $lang_id)
+      ->orderby('text', 'asc')
+      ->get();
+    }
+
+    public function getTownship(Request $req)
+    {
+        $city_id = $req->id;
+        $lang_id = 'my' === $req->lang ? 3 : 1;
+
+        return DB::table('townships')
+      ->where('city_id', $city_id)
+      ->join('township_descriptions', 'townships.id', 'township_descriptions.townships_id')
+      ->where('language_id', $lang_id)
+      ->select('townships_id as value', 'description_name as text')
+      ->orderBy('text', 'asc')
+      ->get();
+        // $townships = $townships->map(function ($township) {
+    //     return [
+    //         'city_id' => $township->city_id,
+    //         'township_id' => $township->id,
+    //         'township_description' => $township->description[0]->description_name,
+    //     ];
+    // });
     }
 }

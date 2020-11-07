@@ -14,13 +14,18 @@
     <div class="card">
       <div class="card-content">
         <div class="card-body">
-          <form action="{{ url('templateforms') }}" method="POST" class=" ml-2">
+          <form action="{{ url('templateforms') }}" method="POST" class="ml-2">
             @csrf
             <div class="row  mb-2">
-              <label class="form-check-label" for="template_name">
-                Template Name
+              <label class="col-form-label" for="template_name">
+                <strong>Template Name</strong>
               </label>
-              <input class="form-control" required name="template_name" type="text" value="" id="template_name">
+              <input class="form-control {{ $errors->has('template_name') ? 'is-invalid' : '' }}" name="template_name" type="text" value="" id="template_name">
+              @error('template_name')
+                <span class="text-danger mt-1">
+                    {{$errors->first('template_name')}}
+                </span>
+              @enderror
             </div>
             <div class="row">
               <div class="form-check col-4">

@@ -33,6 +33,8 @@ class BopSessionTest extends TestCase
     /**
      * @test
      * @dataProvider requiredFormValidationProvider
+     * @param $formInput
+     * @param $formInputValue
      */
     public function it_validates_form($formInput, $formInputValue)
     {
