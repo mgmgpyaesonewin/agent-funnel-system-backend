@@ -33,11 +33,20 @@
               </tr>
               </thead>
               <tbody>
+              @php 
+                $total_trainee = 0;
+              @endphp
               @foreach ($trainings as $data)
                 <tr>
                   <th scope="row">{{$data->id}}</th>
                   <td class="">{{$data->name}}</td>
-                  <td class="">{{ $total_trainee }}</td>
+                  <td class="">
+                  <?php
+                  $training_dt = date_format($data->created_at,"Y-m-d");
+                  $total_trainee = DB::table('applicant_status')->where('current_status', 'pmli_filter')->where('status_id', '3')->whereRaw('date_format(created_at,"%Y-%m-%d") >= "'.$training_dt.'"')->count();
+                  ?>
+                  {{ $total_trainee }}
+                  </td>
                   <td class="">{{$data->applicants->count()}}</td>
                   <td>
                     @if ($data->enable == 1)
