@@ -38,6 +38,13 @@ class ApplicantObserver
                 $applicant->assign_staff_id = $user->id;
             }
         }
+
+        // Add partner
+        $user = User::where('utm_source', $utm_source)->first();
+
+        if (isset($user->partner_id)) {
+            $applicant->partner_id = $user->partner_id;
+        }
     }
 
     /**

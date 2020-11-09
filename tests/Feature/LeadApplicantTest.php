@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Applicant;
 use App\BopSession;
+use App\Partner;
 use App\Setting;
 use App\Status;
 use App\User;
@@ -37,7 +38,7 @@ class LeadApplicantTest extends TestCase
         ]);
 
         // $token = JWTAuth::fromUser($this->admin);
-        // $this->admin->token = $token;
+    // $this->admin->token = $token;
     }
 
     /** @test */
@@ -102,9 +103,9 @@ class LeadApplicantTest extends TestCase
         $this->assertEquals($applicant_status->status_id, $new_status_id);
 
         $invited_session = DB::table('applicant_bop_session')
-            ->where('applicant_id', $applicant->id)
-            ->where('bop_session_id', $session->id)
-            ->where('attendance_status', 'invited')->first();
+      ->where('applicant_id', $applicant->id)
+      ->where('bop_session_id', $session->id)
+      ->where('attendance_status', 'invited')->first();
 
         $this->assertEquals($invited_session->id, $session->id);
     }
@@ -191,5 +192,33 @@ class LeadApplicantTest extends TestCase
 
         $this->assertEquals($bdm->id, $created_applicant->assign_bdm_id);
         $this->assertEquals($ma->id, $created_applicant->assign_ma_id);
+    }
+
+    /** @test */
+    public function new_applicant_with_partner_utm_source_should_be_assign_for_partner()
+    {
+        $partner = factory(Partner::class)->create();
+
+        $partner_user = factory(User::class)->create([
+            'is_admin' => 1,
+            'is_bdm' => 0,
+            'is_ma' => 0,
+            'is_staff' => 0,
+            'partner_id' => $partner->id
+        ]);
+
+        $applicant = factory(Applicant::class)->make();
+
+        $this->post('/api/createuser', [
+            'name' => $applicant->name,
+            'dob' => $applicant->dob,
+            'gender' => 'male',
+            'phone' => '09796874359',
+            'utm_source' => $partner_user->utm_source,
+        ]);
+
+        $created_applicant = Applicant::first();
+
+        $this->assertEquals($partner->id, $created_applicant->partner_id);
     }
 }

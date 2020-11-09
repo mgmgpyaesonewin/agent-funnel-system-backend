@@ -434,7 +434,7 @@ class ApplicantController extends Controller
         $applicant->applicant_sign_img = $contract->applicant_sign_img;
         $applicant->witness_sign_img = $contract->witness_sign_img;
         $applicant->witness_name = $contract->witness_name;
-        $applicant->signed_date = Carbon::parse($contract->signed_date)->format('dd-MM-YY');
+        $applicant->signed_date = Carbon::parse($contract->signed_date)->format('d-M-Y');
         $applicant->contractor_signature = json_decode(Setting::where('meta_key', 'contractor_signature')->first()->meta_value);
         $applicant->witness_signature = json_decode(Setting::where('meta_key', 'witness_signature')->first()->meta_value);
 
