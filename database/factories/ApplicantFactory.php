@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 $factory->define(Applicant::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'preferred_name' => $faker->name,
         'phone' => $faker->phoneNumber,
         'dob' => $faker->dateTimeBetween('-30 years', '-18 years'),
         'uuid' => (string) Str::uuid(),

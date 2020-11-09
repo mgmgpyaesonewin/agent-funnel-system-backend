@@ -123,7 +123,7 @@ class BopSessionTest extends TestCase
             'url' => $session_to_update->url,
         ]);
 
-        $response->assertRedirect('/sessions');
+        $response->assertStatus(302);
         $response->assertSessionHas('message', 'Updated Successfully');
 
         $updatedSession = BopSession::find($session->id);
@@ -224,7 +224,7 @@ class BopSessionTest extends TestCase
             'enable' => 1
         ]);
 
-        $response->assertRedirect('/sessions');
+        $response->assertStatus(302);
         $response->assertSessionHas('message', 'Updated Successfully');
 
         $updatedSession = BopSession::find($session->id);
