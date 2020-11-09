@@ -16,9 +16,9 @@ class TrainingController extends Controller
     public function index()
     {
         $trainings = Training::with('applicants')->paginate(20);
-        $total_trainee = DB::table('applicant_status')->where('current_status', 'pmli_filter')->where('status_id', '3')->count();
+       // $total_trainee = DB::table('applicant_status')->where('current_status', 'pmli_filter')->where('status_id', '3')->count();
 
-        return view('pages.training.index', compact('trainings', 'total_trainee'));
+        return view('pages.training.index', compact('trainings'));
     }
 
     public function export($id)
