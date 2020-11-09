@@ -155,14 +155,18 @@
                             <div class="col-md-6">
                                 <p>{{ $applicant->nrc }}</p>
                                 <div>
-                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ url('/storage/'.$applicant->nrc_front_img) }}>
-                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
-                                    </v-info-button>
-                                    <v-info-button css-class="btn btn-outline-primary btn-sm"
-                                        url={{ url('/storage/'.$applicant->nrc_back_img) }}>
-                                        <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
-                                    </v-info-button>
+                                    @if(isset($applicant->nrc_front_img))
+                                        <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                            url={{ url('/storage/'.$applicant->nrc_front_img) }}>
+                                            <i class="fa fa-id-card-o" aria-hidden="true"></i> Front
+                                        </v-info-button>
+                                    @endif
+                                    @if(isset($applicant->nrc_back_img))
+                                        <v-info-button css-class="btn btn-outline-primary btn-sm"
+                                            url={{ url('/storage/'.$applicant->nrc_back_img) }}>
+                                            <i class="fa fa-id-card-o" aria-hidden="true"></i> Back
+                                        </v-info-button>
+                                      @endif
                                 </div>
                             </div>
                         </div>
@@ -531,7 +535,7 @@
                     </div>
                     <div class="card-body">
                         <div class="mt-1 row">
-                            <h6 class="col-md-6">Agree to Terms & Condition:</h6>
+                            <h6 class="col-md-6">Agree to Terms & Conditions:</h6>
                             <p class="col-md-6">{{  $applicant->accept_t_n_c == 1 ? 'Yes' : '-' }}</p>
                         </div>
                         <div class="mt-1 row">
