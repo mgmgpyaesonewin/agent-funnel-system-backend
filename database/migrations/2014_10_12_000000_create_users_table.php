@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->tinyInteger('is_admin');
-            $table->tinyInteger('is_bdm');
-            $table->tinyInteger('is_ma');
-            $table->tinyInteger('is_staff');
+            $table->tinyInteger('is_admin')->default(0);
+            $table->tinyInteger('is_bdm')->default(0);
+            $table->tinyInteger('is_ma')->default(0);
+            $table->tinyInteger('is_staff')->default(0);
             $table->bigInteger('user_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->rememberToken();

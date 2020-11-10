@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Partner;
 use App\User;
 use Illuminate\Support\Str;
 
@@ -12,7 +13,11 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->utm_source = $this->generateUtmSource($user->name, $user->id);
+        if (isset($user->partner_id)) {
+            $user->utm_source = Partner::find($user->partner_id)->slug;
+        } else {
+            $user->utm_source = $this->generateUtmSource($user->name, $user->id);
+        }
         $user->saveQuietly();
     }
 

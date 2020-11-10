@@ -55,7 +55,7 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'lead')
-            <td>{{ $rwo->name }}</td>
+            <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // Lead submitted date --}}
@@ -66,7 +66,7 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'pre_filter')
-            <td>{{ $rwo->name }}</td>
+            <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // Background Check Approve/Reject --}}
@@ -77,7 +77,7 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'pru_dna_test')
-            <td>{{ $rwo->name }}</td>
+            <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // PRUDNA filter Passed/Failed --}}
@@ -88,7 +88,7 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'pru_dna_test')
-            <td>{{ $rwo->name }}</td>
+            <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- //Payment Approve/Reject --}}
@@ -99,7 +99,7 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'certification')
-            <td>{{ $rwo->name }}</td>
+            <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // Certification Passed/Failed --}}
@@ -110,7 +110,7 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'onboard')
-            <td>{{ $rwo->name }}</td>
+            <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // Onboarding Approve/Reject --}}

@@ -37,7 +37,7 @@ class GenerateTemporaryId
 
             $event->applicant->saveQuietly();
 
-            if (isset($event->applicant->temp_id)) {
+            if (isset($event->applicant->temp_id) && $this->shouldGenerateTemporaryID($attributes)) {
                 $viber_content = new ContentType();
                 $viber_content->setText("Your TempID is {$event->applicant->temp_id}");
 

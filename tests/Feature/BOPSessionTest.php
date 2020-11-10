@@ -150,6 +150,7 @@ class BopSessionTest extends TestCase
         $this->assertEquals($isSessionDeletedCount, 0);
     }
 
+    /** @test */
     public function bopSessionsPageExist()
     {
         $response = $this->actingAs($this->admin)->get('/bop_session');
@@ -171,7 +172,7 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function get_all_bop_sessions_excpet_applicant_previous_assigned()
+    public function get_all_bop_sessions_except_applicant_previous_assigned()
     {
         factory(BopSession::class, 5)->create();
         $applicant = factory(Applicant::class)->create();

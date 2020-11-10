@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Partner;
 use App\User;
 use Hash;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,6 +13,33 @@ class UserTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
+
+    /** @test */
+    public function it_can_create_a_partner_user()
+    {
+        $this->withoutExceptionHandling();
+
+        $admin = factory(User::class)->create([
+            'is_admin' => 1,
+            'is_bdm' => 0,
+            'is_ma' => 0,
+            'is_staff' => 0,
+        ]);
+
+        $partner = factory(Partner::class)->create();
+
+        $this->actingAs($admin)->post(route('users.store'), [
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'password' => 'abcd1234',
+            'role' => 'partner',
+            'partner_id' => $partner->id
+        ]);
+
+        $user = User::find(2);
+
+        $this->assertEquals($partner->slug, $user->utm_source);
+    }
 
     /** @test */
     public function a_bdm_can_see_his_utm_link_in_nav()
