@@ -22,7 +22,6 @@ use Carbon\Carbon;
 use Config;
 use DB;
 use DOMPDF;
-use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -32,8 +31,10 @@ class ApplicantController extends Controller
     public function signContract(Request $req)
     {
         $applicant = Applicant::where('uuid', $req->id)->first();
-        $applicant->agent_code = $this->generateAgentCode($applicant->id);
+        $current_agent_code_id = $this->getAgentCodeCurrentID();
+        $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
         $applicant->save();
+        $this->updateAgentCode();
 
         $applicant_sign = Storage::disk('public')->put('sign/applicant', $req->applicant_url);
         $witness_sign_img = Storage::disk('public')->put('sign/witness', $req->witness_url);
@@ -69,9 +70,24 @@ class ApplicantController extends Controller
         ]);
     }
 
-    public function generateAgentCode($applicant_id) : string
+    public function getAgentCodeCurrentID(): int
     {
-        return '022'.str_pad($applicant_id, 5, '0', STR_PAD_LEFT);
+        return (int) Setting::where('meta_key', 'agent_code_current_id')->first()->meta_value;
+    }
+
+    public function updateAgentCode()
+    {
+        $current_id = $this->getAgentCodeCurrentID();
+        $update_current_id = $current_id + 1;
+        Setting::where('meta_key', 'agent_code_current_id')->update([
+            'meta_value' => $update_current_id
+        ]);
+    }
+
+    public function generateAgentCode($current_agent_code_id) : string
+    {
+        $agent_code_id_to_generate = $current_agent_code_id + 1;
+        return '022'.str_pad($agent_code_id_to_generate, 5, '0', STR_PAD_LEFT);
     }
 
     public function detail(Request $req)
