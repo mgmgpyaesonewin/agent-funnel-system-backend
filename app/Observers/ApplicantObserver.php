@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Applicant;
 use App\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ApplicantObserver
