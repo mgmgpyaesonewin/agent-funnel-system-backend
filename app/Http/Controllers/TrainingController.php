@@ -34,7 +34,8 @@ class TrainingController extends Controller
             ->where('applicants.current_status', 'training')
             ->whereRaw('(applicant_training.applicant_id IS NULL OR applicant_training.training_id != '.$id.')')
             ->get();
-        // TODO: export excel
+        $assigned = collect($completed->applicants)->merge(collect($assigned));
+       
         return Excel::download(new TrainingExport($completed->applicants, $assigned, $training), 'ApplicantTrainingDetails.xlsx');
     }
 
