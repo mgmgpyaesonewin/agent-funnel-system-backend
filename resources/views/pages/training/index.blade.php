@@ -38,7 +38,11 @@
                   <th scope="row">{{$data->id}}</th>
                   <td class="">{{$data->name}}</td>
                   <td class="">
-                    {{ DB::table('applicant_status')->where('current_status', 'pmli_filter')->where('status_id', '3')->whereDate('created_at', '>=', $data->created_at)->count() }} 
+                  <?php
+                  $training_dt = date_format($data->created_at,"Y-m-d h:i:s");
+                  $total_trainee = DB::table('applicant_status')->where('current_status', 'pmli_filter')->where('status_id', '3')->whereRaw('date_format(created_at,"%Y-%m-%d %h-%i-%s") >= "'.$training_dt.'"')->count();
+                  ?>
+                  {{ $total_trainee }}
                   </td>
                   <td class="">{{$data->applicants->count()}}</td>
                   <td>
