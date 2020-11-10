@@ -33,7 +33,7 @@ class BopSession extends Model
     protected $table = 'bop_sessions';
     protected $guarded = [];
 
-  public function getDate()
+    public function getDate()
     {
         return Carbon::parse($this->session)->format('d-m-Y');
     }

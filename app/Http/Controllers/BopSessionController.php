@@ -8,7 +8,9 @@ use App\Http\Resources\BopSessionResource;
 use Carbon\Carbon;
 use DB;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class BopSessionController extends Controller
 {
@@ -25,8 +27,14 @@ class BopSessionController extends Controller
     public function getAllSessions(Request $request)
     {
         $keyword = $request->q;
+        $applicant_id = $request->applicant_id;
+
         $bop_sessions = BopSession::enable()->when($keyword, function ($query, $keyword) {
             return $query->where('title', 'like', "%{$keyword}%");
+        })->when($applicant_id, function ($query, $applicant_id) {
+            return $query->whereDoesntHave('applicants', function (Builder $query) use ($applicant_id) {
+                $query->where('applicant_id', $applicant_id);
+            });
         })->get();
 
         return response()->json([
@@ -81,26 +89,20 @@ class BopSessionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @return Redirector
+     * @throws Exception
      */
     public function update(BopSessionRequest $request, BopSession $session)
     {
-        DB::beginTransaction();
+        $data = $request->validated();
 
-        try {
-            $data = $request->validated();
+        $session->title = $data['title'];
+        $session->session = Carbon::parse("{$data['date']} {$data['time']}");
+        $session->url = $data['url'];
+        $session->enable = $data['enable'];
+        $session->save();
 
-            $session->title = $data['title'];
-            $session->session = Carbon::parse("{$data['date']} {$data['time']}");
-            $session->url = $data['url'];
-            $session->enable = $data['enable'];
-            $session->save();
-            DB::commit();
-
-            return redirect('/sessions')->with('message', 'Updated Successfully');
-        } catch (Exception $e) {
-            DB::rollback();
-        }
+        return redirect('/sessions')->with('message', 'Updated Successfully');
     }
 
     /*

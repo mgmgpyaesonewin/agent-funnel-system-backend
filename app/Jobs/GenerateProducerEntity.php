@@ -76,6 +76,5 @@ class GenerateProducerEntity implements ShouldQueue
         }
 
         Storage::disk('public')->put("agents_info/$filename", $content);
-        dd('done');
     }
 }

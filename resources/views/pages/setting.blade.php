@@ -86,6 +86,10 @@
                   Full CV Form link (Leads Stage)
                   @break
 
+                  @case('cv_form_error_msg')
+                  Full CV Form link if error (Leads Stage)
+                  @break
+
                   @case('dna_test_msg')
                   PruDNA Test link (Pre-filter)
                   @break

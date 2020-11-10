@@ -44,7 +44,7 @@
                                 <div class="btn-group mt-1" v-show="applicant.status_id === 1">
                                     <v-bop-sessions-button button-class="btn btn-success btn-group-first"
                                         :old-current-status="applicant.current_status" new-current-status="bop_session"
-                                        :old-status-id="applicant.status_id" :new-status-id="1"
+                                        :old-status-id="applicant.status_id" :new-status-id="1" :reassign="false"
                                         :applicant-id="applicant.id" :bop-sessions="{{ json_encode($bop_sessions) }}">
                                         <i class="fa fa-check" aria-hidden="true"></i>
                                     </v-bop-sessions-button>

@@ -25,16 +25,19 @@ class GenerateTemporaryId
         // Generate Temporary ID
         if ($event->applicant->isDirty('status_id') && 'pmli_filter' == $event->applicant->current_status) {
             $attributes = $event->applicant->getDirty();
+
             if ($this->shouldGenerateTemporaryID($attributes)) {
                 $event->applicant->temp_id = 'FA'.str_pad($event->applicant->id, 6, '0', STR_PAD_LEFT);
+            }
 
-                if ($attributes['status_id'] == 3) {
-                    $event->applicant->status_id = 1;
-                    $event->applicant->current_status = 'training';
-                }
+            if ($attributes['status_id'] == 3) {
+                $event->applicant->status_id = 1;
+                $event->applicant->current_status = 'training';
+            }
 
-                $event->applicant->saveQuietly();
+            $event->applicant->saveQuietly();
 
+            if (isset($event->applicant->temp_id)) {
                 $viber_content = new ContentType();
                 $viber_content->setText("Your TempID is {$event->applicant->temp_id}");
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Applicant;
 use App\BopSession;
 use App\User;
 use Carbon\Carbon;
@@ -113,6 +114,8 @@ class BopSessionTest extends TestCase
     /** @test */
     public function prudential_admin_can_update_bop_session()
     {
+        $this->withoutExceptionHandling();
+
         $session = factory(BopSession::class)->create();
         $session_to_update = factory(BopSession::class)->make();
 
@@ -121,6 +124,7 @@ class BopSessionTest extends TestCase
             'date' => $session_to_update->getDate(),
             'time' => $session_to_update->getTime(),
             'url' => $session_to_update->url,
+            'enable' => 1
         ]);
 
         $response->assertStatus(302);
@@ -167,6 +171,25 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
+    public function get_all_bop_sessions_excpet_applicant_previous_assigned()
+    {
+        factory(BopSession::class, 5)->create();
+        $applicant = factory(Applicant::class)->create();
+
+        $session = BopSession::first();
+        $applicant->bop_sessions()->attach($session->id, [
+            'attendance_status' => 'invited',
+        ]);
+
+        $response = $this->actingAs($this->admin, 'api')->get('/api/sessions?applicant_id=1');
+
+        $data = $response->getOriginalContent();
+
+        $this->assertEquals(true, $data['status']);
+        $this->assertCount(4, $data['sessions']);
+    }
+
+    /** @test */
     public function search_bop_sessions()
     {
         factory(BopSession::class)->create([
@@ -199,7 +222,7 @@ class BopSessionTest extends TestCase
             'enable' => 0
         ]);
 
-        $response->assertRedirect('/sessions');
+        $response->assertStatus(302);
         $response->assertSessionHas('message', 'Updated Successfully');
 
         $updatedSession = BopSession::find($session->id);

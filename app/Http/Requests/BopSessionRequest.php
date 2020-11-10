@@ -27,7 +27,7 @@ class BopSessionRequest extends FormRequest
             'title' => 'required',
             'date' => 'required|date',
             'time' => 'required',
-            'url' => 'required|active_url',
+            'url' => 'required',
             'enable' => 'integer'
         ];
     }

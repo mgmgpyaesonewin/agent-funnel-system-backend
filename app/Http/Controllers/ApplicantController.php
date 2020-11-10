@@ -506,8 +506,8 @@ class ApplicantController extends Controller
         // Background Check Invalid Information - re-send viber message
         if ('pre_filter' == $current_status && 7 == $status_id) {
             $link = env('FRONT_END_URL').'/applicants/'.$applicant->uuid;
-            $text = 'Your information is invalid. '.$viber->getMetaValueByKey('cv_form_msg')->text.' '.$link;
-            $image = $viber->getMetaValueByKey('cv_form_msg')->image;
+            $text = $viber->getMetaValueByKey('cv_form_error_msg')->text.' '.$link;
+            $image = $viber->getMetaValueByKey('cv_form_error_msg')->image;
 
             // Set Viber Content
             $viber_content = new ContentType();
@@ -665,7 +665,7 @@ class ApplicantController extends Controller
     {
         Applicant::where('id', $request->id)->update([
             'username' => $request->username,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
             'e_learning' => $request->url,
         ]);
 

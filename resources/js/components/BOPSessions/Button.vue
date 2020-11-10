@@ -5,6 +5,7 @@
       class="btn-group-last"
       data-toggle="modal"
       :data-target="`#bopSessionModel-${applicantId}`"
+      @click="preFetchSessions"
     >
       <slot></slot>
     </button>
@@ -86,6 +87,7 @@ export default {
     oldStatusId: Number,
     newStatusId: Number,
     bopSessions: Array,
+    reassign: Boolean,
   },
   data() {
     return {
@@ -98,9 +100,14 @@ export default {
     titleWithDateTime({ title, date, time }) {
       return `${title} (${date} ${time})`;
     },
-    searchSession(query) {
+    preFetchSessions() {
+      if (this.reassign) {
+        this.searchSession();
+      }
+    },
+    searchSession(query = "") {
       this.isLoading = true;
-      axios.get(`sessions?q=${query}`).then(({ data }) => {
+      axios.get(`sessions?q=${query}&applicant_id=${this.applicantId}`).then(({ data }) => {
         this.isLoading = false;
         this.sessions = data.sessions;
       });
