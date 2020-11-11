@@ -374,20 +374,20 @@
                                 <h4>Activity Log</h4>
                             </div>
                             <div class="card-body">
-                                @foreach ($activities as $row)
-                                <!-- Lead -->
-                                @if($row->status_id == '1' && $row->current_status == 'lead')
-                                <div class="mt-1 row">
-                                    <h6 class="col-md-4">Registered</h6>
+                                 <!-- Lead -->                                
+                                 <div class="mt-1 row">
+                                    <h6 class="col-md-4">Applicant Registered On</h6>
                                     <p class="col-md-8">
-                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                        {{$applicant->created_at ?? '-'}}
                                     </p>
                                 </div>
-                                @elseif($row->status_id == '1' && $row->current_status == 'pre_filter')
+                                @foreach ($activities as $row)
+                                <!-- Lead Stage -->
+                                @if($row->status_id == '1' && $row->current_status == 'lead')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Lead Stage</h6>
                                     <p class="col-md-6">
-                                        Approved by {{$applicant->created_at ?? '-'}}
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
                                     </p>
                                 </div>
                                 @elseif($row->status_id == '4' && $row->current_status == 'lead')
@@ -399,6 +399,22 @@
                                 </div>
                                 @endif
 
+                                <!-- BOP -->
+                                @if($row->status_id == '1' && $row->current_status == 'bop_session')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">BOP Stage</h6>
+                                    <p class="col-md-6">
+                                        Approved by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>
+                                </div>
+                                @elseif($row->status_id == '4' && $row->current_status == 'bop_session')
+                                <div class="mt-1 row">
+                                    <h6 class="col-md-4">Background Check Stage</h6>
+                                    <p class="col-md-8">
+                                        Rejected by {{$row->name ?? '-'}} on {{$row->created_at ?? '-'}}
+                                    </p>
+                                </div>
+                                @endif
 
                                 <!-- Background Check -->
                                 @if($row->status_id == '1' && $row->current_status == 'pru_dna_test')
