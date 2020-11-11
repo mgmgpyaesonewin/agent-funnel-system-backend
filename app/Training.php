@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Training
@@ -43,5 +44,14 @@ class Training extends Model
     public function scopeEnable($query)
     {
         return $query->where('enable', 1);
+    }
+
+    public function getTrainingTotalAssigned()
+    {
+        return DB::table('applicant_status')
+            ->where('current_status', 'pmli_filter')
+            ->where('status_id', '3')
+            ->where('created_at', '>=', $this->created_at)
+            ->count();
     }
 }
