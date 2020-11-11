@@ -378,7 +378,7 @@
                                 <h4>Activity Log</h4>
                             </div>
                             <div class="card-body">
-                                 <!-- Lead -->                                
+                                 <!-- Lead -->
                                  <div class="mt-1 row">
                                     <h6 class="col-md-4">Applicant Registered On</h6>
                                     <p class="col-md-8">
@@ -387,7 +387,7 @@
                                 </div>
                                 @foreach ($activities as $row)
                                 <!-- Lead Stage -->
-                                @if($row->status_id == '1' && $row->current_status == 'lead')
+                                @if($row->status_id == '1' && $row->current_status == 'bop_session')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">Lead Stage</h6>
                                     <p class="col-md-6">
@@ -404,7 +404,7 @@
                                 @endif
 
                                 <!-- BOP -->
-                                @if($row->status_id == '1' && $row->current_status == 'bop_session')
+                                @if($row->status_id == '1' && $row->current_status == 'pre_filter')
                                 <div class="mt-1 row">
                                     <h6 class="col-md-4">BOP Stage</h6>
                                     <p class="col-md-6">
