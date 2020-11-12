@@ -9,6 +9,7 @@ class InviteApplicantBopSession
 {
     /**
      * Handle the event.
+     * @param InviteBopSession $event
      */
     public function handle(InviteBopSession $event)
     {

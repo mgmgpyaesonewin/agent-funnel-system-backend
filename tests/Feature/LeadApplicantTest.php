@@ -103,9 +103,9 @@ class LeadApplicantTest extends TestCase
         $this->assertEquals($applicant_status->status_id, $new_status_id);
 
         $invited_session = DB::table('applicant_bop_session')
-      ->where('applicant_id', $applicant->id)
-      ->where('bop_session_id', $session->id)
-      ->where('attendance_status', 'invited')->first();
+            ->where('applicant_id', $applicant->id)
+            ->where('bop_session_id', $session->id)
+            ->where('attendance_status', 'invited')->first();
 
         $this->assertEquals($invited_session->id, $session->id);
     }
