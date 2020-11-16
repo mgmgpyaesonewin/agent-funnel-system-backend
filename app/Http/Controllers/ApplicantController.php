@@ -163,14 +163,17 @@ class ApplicantController extends Controller
         $data['swift_code'] = json_decode($req->bank_name)->code;
         $data['license_no'] = $req->license_number;
         $data['bank_branch_name'] = $req->bank_branch_name;
-        $files = $req->file('license_photo');
-        if ($req->hasFile('license_photo')) {
-            foreach ($files as $key => $file) {
-                $index = $key + 1;
-                $url = Storage::disk('public')->put('licenses', $file);
-                $data['license_photo_'.$index] = $url;
-            }
-        }
+        $file = $req->file('license_photo');
+        $url = Storage::disk('public')->put('licenses', $file);
+        $data['license_photo_1'] = $url;
+//        $files = $req->file('license_photo');
+//        if ($req->hasFile('license_photo')) {
+//            foreach ($files as $key => $file) {
+//                $index = $key + 1;
+//                $url = Storage::disk('public')->put('licenses', $file);
+//                $data['license_photo_'.$index] = $url;
+//            }
+//        }
         $appli->update($data);
 
         return $appli;
