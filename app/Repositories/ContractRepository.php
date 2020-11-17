@@ -49,7 +49,6 @@ class ContractRepository implements ContractInterface
     public function isValidContract(string $applicant_uuid, int $contract_version)
     {
         $applicant = Applicant::where('uuid', $applicant_uuid)->first();
-
-        return Contract::where('applicant_id', $applicant->id)->where('version', $contract_version)->exists();
+        return Contract::where('applicant_id', $applicant->id)->latest()->where('version', $contract_version)->whereNull('pdf')->exists();
     }
 }
