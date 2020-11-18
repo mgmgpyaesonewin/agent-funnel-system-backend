@@ -6,6 +6,7 @@ use App\ImportHistory;
 use App\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SettingController extends Controller
 {
@@ -182,5 +183,24 @@ class SettingController extends Controller
         }
 
         return redirect('/signatures')->with('status', 'Successfully Updated the Signatures');
+    }
+
+    public function convertView()
+    {
+        return view('pages.convert');
+    }
+
+    public function convertData(Request $request)
+    {
+        $input = $request->data;
+        $text = explode("\n", str_replace("\r", '', $input));
+        $str = null;
+        foreach ($text as $t) {
+            $t = Str::slug($t, '_');
+            $var = "\${$t}";
+            $str .= "{{$var}}|";
+            echo "{$var} = null; <br />";
+        }
+        echo $str;
     }
 }
