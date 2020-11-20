@@ -6,6 +6,7 @@ use App\Applicant;
 use App\Http\Controllers\ApplicantController;
 use App\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class ApplicantTest extends TestCase
@@ -46,5 +47,111 @@ class ApplicantTest extends TestCase
         $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
 
         $this->assertEquals(1, $current_agent_code_id);
+    }
+
+    /** @test */
+    public function agent_effective_date()
+    {
+        factory(Applicant::class)->create()->each(function ($applicant) {
+            $applicant->statuses()->attach(8, ['current_status' => 'active']);
+        });
+
+        $applicant = Applicant::find(1);
+        $date = $applicant->getEffectiveDate();
+
+        $expected_date = DB::table('applicant_status')
+            ->where('status_id', 8)
+            ->where('current_status', 'active')
+            ->first()->created_at;
+
+        $this->assertEquals($expected_date, $date);
+    }
+
+    /** @test */
+    public function license_exam_pass_date()
+    {
+        factory(Applicant::class)->create()->each(function ($applicant) {
+            $applicant->statuses()->attach(1, ['current_status' => 'onboard']);
+        });
+
+        $applicant = Applicant::find(1);
+        $date = $applicant->getLicenseExamPassDate();
+
+        $expected_date = DB::table('applicant_status')
+            ->where('status_id', 1)
+            ->where('current_status', 'onboard')
+            ->first()->created_at;
+
+        $this->assertEquals($expected_date, $date);
+    }
+
+    /** @test */
+    public function has_spouse_should_return_false_if_single()
+    {
+        factory(Applicant::class)->create([
+            'married' => 'Single',
+            'spouse_name' => 'Pyae Sone'
+        ]);
+
+        $applicant = Applicant::find(1);
+
+        $this->assertEquals(false, $applicant->hasSpouse());
+    }
+
+    /** @test */
+    public function has_spouse_should_return_false_if_spouse_name_is_not_present()
+    {
+        factory(Applicant::class)->create([
+            'married' => 'Married'
+        ]);
+
+        $applicant = Applicant::find(1);
+
+        $this->assertEquals(false, $applicant->hasSpouse());
+    }
+
+    /** @test */
+    public function has_spouse_should_return_true_if_spouse_name_is_present_and_status_is_not_single()
+    {
+        factory(Applicant::class)->create([
+            'married' => 'Divorced',
+            'spouse_name' => 'Pyae Sone'
+        ]);
+
+        $applicant = Applicant::find(1);
+
+        $this->assertEquals(true, $applicant->hasSpouse());
+    }
+
+    /** @test */
+    public function get_current_company_name()
+    {
+        factory(Applicant::class)->create([
+            'employment' => json_encode([
+                [
+                    'income' => null,
+                    'address' => 'Yangon',
+                    'position' => 'Sales',
+                    'company_name' => 'GGI',
+                    'industry_type' => 'Insurance',
+                    'duration_to_date' => '2020-11-11',
+                    'duration_from_date' => '2020-01-01'
+                ],
+                [
+                    'income' => '100000000',
+                    'address' => 'Sule Square',
+                    'position' => 'Manager',
+                    'company_name' => 'Company1',
+                    'industry_type' => 'Service',
+                    'duration_to_date' => '2020-11-04',
+                    'duration_from_date' => '2017-01-01'
+                ]
+            ])
+        ]);
+
+        $applicant = Applicant::find(1);
+        $company = $applicant->getPreviousCompanyData();
+
+        $this->assertEquals('GGI', $company->company_name);
     }
 }

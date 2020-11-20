@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ApplicantUpdating;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\Applicant.
@@ -325,5 +326,59 @@ class Applicant extends Model
         $this->bop_sessions()->attach($session_id, [
             'attendance_status' => 'invited',
         ]);
+    }
+
+    public function getEffectiveDate()
+    {
+        return $this->statuses()
+            ->wherePivot('status_id', 8)
+            ->wherePivot('current_status', 'active')
+            ->first()->pivot->created_at;
+    }
+
+    public function getLicenseExamPassDate()
+    {
+        return $this->statuses()
+            ->wherePivot('status_id', 1)
+            ->wherePivot('current_status', 'onboard')
+            ->first()->pivot->created_at;
+    }
+
+    public function getContractSignedDate()
+    {
+        return $this->contracts()->latest()->first()->created_at;
+    }
+
+    public function isMarried()
+    {
+        return Str::lower($this->married) != 'single';
+    }
+
+    public function hasSpouse()
+    {
+        if ($this->isMarried()) {
+            return isset($this->spouse_name);
+        }
+        return false;
+    }
+
+    public function getPreviousCompanyData()
+    {
+        $employment = json_decode($this->employment);
+
+        if ($this->validEmployment($employment)) {
+            $employment = collect($employment);
+            return $employment->sortByDesc(function ($emp) {
+                return  strtotime($emp->duration_to_date);
+            })->first();
+        }
+    }
+
+    public function validEmployment($employment)
+    {
+        if (isset($employment) && count($employment) >= 0) {
+            return true;
+        }
+        return false;
     }
 }

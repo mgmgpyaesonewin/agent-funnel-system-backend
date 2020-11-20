@@ -41,7 +41,7 @@ class GeneratePayeeBankEntity implements ShouldQueue
 
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;
-            $dateeff = $applicant->statuses()->first()->pivot->created_at->toDateString();
+            $dateeff = $applicant->getEffectiveDate();
             $dateexp = '01/01/2200';
             $name = $applicant->bank_account_name;
             $bankname = $applicant->banK_name;
