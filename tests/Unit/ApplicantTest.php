@@ -154,4 +154,10 @@ class ApplicantTest extends TestCase
 
         $this->assertEquals('GGI', $company->company_name);
     }
+
+    /** @test */
+    public function get_citizenship()
+    {
+
+    }
 }

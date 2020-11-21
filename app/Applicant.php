@@ -381,4 +381,12 @@ class Applicant extends Model
         }
         return false;
     }
+
+    public function getCitizenship()
+    {
+        if ($this->myanmar_citizen) {
+            return 'Myanmar';
+        }
+        return $this->citizen;
+    }
 }

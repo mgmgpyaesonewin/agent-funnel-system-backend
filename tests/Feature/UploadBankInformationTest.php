@@ -19,7 +19,7 @@ class UploadBankInformationTest extends TestCase
 
         $applicant = factory(Applicant::class)->create();
 
-        Storage::fake('licenses');
+        Storage::fake('public');
 
         $response = $this->post("/api/bank_update/{$applicant->id}", [
             'name' => $applicant->name,

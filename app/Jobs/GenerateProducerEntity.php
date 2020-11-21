@@ -43,13 +43,14 @@ class GenerateProducerEntity implements ShouldQueue
             $agent_id = $applicant->agent_code;
             $producer_type = 'Agency-Agent';
             $position_code = 'Standard';
+            $new_ic_no = $applicant->nrc;
             $company_registration_no = null;
             $company_name = null;
             $preferred_name = $applicant->preferred_name;
             $name = $applicant->name;
             $dob = $applicant->dob;
-            $effective_date = $applicant->statuses()->first()->pivot->created_at->toDateString();
-            $appointed_date = $applicant->statuses()->first()->pivot->created_at->toDateString();
+            $effective_date = $applicant->getEffectiveDate();
+            $appointed_date = $applicant->getEffectiveDate();
             $reinstmnt_date = null;
             $termination_date = null;
             $race = $applicant->race;
@@ -58,7 +59,7 @@ class GenerateProducerEntity implements ShouldQueue
             $gender = $applicant->gender;
             $education_qualification = $applicant->education;
             $common_category = null;
-            $citizenship = $applicant->race;
+            $citizenship = $applicant->getCitizenship();
             $marital_status = $applicant->married;
             $coporate_email = null;
             $gst_no = null;
@@ -73,7 +74,7 @@ class GenerateProducerEntity implements ShouldQueue
             $date_expiry = '01/01/2200';
             $company_incorporation_date = null;
 
-            $content .= "{$agent_id}|{$producer_type}|{$position_code}|{$company_registration_no}|{$company_name}|{$preferred_name}|{$name}|{$dob}|{$effective_date}|{$appointed_date}|{$reinstmnt_date}|{$termination_date}|{$race}|{$status}|{$class}|{$gender}|{$education_qualification}|{$common_category}|{$citizenship}|{$marital_status}|{$coporate_email}|{$gst_no}|{$gst_registered_agent}|{$gst_de_registration}|{$termination_type}|{$bank_staff_code}|{$company_authorized_capital}|{$company_paid_up_capital}|{$company_code}|{$comment}|{$date_expiry}|{$company_incorporation_date}\n";
+            $content .= "{$agent_id}|{$producer_type}|{$position_code}|{$new_ic_no}|{$company_registration_no}|{$company_name}|{$preferred_name}|{$name}|{$dob}|{$effective_date}|{$appointed_date}|{$reinstmnt_date}|{$termination_date}|{$race}|{$status}|{$class}|{$gender}|{$education_qualification}|{$common_category}|{$citizenship}|{$marital_status}|{$coporate_email}|{$gst_no}|{$gst_registered_agent}|{$gst_de_registration}|{$termination_type}|{$bank_staff_code}|{$company_authorized_capital}|{$company_paid_up_capital}|{$company_code}|{$comment}|{$date_expiry}|{$company_incorporation_date}\n";
         }
 
         Storage::disk('public')->put("agents_info/$filename", $content);

@@ -45,10 +45,10 @@ class GenerateProducerAdditionalInformationEntity implements ShouldQueue
             $producer_type = 'Agency-Agent';
             $old_ic_no = null;
             $previous_code = null;
-            $effective_date = $applicant->statuses()->first()->pivot->created_at->toDateString();
+            $effective_date = $applicant->getEffectiveDate();
             $agent_code = $applicant->temp_id;
-            $previous_company = $applicant->employment;
-            $previous_company_cessation_date = $applicant->employment->to;
+            $previous_company = $applicant->getPreviousCompanyData()->company_name;
+            $previous_company_cessation_date = $applicant->getPreviousCompanyData()->duration_to_date;
             $financing_version = null;
             $bsc_eligibility_indicator = null;
             $financing_batch_no = null;

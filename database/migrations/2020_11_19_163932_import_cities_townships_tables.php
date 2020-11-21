@@ -14,7 +14,6 @@ class ImportCitiesTownshipsTables extends Migration
     {
         $sql_dump = file_get_contents(__DIR__.'/cities_townships.sql');
         DB::unprepared($sql_dump);
-//        DB::connection()->getPdo()->exec($sql_dump);
     }
 
     /**

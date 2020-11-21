@@ -23,9 +23,10 @@ class PartnerTest extends TestCase
 
     /** @test */
     public function it_should_has_slug()
+
     {
         $company = $this->faker->company;
-        $slug = Str::slug($company);
+        $slug = Str::slug("{$company}", '');
 
         Partner::create([
             'company_name' => $company,

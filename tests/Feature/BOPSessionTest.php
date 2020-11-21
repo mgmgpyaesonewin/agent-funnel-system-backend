@@ -151,9 +151,9 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function bopSessionsPageExist()
+    public function bop_sessions_page_exist()
     {
-        $response = $this->actingAs($this->admin)->get('/bop_session');
+        $response = $this->actingAs($this->admin)->get('/sessions');
 
         $response->assertStatus(200);
         $response->assertViewIs('pages.b_o_p_sessions.index');

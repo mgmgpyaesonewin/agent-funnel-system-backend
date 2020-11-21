@@ -1,9 +1,10 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
 use App\Applicant;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
 
 $factory->define(Applicant::class, function (Faker $faker) {
@@ -18,16 +19,46 @@ $factory->define(Applicant::class, function (Faker $faker) {
         'current_status' => 'pre_filter',
         'email' => $faker->freeEmail,
         'address' => $faker->address,
-        'education' => 'Master\'s Degree',
+        'education' => $faker->randomElement([
+            'Primary Education',
+            'Secondary Education',
+            'Matriculation',
+            'Graduate',
+            'Post Graduate',
+            'Diploma or equivalent',
+        ]),
+        'race' => $faker->randomElement([
+            'Kachin',
+            'Kayah',
+            'Kayin',
+            'Chin',
+            'Burma',
+            'Mon',
+            'Rakhine',
+            'Shan',
+        ]),
+        'myanmar_citizen' => $faker->numberBetween(0, 1),
+        'citizen' => $faker->country,
+        'married' => $faker->randomElement(['Single', 'Married', 'Divorced', 'Widowed']),
         'employment' => json_encode([
             [
-                'industry_type' => 'employed',
-                'position' => $faker->jobTitle,
-                'company_name' => $faker->company,
-                'duration' => '12 months',
-                'address' => '38, Padather Street, Maynigone',
-                'income' => '1,200,000 MMK',
+                'income' => '$ 2000',
+                'address' => 'Yangon',
+                'position' => 'Sales',
+                'company_name' => 'GGI',
+                'industry_type' => 'Insurance',
+                'duration_to_date' => '2020-11-11',
+                'duration_from_date' => '2020-01-01'
             ],
+            [
+                'income' => '1000000 MMK',
+                'address' => 'Sule Square',
+                'position' => 'Manager',
+                'company_name' => 'Company1',
+                'industry_type' => 'Service',
+                'duration_to_date' => '2020-11-04',
+                'duration_from_date' => '2017-01-01'
+            ]
         ]),
         'agent_exp' => json_encode([
             'company_name' => 'Prudential',

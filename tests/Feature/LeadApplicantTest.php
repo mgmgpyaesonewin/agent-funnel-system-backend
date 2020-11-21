@@ -65,9 +65,6 @@ class LeadApplicantTest extends TestCase
 
         $age = Carbon::parse($dob)->age;
         $this->assertEquals($age, $applicant->age);
-
-        $gender = $gender === 0 ? 'Male' : 'Female';
-        $this->assertEquals($gender, $applicant->gender);
     }
 
     /** @test */

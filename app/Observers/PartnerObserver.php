@@ -13,8 +13,9 @@ class PartnerObserver
     public function creating(Partner $partner)
     {
         // convert str to lowercase
-        $compay_name = Str::lower($partner->company_name);
+        $company_name = Str::lower($partner->company_name);
 
-        $partner->slug = Str::slug("{$compay_name}", '');
+        $partner->slug = Str::slug("{$company_name}", '');
     }
 }
+

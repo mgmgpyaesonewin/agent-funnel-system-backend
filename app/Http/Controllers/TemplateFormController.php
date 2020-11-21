@@ -110,11 +110,13 @@ class TemplateFormController extends Controller
             $template[$key] = $validated_data[$key] ?? false;
         }
         $template_detail->update($template->toArray());
-        if (!isset($data['additional_info'])) {
+
+        if (!isset($validated_data['additional_info'])) {
             $template_detail->additional_info = [];
         } else {
             $template_detail->additional_info = $validated_data['additional_info'];
         }
+
         $template_detail->active = $active;
         $template_detail->save();
 
