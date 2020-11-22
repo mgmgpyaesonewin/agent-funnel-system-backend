@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'entity' => [
+        'date_format' => 'yymd',
+    ],
     'contract' => [
         'new_contract_version' => 1,
     ],

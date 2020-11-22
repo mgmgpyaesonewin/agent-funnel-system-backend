@@ -3,12 +3,14 @@
 namespace Tests\Feature;
 
 use App\Applicant;
+use App\Classes\Entity\ProducerEntity;
 use App\Http\Controllers\ApplicantController;
 use App\Jobs\GenerateProducerAdditionalInformationEntity;
 use App\Jobs\GenerateProducerEntity;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EntityFileTest extends TestCase
@@ -17,6 +19,7 @@ class EntityFileTest extends TestCase
     use WithFaker;
 
     protected $admin;
+    protected $applicants;
 
     protected function setUp(): void
     {
@@ -32,7 +35,7 @@ class EntityFileTest extends TestCase
 
         $admin = $this->admin;
 
-        factory(Applicant::class, 25)->create()->each(function (Applicant $applicant, $index) use ($admin) {
+        $this->applicants = factory(Applicant::class, 25)->create()->each(function (Applicant $applicant, $index) use ($admin) {
             $applicantController = new ApplicantController();
             $applicant->agent_code = $applicantController->generateAgentCode($index);
             $applicant->save();
@@ -46,8 +49,15 @@ class EntityFileTest extends TestCase
     /** @test */
     public function generate_producer_entity_file()
     {
-        $job = new GenerateProducerEntity();
-        $job->handle();
+
+        $producerEntity = new ProducerEntity($this->applicants);
+        $producerEntity->generateFileName('PROD');
+
+        $file = $producerEntity->getFilename();
+        $producerEntity->generateFile();
+
+        Storage::disk('public')->assertExists("agents_info/{$file}");
+
     }
 
     public function generate_producer_additional_entity_file()
