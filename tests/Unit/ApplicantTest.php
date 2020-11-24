@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Applicant;
+use App\Classes\Entity\BankEntity;
 use App\Http\Controllers\ApplicantController;
 use App\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -165,5 +166,20 @@ class ApplicantTest extends TestCase
         $state_code = $applicant->getStateCode();
 
         $this->assertEquals('MM-YGN', $state_code);
+    }
+
+    /** @test */
+    public function get_bank_name_short_code()
+    {
+        factory(Applicant::class)->create([
+            'banK_name' => 'CO-OPERATIVE BANK (CB BANK)'
+        ]);
+
+        $applicant = Applicant::where('id', 1)->get();
+
+        $bankEntity = new BankEntity($applicant);
+        $bankEntity->setBankname($applicant->first());
+
+        $this->assertSame('MM-CB', $bankEntity->getBankname());
     }
 }

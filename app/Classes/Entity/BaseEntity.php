@@ -87,9 +87,9 @@ class BaseEntity implements BaseEntityInterface
 
     protected function getEntityEnvironment()
     {
-        if (env('APP_ENV') === 'local') {
-            return 'DEV';
+        if (env('APP_ENV') === 'production') {
+            return 'PROD';
         }
-        return 'PRD';
+        return 'DEV';
     }
 }

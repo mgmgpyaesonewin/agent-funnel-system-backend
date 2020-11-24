@@ -12,6 +12,7 @@ $factory->define(Applicant::class, function (Faker $faker) {
         'name' => $faker->name,
         'preferred_name' => $faker->name,
         'phone' => $faker->phoneNumber,
+        'secondary_phone' => $faker->phoneNumber,
         'dob' => $faker->dateTimeBetween('-30 years', '-18 years'),
         'uuid' => (string) Str::uuid(),
         'gender' => $faker->numberBetween(0, 1),
@@ -79,6 +80,8 @@ $factory->define(Applicant::class, function (Faker $faker) {
         'spouse_nrc' => $faker->numerify('12/SaKhaNa(N)######'),
         'bank_account_name' => $faker->name,
         'bank_account_no' => $faker->numerify('###-###-###-##'),
+        'banK_name' => 'CO-OPERATIVE BANK (CB BANK)',
+        'swift_code' => 'CPOBMMMY',
         'license_no' => $faker->numerify('###-###-###'),
     ];
 });

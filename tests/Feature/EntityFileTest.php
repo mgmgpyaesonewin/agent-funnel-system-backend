@@ -4,14 +4,13 @@ namespace Tests\Feature;
 
 use App\Applicant;
 use App\Classes\Entity\AdditionalInformationEntity;
+use App\Classes\Entity\BankEntity;
 use App\Classes\Entity\ContactEntity;
 use App\Classes\Entity\ProducerEntity;
 use App\Contract;
 use App\Http\Controllers\ApplicantController;
-use App\Jobs\GenerateContractEntity;
 use App\Jobs\GenerateEducationEntity;
 use App\Jobs\GenerateLicenseEntity;
-use App\Jobs\GeneratePayeeBankEntity;
 use App\Jobs\GenerateRelatedPersonEntity;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -99,8 +98,13 @@ class EntityFileTest extends TestCase
     /** @test */
     public function generate_contract_entity_file()
     {
-        $contractEntityJob = new GenerateContractEntity();
-        $contractEntityJob->handle();
+        $contractEntity = new ContactEntity($this->applicants);
+        $contractEntity->generateFileName('CONTR');
+
+        $file = $contractEntity->getFilename();
+        $contractEntity->generateFile();
+
+        Storage::disk('public')->assertExists("agents_info/{$file}");
     }
 
     /** @test */
@@ -120,8 +124,13 @@ class EntityFileTest extends TestCase
     /** @test */
     public function generate_paybank_entity_file()
     {
-        $bankEntity = new GeneratePayeeBankEntity();
-        $bankEntity->handle();
+        $bankEntity = new BankEntity($this->applicants);
+        $bankEntity->generateFileName('BANK');
+
+        $file = $bankEntity->getFilename();
+        $bankEntity->generateFile();
+
+        Storage::disk('public')->assertExists("agents_info/{$file}");
     }
 
     /** @test */

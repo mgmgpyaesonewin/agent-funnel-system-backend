@@ -25,7 +25,7 @@ class ContactEntity extends BaseEntity
     protected ?string $resident_tel = null;
     protected ?string $hp_tel = null;
     protected ?string $email = null;
-    protected string $delimeter = '|';
+    protected string $delimiter = '|';
 
     /**
      * ContactEntity constructor.
@@ -138,67 +138,67 @@ class ContactEntity extends BaseEntity
         foreach ($this->applicants as $applicant) {
             // Agent Id
             $this->setAgentId($applicant);
-            $content .= "{$this->getAgentId()}{$this->delimeter}";
+            $content .= "{$this->getAgentId()}{$this->delimiter}";
 
             //Date Effective
             $this->setEffectiveDate($applicant);
-            $content .= "{$this->getEffectiveDate()}{$this->delimeter}";
+            $content .= "{$this->getEffectiveDate()}{$this->delimiter}";
 
             //Contact Type
-            $content .= "{$this->contact_type}{$this->delimeter}";
+            $content .= "{$this->contact_type}{$this->delimiter}";
 
             //Address 1
             $this->setAddress1($applicant);
-            $content .= "{$this->getAddress1()}{$this->delimeter}";
+            $content .= "{$this->getAddress1()}{$this->delimiter}";
 
             //Address 2
-            $content .= "{$this->address_2}{$this->delimeter}";
+            $content .= "{$this->address_2}{$this->delimiter}";
 
             //Address 3
-            $content .= "{$this->address_3}{$this->delimeter}";
+            $content .= "{$this->address_3}{$this->delimiter}";
 
             //Post Code
-            $content .= "{$this->post_code}{$this->delimeter}";
+            $content .= "{$this->post_code}{$this->delimiter}";
 
             //State Code
             $this->setStateCode($applicant);
-            $content .= "{$this->getStateCode()}{$this->delimeter}";
+            $content .= "{$this->getStateCode()}{$this->delimiter}";
 
             //City
-            $content .= "{$this->city}{$this->delimeter}";
+            $content .= "{$this->city}{$this->delimiter}";
 
             //Country
-            $content .= "{$this->country}{$this->delimeter}";
+            $content .= "{$this->country}{$this->delimiter}";
 
             //Agent/Branch Office
-            $content .= "{$this->agentbranch_office}{$this->delimeter}";
+            $content .= "{$this->agentbranch_office}{$this->delimiter}";
 
             //Branch/Agency Code
-            $content .= "{$this->branchagency_code}{$this->delimeter}";
+            $content .= "{$this->branchagency_code}{$this->delimiter}";
 
             //Region
-            $content .= "{$this->getStateCode()}{$this->delimeter}";
+            $content .= "{$this->getStateCode()}{$this->delimiter}";
 
             //Bank Region
-            $content .= "{$this->bank_region}{$this->delimeter}";
+            $content .= "{$this->bank_region}{$this->delimiter}";
 
             //Office Tel.
             $this->setOfficeTel($applicant);
-            $content .= "{$this->getOfficeTel()}{$this->delimeter}";
+            $content .= "{$this->getOfficeTel()}{$this->delimiter}";
 
             //Resident Tel.
-            $content .= "{$this->contact_type}{$this->delimeter}";
+            $content .= "{$this->resident_tel}{$this->delimiter}";
 
             //H/P Tel.
             $this->setHpTel($applicant);
-            $content .= "{$this->getHpTel()}{$this->delimeter}";
+            $content .= "{$this->getHpTel()}{$this->delimiter}";
 
             //Email
             $this->setEmail($applicant);
-            $content .= "{$this->getEmail()}{$this->delimeter}";
+            $content .= "{$this->getEmail()}{$this->delimiter}";
 
             //Date Expiry
-            $content .= "{$this->date_expiry}{$this->delimeter}";
+            $content .= "{$this->date_expiry}{$this->delimiter}";
 
             // end of Line
             $content .= "\n";

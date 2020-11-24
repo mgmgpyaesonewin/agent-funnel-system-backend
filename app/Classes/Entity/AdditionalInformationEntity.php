@@ -151,6 +151,8 @@ class AdditionalInformationEntity extends BaseEntity
 
             $content .= "{$this->producer_type}{$this->delimeter}";
 
+            $content .= "{$this->previous_code}{$this->delimeter}";
+
             $content .= "{$this->old_ic_no}{$this->delimeter}";
 
             $this->setEffectiveDate($applicant);
