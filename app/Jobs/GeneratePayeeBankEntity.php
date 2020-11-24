@@ -34,27 +34,27 @@ class GeneratePayeeBankEntity implements ShouldQueue
     {
         $datetime = Carbon::now()->format('yymd_Hm');
         $filetype = 'txt';
-        $filename = "cust_EDU_DEV_{$datetime}_PMLI.{$filetype}";
+        $filename = "cust_BANK_DEV_{$datetime}_PMLI.{$filetype}";
 
         $content = null;
         $applicants = Applicant::all();
 
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;
-            $dateeff = $applicant->getEffectiveDate();
-            $dateexp = '01/01/2200';
+            $dateeff = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
+            $dateexp = '22000101';
             $name = $applicant->bank_account_name;
-            $bankname = $applicant->banK_name;
+            $bankname = 'MM-CB';
             $bankaccount = $applicant->bank_account_no;
             $accounttype = null;
             $income_tax_number = null;
-            $swift_code = $applicant->swift_code;
+            $swift_code = 'CPOBMMMY';
             $payee_ic_type = null;
-            $payee_ic_value = null;
+            $payee_ic_value = $applicant->nrc;
             $business_registration_number = null;
-            $payeebanktype = null;
+            $payeebanktype = 'Personal';
 
-            $content .= "{$agent_id}|{$dateeff}|{$dateexp}|{$name}|{$bankname}|{$bankaccount}|{$accounttype}|{$income_tax_number}|{$swift_code}|{$payee_ic_type}|{$payee_ic_value}|{$business_registration_number}|{$payeebanktype}";
+            $content .= "{$agent_id}|{$dateeff}|{$dateexp}|{$name}|{$bankname}|{$bankaccount}|{$accounttype}|{$income_tax_number}|{$swift_code}|{$payee_ic_type}|{$payee_ic_value}|{$business_registration_number}|{$payeebanktype}\n";
         }
 
         Storage::disk('public')->put("agents_info/$filename", $content);

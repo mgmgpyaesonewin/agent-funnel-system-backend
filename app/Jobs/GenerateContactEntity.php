@@ -58,7 +58,6 @@ class GenerateContactEntity implements ShouldQueue
             $resident_tel = null;
             $hp_tel = $applicant->phone;
             $email = $applicant->email;
-            $date_expiry = '01/01/2200';
 
             $content .= "{$agent_id}|{$date_effective}|{$contact_type}|{$address_1}|{$address_2}|{$address_3}|{$post_code}|{$state_code}|{$city}|{$country}|{$agentbranch_office}|{$branchagency_code}|{$region}|{$bank_region}|{$office_tel}|{$resident_tel}|{$hp_tel}|{$email}|{$date_expiry}";
         }

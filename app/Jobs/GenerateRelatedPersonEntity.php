@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Applicant;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -32,7 +34,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
     {
         $datetime = Carbon::now()->format('yymd_Hm');
         $filetype = 'txt';
-        $filename = "cust_CONT_DEV_{$datetime}_PMLI.{$filetype}";
+        $filename = "cust_RLTP_DEV_{$datetime}_PMLI.{$filetype}";
 
         $content = null;
         $applicants = Applicant::all();
@@ -40,24 +42,24 @@ class GenerateRelatedPersonEntity implements ShouldQueue
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;
             $entity_type = 'Spouse'; // If spouse details present
-            $dateeff = null;
-            $entity_name = null;
-            $entity_status = null;
+            $dateeff = $applicant->getEffectiveDate();
+            $entity_name = $applicant->spouse_name;
+            $entity_status = 'A';
             $entity_share_percent = null;
             $entity_succession_order = null;
-            $entity_nric_new = null;
+            $entity_nric_new = $applicant->spouse_nrc;
             $entity_nric_old = null;
-            $entity_relationship = null;
+            $entity_relationship = 'Spouse';
             $entity_agent_id = null;
             $entity_contact_number = null;
             $entity_dob = null;
-            $date_expiry = null;
+            $date_expiry = '2201010';
             $id_type = null;
             $id_number = null;
             $entity_no_of_shares_held = null;
             $is_director = null;
 
-            $content .= "{$agent_id}|{$entity_type}|{$dateeff}|{$entity_name}|{$entity_status}|{$entity_share_percent}|{$entity_succession_order}|{$entity_nric_new}|{$entity_nric_old}|{$entity_relationship}|{$entity_agent_id}|{$entity_contact_number}|{$entity_dob}|{$date_expiry}|{$id_type}|{$id_number}|{$entity_no_of_shares_held}|{$is_director}";
+            $content .= "{$agent_id}|{$entity_type}|{$dateeff}|{$entity_name}|{$entity_status}|{$entity_share_percent}|{$entity_succession_order}|{$entity_nric_new}|{$entity_nric_old}|{$entity_relationship}|{$entity_agent_id}|{$entity_contact_number}|{$entity_dob}|{$date_expiry}|{$id_type}|{$id_number}|{$entity_no_of_shares_held}|{$is_director}\n";
         }
 
         Storage::disk('public')->put("agents_info/$filename", $content);

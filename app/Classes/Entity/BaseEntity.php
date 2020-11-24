@@ -12,6 +12,7 @@ class BaseEntity implements BaseEntityInterface
     protected string $producer_type = 'Agency-Agent';
     protected string $effective_date;
     protected string $appointed_date;
+    protected ?string $date_expiry = '22000101';
 
     /**
      * @return string|null
@@ -81,7 +82,7 @@ class BaseEntity implements BaseEntityInterface
     {
         $datetime = Carbon::now()->format('yymd_Hm');
         $filetype = 'txt';
-        $this->filename = "cust_PROD_{$this->getEntityEnvironment()}_{$datetime}_PMLI.{$filetype}";
+        $this->filename = "cust_{$entityType}_{$this->getEntityEnvironment()}_{$datetime}_PMLI.{$filetype}";
     }
 
     protected function getEntityEnvironment()

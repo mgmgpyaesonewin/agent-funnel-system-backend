@@ -43,16 +43,16 @@ class GenerateContractEntity implements ShouldQueue
             $agent_id = $applicant->agent_code;
             $contract_id = $applicant->agent_code;
             $contract_type = 'PMLI_AD';
-            $date_effective = $applicant->statuses()->first()->pivot->created_at->toDateString();
-            $contract_status = 'Active';
+            $date_effective = $applicant->getEffectiveDate();
+            $contract_status = 'A';
             $contract_manager_id = null;
             $title = 'MM Agency-Agent';
-            $date_expiry = '01/01/2200';
-            $agreement_type = null;
-            $agreement_date = null;
+            $date_expiry = '22000101';
+            $agreement_type = 'Agent Agreement';
+            $agreement_date = $applicant->getLicenseExamPassDate();
             $unit_code = null;
 
-            $content .= "{$agent_id}|{$contract_id}|{$contract_type}|{$date_effective}|{$contract_status}|{$contract_manager_id}|{$title}|{$date_expiry}|{$agreement_type}|{$agreement_date}|{$unit_code}";
+            $content .= "{$agent_id}|{$contract_id}|{$contract_type}|{$date_effective}|{$contract_status}|{$contract_manager_id}|{$title}|{$date_expiry}|{$agreement_type}|{$agreement_date}|{$unit_code}\n";
         }
 
         Storage::disk('public')->put("agents_info/$filename", $content);

@@ -36,7 +36,6 @@ class ProducerEntity extends BaseEntity
     protected ?string $company_paid_up_capital = null;
     protected ?string $company_code = null;
     protected ?string $comment = null;
-    protected ?string $date_expiry = '01/01/2200';
     protected ?string $company_incorporation_date = null;
 
     /**

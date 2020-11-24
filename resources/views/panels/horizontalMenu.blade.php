@@ -24,16 +24,16 @@
         {{-- Foreach menu item starts --}}
         @if(isset($menuData[1]))
         @foreach($menuData[1]->menu as $menu)
-        @php
-        $custom_classes = "";
-        if(isset($menu->classlist)) {
-        $custom_classes = $menu->classlist;
-        }
-        $translation = "";
-        if(isset($menu->i18n)){
-        $translation = $menu->i18n;
-        }
-        @endphp
+          @php
+            $custom_classes = "";
+            if(isset($menu->classlist)) {
+                $custom_classes = $menu->classlist;
+            }
+            $translation = "";
+            if(isset($menu->i18n)){
+                $translation = $menu->i18n;
+            }
+          @endphp
         @if(isset($menu->dropdown))
         <li class="dropdown nav-item {{ (request()->is($menu->url)) ? 'active' : '' }} {{ $custom_classes }}"
           data-menu="dropdown">

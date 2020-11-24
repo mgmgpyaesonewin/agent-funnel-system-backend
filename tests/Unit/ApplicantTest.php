@@ -156,8 +156,13 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function get_citizenship()
+    public function get_state_code()
     {
+        factory(Applicant::class)->create();
 
+        $applicant = Applicant::find(1);
+        $state_code = $applicant->getStateCode();
+
+        $this->assertEquals('MM-YGN', $state_code);
     }
 }

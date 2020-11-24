@@ -3,10 +3,16 @@
 namespace Tests\Feature;
 
 use App\Applicant;
+use App\Classes\Entity\AdditionalInformationEntity;
+use App\Classes\Entity\ContactEntity;
 use App\Classes\Entity\ProducerEntity;
+use App\Contract;
 use App\Http\Controllers\ApplicantController;
-use App\Jobs\GenerateProducerAdditionalInformationEntity;
-use App\Jobs\GenerateProducerEntity;
+use App\Jobs\GenerateContractEntity;
+use App\Jobs\GenerateEducationEntity;
+use App\Jobs\GenerateLicenseEntity;
+use App\Jobs\GeneratePayeeBankEntity;
+use App\Jobs\GenerateRelatedPersonEntity;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -38,7 +44,15 @@ class EntityFileTest extends TestCase
         $this->applicants = factory(Applicant::class, 25)->create()->each(function (Applicant $applicant, $index) use ($admin) {
             $applicantController = new ApplicantController();
             $applicant->agent_code = $applicantController->generateAgentCode($index);
+            $applicant->temp_id = 'FA'.str_pad($applicant->id, 6, '0', STR_PAD_LEFT);
+            factory(Contract::class)->create([
+                'applicant_id' => $applicant->id
+            ]);
             $applicant->save();
+            $applicant->statuses()->attach(1, [
+                'current_status' => 'onboard',
+                'user_id' => $admin->id,
+            ]);
             $applicant->statuses()->attach(8, [
                 'current_status' => 'active',
                 'user_id' => $admin->id,
@@ -49,7 +63,6 @@ class EntityFileTest extends TestCase
     /** @test */
     public function generate_producer_entity_file()
     {
-
         $producerEntity = new ProducerEntity($this->applicants);
         $producerEntity->generateFileName('PROD');
 
@@ -57,12 +70,64 @@ class EntityFileTest extends TestCase
         $producerEntity->generateFile();
 
         Storage::disk('public')->assertExists("agents_info/{$file}");
-
     }
 
+    /** @test */
     public function generate_producer_additional_entity_file()
     {
-        $job = new GenerateProducerAdditionalInformationEntity();
-        $job->handle();
+        $producerAdditionalEntity = new AdditionalInformationEntity($this->applicants);
+        $producerAdditionalEntity->generateFileName('ADD_INFO');
+
+        $file = $producerAdditionalEntity->getFilename();
+        $producerAdditionalEntity->generateFile();
+
+        Storage::disk('public')->assertExists("agents_info/{$file}");
+    }
+
+    /** @test */
+    public function generate_contact_entity_file()
+    {
+        $producerAdditionalEntity = new ContactEntity($this->applicants);
+        $producerAdditionalEntity->generateFileName('CONT');
+
+        $file = $producerAdditionalEntity->getFilename();
+        $producerAdditionalEntity->generateFile();
+
+        Storage::disk('public')->assertExists("agents_info/{$file}");
+    }
+
+    /** @test */
+    public function generate_contract_entity_file()
+    {
+        $contractEntityJob = new GenerateContractEntity();
+        $contractEntityJob->handle();
+    }
+
+    /** @test */
+    public function generate_related_person_entity_file()
+    {
+        $relatedPersonEntity = new GenerateRelatedPersonEntity();
+        $relatedPersonEntity->handle();
+    }
+
+    /** @test */
+    public function generate_education_entity_file()
+    {
+        $educationEntity = new GenerateEducationEntity();
+        $educationEntity->handle();
+    }
+
+    /** @test */
+    public function generate_paybank_entity_file()
+    {
+        $bankEntity = new GeneratePayeeBankEntity();
+        $bankEntity->handle();
+    }
+
+    /** @test */
+    public function generate_license_entity_file()
+    {
+        $bankEntity = new GenerateLicenseEntity();
+        $bankEntity->handle();
     }
 }

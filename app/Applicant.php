@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ApplicantUpdating;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
@@ -388,5 +389,12 @@ class Applicant extends Model
             return 'Myanmar';
         }
         return $this->citizen;
+    }
+
+    public function getStateCode()
+    {
+          return "MM-YGN";
+//        return DB::table('city_descriptions')->where('c_id', $this->city_id)
+//            ->first()->value;
     }
 }

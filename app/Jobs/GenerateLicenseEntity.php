@@ -34,7 +34,7 @@ class GenerateLicenseEntity implements ShouldQueue
     {
         $datetime = Carbon::now()->format('yymd_Hm');
         $filetype = 'txt';
-        $filename = "cust_CONT_DEV_{$datetime}_PMLI.{$filetype}";
+        $filename = "cust_LICN_DEV_{$datetime}_PMLI.{$filetype}";
 
         $content = null;
         $applicants = Applicant::all();
@@ -42,15 +42,15 @@ class GenerateLicenseEntity implements ShouldQueue
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;
             $license_id = null;
-            $licence_type = null;
-            $license_staus = null;
-            $registration_number = null;
-            $effective_date = null;
+            $licence_type = 'Life';
+            $license_staus = 'A';
+            $registration_number = $applicant->license_no;
+            $effective_date = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
             $license_expiry_date = null;
-            $date_expiry = null;
+            $date_expiry = '20200101';
             $invoice_number = null;
 
-            $content .= "{$agent_id}|{$license_id}|{$licence_type}|{$license_staus}|{$registration_number}|{$effective_date}|{$license_expiry_date}|{$date_expiry}|{$invoice_number}";
+            $content .= "{$agent_id}|{$license_id}|{$licence_type}|{$license_staus}|{$registration_number}|{$effective_date}|{$license_expiry_date}|{$date_expiry}|{$invoice_number}\n";
         }
 
         Storage::disk('public')->put("agents_info/$filename", $content);

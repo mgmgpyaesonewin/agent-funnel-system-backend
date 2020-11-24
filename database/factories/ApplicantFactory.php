@@ -73,5 +73,12 @@ $factory->define(Applicant::class, function (Faker $faker) {
             'nrc' => '12/SaKaNa(N)082719',
         ]),
         'status_id' => 1,
+        'city_id' => 2,
+        'township_id' => 2,
+        'spouse_name' => $faker->name,
+        'spouse_nrc' => $faker->numerify('12/SaKhaNa(N)######'),
+        'bank_account_name' => $faker->name,
+        'bank_account_no' => $faker->numerify('###-###-###-##'),
+        'license_no' => $faker->numerify('###-###-###'),
     ];
 });
