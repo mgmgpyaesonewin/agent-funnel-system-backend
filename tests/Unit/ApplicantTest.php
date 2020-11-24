@@ -102,7 +102,8 @@ class ApplicantTest extends TestCase
     public function has_spouse_should_return_false_if_spouse_name_is_not_present()
     {
         factory(Applicant::class)->create([
-            'married' => 'Married'
+            'married' => 'Married',
+            'spouse_name' => null
         ]);
 
         $applicant = Applicant::find(1);
