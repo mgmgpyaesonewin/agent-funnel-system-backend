@@ -42,7 +42,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;
             $entity_type = 'Spouse'; // If spouse details present
-            $dateeff = $applicant->getEffectiveDate();
+            $dateeff = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
             $entity_name = $applicant->spouse_name;
             $entity_status = 'A';
             $entity_share_percent = null;
@@ -53,7 +53,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
             $entity_agent_id = null;
             $entity_contact_number = null;
             $entity_dob = null;
-            $date_expiry = '2201010';
+            $date_expiry = '22000101';
             $id_type = null;
             $id_number = null;
             $entity_no_of_shares_held = null;

@@ -47,7 +47,7 @@ class GenerateLicenseEntity implements ShouldQueue
             $registration_number = $applicant->license_no;
             $effective_date = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
             $license_expiry_date = null;
-            $date_expiry = '20200101';
+            $date_expiry = '22000101';
             $invoice_number = null;
 
             $content .= "{$agent_id}|{$license_id}|{$licence_type}|{$license_staus}|{$registration_number}|{$effective_date}|{$license_expiry_date}|{$date_expiry}|{$invoice_number}\n";

@@ -41,16 +41,16 @@ class GenerateEducationEntity implements ShouldQueue
 
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;
-            $date_effective = $applicant->getEffectiveDate();
+            $date_effective = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
             $examination_category = 'NIIM';
             $examination_description = 'National Insurance Institute of Myanmar';
             $examination_status = 'A';
             $examination_date_effective = $applicant->getLicenseExamPassDate()->format(config('constants.entity.date_format'));
             $examination_date_expiry = null;
             $credits = null;
-            $date_expiry = '22001010';
+            $date_expiry = '22000101';
 
-            $content .= "{$agent_id}{$date_effective}|{$examination_category}|{$examination_description}|{$examination_status}|{$examination_date_effective}|{$examination_date_expiry}|{$credits}|{$date_expiry}\n";
+            $content .= "{$agent_id}|{$date_effective}|{$examination_category}|{$examination_description}|{$examination_status}|{$examination_date_effective}|{$examination_date_expiry}|{$credits}|{$date_expiry}\n";
         }
 
         Storage::disk('public')->put("agents_info/$filename", $content);

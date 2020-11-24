@@ -13,6 +13,7 @@ use App\Jobs\GenerateEducationEntity;
 use App\Jobs\GenerateLicenseEntity;
 use App\Jobs\GenerateRelatedPersonEntity;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Storage;
@@ -51,6 +52,7 @@ class EntityFileTest extends TestCase
             $applicant->statuses()->attach(1, [
                 'current_status' => 'onboard',
                 'user_id' => $admin->id,
+                'created_at' => Carbon::now()->subDays(3)
             ]);
             $applicant->statuses()->attach(8, [
                 'current_status' => 'active',
