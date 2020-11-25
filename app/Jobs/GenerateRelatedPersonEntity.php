@@ -37,7 +37,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
         $filename = "cust_RLTP_DEV_{$datetime}_PMLI.{$filetype}";
 
         $content = null;
-        $applicants = Applicant::all();
+        $applicants = Applicant::with('activatedWithinInterval')->get();
 
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;

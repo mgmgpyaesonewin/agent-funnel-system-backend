@@ -206,6 +206,29 @@ class Applicant extends Model
         return $this->belongsToMany('App\Status')->withPivot('current_status', 'user_id')->withTimestamps();
     }
 
+    public function activatedYesterday()
+    {
+        return $this->belongsToMany('App\Status')->withPivot('current_status', 'user_id')
+            ->withTimestamps()
+            ->wherePivot('status_id', 8)
+            ->wherePivot(
+                'current_status',
+                'active'
+            )->wherePivot('created_at', '>=', Carbon::now()->subHours(24));
+    }
+
+    // testing
+    public function activatedWithinInterval()
+    {
+        return $this->belongsToMany('App\Status')->withPivot('current_status', 'user_id')
+        ->withTimestamps()
+        ->wherePivot('status_id', 8)
+        ->wherePivot(
+            'current_status',
+            'active'
+        )->wherePivot('created_at', '>=', Carbon::now()->subHours(8));
+    }
+
     public function bop_sessions()
     {
         return $this->belongsToMany('App\BopSession')->withPivot('attendance_status')->withTimestamps();
@@ -393,7 +416,7 @@ class Applicant extends Model
 
     public function getStateCode()
     {
-          return "MM-YGN";
+        return 'MM-YGN';
 //        return DB::table('city_descriptions')->where('c_id', $this->city_id)
 //            ->first()->value;
     }

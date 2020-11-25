@@ -32,7 +32,7 @@ class GeneratePayeeBankEntity implements ShouldQueue
      */
     public function handle()
     {
-        $applicants = Applicant::all();
+        $applicants = Applicant::with('activatedWithinInterval')->get();
         $bankEntity = new BankEntity($applicants);
         $bankEntity->generateFileName('BANK');
         $bankEntity->generateFile();

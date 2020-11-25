@@ -33,7 +33,7 @@ class GenerateProducerEntity implements ShouldQueue
      */
     public function handle()
     {
-        $applicants = Applicant::all();
+        $applicants = Applicant::with('activatedWithinInterval')->get();
         $producerEntity = new ProducerEntity($applicants);
         $producerEntity->generateFileName('PROD');
         $producerEntity->generateFile();
