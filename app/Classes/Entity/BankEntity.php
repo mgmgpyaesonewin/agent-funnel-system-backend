@@ -16,7 +16,7 @@ class BankEntity extends BaseEntity
     protected ?string $accounttype = null;
     protected ?string $income_tax_number = null;
     protected ?string $swift_code = null; // 'CPOBMMMY';
-    protected ?string $payee_ic_type = null; // $applicant->nrc;
+    protected ?string $payee_ic_type = 'NRIC - New Number';
     protected ?string $payee_ic_value = null; // $applicant->nrc;
     protected ?string $business_registration_number = null;
     protected ?string $payeebanktype = 'Personal';
@@ -110,22 +110,6 @@ class BankEntity extends BaseEntity
     /**
      * @return string|null
      */
-    public function getPayeeIcType(): ?string
-    {
-        return $this->payee_ic_type;
-    }
-
-    /**
-     * @param Applicant $applicant
-     */
-    public function setPayeeIcType(Applicant $applicant): void
-    {
-        $this->payee_ic_type = $applicant->nrc;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getPayeeIcValue(): ?string
     {
         return $this->payee_ic_value;
@@ -209,12 +193,11 @@ class BankEntity extends BaseEntity
             $content .= "{$this->getSwiftCode()}{$this->delimiter}";
 
             //Payee IC Type
-            $this->setPayeeIcType($applicant);
-            $content .= "{$this->getPayeeIcType()}{$this->delimiter}";
+            $content .= "{$this->payee_ic_type}{$this->delimiter}";
 
             //Payee IC Value
             $this->setPayeeIcValue($applicant);
-            $content .= "{$this->getPayeeIcType()}{$this->delimiter}";
+            $content .= "{$this->getPayeeIcValue()}{$this->delimiter}";
 
             //Business Registration Number
             $content .= "{$this->business_registration_number}{$this->delimiter}";

@@ -7,6 +7,7 @@ use App\Contract;
 use App\Http\Controllers\ApplicantController;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class FakeApplicant extends Command
 {
@@ -41,7 +42,10 @@ class FakeApplicant extends Command
      */
     public function handle()
     {
-        factory(Applicant::class, (int) $this->argument('count'))->create()->each(function (Applicant $applicant, $index) {
+        factory(Applicant::class, (int) $this->argument('count'))->create([
+            'current_status' => 'active',
+            'status_id' => 8,
+        ])->each(function (Applicant $applicant, $index) {
             $applicantController = new ApplicantController();
             $applicant->agent_code = $applicantController->generateAgentCode($index);
             $applicant->temp_id = 'FA'.str_pad($applicant->id, 6, '0', STR_PAD_LEFT);
@@ -59,5 +63,6 @@ class FakeApplicant extends Command
                 'user_id' => 1,
             ]);
         });
+        Log::info("Applicants {$this->argument('count')} is generated");
     }
 }
