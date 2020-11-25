@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Applicant;
 use App\Contract;
 use App\Http\Controllers\ApplicantController;
+use App\Setting;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +17,7 @@ class FakeApplicant extends Command
      *
      * @var string
      */
-    protected $signature = 'fake:applicants {count}';
+    protected $signature = 'fake:applicants';
 
     /**
      * The console command description.
@@ -42,7 +43,9 @@ class FakeApplicant extends Command
      */
     public function handle()
     {
-        factory(Applicant::class, (int) $this->argument('count'))->create([
+        $applicants = Setting::where('meta_key', 'applicants_count')->first();
+        $count = (int) $applicants->meta_value + 5;
+        factory(Applicant::class, (int) $count)->create([
             'current_status' => 'active',
             'status_id' => 8,
         ])->each(function (Applicant $applicant, $index) {
@@ -63,6 +66,8 @@ class FakeApplicant extends Command
                 'user_id' => 1,
             ]);
         });
-        Log::info("Applicants {$this->argument('count')} is generated");
+        $applicants->meta_value = $count;
+        $applicants->save();
+        Log::info("Applicants {$count} is generated");
     }
 }
