@@ -29,6 +29,7 @@ class ProducerEntity extends BaseEntity
     protected ?string $corporate_email = null;
     protected ?string $gst_no = null;
     protected ?string $gst_registered_agent = null;
+    protected ?string $gst_registration_date = null;
     protected ?string $gst_de_registration = null;
     protected ?string $termination_type = null;
     protected ?string $bank_staff_code = null;
@@ -233,7 +234,7 @@ class ProducerEntity extends BaseEntity
             $this->setCitizenship($applicant);
             $this->setMaritalStatus($applicant);
 
-            $content .= "{$this->getAgentId()}|{$this->producer_type}|{$this->position_code}|{$this->getNewIcNo()}|{$this->company_registration_no}|{$this->company_name}|{$this->getPreferredName()}|{$this->getName()}|{$this->getDob()}|{$this->getEffectiveDate()}|{$this->getAppointedDate()}|{$this->reinstmnt_date}|{$this->termination_date}|{$this->getRace()}|{$this->status}|{$this->class}|{$this->getGender()}|{$this->getEducationQualification()}|{$this->common_category}|{$this->getCitizenship()}|{$this->getMaritalStatus()}|{$this->corporate_email}|{$this->gst_no}|{$this->gst_registered_agent}|{$this->gst_de_registration}|{$this->termination_type}|{$this->bank_staff_code}|{$this->company_authorized_capital}|{$this->company_paid_up_capital}|{$this->company_code}|{$this->comment}|{$this->date_expiry}|{$this->company_incorporation_date}\n";
+            $content .= "{$this->getAgentId()}|{$this->producer_type}|{$this->position_code}|{$this->getNewIcNo()}|{$this->company_registration_no}|{$this->company_name}|{$this->getPreferredName()}|{$this->getName()}|{$this->getDob()}|{$this->getEffectiveDate()}|{$this->getAppointedDate()}|{$this->reinstmnt_date}|{$this->termination_date}|{$this->getRace()}|{$this->status}|{$this->class}|{$this->getGender()}|{$this->getEducationQualification()}|{$this->common_category}|{$this->getCitizenship()}|{$this->getMaritalStatus()}|{$this->corporate_email}|{$this->gst_no}|{$this->gst_registered_agent}|{$this->gst_registration_date}|{$this->gst_de_registration}|{$this->termination_type}|{$this->bank_staff_code}|{$this->company_authorized_capital}|{$this->company_paid_up_capital}|{$this->company_code}|{$this->comment}|{$this->date_expiry}|{$this->company_incorporation_date}\n";
         }
 
         Storage::disk('public')->put("agents_info/{$this->getFilename()}", $content);

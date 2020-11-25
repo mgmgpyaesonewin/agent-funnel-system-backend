@@ -32,7 +32,7 @@ class GenerateEducationEntity implements ShouldQueue
      */
     public function handle()
     {
-        $datetime = Carbon::now()->format('yymd_Hm');
+        $datetime = Carbon::now()->format('yymd_Hms');
         $filetype = 'txt';
         $filename = "cust_EDU_DEV_{$datetime}_PMLI.{$filetype}";
 
@@ -43,7 +43,7 @@ class GenerateEducationEntity implements ShouldQueue
             $agent_id = $applicant->agent_code;
             $date_effective = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
             $examination_category = 'NIIM';
-            $examination_description = 'National Insurance Institute of Myanmar';
+            $examination_description = 'Life Insurance Agent Qualification Certificate';
             $examination_status = 'A';
             $examination_date_effective = $applicant->getLicenseExamPassDate()->format(config('constants.entity.date_format'));
             $examination_date_expiry = null;

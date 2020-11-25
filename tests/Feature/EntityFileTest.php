@@ -6,6 +6,7 @@ use App\Applicant;
 use App\Classes\Entity\AdditionalInformationEntity;
 use App\Classes\Entity\BankEntity;
 use App\Classes\Entity\ContactEntity;
+use App\Classes\Entity\ContractEntity;
 use App\Classes\Entity\ProducerEntity;
 use App\Contract;
 use App\Http\Controllers\ApplicantController;
@@ -100,7 +101,7 @@ class EntityFileTest extends TestCase
     /** @test */
     public function generate_contract_entity_file()
     {
-        $contractEntity = new ContactEntity($this->applicants);
+        $contractEntity = new ContractEntity($this->applicants);
         $contractEntity->generateFileName('CONTR');
 
         $file = $contractEntity->getFilename();

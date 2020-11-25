@@ -199,7 +199,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>NRIC - New Number</td>
             <td>{{ $applicant->nrc }}</td>
             <td>{{ $applicant->bank_account_name }}</td>
             <td>{{ $applicant->bank_account_no }}</td>
