@@ -33,14 +33,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new GenerateContactEntity())->withoutOverlapping()->everyMinute(); // CONT
-        $schedule->job(new GenerateContractEntity())->withoutOverlapping()->everyMinute(); // CONTR
-        $schedule->job(new GenerateEducationEntity())->withoutOverlapping()->everyMinute(); // EDU
-        $schedule->job(new GenerateLicenseEntity())->withoutOverlapping()->everyMinute(); // LICN
-        $schedule->job(new GeneratePayeeBankEntity())->withoutOverlapping()->everyMinute(); // BANK
-        $schedule->job(new GenerateProducerAdditionalInformationEntity())->withoutOverlapping()->everyMinute(); // ADD_INFO
-        $schedule->job(new GenerateProducerEntity())->withoutOverlapping()->everyMinute(); // PROD
-        $schedule->job(new GenerateRelatedPersonEntity())->withoutOverlapping()->everyMinute(); // Related person
+        $schedule->job(new GenerateContactEntity())->everyMinute(); // CONT
+        $schedule->job(new GenerateContractEntity())->everyMinute(); // CONTR
+        $schedule->job(new GenerateEducationEntity())->everyMinute(); // EDU
+        $schedule->job(new GenerateLicenseEntity())->everyMinute(); // LICN
+        $schedule->job(new GeneratePayeeBankEntity())->everyMinute(); // BANK
+        $schedule->job(new GenerateProducerAdditionalInformationEntity())->everyMinute(); // ADD_INFO
+        $schedule->job(new GenerateProducerEntity())->everyMinute(); // PROD
+        $schedule->job(new GenerateRelatedPersonEntity())->everyMinute(); // Related person
 
         $applicants = Setting::where('meta_key', 'applicants_count')->first();
         $count = (int) $applicants->meta_value + 5;
