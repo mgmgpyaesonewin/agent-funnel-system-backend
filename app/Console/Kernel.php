@@ -10,7 +10,6 @@ use App\Jobs\GeneratePayeeBankEntity;
 use App\Jobs\GenerateProducerAdditionalInformationEntity;
 use App\Jobs\GenerateProducerEntity;
 use App\Jobs\GenerateRelatedPersonEntity;
-use App\Setting;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -42,9 +41,9 @@ class Kernel extends ConsoleKernel
             $schedule->job(new GenerateProducerAdditionalInformationEntity())->dailyAt($time); // ADD_INFO
             $schedule->job(new GenerateProducerEntity())->dailyAt($time); // PROD
             $schedule->job(new GenerateRelatedPersonEntity())->dailyAt($time); // Related person
-
-            $schedule->command("fake:applicant")->dailyAt($time);
         }
+        $schedule->command('fake:applicant')->dailyAt('7:45');
+        $schedule->command('fake:applicant')->dailyAt('7:45');
     }
 
     /**

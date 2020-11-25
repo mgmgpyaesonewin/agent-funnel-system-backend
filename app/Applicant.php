@@ -226,7 +226,7 @@ class Applicant extends Model
         ->wherePivot(
             'current_status',
             'active'
-        )->wherePivot('created_at', '>=', Carbon::now()->subHours(8));
+        )->wherePivot('created_at', '>=', Carbon::now()->subHours(4));
     }
 
     public function bop_sessions()
