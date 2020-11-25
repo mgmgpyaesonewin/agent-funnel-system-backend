@@ -45,7 +45,7 @@ class Kernel extends ConsoleKernel
 
             $applicants = Setting::where('meta_key', 'applicants_count')->first();
             $count = (int) $applicants->meta_value + 5;
-            $schedule->command("fake:applicant {$count}");
+            $schedule->command("fake:applicant {$count}")->dailyAt($time);
             $applicants->meta_value = $count;
             $applicants->save();
         }
