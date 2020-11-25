@@ -43,7 +43,8 @@ class Kernel extends ConsoleKernel
             $schedule->job(new GenerateRelatedPersonEntity())->dailyAt($time); // Related person
         }
         $schedule->command('fake:applicant')->dailyAt('7:45');
-        $schedule->command('fake:applicant')->dailyAt('7:45');
+        $schedule->command('fake:applicant')->dailyAt('11:45');
+        $schedule->command('fake:applicant')->dailyAt('15:45');
     }
 
     /**
