@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class GenerateLicenseEntity implements ShouldQueue
@@ -53,6 +54,7 @@ class GenerateLicenseEntity implements ShouldQueue
             $content .= "{$agent_id}|{$license_id}|{$licence_type}|{$license_staus}|{$registration_number}|{$effective_date}|{$license_expiry_date}|{$date_expiry}|{$invoice_number}\n";
         }
 
-        Storage::disk('public')->put("agents_info/$filename", $content);
+        Log::info("Generated File: {$filename}");
+        Storage::disk('public')->put("agents/$filename", $content);
     }
 }

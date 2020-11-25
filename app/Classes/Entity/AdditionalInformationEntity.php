@@ -5,6 +5,7 @@ namespace App\Classes\Entity;
 use App\Applicant;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class AdditionalInformationEntity extends BaseEntity
@@ -69,6 +70,7 @@ class AdditionalInformationEntity extends BaseEntity
     protected ?string $ql_recovery_letter_date = null;
     protected ?string $financing_outstanding_amount = null;
     protected string $delimeter = '    ';
+
     /**
      * AdditionalInformationEntity constructor.
      * @param Collection $applicants
@@ -333,6 +335,7 @@ class AdditionalInformationEntity extends BaseEntity
             // end of Line
             $content .= "\n";
         }
-        Storage::disk('public')->put("agents_info/{$this->getFilename()}", $content);
+        Log::info("Generated File: {$this->getFilename()}");
+        Storage::disk('public')->put("agents/{$this->getFilename()}", $content);
     }
 }

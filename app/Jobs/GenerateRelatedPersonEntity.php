@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class GenerateRelatedPersonEntity implements ShouldQueue
@@ -62,6 +63,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
             $content .= "{$agent_id}|{$entity_type}|{$dateeff}|{$entity_name}|{$entity_status}|{$entity_share_percent}|{$entity_succession_order}|{$entity_nric_new}|{$entity_nric_old}|{$entity_relationship}|{$entity_agent_id}|{$entity_contact_number}|{$entity_dob}|{$date_expiry}|{$id_type}|{$id_number}|{$entity_no_of_shares_held}|{$is_director}\n";
         }
 
-        Storage::disk('public')->put("agents_info/$filename", $content);
+        Log::info("Generated File: {$filename}");
+        Storage::disk('public')->put("agents/$filename", $content);
     }
 }

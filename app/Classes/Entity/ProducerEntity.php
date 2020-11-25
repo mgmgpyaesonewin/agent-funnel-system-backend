@@ -3,7 +3,9 @@
 namespace App\Classes\Entity;
 
 use App\Applicant;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ProducerEntity extends BaseEntity
@@ -109,7 +111,7 @@ class ProducerEntity extends BaseEntity
      */
     public function setDob(Applicant $applicant): void
     {
-        $this->dob = $applicant->dob->format('Ymd');
+        $this->dob = Carbon::parse($applicant->dob)->format('Ymd');
     }
 
     /**
@@ -129,7 +131,6 @@ class ProducerEntity extends BaseEntity
             $this->race = $applicant->race;
         }
         $this->race = 'Others';
-
     }
 
     /**
@@ -237,6 +238,7 @@ class ProducerEntity extends BaseEntity
             $content .= "{$this->getAgentId()}|{$this->producer_type}|{$this->position_code}|{$this->getNewIcNo()}|{$this->company_registration_no}|{$this->company_name}|{$this->getPreferredName()}|{$this->getName()}|{$this->getDob()}|{$this->getEffectiveDate()}|{$this->getAppointedDate()}|{$this->reinstmnt_date}|{$this->termination_date}|{$this->getRace()}|{$this->status}|{$this->class}|{$this->getGender()}|{$this->getEducationQualification()}|{$this->common_category}|{$this->getCitizenship()}|{$this->getMaritalStatus()}|{$this->corporate_email}|{$this->gst_no}|{$this->gst_registered_agent}|{$this->gst_registration_date}|{$this->gst_de_registration}|{$this->termination_type}|{$this->bank_staff_code}|{$this->company_authorized_capital}|{$this->company_paid_up_capital}|{$this->company_code}|{$this->comment}|{$this->date_expiry}|{$this->company_incorporation_date}\n";
         }
 
-        Storage::disk('public')->put("agents_info/{$this->getFilename()}", $content);
+        Log::info("Generated File: {$this->getFilename()}");
+        Storage::disk('public')->put("agents/{$this->getFilename()}", $content);
     }
 }

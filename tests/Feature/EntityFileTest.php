@@ -71,7 +71,7 @@ class EntityFileTest extends TestCase
         $file = $producerEntity->getFilename();
         $producerEntity->generateFile();
 
-        Storage::disk('public')->assertExists("agents_info/{$file}");
+        Storage::disk('public')->assertExists("agents/{$file}");
     }
 
     /** @test */
@@ -83,7 +83,7 @@ class EntityFileTest extends TestCase
         $file = $producerAdditionalEntity->getFilename();
         $producerAdditionalEntity->generateFile();
 
-        Storage::disk('public')->assertExists("agents_info/{$file}");
+        Storage::disk('public')->assertExists("agents/{$file}");
     }
 
     /** @test */
@@ -95,7 +95,7 @@ class EntityFileTest extends TestCase
         $file = $producerAdditionalEntity->getFilename();
         $producerAdditionalEntity->generateFile();
 
-        Storage::disk('public')->assertExists("agents_info/{$file}");
+        Storage::disk('public')->assertExists("agents/{$file}");
     }
 
     /** @test */
@@ -107,7 +107,7 @@ class EntityFileTest extends TestCase
         $file = $contractEntity->getFilename();
         $contractEntity->generateFile();
 
-        Storage::disk('public')->assertExists("agents_info/{$file}");
+        Storage::disk('public')->assertExists("agents/{$file}");
     }
 
     /** @test */
@@ -133,7 +133,7 @@ class EntityFileTest extends TestCase
         $file = $bankEntity->getFilename();
         $bankEntity->generateFile();
 
-        Storage::disk('public')->assertExists("agents_info/{$file}");
+        Storage::disk('public')->assertExists("agents/{$file}");
     }
 
     /** @test */

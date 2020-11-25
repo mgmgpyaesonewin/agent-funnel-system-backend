@@ -4,6 +4,8 @@ namespace App\Classes\Entity;
 
 use App\Applicant;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ContractEntity extends BaseEntity
 {
@@ -103,5 +105,8 @@ class ContractEntity extends BaseEntity
             // end of Line
             $content .= "\n";
         }
+
+        Log::info("Generated File: {$this->getFilename()}");
+        Storage::disk('public')->put("agents/{$this->getFilename()}", $content);
     }
 }

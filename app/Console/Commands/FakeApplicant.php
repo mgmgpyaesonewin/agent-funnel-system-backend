@@ -15,7 +15,7 @@ class FakeApplicant extends Command
      *
      * @var string
      */
-    protected $signature = 'fake:applicants';
+    protected $signature = 'fake:applicants {count}';
 
     /**
      * The console command description.
@@ -41,7 +41,7 @@ class FakeApplicant extends Command
      */
     public function handle()
     {
-        factory(Applicant::class, 25)->create()->each(function (Applicant $applicant, $index) {
+        factory(Applicant::class, (int) $this->argument('count'))->create()->each(function (Applicant $applicant, $index) {
             $applicantController = new ApplicantController();
             $applicant->agent_code = $applicantController->generateAgentCode($index);
             $applicant->temp_id = 'FA'.str_pad($applicant->id, 6, '0', STR_PAD_LEFT);

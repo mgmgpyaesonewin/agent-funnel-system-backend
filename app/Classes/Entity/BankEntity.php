@@ -4,6 +4,7 @@ namespace App\Classes\Entity;
 
 use App\Applicant;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class BankEntity extends BaseEntity
@@ -224,6 +225,7 @@ class BankEntity extends BaseEntity
             // end of Line
             $content .= "\n";
         }
-        Storage::disk('public')->put("agents_info/{$this->getFilename()}", $content);
+        Log::info("Generated File: {$this->getFilename()}");
+        Storage::disk('public')->put("agents/{$this->getFilename()}", $content);
     }
 }

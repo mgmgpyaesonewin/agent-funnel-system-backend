@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class GenerateEducationEntity implements ShouldQueue
@@ -53,6 +54,7 @@ class GenerateEducationEntity implements ShouldQueue
             $content .= "{$agent_id}|{$date_effective}|{$examination_category}|{$examination_description}|{$examination_status}|{$examination_date_effective}|{$examination_date_expiry}|{$credits}|{$date_expiry}\n";
         }
 
-        Storage::disk('public')->put("agents_info/$filename", $content);
+        Log::info("Generated File: {$filename}");
+        Storage::disk('public')->put("agents/$filename", $content);
     }
 }
