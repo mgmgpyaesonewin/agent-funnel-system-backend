@@ -32,19 +32,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        foreach (['08:00', '12:00', '16:00'] as $time) {
-            $schedule->job(new GenerateContactEntity())->dailyAt($time); // CONT
-            $schedule->job(new GenerateContractEntity())->dailyAt($time); // CONTR
-            $schedule->job(new GenerateEducationEntity())->dailyAt($time); // EDU
-            $schedule->job(new GenerateLicenseEntity())->dailyAt($time); // LICN
-            $schedule->job(new GeneratePayeeBankEntity())->dailyAt($time); // BANK
-            $schedule->job(new GenerateProducerAdditionalInformationEntity())->dailyAt($time); // ADD_INFO
-            $schedule->job(new GenerateProducerEntity())->dailyAt($time); // PROD
-            $schedule->job(new GenerateRelatedPersonEntity())->dailyAt($time); // Related person
-        }
-        $schedule->command('fake:applicant')->dailyAt('7:45');
-        $schedule->command('fake:applicant')->dailyAt('11:45');
-        $schedule->command('fake:applicant')->dailyAt('15:45');
+//        foreach (['08:00', '12:00', '16:00'] as $time) {
+//            $schedule->job(new GenerateContactEntity())->dailyAt($time); // CONT
+//            $schedule->job(new GenerateContractEntity())->dailyAt($time); // CONTR
+//            $schedule->job(new GenerateEducationEntity())->dailyAt($time); // EDU
+//            $schedule->job(new GenerateLicenseEntity())->dailyAt($time); // LICN
+//            $schedule->job(new GeneratePayeeBankEntity())->dailyAt($time); // BANK
+//            $schedule->job(new GenerateProducerAdditionalInformationEntity())->dailyAt($time); // ADD_INFO
+//            $schedule->job(new GenerateProducerEntity())->dailyAt($time); // PROD
+//            $schedule->job(new GenerateRelatedPersonEntity())->dailyAt($time); // Related person
+//        }
+//        $schedule->command('fake:applicant')->dailyAt('7:45');
+//        $schedule->command('fake:applicant')->dailyAt('11:45');
+//        $schedule->command('fake:applicant')->dailyAt('15:45');
     }
 
     /**
