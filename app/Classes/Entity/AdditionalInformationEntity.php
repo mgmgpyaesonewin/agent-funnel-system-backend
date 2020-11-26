@@ -129,7 +129,7 @@ class AdditionalInformationEntity extends BaseEntity
      */
     public function setPreviousCompanyCessationDate(Applicant $applicant): void
     {
-        if ($applicant->getPreviousCompanyData()->duration_to_date) {
+        if ($applicant->getPreviousCompanyData()) {
             $this->previous_company_cessation_date = Carbon::parse($applicant->getPreviousCompanyData()->duration_to_date)->format(config('constants.entity.date_format'));
         } else {
             $this->previous_company_cessation_date = null;
