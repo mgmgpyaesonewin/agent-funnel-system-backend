@@ -109,7 +109,11 @@ class AdditionalInformationEntity extends BaseEntity
      */
     public function setPreviousCompany(Applicant $applicant): void
     {
-        $this->previous_company = $applicant->getPreviousCompanyData()->company_name;
+        if ($applicant->getPreviousCompanyData()) {
+            $this->previous_company = $applicant->getPreviousCompanyData()->company_name;
+        } else {
+            $this->previous_company = null;
+        }
     }
 
     /**
@@ -125,7 +129,11 @@ class AdditionalInformationEntity extends BaseEntity
      */
     public function setPreviousCompanyCessationDate(Applicant $applicant): void
     {
-        $this->previous_company_cessation_date = Carbon::parse($applicant->getPreviousCompanyData()->duration_to_date)->format(config('constants.entity.date_format'));
+        if ($applicant->getPreviousCompanyData()->duration_to_date) {
+            $this->previous_company_cessation_date = Carbon::parse($applicant->getPreviousCompanyData()->duration_to_date)->format(config('constants.entity.date_format'));
+        } else {
+            $this->previous_company_cessation_date = null;
+        }
     }
 
     /**
