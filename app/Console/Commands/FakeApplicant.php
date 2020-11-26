@@ -50,12 +50,14 @@ class FakeApplicant extends Command
             'status_id' => 8,
         ])->each(function (Applicant $applicant, $index) {
             $applicantController = new ApplicantController();
-            $applicant->agent_code = $applicantController->generateAgentCode($index);
+            $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
+            $applicant->agent_code = $applicantController->generateAgentCode($current_agent_code_id);
             $applicant->temp_id = 'FA'.str_pad($applicant->id, 6, '0', STR_PAD_LEFT);
             factory(Contract::class)->create([
                 'applicant_id' => $applicant->id
             ]);
             $applicant->save();
+            $applicantController->updateAgentCode();
             $applicant->statuses()->attach(1, [
                 'current_status' => 'onboard',
                 'user_id' => 1,

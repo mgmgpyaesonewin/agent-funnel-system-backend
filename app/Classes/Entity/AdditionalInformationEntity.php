@@ -338,7 +338,7 @@ class AdditionalInformationEntity extends BaseEntity
             $content .= "{$this->ql_recovery_letter_date}{$this->delimeter}";
 
             //Financing Outstanding Amount
-            $content .= "{$this->financing_outstanding_amount}";
+            $content .= "{$this->financing_outstanding_amount}{$this->delimeter}";
 
             // end of Line
             $content .= "\n";

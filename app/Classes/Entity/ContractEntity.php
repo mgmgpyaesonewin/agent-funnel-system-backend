@@ -14,7 +14,7 @@ class ContractEntity extends BaseEntity
     protected string $contract_type = 'PMLI_AD';
     protected ?string $contract_status = 'A';
     protected ?string $contract_manager_id = null;
-    protected ?string $title = 'MM Agency-Agent';
+    protected ?string $title = 'MM Agency- Agent';
     protected ?string $agreement_type = 'Agent Agreement';
     protected ?string $agreement_date = null;
     protected ?string $unit_code = null;
