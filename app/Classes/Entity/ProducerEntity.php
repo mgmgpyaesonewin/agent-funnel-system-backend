@@ -188,7 +188,7 @@ class ProducerEntity extends BaseEntity
      */
     public function setCitizenship(Applicant $applicant): void
     {
-        if ($applicant->getCitizenship() === 'Myanmar') {
+        if ($applicant->getCitizenship() == 'Myanmar') {
             $this->citizenship = 'MM';
         } else {
             $this->citizenship = 'N';
