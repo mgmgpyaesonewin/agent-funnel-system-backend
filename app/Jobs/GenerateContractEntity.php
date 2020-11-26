@@ -34,7 +34,8 @@ class GenerateContractEntity implements ShouldQueue
      */
     public function handle()
     {
-        $applicants = Applicant::withActivatedWithinInterval()->get();
+        $applicants_ids = Applicant::withActivatedWithinInterval()->pluck('applicants.id')->toArray();
+        $applicants = Applicant::with('statuses')->whereIn('id', $applicants_ids)->get();
         $bankEntity = new ContractEntity($applicants);
         $bankEntity->generateFileName('CONTR');
         $bankEntity->generateFile();

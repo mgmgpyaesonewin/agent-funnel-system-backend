@@ -38,7 +38,8 @@ class GenerateEducationEntity implements ShouldQueue
         $filename = "cust_EDU_DEV_{$datetime}_PMLI.{$filetype}";
 
         $content = null;
-        $applicants = Applicant::withActivatedWithinInterval()->get();
+        $applicants_ids = Applicant::withActivatedWithinInterval()->pluck('applicants.id')->toArray();
+        $applicants = Applicant::with('statuses')->whereIn('id', $applicants_ids)->get();
 
         foreach ($applicants as $applicant) {
             $agent_id = $applicant->agent_code;
