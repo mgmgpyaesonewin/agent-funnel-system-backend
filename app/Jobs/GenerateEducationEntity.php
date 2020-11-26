@@ -33,7 +33,7 @@ class GenerateEducationEntity implements ShouldQueue
      */
     public function handle()
     {
-        $datetime = Carbon::now()->format('yymd_Hms');
+        $datetime = Carbon::now()->format('yymd_His');
         $filetype = 'txt';
         $filename = "cust_EDU_DEV_{$datetime}_PMLI.{$filetype}";
 

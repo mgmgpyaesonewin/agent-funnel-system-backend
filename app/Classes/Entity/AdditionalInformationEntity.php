@@ -104,16 +104,9 @@ class AdditionalInformationEntity extends BaseEntity
         return $this->previous_company;
     }
 
-    /**
-     * @param Applicant $applicant
-     */
-    public function setPreviousCompany(Applicant $applicant): void
+    public function setPreviousCompany(): void
     {
-        if ($applicant->getPreviousCompanyData()) {
-            $this->previous_company = $applicant->getPreviousCompanyData()->company_name;
-        } else {
-            $this->previous_company = null;
-        }
+        $this->previous_company = null;
     }
 
     /**

@@ -80,7 +80,7 @@ class BaseEntity implements BaseEntityInterface
 
     public function generateFileName(string $entityType): void
     {
-        $datetime = Carbon::now()->format('yymd_Hms');
+        $datetime = Carbon::now()->format('yymd_His');
         $filetype = 'txt';
         $this->filename = "cust_{$entityType}_{$this->getEntityEnvironment()}_{$datetime}_PMLI.{$filetype}";
     }

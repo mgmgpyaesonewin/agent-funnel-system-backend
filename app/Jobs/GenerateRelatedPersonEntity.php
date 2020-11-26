@@ -33,7 +33,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
      */
     public function handle()
     {
-        $datetime = Carbon::now()->format('yymd_Hms');
+        $datetime = Carbon::now()->format('yymd_His');
         $filetype = 'txt';
         $filename = "cust_RLTP_DEV_{$datetime}_PMLI.{$filetype}";
 
