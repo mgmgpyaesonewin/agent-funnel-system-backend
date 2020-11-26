@@ -42,26 +42,28 @@ class GenerateRelatedPersonEntity implements ShouldQueue
         $applicants = Applicant::with('statuses')->whereIn('id', $applicants_ids)->get();
 
         foreach ($applicants as $applicant) {
-            $agent_id = $applicant->agent_code;
-            $entity_type = 'Spouse'; // If spouse details present
-            $dateeff = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
-            $entity_name = $applicant->spouse_name;
-            $entity_status = 'A';
-            $entity_share_percent = null;
-            $entity_succession_order = null;
-            $entity_nric_new = $applicant->spouse_nrc;
-            $entity_nric_old = null;
-            $entity_relationship = 'Spouse';
-            $entity_agent_id = null;
-            $entity_contact_number = null;
-            $entity_dob = null;
-            $date_expiry = '22000101';
-            $id_type = null;
-            $id_number = null;
-            $entity_no_of_shares_held = null;
-            $is_director = null;
+            if ($applicant->married == 'Married') {
+                $agent_id = $applicant->agent_code;
+                $entity_type = 'Spouse'; // If spouse details present
+                $dateeff = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
+                $entity_name = $applicant->spouse_name;
+                $entity_status = 'A';
+                $entity_share_percent = null;
+                $entity_succession_order = null;
+                $entity_nric_new = $applicant->spouse_nrc;
+                $entity_nric_old = null;
+                $entity_relationship = 'Spouse';
+                $entity_agent_id = null;
+                $entity_contact_number = null;
+                $entity_dob = null;
+                $date_expiry = '22000101';
+                $id_type = null;
+                $id_number = null;
+                $entity_no_of_shares_held = null;
+                $is_director = null;
 
-            $content .= "{$agent_id}|{$entity_type}|{$dateeff}|{$entity_name}|{$entity_status}|{$entity_share_percent}|{$entity_succession_order}|{$entity_nric_new}|{$entity_nric_old}|{$entity_relationship}|{$entity_agent_id}|{$entity_contact_number}|{$entity_dob}|{$date_expiry}|{$id_type}|{$id_number}|{$entity_no_of_shares_held}|{$is_director}\n";
+                $content .= "{$agent_id}|{$entity_type}|{$dateeff}|{$entity_name}|{$entity_status}|{$entity_share_percent}|{$entity_succession_order}|{$entity_nric_new}|{$entity_nric_old}|{$entity_relationship}|{$entity_agent_id}|{$entity_contact_number}|{$entity_dob}|{$date_expiry}|{$id_type}|{$id_number}|{$entity_no_of_shares_held}|{$is_director}\n";
+            }
         }
 
         Log::info("Generated File: {$filename}");
