@@ -357,7 +357,7 @@ class Applicant extends Model
         return $this->statuses()
             ->wherePivot('status_id', 8)
             ->wherePivot('current_status', 'active')
-            ->first()->pivot->created_at;
+            ->first()->pivot->created_at ?? null;
     }
 
     public function getLicenseExamPassDate()
@@ -365,12 +365,12 @@ class Applicant extends Model
         return $this->statuses()
             ->wherePivot('status_id', 1)
             ->wherePivot('current_status', 'onboard')
-            ->first()->pivot->created_at;
+            ->first()->pivot->created_at ?? null;
     }
 
     public function getContractSignedDate()
     {
-        return $this->contracts()->latest()->first()->created_at;
+        return $this->contracts()->latest()->first()->created_at ?? null;
     }
 
     public function isMarried()
@@ -416,8 +416,7 @@ class Applicant extends Model
 
     public function getStateCode()
     {
-        return 'MM-YGN';
-//        return DB::table('city_descriptions')->where('c_id', $this->city_id)
-//            ->first()->value;
+        return DB::table('city_descriptions')->where('c_id', $this->city_id)
+            ->first()->value ?? null;
     }
 }
