@@ -199,7 +199,7 @@ class ContactEntity extends BaseEntity
             $content .= "{$this->getEmail()}{$this->delimiter}";
 
             //Date Expiry
-            $content .= "{$this->date_expiry}{$this->delimiter}";
+            $content .= "{$this->date_expiry}";
 
             // end of Line
             $content .= "\n";

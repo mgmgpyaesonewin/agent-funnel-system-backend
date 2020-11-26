@@ -100,7 +100,7 @@ class ContractEntity extends BaseEntity
             $content .= "{$this->getAgreementDate()}{$this->delimiter}";
 
             //Unit Code
-            $content .= "{$this->unit_code}{$this->delimiter}";
+            $content .= "{$this->unit_code}";
 
             // end of Line
             $content .= "\n";
