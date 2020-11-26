@@ -32,7 +32,7 @@ class GenerateProducerAdditionalInformationEntity implements ShouldQueue
      */
     public function handle()
     {
-        $applicants = Applicant::with('activatedWithinInterval')->get();
+        $applicants = Applicant::withActivatedWithinInterval()->get();
         $producerEntity = new AdditionalInformationEntity($applicants);
         $producerEntity->generateFileName('ADD_INFO');
         $producerEntity->generateFile();

@@ -218,15 +218,12 @@ class Applicant extends Model
     }
 
     // testing
-    public function activatedWithinInterval()
+    public function scopeWithActivatedWithinInterval($query)
     {
-        return $this->belongsToMany('App\Status')->withPivot('current_status', 'user_id')
-        ->withTimestamps()
-        ->wherePivot('status_id', 8)
-        ->wherePivot(
-            'current_status',
-            'active'
-        )->wherePivot('created_at', '>=', Carbon::now()->subHours(4));
+        return $query->join('applicant_status', 'applicants.id', 'applicant_status.applicant_id')
+        ->where('applicant_status.status_id', 8)
+        ->where('applicant_status.current_status', '=', 'active')
+        ->wherePivot('current_status', '=', 'active')->wherePivot('created_at', '>=', Carbon::now()->subHours(24));
     }
 
     public function bop_sessions()

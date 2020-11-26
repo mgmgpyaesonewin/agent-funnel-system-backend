@@ -34,7 +34,7 @@ class GenerateContactEntity implements ShouldQueue
      */
     public function handle()
     {
-        $applicants = Applicant::with('activatedWithinInterval')->get();
+        $applicants = Applicant::withActivatedWithinInterval()->get();
         $bankEntity = new ContactEntity($applicants);
         $bankEntity->generateFileName('CONT');
         $bankEntity->generateFile();
