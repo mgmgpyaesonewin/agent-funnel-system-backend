@@ -66,10 +66,7 @@ class ProducerEntity extends BaseEntity
         $this->new_ic_no = $applicant->nrc;
     }
 
-    /**
-     * @return string
-     */
-    public function getPreferredName(): string
+    public function getPreferredName()
     {
         return $this->preferred_name;
     }
