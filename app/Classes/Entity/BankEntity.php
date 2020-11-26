@@ -203,7 +203,7 @@ class BankEntity extends BaseEntity
             $content .= "{$this->business_registration_number}{$this->delimiter}";
 
             //PayeeBankType
-            $content .= "{$this->business_registration_number}{$this->delimiter}";
+            $content .= "{$this->payeebanktype}{$this->delimiter}";
 
             // end of Line
             $content .= "\n";

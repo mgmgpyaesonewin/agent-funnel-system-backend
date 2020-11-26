@@ -191,7 +191,6 @@ class Applicant extends Model
     // protected $fillable = ['temp_id'];
     protected $guarded = [];
     protected $casts = [
-        'education' => 'array',
         'working_experience' => 'array',
     ];
 

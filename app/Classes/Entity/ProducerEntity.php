@@ -125,9 +125,10 @@ class ProducerEntity extends BaseEntity
     public function setRace(Applicant $applicant): void
     {
         if ($applicant->race == 'Burma') {
-            $this->race = $applicant->race;
+            $this->race = 'Bamar';
+        } else {
+            $this->race = 'Others';
         }
-        $this->race = 'Others';
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Applicant;
 use App\Classes\Entity\BankEntity;
+use App\Classes\Entity\ProducerEntity;
 use App\Http\Controllers\ApplicantController;
 use App\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -181,5 +182,19 @@ class ApplicantTest extends TestCase
         $bankEntity->setBankname($applicant->first());
 
         $this->assertSame('MM-CB', $bankEntity->getBankname());
+    }
+
+    /** @test */
+    public function get_education_qualification()
+    {
+        factory(Applicant::class)->create([
+            'education' => 'Primary Education'
+        ]);
+        $applicant = Applicant::where('id', 1)->get();
+
+        $producerEntity = new ProducerEntity($applicant);
+        $producerEntity->setEducationQualification($applicant->first());
+
+        $this->assertSame('PR', $producerEntity->getEducationQualification());
     }
 }
