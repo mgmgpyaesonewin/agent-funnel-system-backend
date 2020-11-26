@@ -68,6 +68,5 @@ class FakeApplicant extends Command
         });
         $applicants->meta_value = $count;
         $applicants->save();
-        Log::info("Applicants {$count} is generated");
     }
 }
