@@ -191,7 +191,7 @@ class ProducerEntity extends BaseEntity
         if ($applicant->getCitizenship() === 'Myanmar') {
             $this->citizenship = 'MM';
         } else {
-            $this->citizenship = 'OT';
+            $this->citizenship = 'N';
         }
     }
 
