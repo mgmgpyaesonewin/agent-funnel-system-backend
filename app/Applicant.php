@@ -404,7 +404,7 @@ class Applicant extends Model
 
     public function getCitizenship()
     {
-        if ($this->myanmar_citizen) {
+        if ($this->myanmar_citizen == 1) {
             return 'Myanmar';
         }
         return $this->citizen;
