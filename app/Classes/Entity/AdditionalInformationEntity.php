@@ -69,7 +69,7 @@ class AdditionalInformationEntity extends BaseEntity
     protected ?string $alc_effective_start_date = null;
     protected ?string $ql_recovery_letter_date = null;
     protected ?string $financing_outstanding_amount = null;
-    protected string $delimeter = '    ';
+    protected string $delimeter = '|';
 
     /**
      * AdditionalInformationEntity constructor.

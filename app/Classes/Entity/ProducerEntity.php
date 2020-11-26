@@ -165,12 +165,12 @@ class ProducerEntity extends BaseEntity
     public function setEducationQualification(Applicant $applicant): void
     {
         switch ($applicant->education) {
-            case 'Diploma or equivalent': $this->education_qualification = 'D'; break;
-            case 'Graduate': $this->education_qualification = 'G'; break;
+            case 'Diploma or equivalent': $this->education_qualification = 'DP'; break;
+            case 'Graduate': $this->education_qualification = 'GD'; break;
             case 'Post Graduate': $this->education_qualification = 'PG'; break;
             case 'Primary Education': $this->education_qualification = 'PR'; break;
             case 'Secondary Education': $this->education_qualification = 'S'; break;
-            case 'Matriculation': $this->education_qualification = 'M'; break;
+            case 'Matriculation': $this->education_qualification = 'H'; break;
             default: $this->education_qualification = null;
         }
     }
