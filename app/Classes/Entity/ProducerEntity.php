@@ -155,7 +155,7 @@ class ProducerEntity extends BaseEntity
     /**
      * @return string
      */
-    public function getEducationQualification(): string
+    public function getEducationQualification()
     {
         return $this->education_qualification;
     }
