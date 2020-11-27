@@ -216,13 +216,6 @@ class Applicant extends Model
             )->wherePivot('created_at', '>=', Carbon::now()->subHours(24));
     }
 
-    // testing
-    public function scopeWithActivatedWithinInterval($query)
-    {
-        $date = Carbon::now()->setHours(4);
-        return $query->select(DB::raw("select applicant_status.* from applicant_status inner join (select applicant_id.* max(created_at) as max_date_time from applicant_status group by applicant_id) grouped on applicant_status.applicant_id = grouped.applicant_id and applicant_status.created_at = grouped.max_date_time where applicant_status.status_id = 8 and applicant_status.created_at = {$date}"));
-    }
-
     public function bop_sessions()
     {
         return $this->belongsToMany('App\BopSession')->withPivot('attendance_status')->withTimestamps();

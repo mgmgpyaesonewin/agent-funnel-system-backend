@@ -10,6 +10,7 @@ use App\Classes\Entity\ContractEntity;
 use App\Classes\Entity\ProducerEntity;
 use App\Contract;
 use App\Http\Controllers\ApplicantController;
+use App\Jobs\GenerateContactEntity;
 use App\Jobs\GenerateEducationEntity;
 use App\Jobs\GenerateLicenseEntity;
 use App\Jobs\GenerateRelatedPersonEntity;

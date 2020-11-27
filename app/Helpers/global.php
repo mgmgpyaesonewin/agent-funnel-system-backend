@@ -1,6 +1,7 @@
 <?php
 
 use App\Setting;
+use Carbon\Carbon;
 use GuzzleHttp\Exception\BadResponseException;
 
 function showStatus($status)
@@ -80,5 +81,39 @@ if (!function_exists('reverse_slug')) {
     function reverse_slug($slug)
     {
         return ucwords(str_replace('-', ' ', $slug));
+    }
+}
+
+if (!function_exists('get_applicants_ids_to_generate')) {
+    function get_applicants_ids_to_generate()
+    {
+        $sql = '
+            SELECT
+              ap_st.*
+            FROM
+              applicant_status ap_st
+              INNER JOIN (
+                SELECT
+                  applicant_id,
+                  MAX(created_at) AS MaxDateTime
+                FROM
+                  applicant_status
+                GROUP BY
+                  applicant_id) grouped ON ap_st.applicant_id = grouped.applicant_id
+              AND ap_st.created_at = grouped.MaxDateTime
+            WHERE
+              ap_st.status_id = 8
+            AND
+                ap_st.created_at >= :created_at';
+
+        $applicants = DB::select($sql, [
+            'created_at' => Carbon::now()->setHours(8)
+        ]);
+
+        $applicants_ids = [];
+        foreach ($applicants as $applicant) {
+            array_push($applicants_ids, $applicant->applicant_id);
+        }
+        return $applicants_ids;
     }
 }
