@@ -39,16 +39,34 @@ class ApplicantTest extends TestCase
             'meta_value' => 0
         ]);
 
+        factory(Applicant::class, 2)->create();
+        $applicant = Applicant::find(1);
         $applicantController = new ApplicantController();
         $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
         $agent_code = $applicantController->generateAgentCode($current_agent_code_id);
+        $applicant->agent_code = $agent_code;
+        $applicant->save();
 
         $this->assertEquals('02200001', $agent_code);
 
         $applicantController->updateAgentCode();
         $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
-
         $this->assertEquals(1, $current_agent_code_id);
+
+
+        $applicant_2 = Applicant::find(2);
+        $applicantController = new ApplicantController();
+        $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
+        $agent_code = $applicantController->generateAgentCode($current_agent_code_id);
+        $applicant_2->agent_code = $agent_code;
+        $applicant_2->save();
+
+        $this->assertEquals('02200002', $agent_code);
+
+        $applicantController->updateAgentCode();
+        $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
+
+        $this->assertEquals(2, $current_agent_code_id);
     }
 
     /** @test */

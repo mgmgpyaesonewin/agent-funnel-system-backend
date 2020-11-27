@@ -221,6 +221,8 @@ class Applicant extends Model
     {
         return $query->join('applicant_status', 'applicants.id', 'applicant_status.applicant_id')
             ->where('applicant_status.status_id', 8)
+            ->where('applicant_status.status_id', '<>', 9)
+            ->where('applicant_status.status_id', '<>', 10)
             ->where('applicant_status.current_status', '=', 'active')
             ->where('applicant_status.created_at', '>=', Carbon::now()->subHours(4));
     }

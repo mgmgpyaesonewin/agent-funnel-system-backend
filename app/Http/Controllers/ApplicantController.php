@@ -31,10 +31,6 @@ class ApplicantController extends Controller
     public function signContract(Request $req)
     {
         $applicant = Applicant::where('uuid', $req->id)->first();
-        $current_agent_code_id = $this->getAgentCodeCurrentID();
-        $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
-        $applicant->save();
-        $this->updateAgentCode();
 
         $applicant_sign = Storage::disk('public')->put('sign/applicant', $req->applicant_url);
         $witness_sign_img = Storage::disk('public')->put('sign/witness', $req->witness_url);
@@ -97,7 +93,7 @@ class ApplicantController extends Controller
         $appli->dob = $req->dob;
         $appli->phone = str_replace('-', '', $req->contact_no);
         $appli->secondary_phone = $req->alternate_no;
-        $appli->gender = $appli->gender;
+        $appli->gender = $req->gender;
         $appli->preferred_name = $req->preferred_name;
         $appli->nrc = $req->nrc;
         $file = $req->file('nrc_front');
@@ -446,6 +442,11 @@ class ApplicantController extends Controller
     public function signContractorContract($id)
     {
         $applicant = Applicant::where('id', $id)->first();
+        $current_agent_code_id = $this->getAgentCodeCurrentID();
+        $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
+        $applicant->save();
+        $this->updateAgentCode();
+
         $contract = Contract::where('applicant_id', $applicant->id)->latest()->first();
 
         $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
