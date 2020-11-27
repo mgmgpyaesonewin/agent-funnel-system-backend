@@ -33,7 +33,7 @@ class GenerateLicenseEntity implements ShouldQueue
      */
     public function handle()
     {
-        $datetime = Carbon::now()->format('yymd_Hm');
+        $datetime = Carbon::now()->format('yymd_His');
         $filetype = 'txt';
         $filename = "cust_LICN_DEV_{$datetime}_PMLI.{$filetype}";
 
