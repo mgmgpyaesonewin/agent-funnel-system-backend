@@ -16,7 +16,7 @@ class BankEntity extends BaseEntity
     protected ?string $accounttype = null;
     protected ?string $income_tax_number = null;
     protected ?string $swift_code = null; // 'CPOBMMMY';
-    protected ?string $payee_ic_type = 'NRIC - New Number';
+    protected ?string $payee_ic_type = 'New IC Number';
     protected ?string $payee_ic_value = null; // $applicant->nrc;
     protected ?string $business_registration_number = null;
     protected ?string $payeebanktype = 'Personal';
