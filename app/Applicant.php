@@ -219,12 +219,8 @@ class Applicant extends Model
     // testing
     public function scopeWithActivatedWithinInterval($query)
     {
-        return $query->join('applicant_status', 'applicants.id', 'applicant_status.applicant_id')
-            ->where('applicant_status.status_id', 8)
-            ->where('applicant_status.status_id', '<>', 9)
-            ->where('applicant_status.status_id', '<>', 10)
-            ->where('applicant_status.current_status', '=', 'active')
-            ->where('applicant_status.created_at', '>=', Carbon::now()->subHours(4));
+        $date = Carbon::now()->setHours(4);
+        return $query->select(DB::raw("select applicant_status.* from applicant_status inner join (select applicant_id.* max(created_at) as max_date_time from applicant_status group by applicant_id) grouped on applicant_status.applicant_id = grouped.applicant_id and applicant_status.created_at = grouped.max_date_time where applicant_status.status_id = 8 and applicant_status.created_at = {$date}"));
     }
 
     public function bop_sessions()
