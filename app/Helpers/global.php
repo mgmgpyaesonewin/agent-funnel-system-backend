@@ -107,7 +107,7 @@ if (!function_exists('get_applicants_ids_to_generate')) {
                 ap_st.created_at >= :created_at';
 
         $applicants = DB::select($sql, [
-            'created_at' => Carbon::now()->setHours(8)
+            'created_at' => Carbon::now()->setHours(4)
         ]);
 
         $applicants_ids = [];
