@@ -464,7 +464,7 @@ class ApplicantController extends Controller
         $contract->pdf = $file;
         $contract->save();
 
-        if (isset($applicant->agent_code)) {
+        if (!isset($applicant->agent_code)) {
             $current_agent_code_id = $this->getAgentCodeCurrentID();
             $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
             $applicant->save();
