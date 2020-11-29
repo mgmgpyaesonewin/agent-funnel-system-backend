@@ -12,7 +12,7 @@ class AddBankInfoApplicant extends Migration
     public function up()
     {
         Schema::table('applicants', function (Blueprint $table) {
-            $table->string('bank_account_no')->nullable();
+            $table->string('bank_account_no', 20)->nullable();
             $table->string('bank_account_name')->nullable();
             $table->string('banK_name')->nullable();
             $table->string('license_no')->nullable();

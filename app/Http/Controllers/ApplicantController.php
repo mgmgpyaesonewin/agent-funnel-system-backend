@@ -442,10 +442,6 @@ class ApplicantController extends Controller
     public function signContractorContract($id)
     {
         $applicant = Applicant::where('id', $id)->first();
-        $current_agent_code_id = $this->getAgentCodeCurrentID();
-        $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
-        $applicant->save();
-        $this->updateAgentCode();
 
         $contract = Contract::where('applicant_id', $applicant->id)->latest()->first();
 
@@ -467,6 +463,13 @@ class ApplicantController extends Controller
 
         $contract->pdf = $file;
         $contract->save();
+
+        if (isset($applicant->agent_code)) {
+            $current_agent_code_id = $this->getAgentCodeCurrentID();
+            $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
+            $applicant->save();
+        }
+        $this->updateAgentCode();
 
         return asset('storage/'.$file);
     }
