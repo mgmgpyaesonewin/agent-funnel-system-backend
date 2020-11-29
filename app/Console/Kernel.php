@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        foreach (['08:00', '12:00', '16:00'] as $time) {
+        foreach (['1:00'] as $time) {
             $schedule->job(new GenerateContactEntity())->dailyAt($time); // CONT
             $schedule->job(new GenerateContractEntity())->dailyAt($time); // CONTR
             $schedule->job(new GenerateEducationEntity())->dailyAt($time); // EDU
@@ -42,7 +42,7 @@ class Kernel extends ConsoleKernel
             $schedule->job(new GenerateProducerEntity())->dailyAt($time); // PROD
             $schedule->job(new GenerateRelatedPersonEntity())->dailyAt($time); // Related person
         }
-        $schedule->command('fake:applicant')->dailyAt('7:55');
+//        $schedule->command('fake:applicant')->dailyAt('7:55');
     }
 
     /**
