@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,7 +36,11 @@ class GenerateEducationEntity implements ShouldQueue
     {
         $datetime = Carbon::now()->format('yymd_His');
         $filetype = 'txt';
-        $filename = "cust_EDU_DEV_{$datetime}_PMLI.{$filetype}";
+        $file_env = 'PROD';
+        if (App::environment('local')) {
+            $file_env = 'DEV';
+        }
+        $filename = "cust_EDU_{$file_env}_{$datetime}_PMLI.{$filetype}";
 
         $content = null;
         $applicants_ids = get_applicants_ids_to_generate();
