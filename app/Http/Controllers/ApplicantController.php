@@ -445,6 +445,8 @@ class ApplicantController extends Controller
 
         $contract = Contract::where('applicant_id', $applicant->id)->latest()->first();
 
+        dd($applicant, $contract);
+
         $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
         $applicant->agreement_no = $contract->agreement_no;
         $applicant->applicant_sign_img = $contract->applicant_sign_img;
@@ -543,6 +545,7 @@ class ApplicantController extends Controller
 
         if ('active' == $current_status && 8 == $status_id) {
             $link = $this->signContractorContract($applicant->id);
+            dd($link);
             $text = $viber->getMetaValueByKey('active_contract_msg')->text.' '.$link;
             $image = $viber->getMetaValueByKey('active_contract_msg')->image;
 
