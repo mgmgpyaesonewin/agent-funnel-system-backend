@@ -474,6 +474,29 @@ class ApplicantController extends Controller
             Log::info("current_agent_code_id => {$current_agent_code_id}");
             $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
             Log::info("agent_code => {$applicant->agent_code}");
+
+            Log::info("Applicant detail {$applicant->contractor_signature}");
+
+            Log::info("Contractor Signature {$applicant->contractor_signature}");
+            unset($applicant->contractor_signature);
+
+            Log::info("Contractor Signature {$applicant->witness_signature}");
+            unset($applicant->witness_signature);
+
+            Log::info("Document {$applicant->document}");
+            unset($applicant->document);
+
+            Log::info("applicant_sign_img {$applicant->applicant_sign_img}");
+            unset($applicant->applicant_sign_img);
+
+            Log::info("witness_sign_img {$applicant->witness_sign_img}");
+            unset($applicant->witness_sign_img);
+
+            Log::info("witness_name {$applicant->witness_name}");
+            unset($applicant->document);
+
+            Log::info("Applicant {$applicant}");
+
             $applicant->save();
             Log::info('Agent Code Set');
         }
