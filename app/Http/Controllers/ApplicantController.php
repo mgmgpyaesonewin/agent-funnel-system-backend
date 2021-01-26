@@ -23,6 +23,7 @@ use Config;
 use DB;
 use DOMPDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -444,9 +445,7 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $id)->first();
 
         $contract = Contract::where('applicant_id', $applicant->id)->latest()->first();
-
-        dd($applicant, $contract);
-
+        Log::info("Contract {$contract}");
         $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
         $applicant->agreement_no = $contract->agreement_no;
         $applicant->applicant_sign_img = $contract->applicant_sign_img;
@@ -468,7 +467,9 @@ class ApplicantController extends Controller
 
         if (!isset($applicant->agent_code)) {
             $current_agent_code_id = $this->getAgentCodeCurrentID();
+            Log::info("current_agent_code_id => {$current_agent_code_id}");
             $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
+            Log::info("agent_code => {$applicant->agent_code}");
             $applicant->save();
         }
         $this->updateAgentCode();
@@ -545,7 +546,6 @@ class ApplicantController extends Controller
 
         if ('active' == $current_status && 8 == $status_id) {
             $link = $this->signContractorContract($applicant->id);
-            dd($link);
             $text = $viber->getMetaValueByKey('active_contract_msg')->text.' '.$link;
             $image = $viber->getMetaValueByKey('active_contract_msg')->image;
 
