@@ -14,6 +14,7 @@ use App\Services\ViberService;
 use App\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,5 +47,9 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Applicant::observe(ApplicantObserver::class);
         Partner::observe(PartnerObserver::class);
+        URL::forceRootURL( config('app.url'));
+        if(config('app.env') === 'production') {
+            \URL::forceScheme('https');
+        }
     }
 }

@@ -75,7 +75,7 @@ class ViberService implements ViberServiceInterface
                 'json' => [
                     'from' => [
                         'type' => 'viber_service_msg',
-                        'id' => '16273',
+                        'id' => '19487',
                     ],
                     'to' => [
                         'type' => 'viber_service_msg',
