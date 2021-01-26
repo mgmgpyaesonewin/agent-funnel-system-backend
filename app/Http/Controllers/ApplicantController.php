@@ -442,8 +442,11 @@ class ApplicantController extends Controller
 
     public function signContractorContract($id)
     {
+        Log::info('Get Applicant Info');
         $applicant = Applicant::where('id', $id)->first();
+        Log::info("Applicant {$applicant}");
 
+        Log::info('Get Contract Info');
         $contract = Contract::where('applicant_id', $applicant->id)->latest()->first();
         Log::info("Contract {$contract}");
         $applicant->document = Setting::where('meta_key', 'document_en')->first()->meta_value;
@@ -466,11 +469,13 @@ class ApplicantController extends Controller
         $contract->save();
 
         if (!isset($applicant->agent_code)) {
+            Log::info('Setting Agent Code');
             $current_agent_code_id = $this->getAgentCodeCurrentID();
             Log::info("current_agent_code_id => {$current_agent_code_id}");
             $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
             Log::info("agent_code => {$applicant->agent_code}");
             $applicant->save();
+            Log::info('Agent Code Set');
         }
         $this->updateAgentCode();
 
@@ -546,6 +551,7 @@ class ApplicantController extends Controller
 
         if ('active' == $current_status && 8 == $status_id) {
             $link = $this->signContractorContract($applicant->id);
+            Log::info('Contract Generated Successfully');
             $text = $viber->getMetaValueByKey('active_contract_msg')->text.' '.$link;
             $image = $viber->getMetaValueByKey('active_contract_msg')->image;
 
