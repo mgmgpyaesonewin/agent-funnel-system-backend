@@ -59,7 +59,7 @@ class PruDnaAmlCheckApplicantsExport implements FromQuery, WithHeadings, WithMap
             DB::table('township_descriptions')->where('townships_id', $applicant->township_id)->first()->description_name ?? '-', // TODO: change to model
             DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-', // TODO: change to model
             DB::table('city_descriptions')->where('c_id', $applicant->city_id)->first()->name ?? '-', // TODO: ?? Region is same
-            $applicant->current_status,
+            'active' == $applicant->current_status ? (8 != $applicant->status_id ? 'inactive' : 'active' )  : $applicant->current_status ,
         ];
     }
 

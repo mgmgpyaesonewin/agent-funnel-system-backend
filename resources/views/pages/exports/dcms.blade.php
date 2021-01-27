@@ -117,6 +117,8 @@
             <td>
                 @if($applicant->prudential_agency_exp == null || $applicant->prudential_agency_exp == '')
                 No
+                @else
+                Yes
                 @endif
             </td>
             <td>
@@ -208,7 +210,7 @@
             <td></td>
             <td></td>
             <td>
-                {{  $applicant->employments[0]->company_name ?? "-" }}
+                {{  $applicant->employments ? "Yes" : "No" }}
             </td>
             {{-- START employment exp --}}
             <td>

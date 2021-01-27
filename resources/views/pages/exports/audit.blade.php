@@ -34,12 +34,19 @@
         </tr>
     </thead>
     <tbody>
+    @php
+    $payment = DB::table('settings')->select('meta_value')
+    ->where('meta_key', 'payment_mandatory')
+    ->first();
+    @endphp
+
         @foreach($applicants as $applicant)
         @php
         $activities = DB::table('applicant_status')->select('status_id','current_status', 'name',
         'applicant_status.created_at')
         ->leftjoin('users', 'users.id', 'applicant_status.user_id')
         ->where('applicant_id', $applicant->id)
+        ->groupby('applicant_id', 'current_status', 'status_id')
         ->get();
         @endphp
         <tr>
@@ -50,11 +57,12 @@
             @foreach ($activities as $row)
 
             {{-- // Lead submitted date --}}
-            @if($row->status_id == '1' && $row->current_status == 'lead')
-            <td>{{ empty($row->created_at) ? "Approved" : "Pending" }}</td>
+            @if($row->status_id == '1' && $row->current_status == 'bop_session')
+            <td>Approved</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'lead')
+            <td>Rejected</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
@@ -66,39 +74,55 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'pre_filter')
+            <td>Rejected</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // Background Check Approve/Reject --}}
 
             {{-- // PRUDNA filter Passed/Failed --}}
-            @if($row->status_id == '11' && $row->current_status == 'pmli_filter')
+            @if($row->status_id == '5' && $row->current_status == 'pru_dna_test')
             <td>Approved</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'pru_dna_test')
+            <td>Rejected</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // PRUDNA filter Passed/Failed --}}
 
-            {{-- // Payment Approve/Reject --}}
-            @if($row->status_id == '11' && $row->current_status == 'pmli_filter')
-            <td>Approved</td>
-            <td>{{ $row->name }}</td>
-            <td>{{ $row->created_at }}</td>
-            @elseif($row->status_id == '4' && $row->current_status == 'pru_dna_test')
-            <td>{{ $row->name }}</td>
-            <td>{{ $row->created_at }}</td>
+            {{-- // AML Check Passed/Failed --}}
+            @if($row->status_id == '3' && $row->current_status == 'pmli_filter' && $applicant->aml_check == 'Passed')
+            <td>Passed</td>
+            <td>-</td>
+            <td>-</td> 
+            @elseif($row->status_id == '3' && $row->current_status == 'pmli_filter' && $applicant->aml_check == 'Failed')
+            <td>Failed</td>
+            <td>-</td>
+            <td></td> 
             @endif
+            {{-- // AML Check Passed/Failed --}}
+
+            {{-- // Payment Approve/Reject --}}
+            @if($row->status_id == '3' && $row->current_status == 'pmli_filter' && $applicant->payment != '' )
+            <td>Approved</td>
+            <td>-</td>
+            <td>-</td>
+            @elseif($row->status_id == '3' && $row->current_status == 'pmli_filter' && $applicant->payment == '')
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            @endif            
             {{-- //Payment Approve/Reject --}}
 
             {{-- // Certification Passed/Failed --}}
             @if($row->status_id == '1' && $row->current_status == 'onboard')
-            <td>Approved</td>
+            <td>Passed</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'certification')
+            <td>Failed</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
@@ -110,13 +134,14 @@
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @elseif($row->status_id == '4' && $row->current_status == 'onboard')
+            <td>Rejected</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
             @endif
             {{-- // Onboarding Approve/Reject --}}
 
             {{-- // Status change to Inactive --}}
-            @if($row->status_id == '8' && $row->current_status == 'active')
+            @if($row->status_id == '9' && $row->current_status == 'active')
             <td>Approved</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
