@@ -469,36 +469,19 @@ class ApplicantController extends Controller
         $contract->save();
 
         if (!isset($applicant->agent_code)) {
-            Log::info('Setting Agent Code');
             $current_agent_code_id = $this->getAgentCodeCurrentID();
-            Log::info("current_agent_code_id => {$current_agent_code_id}");
             $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
-            Log::info("agent_code => {$applicant->agent_code}");
 
-            Log::info("Applicant detail {$applicant->contractor_signature}");
-
-            Log::info("Contractor Signature {$applicant->contractor_signature}");
-            unset($applicant->contractor_signature);
-
-            Log::info("Contractor Signature {$applicant->witness_signature}");
-            unset($applicant->witness_signature);
-
-            Log::info("Document {$applicant->document}");
-            unset($applicant->document);
-
-            Log::info("applicant_sign_img {$applicant->applicant_sign_img}");
-            unset($applicant->applicant_sign_img);
-
-            Log::info("witness_sign_img {$applicant->witness_sign_img}");
-            unset($applicant->witness_sign_img);
-
-            Log::info("witness_name {$applicant->witness_name}");
-            unset($applicant->document);
-
-            Log::info("Applicant {$applicant}");
+            unset($applicant->contractor_signature,
+              $applicant->witness_signature,
+              $applicant->document,
+              $applicant->applicant_sign_img,
+              $applicant->witness_sign_img,
+              $applicant->document,
+              $applicant->witness_name,
+              $applicant->agreement_no);
 
             $applicant->save();
-            Log::info('Agent Code Set');
         }
         $this->updateAgentCode();
 
