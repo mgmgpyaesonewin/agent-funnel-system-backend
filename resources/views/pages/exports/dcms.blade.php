@@ -214,30 +214,51 @@
             </td>
             {{-- START employment exp --}}
             <td>
+                @if($applicant->employments && $applicant->employments[0]->duration_to_date == '')
                 {{  $applicant->employments[0]->company_name ?? "-" }}
+                @endif
             </td>
             <td>
+            @if($applicant->employments && $applicant->employments[0]->duration_to_date == '')
                 {{ $applicant->employments[0]->position ?? "-"}}
+            @endif
             </td>
             <td>
+            @if($applicant->employments && $applicant->employments[0]->duration_to_date == '')
                 {{ $applicant->employments[0]->duration_from_date ?? "-" }}
+            @endif
             </td>
             <td>
+            @if($applicant->employments && $applicant->employments[0]->duration_to_date == '')
                 {{ $applicant->employments[0]->duration_to_date ?? "-"}}
+            @endif
             </td>
             <td>
+            @if($applicant->employments && $applicant->employments[0]->duration_to_date == '')
                 {{ $applicant->employments[0]->income ?? "-" }}
+            @endif
             </td>
             <td>
+            @if($applicant->employments && $applicant->employments[0]->duration_to_date == '')
                 {{ $applicant->employments[0]->industry_type ?? "-"}}
+            @endif
             </td>
-            @foreach ($applicant->employments as $e)
-            <td>{{ $e->company_name }}</td>
-            <td>{{ $e->position }}</td>
-            <td>{{ $e->duration_from_date }}</td>
-            <td>{{ $e->duration_to_date }}</td>
-            <td>{{ $e->income }}</td>
-            <td>{{ $e->industry_type }}</td>
+            @php
+                if($applicant->employments && $applicant->employments[0]->duration_to_date == '')
+                    $start = 1;
+                else
+                    $start = 0;
+            @endphp
+            @foreach ($applicant->employments as $k => $v) 
+            @php
+                if ($k < $start) continue;
+            @endphp
+            <td>{{ $v->company_name }}</td>
+            <td>{{ $v->position }}</td>
+            <td>{{ $v->duration_from_date }}</td>
+            <td>{{ $v->duration_to_date }}</td>
+            <td>{{ $v->income }}</td>
+            <td>{{ $v->industry_type }}</td>
             @endforeach
             {{-- END employment exp --}}
         </tr>
