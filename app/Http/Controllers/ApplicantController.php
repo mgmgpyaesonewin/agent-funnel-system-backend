@@ -487,7 +487,7 @@ class ApplicantController extends Controller
             unset($applicant->witness_sign_img);
 
             Log::info("witness_name {$applicant->witness_name}");
-            unset($applicant->document);
+            unset($applicant->document, $applicant->witness_name, $applicant->agreement_no);
 
             Log::info("Applicant {$applicant}");
 
