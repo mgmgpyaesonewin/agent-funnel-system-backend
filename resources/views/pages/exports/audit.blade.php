@@ -42,11 +42,14 @@
 
         @foreach($applicants as $applicant)
         @php
-        $activities = DB::table('applicant_status')->select('status_id','current_status', 'name',
+
+
+    $lead = 0; $active = 0;
+
+        $activities = DB::table('applicant_status')->distinct()->select('applicant_id','status_id','current_status', 'name',
         'applicant_status.created_at')
         ->leftjoin('users', 'users.id', 'applicant_status.user_id')
         ->where('applicant_id', $applicant->id)
-        ->groupby('applicant_id', 'current_status', 'status_id')
         ->get();
         @endphp
         <tr>
@@ -58,9 +61,13 @@
 
             {{-- // Lead submitted date --}}
             @if($row->status_id == '1' && $row->current_status == 'bop_session')
+            
+            @if($lead < 1)
             <td>Approved</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
+            @php $lead++  @endphp
+            @endif
             @elseif($row->status_id == '4' && $row->current_status == 'lead')
             <td>Rejected</td>
             <td>{{ $row->name }}</td>
@@ -129,10 +136,14 @@
             {{-- // Certification Passed/Failed --}}
 
             {{-- // Onboarding Approve/Reject --}}
-            @if($row->status_id == '8' && $row->current_status == 'active')
+            @if($row->status_id == '8' && $row->current_status == 'active')            
+            @if($active < 1)
             <td>Approved</td>
             <td>{{ $row->name }}</td>
             <td>{{ $row->created_at }}</td>
+            @php $active++  @endphp
+            @endif
+            
             @elseif($row->status_id == '4' && $row->current_status == 'onboard')
             <td>Rejected</td>
             <td>{{ $row->name }}</td>
