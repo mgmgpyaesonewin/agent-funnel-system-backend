@@ -4,14 +4,12 @@ namespace App\Jobs;
 
 use App\Applicant;
 use App\Classes\Entity\ProducerEntity;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class GenerateProducerEntity implements ShouldQueue
 {
@@ -34,6 +32,7 @@ class GenerateProducerEntity implements ShouldQueue
      */
     public function handle()
     {
+        Log::info('Handle Producer Applicants generate');
         $applicants_ids = get_applicants_ids_to_generate();
         $applicants = Applicant::with('statuses')->whereIn('id', $applicants_ids)->get();
         $producerEntity = new ProducerEntity($applicants);

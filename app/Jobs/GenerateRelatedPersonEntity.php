@@ -34,7 +34,8 @@ class GenerateRelatedPersonEntity implements ShouldQueue
      */
     public function handle()
     {
-        $datetime = Carbon::now()->format('yymd_His');
+        Log::info('Handle Producer Applicants generate');
+        $datetime = Carbon::now()->format('YYmd_His');
         $filetype = 'txt';
         $file_env = 'PROD';
         if (App::environment('local')) {
@@ -49,6 +50,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
         foreach ($applicants as $applicant) {
             if ($applicant->married == 'Married') {
                 $agent_id = $applicant->agent_code;
+                Log::info("Agent with {$agent_id} generated");
                 $entity_type = 'Spouse'; // If spouse details present
                 $dateeff = $applicant->getEffectiveDate()->format(config('constants.entity.date_format'));
                 $entity_name = $applicant->spouse_name;

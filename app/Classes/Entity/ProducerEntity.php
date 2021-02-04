@@ -222,6 +222,7 @@ class ProducerEntity extends BaseEntity
         $content = null;
         foreach ($this->applicants as $applicant) {
             $this->setAgentId($applicant);
+            Log::info("Agent with {$this->getAgentId()} generated");
             $this->setNewIcNo($applicant);
             $this->setPreferredName($applicant);
             $this->setName($applicant);
