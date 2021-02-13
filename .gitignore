@@ -19,12 +19,14 @@ _ide_helper.php
 public/mix-manifest.json
 storage/framework/laravel-excel
 dist
-.bitmap
 storage/.DS_Store
 app/Http/.DS_Store
-.idea
 .php_cs.cache
 app/.DS_Store
 .DS_Store
-.DS_Store
 public/.DS_Store
+.bitmap
+.idea/
+dist/
+public/images/.DS_Store
+public/images/vendor/

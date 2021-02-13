@@ -21,17 +21,28 @@ class UserApiRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required',
             'dob' => 'required',
             'gender' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|unique:applicants,phone',
             'utm_source' => 'nullable',
             'utm_medium' => 'nullable',
             'utm_campaign' => 'nullable',
-            'utm_term' => 'nullable',
+            'utm_term' => 'nullable'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Applicant Name is required',
+            'dob.required' => 'Invalid Date of Birth',
+            'gender' => 'Gender is required',
+            'phone' => 'Phone number is required',
+            'phone.unique' => 'Phone number already exists',
         ];
     }
 }
