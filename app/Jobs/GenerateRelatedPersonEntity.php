@@ -35,7 +35,7 @@ class GenerateRelatedPersonEntity implements ShouldQueue
     public function handle()
     {
         Log::info('Handle Producer Applicants generate');
-        $datetime = Carbon::now()->format('YYmd_His');
+        $datetime = Carbon::now()->format('Ymd_His');
         $filetype = 'txt';
         $file_env = 'PROD';
         if (App::environment('local')) {

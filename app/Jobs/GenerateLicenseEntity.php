@@ -34,7 +34,7 @@ class GenerateLicenseEntity implements ShouldQueue
      */
     public function handle()
     {
-        $datetime = Carbon::now()->format('YYmd_His');
+        $datetime = Carbon::now()->format('Ymd_His');
         $filetype = 'txt';
         $file_env = 'PROD';
         if (App::environment('local')) {

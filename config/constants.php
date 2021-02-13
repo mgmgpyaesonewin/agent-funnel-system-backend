@@ -2,7 +2,7 @@
 
 return [
     'entity' => [
-        'date_format' => 'yymd',
+        'date_format' => 'Ymd',
     ],
     'contract' => [
         'new_contract_version' => 1,
