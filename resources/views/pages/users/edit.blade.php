@@ -74,7 +74,7 @@
                         @if($user->user_id != null && $user->is_ma == 1)
                         <div class="form-group">
                             <label for="exampleInputEmail1">BDM</label>
-                            <select class="form-control" name="user_id">
+                            <select class="form-control" name="user_id" id="user_id">
                                 <option value="">None</option>
                                 @foreach ($bdm_list as $item)
                                 <option value="{{ $item->id }}" @if($item->id === $user->user_id) selected @endif>

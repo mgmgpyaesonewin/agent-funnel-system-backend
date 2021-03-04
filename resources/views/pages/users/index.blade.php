@@ -126,7 +126,7 @@
                         </table>
                     </div>
                     <div class="justify-content-center">
-                        {{ $users->links() }}
+                        {{ $users->appends(Request::input())->links() }}
                     </div>
                 </div>
             </div>

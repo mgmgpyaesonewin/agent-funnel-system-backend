@@ -51,7 +51,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $users->paginate(20);
+        $users = $users->paginate(20)->setPath(route('users.index'));
 
         return view('pages.users.index', compact('users'));
     }
@@ -126,6 +126,10 @@ class UserController extends Controller
 
         if (isset($request->partner_id)) {
             $data['partner_id'] = $request->partner_id;
+        }
+
+        if (isset($request->user_id)) {
+            $data['user_id'] = $request->user_id;
         }
 
         unset($data['role']);
