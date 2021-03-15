@@ -120,6 +120,7 @@ class BopSessionController extends Controller
 
             return redirect('/sessions')->with('message', 'Deleted Successfully');
         } catch (Exception $e) {
+            return redirect('/sessions')->with('message', 'Cannot delete sessions that are already invited to applicants');
             DB::rollback();
         }
     }
