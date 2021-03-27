@@ -99,7 +99,7 @@
       <img src="{{ public_path().'/images/watermark.png' }}" width="136" height="92"><br>
    </p>
    <p class="western" align="CENTER" style="margin-top: 0.17in; margin-bottom: 0.92in; widows: 0; orphans: 0">
-      <b>MANAGEMENT ASSOCIATEFINANCIAL ADVISOR AGREEMENT</b>
+      <b>FINANCIAL ADVISOR AGREEMENT</b>
    </p>
    <p class="western" align="CENTER" style="margin-top: 0.17in; margin-bottom: 0.5in; widows: 0; orphans: 0">
       <b>PRUDENTIAL MYANMAR LIFE INSURANCE LIMITED </b>

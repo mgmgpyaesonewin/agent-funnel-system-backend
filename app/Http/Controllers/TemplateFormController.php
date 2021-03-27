@@ -16,7 +16,7 @@ class TemplateFormController extends Controller
 {
     public function index()
     {
-        $templates = TemplateForm::orderby('active', 'desc')->get();
+        $templates = TemplateForm::orderby('active', 'desc')->paginate('20');
 
         return view('pages.templateform.index', compact('templates'));
     }

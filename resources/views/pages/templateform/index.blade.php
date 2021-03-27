@@ -53,6 +53,10 @@
       @endforeach
 
     </div>
+
+    <div class="justify-content-center">
+                        {{ $templates->appends(Request::input())->links() }}
+                    </div>
   </div>
 </div>
 
