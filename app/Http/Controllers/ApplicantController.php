@@ -7,6 +7,9 @@ use App\BopSession;
 use App\Classes\Viber\ContentType;
 use App\Contract;
 use App\Events\InviteBopSession;
+use App\Http\Requests\UpdateBankInfoRequest;
+use App\Http\Requests\UploadCertificateRequest;
+use App\Http\Requests\UploadPaymentRequest;
 use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
 use App\Http\Resources\BopSessionResource;
@@ -22,6 +25,7 @@ use Carbon\Carbon;
 use Config;
 use DB;
 use DOMPDF;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -151,7 +155,7 @@ class ApplicantController extends Controller
         return response(['message' => 'invalid'], 422);
     }
 
-    public function bank_info_update(Request $req)
+    public function bank_info_update(UpdateBankInfoRequest $req)
     {
         $appli = Applicant::find($req->id);
         $data['bank_account_no'] = $req->account_no;
@@ -250,7 +254,7 @@ class ApplicantController extends Controller
         return  Applicant::create($data)->statuses()->attach(1, ['current_status' => 'lead']);
     }
 
-    public function savePayment(Request $request)
+    public function savePayment(UploadPaymentRequest $request): JsonResponse
     {
         $file = $request->file('file');
         $applicant = Applicant::where('nrc', $request->nrc)->first();
@@ -391,7 +395,7 @@ class ApplicantController extends Controller
         ]);
     }
 
-    public function certificate(Request $request)
+    public function certificate(UploadCertificateRequest $request): JsonResponse
     {
         $applicant = Applicant::where('uuid', $request->uuid)->first();
 
@@ -401,7 +405,6 @@ class ApplicantController extends Controller
 
             $applicant->certificate = $path;
             $applicant->save();
-
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully Created',

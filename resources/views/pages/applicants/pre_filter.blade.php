@@ -47,7 +47,6 @@
                                         <i class="fa fa-refresh" aria-hidden="true"></i>
                                     </v-button>
                                 </div>
-                                </td>
                             </template>
                         </v-table>
                     </div>

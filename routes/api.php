@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+// FrontEnd API
 Route::get('/getForm', 'TemplateFormController@getform');
 Route::post('/createuser', 'ApplicantController@createuser');
 Route::post('/pdf/{id}', 'ApplicantController@signContract');
@@ -28,12 +29,12 @@ Route::get('/payment/{uuid}', 'ApplicantController@validatePayment');
 Route::post('/payment', 'ApplicantController@savePayment');
 Route::post('/detail/{id}', 'ApplicantController@detail');
 Route::post('/spouse_update/{id}', 'ApplicantController@spouse_update');
-
 Route::get('city', 'TemplateFormController@getCity');
 Route::get('township/{id}', 'TemplateFormController@getTownship');
 Route::post('certificate', 'ApplicantController@certificate');
-
 Route::post('/login', 'ApplicantController@login');
+
+// Backend API
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/users', 'UserController@users');
     Route::post('/applicants', 'ApplicantController@applicants');

@@ -19,8 +19,6 @@ class UploadBankInformationTest extends TestCase
 
         $applicant = factory(Applicant::class)->create();
 
-        Storage::fake('public');
-
         $response = $this->post("/api/bank_update/{$applicant->id}", [
             'name' => $applicant->name,
             'account_no' => '012345678912',
@@ -30,8 +28,7 @@ class UploadBankInformationTest extends TestCase
             ]),
             'bank_branch_name' => 'SanChaung',
             'license_number' => '12245678',
-            'license_photo_1' => UploadedFile::fake()->image('license_1.jpg'),
-            'license_photo_2' => UploadedFile::fake()->image('license_2.jpg')
+            'license_photo' => UploadedFile::fake()->image('license_1.jpg'),
         ]);
 
         $data = $response->getOriginalContent();

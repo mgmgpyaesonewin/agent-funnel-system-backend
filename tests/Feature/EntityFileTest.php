@@ -10,7 +10,6 @@ use App\Classes\Entity\ContractEntity;
 use App\Classes\Entity\ProducerEntity;
 use App\Contract;
 use App\Http\Controllers\ApplicantController;
-use App\Jobs\GenerateContactEntity;
 use App\Jobs\GenerateEducationEntity;
 use App\Jobs\GenerateLicenseEntity;
 use App\Jobs\GenerateRelatedPersonEntity;
@@ -111,14 +110,12 @@ class EntityFileTest extends TestCase
         Storage::disk('public')->assertExists("agents/{$file}");
     }
 
-    /** @test */
     public function generate_related_person_entity_file()
     {
         $relatedPersonEntity = new GenerateRelatedPersonEntity();
         $relatedPersonEntity->handle();
     }
 
-    /** @test */
     public function generate_education_entity_file()
     {
         $educationEntity = new GenerateEducationEntity();
@@ -136,8 +133,7 @@ class EntityFileTest extends TestCase
 
         Storage::disk('public')->assertExists("agents/{$file}");
     }
-
-    /** @test */
+    
     public function generate_license_entity_file()
     {
         $bankEntity = new GenerateLicenseEntity();

@@ -18,15 +18,13 @@ class UploadCertificateFileTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_certificate_can_be_uploaded()
+    public function a_certificate_can_be_uploaded(): void
     {
         $this->withoutExceptionHandling();
 
         $applicant = factory(Applicant::class)->create([
             'uuid' => (string) Str::uuid(),
         ]);
-
-        Storage::fake('certificates');
 
         $response = $this->json('POST', '/api/certificate', [
             'uuid' => $applicant->uuid,
@@ -38,7 +36,6 @@ class UploadCertificateFileTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals(true, $data['status']);
         $this->assertEquals('Successfully Created', $data['message']);
-        // TODO:: FIXME storage is not working
-        // Storage::disk('certificates')->assertExists($image->hashName());
+        Storage::disk('local')->assertExists('public/certificates/'.$image->hashName());
     }
 }
