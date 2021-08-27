@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use Throwable;
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
