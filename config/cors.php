@@ -45,12 +45,12 @@ return [
     /*
      * Sets the Access-Control-Expose-Headers response header with these headers.
      */
-    'exposed_headers' => [],
+    'exposed_headers' => false,
 
     /*
      * Sets the Access-Control-Max-Age response header when > 0.
      */
-    'max_age' => 0,
+    'max_age' => false,
 
     /*
      * Sets the Access-Control-Allow-Credentials header.
