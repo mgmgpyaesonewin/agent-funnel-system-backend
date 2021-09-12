@@ -4,7 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// 2020_06_14_015604
 class CreateApplicantsTable extends Migration
 {
     /**

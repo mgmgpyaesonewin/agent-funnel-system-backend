@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Applicant;
+use App\Models\Applicant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +22,7 @@ class UploadCertificateFileTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $applicant = factory(Applicant::class)->create([
+        $applicant = Applicant::factory()->create([
             'uuid' => (string) Str::uuid(),
         ]);
 

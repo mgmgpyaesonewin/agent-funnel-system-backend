@@ -2,50 +2,41 @@
   "private": true,
   "scripts": {
     "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
-    "watch-poll": "npm run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
     "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "production": "mix --production"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "axios": "^0.19",
-    "bootstrap": "^4.1.0",
+    "axios": "^0.21",
+    "bootstrap": "4.6",
     "cross-env": "^5.2.1",
     "jquery": "^3.2",
-    "laravel-mix": "^4.1.4",
+    "laravel-mix": "^6.0",
     "lodash": "^4.17.15",
     "popper.js": "^1.12",
-    "resolve-url-loader": "^2.3.1",
-    "rtlcss": "^2.4.0",
-    "sass": "^1.22.12",
-    "sass-loader": "^7.3.1",
+    "resolve-url-loader": "^4.0.0",
+    "sass": "^1.39.2",
+    "sass-loader": "^12.1.0",
     "vue": "^2.5.17",
+    "vue-loader": "^15.9.8",
     "vue-template-compiler": "^2.6.10",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^4.8.0"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-decoupled-document": "^22.0.0",
-    "@ckeditor/ckeditor5-dev-utils": "^23.5.1",
-    "@ckeditor/ckeditor5-dev-webpack-plugin": "^23.5.1",
-    "@ckeditor/ckeditor5-vue": "^1.0.2",
+    "@ckeditor/ckeditor5-build-decoupled-document": "^29.2.0",
+    "@ckeditor/ckeditor5-vue2": "^1.0.5",
+    "glob": "^7.1.7",
     "js-file-download": "^0.4.12",
     "laravel-vue-pagination": "^2.3.1",
     "postcss-loader": "^3.0.0",
-    "raw-loader": "^0.5.1",
     "vue-clipboard2": "^0.3.1",
     "vue-loading-overlay": "^3.3.2",
     "vue-multiselect": "^2.1.6",
     "vue-sweetalert2": "^3.0.6",
     "vue2-datepicker": "^3.6.0"
-  },
-  "bit": {
-    "env": {
-      "compiler": "bit.envs/bundlers/vue@2.6.21"
-    },
-    "componentsDefaultDirectory": "components/{name}",
-    "packageManager": "npm"
   }
 }

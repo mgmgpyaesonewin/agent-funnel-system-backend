@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Applicant;
-use App\Setting;
-use App\Status;
-use App\User;
+use App\Models\Applicant;
+use App\Models\Setting;
+use App\Models\Status;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -20,7 +20,7 @@ class PMLIFilterApplicantTest extends TestCase
         parent::setUp();
         $this->withoutExceptionHandling();
 
-        $this->admin = factory(User::class)->create([
+        $this->admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -34,7 +34,7 @@ class PMLIFilterApplicantTest extends TestCase
         $new_status_id = Status::where('title', 'New')->first()->id;
         $accepted_status_id = Status::where('title', 'Accepted')->first()->id;
 
-        $applicant = factory(Applicant::class)->create([
+        $applicant = Applicant::factory()->create([
             'phone' => '09796874359',
             'current_status' => 'pru_dna_test',
             'status_id' => $new_status_id,
@@ -58,16 +58,16 @@ class PMLIFilterApplicantTest extends TestCase
         $new_status_id = Status::where('title', 'New')->first()->id;
         $waiting_payment_status_id = Status::where('title', 'Waiting Payment')->first()->id;
 
-        factory(Setting::class)->create([
+        Setting::factory()->create([
             'meta_key' => 'payment_msg'
         ]);
 
-        factory(Setting::class)->create([
+        Setting::factory()->create([
             'meta_key' => 'payment_mandatory',
             'meta_value' => 1
         ]);
 
-        $applicant = factory(Applicant::class)->create([
+        $applicant = Applicant::factory()->create([
             'phone' => '09796874359',
             'current_status' => 'pru_dna_test',
             'status_id' => $new_status_id,

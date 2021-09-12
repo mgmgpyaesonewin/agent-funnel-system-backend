@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ApplicantUpdating;
-use App\User;
+use App\Models\User;
 
 class AssignBDMWhenMAisAssigned
 {

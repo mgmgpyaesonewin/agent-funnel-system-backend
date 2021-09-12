@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Applicant;
-use App\BopSession;
-use App\User;
+use App\Models\Applicant;
+use App\Models\BopSession;
+use App\Models\User;
 use Carbon\Carbon;
+use Database\Factories\BOPSessionFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -13,7 +14,7 @@ use Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class BopSessionTest extends TestCase
+class BOPSessionTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,7 +24,7 @@ class BopSessionTest extends TestCase
     {
         parent::setUp();
 
-        $this->admin = factory(User::class)->create([
+        $this->admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -58,7 +59,7 @@ class BopSessionTest extends TestCase
      */
     public function prudential_admin_can_create_bop_session()
     {
-        $session = factory(BopSession::class)->make();
+        $session = BopSession::factory()->make();
 
         $response = $this->actingAs($this->admin)->post('/sessions', [
             'title' => $session->title,
@@ -81,7 +82,7 @@ class BopSessionTest extends TestCase
     /** @test */
     public function user_can_see_bop_sessions()
     {
-        $sessions = factory(BopSession::class, 15)->create();
+        $sessions = BopSession::factory()->count(15)->create();
 
         $response = $this->actingAs($this->admin)->get('/sessions');
 
@@ -97,7 +98,7 @@ class BopSessionTest extends TestCase
     /** @test */
     public function prudential_admin_can_edit_bop_sessions()
     {
-        $session = factory(BopSession::class)->create();
+        $session = BOPSession::factory()->create();
 
         $response = $this->actingAs($this->admin)->get("/sessions/{$session->id}/edit");
 
@@ -116,8 +117,8 @@ class BopSessionTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $session = factory(BopSession::class)->create();
-        $session_to_update = factory(BopSession::class)->make();
+        $session = BopSession::factory()->create();
+        $session_to_update = BopSession::factory()->make();
 
         $response = $this->actingAs($this->admin)->put(route('sessions.update', $session->id), [
             'title' => $session_to_update->title,
@@ -140,7 +141,7 @@ class BopSessionTest extends TestCase
     /** @test */
     public function admin_can_delete_session()
     {
-        $session = factory(BopSession::class)->create();
+        $session = BopSession::factory()->create();
         $response = $this->actingAs($this->admin)->delete(route('sessions.destroy', $session->id));
 
         $response->assertRedirect('/sessions');
@@ -162,7 +163,7 @@ class BopSessionTest extends TestCase
     /** @test */
     public function get_all_bop_sessions()
     {
-        $sessions = factory(BopSession::class, 20)->create();
+        $sessions = BopSession::factory()->count(20)->create();
         $response = $this->actingAs($this->admin, 'api')->get('/api/sessions');
 
         $data = $response->getOriginalContent();
@@ -174,8 +175,10 @@ class BopSessionTest extends TestCase
     /** @test */
     public function get_all_bop_sessions_except_applicant_previous_assigned()
     {
-        factory(BopSession::class, 5)->create();
-        $applicant = factory(Applicant::class)->create();
+        $this->withoutExceptionHandling();
+
+        BopSession::factory()->count(5)->create();
+        $applicant = Applicant::factory()->create();
 
         $session = BopSession::first();
         $applicant->bop_sessions()->attach($session->id, [
@@ -193,11 +196,11 @@ class BopSessionTest extends TestCase
     /** @test */
     public function search_bop_sessions()
     {
-        factory(BopSession::class)->create([
+        BopSession::factory()->create([
             'title' => 'Just BOP Session',
         ]);
 
-        $session = factory(BopSession::class)->create([
+        $session = BopSession::factory()->create([
             'title' => 'Test BOP Session',
         ]);
 
@@ -212,8 +215,8 @@ class BopSessionTest extends TestCase
     /** @test */
     public function user_can_disable_status()
     {
-        $session = factory(BopSession::class)->create();
-        $session_to_update = factory(BopSession::class)->make();
+        $session = BopSession::factory()->create();
+        $session_to_update = BopSession::factory()->make();
 
         $response = $this->actingAs($this->admin)->put(route('sessions.update', $session->id), [
             'title' => $session_to_update->title,
@@ -237,8 +240,8 @@ class BopSessionTest extends TestCase
     /** @test */
     public function user_can_enable_disabled_status()
     {
-        $session = factory(BopSession::class)->create();
-        $session_to_update = factory(BopSession::class)->make();
+        $session = BopSession::factory()->create();
+        $session_to_update = BopSession::factory()->make();
 
         $response = $this->actingAs($this->admin)->put(route('sessions.update', $session->id), [
             'title' => $session_to_update->title,

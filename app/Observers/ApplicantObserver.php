@@ -2,9 +2,8 @@
 
 namespace App\Observers;
 
-use App\Applicant;
-use App\User;
-use Illuminate\Support\Facades\Log;
+use App\Models\Applicant;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class ApplicantObserver
@@ -12,7 +11,7 @@ class ApplicantObserver
     /**
      * Handle the applicant "creating" event.
      */
-    public function creating(Applicant $applicant)
+    public function creating(Applicant $applicant): void
     {
         $utm_source = Str::lower($applicant->utm_source);
 

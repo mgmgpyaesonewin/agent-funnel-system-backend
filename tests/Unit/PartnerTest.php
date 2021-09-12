@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Partner;
+use App\Models\Partner;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
@@ -22,11 +22,11 @@ class PartnerTest extends TestCase
     use WithFaker;
 
     /** @test */
-    public function it_should_has_slug()
+    public function it_should_has_slug(): void
 
     {
         $company = $this->faker->company;
-        $slug = Str::slug("{$company}", '');
+        $slug = Str::slug($company, '');
 
         Partner::create([
             'company_name' => $company,

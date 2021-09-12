@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Partner;
-use App\User;
+use App\Models\Partner;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 class UserObserver
@@ -11,7 +11,7 @@ class UserObserver
     /**
      * Handle the user "created" event.
      */
-    public function created(User $user)
+    public function created(User $user): void
     {
         if (isset($user->partner_id)) {
             $user->utm_source = Partner::find($user->partner_id)->slug;
@@ -24,7 +24,7 @@ class UserObserver
     /**
      * Handle the user "updating" event.
      */
-    public function updating(User $user)
+    public function updating(User $user): void
     {
         $user->utm_source = $this->generateUtmSource($user->name, $user->id);
     }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Applicant;
+use App\Models\Applicant;
+use App\Models\Setting;
+use App\Models\TemplateForm;
 use App\Http\Requests\Template;
-use App\Setting;
-use App\TemplateForm;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

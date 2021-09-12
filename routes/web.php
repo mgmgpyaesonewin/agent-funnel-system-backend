@@ -1,82 +1,73 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\ExportController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StaterkitController;
+use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\TemplateFormController;
+use App\Http\Controllers\BopSessionController;
+use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserController;
 
-// use Illuminate\Routing\Route;
-// Route::get('download_contract', 'ApplicantController@download_contract');
 Auth::routes(['register' => false]);
 
-Route::get('pdf', 'ExportController@pdf');
-Route::get('pdf/view', 'ExportController@pdfView');
-Route::get('convert', 'SettingController@convertView');
-Route::post('convert/data', 'SettingController@convertData');
+Route::get('pdf', [ExportController::class, 'pdf']);
+Route::get('pdf/view', [ExportController::class, 'pdfView']);
+
+Route::get('convert', [SettingController::class, 'convertView']);
+Route::post('convert/data', [SettingController::class, 'convertData']);
 
 Route::group(['middleware' => 'auth'], function () {
-    // Route url
-    Route::get('/', 'DashboardController@dashboardAnalytics')->name('home');
+    Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('home');
 
     // Route Components
-    Route::get('/sk-layout-2-columns', 'StaterkitController@columns_2');
-    Route::get('/sk-layout-fixed-navbar', 'StaterkitController@fixed_navbar');
-    Route::get('/sk-layout-floating-navbar', 'StaterkitController@floating_navbar');
-    Route::get('/sk-layout-fixed', 'StaterkitController@fixed_layout');
+    Route::get('/sk-layout-2-columns', [StaterkitController::class, 'columns_2']);
+    Route::get('/sk-layout-fixed-navbar', [StaterkitController::class, 'fixed_navbar']);
+    Route::get('/sk-layout-floating-navbar', [StaterkitController::class, 'floating_navbar']);
+    Route::get('/sk-layout-fixed', [StaterkitController::class, 'fixed_layout']);
 
-    // SY Starts
-    Route::get('/lead', 'ApplicantController@leadPage');
-    Route::get('/create_lead', 'ApplicantController@create_lead');
-    Route::post('/save_lead', 'ApplicantController@store');
+    Route::get('/lead', [ApplicantController::class, 'leadPage']);
+    Route::get('/create_lead', [ApplicantController::class, 'create_lead']);
+    Route::post('/save_lead', [ApplicantController::class, 'store']);
+    Route::get('/pre_filter', [ApplicantController::class, 'preFilterPage']);
+    Route::get('/bop_session', [ApplicantController::class, 'bopSessionPage']);
+    Route::get('/pru_dna_filter', [ApplicantController::class, 'pruDNAFilter']);
+    Route::get('/pmli_filter', [ApplicantController::class, 'pmliFilter']);
+    Route::get('/trainee', [ApplicantController::class, 'traineePage']);
+    Route::get('/onboarded', [ApplicantController::class, 'onboardedPage']);
+    Route::get('/certification', [ApplicantController::class, 'certificationPage']);
+    Route::get('/contract', [ApplicantController::class, 'contractPage']);
+    Route::get('/applicants/{id}', [ApplicantController::class, 'applicantsDetail']);
 
     // Setting Dashboards
-    Route::get('/setting', 'SettingController@index');
+    Route::get('/setting', [SettingController::class, 'index']);
+    Route::post('/setting/update_setting', [SettingController::class, 'update']);
+    Route::get('/setting/import_history', [SettingController::class, 'history']);
+    Route::get('/setting/download_history/{id}', [SettingController::class, 'download_history']);
+    Route::get('/setting/remove_viber_img/{id}', [SettingController::class, 'remove_viber_img']);
+    Route::get('/document/{lang}', [SettingController::class, 'document']);
+    Route::get('/signatures', [SettingController::class, 'signatures']);
+    Route::post('/signatures/update', [SettingController::class, 'updateSignatures']);
 
-    Route::post('/setting/update_setting', 'SettingController@update');
+    Route::resource('trainings', TrainingController::class);
+    Route::resource('templateforms', TemplateFormController::class);
+    Route::resource('sessions', BopSessionController::class);
+    Route::resource('partners', PartnerController::class);
+    Route::resource('payments', PaymentController::class);
+    Route::resource('users', UserController::class);
 
-    Route::get('/setting/import_history', 'SettingController@history');
+    Route::get('/training/export/{id}', [TrainingController::class, 'export']);
+    Route::get('/api/user/get_bdm_list', [UserController::class, 'get_bdm_list']);
 
-    Route::get('/setting/download_history/{id}', 'SettingController@download_history');
+    Route::post('/setting/applicants/export', [ExportController::class, 'applicantsExport']);
+    Route::post('/setting/applicants/import', [ExportController::class, 'applicantsImport']);
 
-    Route::get('/setting/remove_viber_img/{id}', 'SettingController@remove_viber_img');
-
-    Route::get('/training/export/{id}', 'TrainingController@export');
-
-    Route::get('/api/user/get_bdm_list', 'UserController@get_bdm_list');
-    // SY Ends
-
-    Route::get('/pre_filter', 'ApplicantController@preFilterPage');
-    Route::get('/bop_session', 'ApplicantController@bopSessionPage');
-    Route::get('/pru_dna_filter', 'ApplicantController@pruDNAFilter');
-    Route::get('/pmli_filter', 'ApplicantController@pmliFilter');
-    Route::get('/trainee', 'ApplicantController@traineePage');
-
-    Route::get('/onboarded', 'ApplicantController@onboardedPage');
-    Route::get('/certification', 'ApplicantController@certificationPage');
-    Route::get('/contract', 'ApplicantController@contractPage');
-
-    Route::get('/applicants/{id}', 'ApplicantController@applicantsDetail');
-    Route::post('/setting/applicants/export', 'ExportController@applicantsExport');
-    Route::post('/setting/applicants/import', 'ExportController@applicantsImport');
-
-    Route::get('template/edit/{id}', 'TemplateFormController@edit');
-    Route::post('template/activate/{id}', 'TemplateFormController@activate');
-    Route::resource('templateforms', 'TemplateFormController');
-    Route::resource('trainings', 'TrainingController');
-    Route::resource('sessions', 'BopSessionController');
-    Route::resource('partners', 'PartnerController');
-    Route::resource('payments', 'PaymentController');
-    Route::resource('users', 'UserController');
-    Route::get('/document/{lang}', 'SettingController@document');
-    Route::get('/applicant/export/{type}/{id}', 'ExportController@applicantExport');
-    Route::get('/signatures', 'SettingController@signatures');
-    Route::post('/signatures/update', 'SettingController@updateSignatures');
+    Route::get('template/edit/{id}', [TemplateFormController::class, 'edit']);
+    Route::post('template/activate/{id}', [TemplateFormController::class, 'activate']);
+    Route::get('/applicant/export/{type}/{id}', [ExportController::class, 'applicantExport']);
 });
 
-Route::get('/applicant/{type}/{id}', 'ApplicantController@setupWebinar');
+Route::get('/applicant/{type}/{id}', [ApplicantController::class, 'setupWebinar']);

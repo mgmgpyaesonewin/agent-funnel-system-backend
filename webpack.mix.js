@@ -1,6 +1,5 @@
 const mix = require("laravel-mix");
-const exec = require("child_process").exec;
-require("dotenv").config();
+// require("dotenv").config();
 
 /*
  |--------------------------------------------------------------------------
@@ -14,7 +13,6 @@ require("dotenv").config();
  */
 
 const glob = require("glob");
-const path = require("path");
 
 /*
  |--------------------------------------------------------------------------
@@ -38,7 +36,7 @@ mixAssetsDir("sass/plugins/**/!(_)*.scss", (src, dest) =>
   mix.sass(
     src,
     dest.replace(/(\\|\/)sass(\\|\/)/, "$1css$2").replace(/\.scss$/, ".css"),
-    sassOptions
+    { sassOptions: sassOptions }
   )
 );
 
@@ -47,7 +45,7 @@ mixAssetsDir("sass/themes/**/!(_)*.scss", (src, dest) =>
   mix.sass(
     src,
     dest.replace(/(\\|\/)sass(\\|\/)/, "$1css$2").replace(/\.scss$/, ".css"),
-    sassOptions
+    { sassOptions: sassOptions }
   )
 );
 
@@ -56,7 +54,7 @@ mixAssetsDir("sass/pages/**/!(_)*.scss", (src, dest) =>
   mix.sass(
     src,
     dest.replace(/(\\|\/)sass(\\|\/)/, "$1css$2").replace(/\.scss$/, ".css"),
-    sassOptions
+    { sassOptions: sassOptions }
   )
 );
 
@@ -65,7 +63,7 @@ mixAssetsDir("sass/core/**/!(_)*.scss", (src, dest) =>
   mix.sass(
     src,
     dest.replace(/(\\|\/)sass(\\|\/)/, "$1css$2").replace(/\.scss$/, ".css"),
-    sassOptions
+    { sassOptions: sassOptions }
   )
 );
 
@@ -89,26 +87,20 @@ mix.copyDirectory("resources/fonts", "public/fonts");
 mix
   .js("resources/js/core/app-menu.js", "public/js/core")
   .js("resources/js/core/app.js", "public/js/core")
-  .js("resources/js/app.js", "public/js")
-  .sass("resources/sass/bootstrap.scss", "public/css")
-  .sass("resources/sass/bootstrap-extended.scss", "public/css")
+  .js("resources/js/app.js", "public/js").vue()
   .sass("resources/sass/colors.scss", "public/css")
   .sass("resources/sass/components.scss", "public/css")
-  .sass("resources/sass/custom-rtl.scss", "public/css")
+  .sass("resources/sass/bootstrap.scss", "public/css")
+  .sass("resources/sass/bootstrap-extended.scss", "public/css")
   .sass("resources/sass/custom-laravel.scss", "public/css");
 
-mix.then(() => {
-  if (process.env.MIX_CONTENT_DIRECTION === "rtl") {
-    let command = `node ${path.resolve(
-      "node_modules/rtlcss/bin/rtlcss.js"
-    )} -d -e ".css" ./public/css/ ./public/css/`;
-    exec(command, function(err, stdout, stderr) {
-      if (err !== null) {
-        console.log(err);
-      }
-    });
-    // exec('./node_modules/rtlcss/bin/rtlcss.js -d -e ".css" ./public/css/ ./public/css/');
-  }
-});
+// mix.copy('resources/vendors/css/vendors.min.css', 'public/vendors/css/vendors.min.css')
+//   .sass("resources/sass/bootstrap.scss", "public/css")
+//   .sass("resources/sass/bootstrap-extended.scss", "public/css")
+//   .sass("resources/sass/colors.scss", "public/css")
+//   .sass("resources/sass/components.scss", "public/css")
+//   .sass("resources/sass/custom-laravel.scss", "public/css")
+//   .sass('resources/sass/pages/authentication.scss', 'public/css/pages/authentication.css')
+//   .js('resources/js/app.js', 'public/js').vue();
 
 mix.version();

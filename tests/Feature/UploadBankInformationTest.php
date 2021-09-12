@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Applicant;
+use App\Models\Applicant;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class UploadBankInformationTest extends TestCase
@@ -17,7 +16,7 @@ class UploadBankInformationTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $applicant = factory(Applicant::class)->create();
+        $applicant = Applicant::factory()->create();
 
         $response = $this->post("/api/bank_update/{$applicant->id}", [
             'name' => $applicant->name,

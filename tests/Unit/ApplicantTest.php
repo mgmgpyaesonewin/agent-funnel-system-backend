@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Applicant;
 use App\Classes\Entity\BankEntity;
 use App\Classes\Entity\ProducerEntity;
 use App\Http\Controllers\ApplicantController;
-use App\Setting;
+use App\Models\Applicant;
+use App\Models\Setting;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -16,13 +16,13 @@ class ApplicantTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function it_has_optional_bank_branch_name()
+    public function it_has_optional_bank_branch_name(): void
     {
-        factory(Applicant::class)->create([
+        Applicant::factory()->create([
             'bank_branch_name' => 'SanChaung'
         ]);
 
-        factory(Applicant::class)->create();
+        Applicant::factory()->create();
 
         $applicant = Applicant::find(1);
         $applicant_2 = Applicant::find(2);
@@ -32,14 +32,15 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function generate_agent_code_via_sequence_from_setting()
+    public function generate_agent_code_via_sequence_from_setting(): void
     {
-        factory(Setting::class)->create([
-            'meta_key' => 'agent_code_current_id',
-            'meta_value' => 0
+        Setting::factory()->create([
+          'meta_key' => 'agent_code_current_id',
+          'meta_value' => 0
         ]);
 
-        factory(Applicant::class, 2)->create();
+        Applicant::factory()->count(2)->create();
+
         $applicant = Applicant::find(1);
         $applicantController = new ApplicantController();
         $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
@@ -52,7 +53,6 @@ class ApplicantTest extends TestCase
         $applicantController->updateAgentCode();
         $current_agent_code_id = $applicantController->getAgentCodeCurrentID();
         $this->assertEquals(1, $current_agent_code_id);
-
 
         $applicant_2 = Applicant::find(2);
         $applicantController = new ApplicantController();
@@ -70,9 +70,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function agent_effective_date()
+    public function agent_effective_date(): void
     {
-        factory(Applicant::class)->create()->each(function ($applicant) {
+        Applicant::factory()->create()->each(function ($applicant) {
             $applicant->statuses()->attach(8, ['current_status' => 'active']);
         });
 
@@ -88,9 +88,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function license_exam_pass_date()
+    public function license_exam_pass_date(): void
     {
-        factory(Applicant::class)->create()->each(function ($applicant) {
+        Applicant::factory()->create()->each(function ($applicant) {
             $applicant->statuses()->attach(1, ['current_status' => 'onboard']);
         });
 
@@ -106,9 +106,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function has_spouse_should_return_false_if_single()
+    public function has_spouse_should_return_false_if_single(): void
     {
-        factory(Applicant::class)->create([
+        Applicant::factory()->create([
             'married' => 'Single',
             'spouse_name' => 'Pyae Sone'
         ]);
@@ -119,9 +119,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function has_spouse_should_return_false_if_spouse_name_is_not_present()
+    public function has_spouse_should_return_false_if_spouse_name_is_not_present(): void
     {
-        factory(Applicant::class)->create([
+        Applicant::factory()->create([
             'married' => 'Married',
             'spouse_name' => null
         ]);
@@ -132,9 +132,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function has_spouse_should_return_true_if_spouse_name_is_present_and_status_is_not_single()
+    public function has_spouse_should_return_true_if_spouse_name_is_present_and_status_is_not_single(): void
     {
-        factory(Applicant::class)->create([
+        Applicant::factory()->create([
             'married' => 'Divorced',
             'spouse_name' => 'Pyae Sone'
         ]);
@@ -144,30 +144,32 @@ class ApplicantTest extends TestCase
         $this->assertEquals(true, $applicant->hasSpouse());
     }
 
-    /** @test */
-    public function get_current_company_name()
+  /** @test
+   * @throws \JsonException
+   */
+    public function get_current_company_name(): void
     {
-        factory(Applicant::class)->create([
+        Applicant::factory()->create([
             'employment' => json_encode([
-                [
-                    'income' => null,
-                    'address' => 'Yangon',
-                    'position' => 'Sales',
-                    'company_name' => 'GGI',
-                    'industry_type' => 'Insurance',
-                    'duration_to_date' => '2020-11-11',
-                    'duration_from_date' => '2020-01-01'
-                ],
-                [
-                    'income' => '100000000',
-                    'address' => 'Sule Square',
-                    'position' => 'Manager',
-                    'company_name' => 'Company1',
-                    'industry_type' => 'Service',
-                    'duration_to_date' => '2020-11-04',
-                    'duration_from_date' => '2017-01-01'
-                ]
-            ])
+              [
+                'income' => null,
+                'address' => 'Yangon',
+                'position' => 'Sales',
+                'company_name' => 'GGI',
+                'industry_type' => 'Insurance',
+                'duration_to_date' => '2020-11-11',
+                'duration_from_date' => '2020-01-01'
+              ],
+              [
+                'income' => '100000000',
+                'address' => 'Sule Square',
+                'position' => 'Manager',
+                'company_name' => 'Company1',
+                'industry_type' => 'Service',
+                'duration_to_date' => '2020-11-04',
+                'duration_from_date' => '2017-01-01'
+              ]
+            ], JSON_THROW_ON_ERROR)
         ]);
 
         $applicant = Applicant::find(1);
@@ -177,9 +179,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function get_state_code()
+    public function get_state_code(): void
     {
-        factory(Applicant::class)->create();
+        Applicant::factory()->create();
 
         $applicant = Applicant::find(1);
         $state_code = $applicant->getStateCode();
@@ -188,9 +190,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function get_bank_name_short_code()
+    public function get_bank_name_short_code(): void
     {
-        factory(Applicant::class)->create([
+        Applicant::factory()->create([
             'banK_name' => 'CO-OPERATIVE BANK (CB BANK)'
         ]);
 
@@ -203,9 +205,9 @@ class ApplicantTest extends TestCase
     }
 
     /** @test */
-    public function get_education_qualification()
+    public function get_education_qualification(): void
     {
-        factory(Applicant::class)->create([
+        Applicant::factory()->create([
             'education' => 'Primary Education'
         ]);
         $applicant = Applicant::where('id', 1)->get();

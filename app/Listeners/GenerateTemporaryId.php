@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Classes\Viber\ContentType;
 use App\Events\ApplicantUpdating;
 use App\Services\Interfaces\ViberServiceInterface;
-use App\Setting;
+use App\Models\Setting;
 use Config;
 
 class GenerateTemporaryId

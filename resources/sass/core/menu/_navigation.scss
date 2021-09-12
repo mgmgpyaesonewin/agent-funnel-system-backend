@@ -6,6 +6,7 @@
     Author: PIXINVENT
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
+@use "sass:math";
 
 // Import first main menu mixin
 @import "../mixins/main-menu-mixin";
@@ -84,7 +85,7 @@
             align-items: center;
             margin-top: 1.35rem;
             .brand-logo {
-                background: url("../images/logo/vuexy-logo.png") no-repeat;
+                background: url("../../../images/logo/logo.png") no-repeat;
                 background-position: -65px -54px;
                 height: 24px;
                 width: 35px;
@@ -283,7 +284,7 @@
             >a {
                 display: block;
                 float: left;
-                width: (100% / 3);
+                width: math.div(100%, 3);
                 padding: 1rem 0;
                 color: lighten($gray-600, 50%);
                 text-align: center;

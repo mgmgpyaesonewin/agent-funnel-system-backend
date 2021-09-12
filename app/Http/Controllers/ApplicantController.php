@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Applicant;
-use App\BopSession;
+use App\Models\Applicant;
+use App\Models\BopSession;
+use App\Models\Contract;
+use App\Models\Interview;
+use App\Models\Partner;
+use App\Models\Setting;
+use App\Models\Status;
 use App\Classes\Viber\ContentType;
-use App\Contract;
 use App\Events\InviteBopSession;
 use App\Http\Requests\UpdateBankInfoRequest;
 use App\Http\Requests\UploadCertificateRequest;
@@ -14,12 +18,8 @@ use App\Http\Requests\UserApiRequest;
 use App\Http\Resources\ApplicantResource;
 use App\Http\Resources\BopSessionResource;
 use App\Interfaces\ContractInterface;
-use App\Interview;
-use App\Partner;
 use App\Services\Interfaces\ApplicantServiceInterface;
 use App\Services\Interfaces\ViberServiceInterface;
-use App\Setting;
-use App\Status;
 use App\Training;
 use Carbon\Carbon;
 use Config;
@@ -60,14 +60,14 @@ class ApplicantController extends Controller
         $pdf = DOMPDF::loadView('pages.pdf', $applicant);
 
         $contract_pdf = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
-        $file = 'contracts/'.$applicant->phone.'-'.Carbon::now()->format('d_m_y_h_m_s').'.pdf';
+        $file = 'contracts/' . $applicant->phone . '-' . Carbon::now()->format('d_m_y_h_m_s') . '.pdf';
         Storage::disk('public')->put($file, $contract_pdf);
 
         $contract->pdf = $file;
         $contract->save();
 
         return response()->json([
-            'contract' => asset('storage/'.$file),
+            'contract' => asset('storage/' . $file),
         ]);
     }
 
@@ -85,10 +85,10 @@ class ApplicantController extends Controller
         ]);
     }
 
-    public function generateAgentCode($current_agent_code_id) : string
+    public function generateAgentCode($current_agent_code_id): string
     {
         $agent_code_id_to_generate = $current_agent_code_id + 1;
-        return '022'.str_pad($agent_code_id_to_generate, 5, '0', STR_PAD_LEFT);
+        return '022' . str_pad($agent_code_id_to_generate, 5, '0', STR_PAD_LEFT);
     }
 
     public function detail(Request $req)
@@ -167,14 +167,14 @@ class ApplicantController extends Controller
         $file = $req->file('license_photo');
         $url = Storage::disk('public')->put('licenses', $file);
         $data['license_photo_1'] = $url;
-//        $files = $req->file('license_photo');
-//        if ($req->hasFile('license_photo')) {
-//            foreach ($files as $key => $file) {
-//                $index = $key + 1;
-//                $url = Storage::disk('public')->put('licenses', $file);
-//                $data['license_photo_'.$index] = $url;
-//            }
-//        }
+        //        $files = $req->file('license_photo');
+        //        if ($req->hasFile('license_photo')) {
+        //            foreach ($files as $key => $file) {
+        //                $index = $key + 1;
+        //                $url = Storage::disk('public')->put('licenses', $file);
+        //                $data['license_photo_'.$index] = $url;
+        //            }
+        //        }
         $appli->update($data);
 
         return $appli;
@@ -375,10 +375,10 @@ class ApplicantController extends Controller
         $applicant = Applicant::where('id', $applicant_id)->first();
 
         // Stage 5
-        $text = json_decode(Setting::where('meta_key', 'interview_msg')->first()->meta_value)->text." Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$request->url}";
+        $text = json_decode(Setting::where('meta_key', 'interview_msg')->first()->meta_value)->text . " Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$request->url}";
 
         $link = $request->url;
-        $text = $viber->getMetaValueByKey('interview_msg')->text." Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$link}";
+        $text = $viber->getMetaValueByKey('interview_msg')->text . " Date : {$appointment->format('jS \\of F Y \\(l\\) h:i A')} | Link: {$link}";
         $image = $viber->getMetaValueByKey('interview_msg')->image;
 
         // Set Viber Content
@@ -408,7 +408,7 @@ class ApplicantController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully Created',
-                'certificate' => asset('storage/'.$path),
+                'certificate' => asset('storage/' . $path),
             ]);
         }
 
@@ -463,7 +463,7 @@ class ApplicantController extends Controller
         $pdf = DOMPDF::loadView('pages.pdf', $applicant);
 
         $contract_pdf = $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->download()->getOriginalContent();
-        $file = 'contracts/'.$applicant->phone.'-'.Carbon::now()->format('d_m_y_h_m_s').'.pdf';
+        $file = 'contracts/' . $applicant->phone . '-' . Carbon::now()->format('d_m_y_h_m_s') . '.pdf';
         Storage::disk('public')->put($file, $contract_pdf);
 
         $contract->pdf = $file;
@@ -473,20 +473,22 @@ class ApplicantController extends Controller
             $current_agent_code_id = $this->getAgentCodeCurrentID();
             $applicant->agent_code = $this->generateAgentCode($current_agent_code_id);
 
-            unset($applicant->contractor_signature,
-              $applicant->witness_signature,
-              $applicant->document,
-              $applicant->applicant_sign_img,
-              $applicant->witness_sign_img,
-              $applicant->document,
-              $applicant->witness_name,
-              $applicant->agreement_no);
+            unset(
+                $applicant->contractor_signature,
+                $applicant->witness_signature,
+                $applicant->document,
+                $applicant->applicant_sign_img,
+                $applicant->witness_sign_img,
+                $applicant->document,
+                $applicant->witness_name,
+                $applicant->agreement_no
+            );
 
             $applicant->save();
         }
         $this->updateAgentCode();
 
-        return asset('storage/'.$file);
+        return asset('storage/' . $file);
     }
 
     public function update(Request $request, ContractInterface $contract, ViberServiceInterface $viber, ApplicantServiceInterface $applicantService)
@@ -513,7 +515,7 @@ class ApplicantController extends Controller
 
         if ('onboard' == $current_status && 7 == $status_id) {
             $contract_version = $contract->resendContract($applicant->id);
-            $link = env('FRONT_END_URL').'/sign/'.$applicant->uuid.'?version='.$contract_version;
+            $link = env('FRONT_END_URL') . '/sign/' . $applicant->uuid . '?version=' . $contract_version;
             $text = $viber->getMetaValueByKey('contract_msg')->text;
             $image = $viber->getMetaValueByKey('contract_msg')->image;
 
@@ -527,7 +529,7 @@ class ApplicantController extends Controller
         }
 
         if ('pmli_filter' == $current_status && 11 == $status_id) {
-            $link = env('FRONT_END_URL').'/payment/'.$applicant->uuid;
+            $link = env('FRONT_END_URL') . '/payment/' . $applicant->uuid;
 
             $text = $viber->getMetaValueByKey('payment_msg')->text;
             $image = $viber->getMetaValueByKey('payment_msg')->image;
@@ -543,8 +545,8 @@ class ApplicantController extends Controller
 
         // Background Check Invalid Information - re-send viber message
         if ('pre_filter' == $current_status && 7 == $status_id) {
-            $link = env('FRONT_END_URL').'/applicants/'.$applicant->uuid;
-            $text = $viber->getMetaValueByKey('cv_form_error_msg')->text.' '.$link;
+            $link = env('FRONT_END_URL') . '/applicants/' . $applicant->uuid;
+            $text = $viber->getMetaValueByKey('cv_form_error_msg')->text . ' ' . $link;
             $image = $viber->getMetaValueByKey('cv_form_error_msg')->image;
 
             // Set Viber Content
@@ -559,7 +561,7 @@ class ApplicantController extends Controller
         if ('active' == $current_status && 8 == $status_id) {
             $link = $this->signContractorContract($applicant->id);
             Log::info('Contract Generated Successfully');
-            $text = $viber->getMetaValueByKey('active_contract_msg')->text.' '.$link;
+            $text = $viber->getMetaValueByKey('active_contract_msg')->text . ' ' . $link;
             $image = $viber->getMetaValueByKey('active_contract_msg')->image;
 
             // Set Viber Content
@@ -670,7 +672,7 @@ class ApplicantController extends Controller
         ]);
 
         $applicant = Applicant::where('id', $applicant_id)->first();
-        $text = $viber->getMetaValueByKey('exam_msg')->text." {$exam_date}";
+        $text = $viber->getMetaValueByKey('exam_msg')->text . " {$exam_date}";
         // Set Viber Content
         $viber_content = new ContentType();
         $viber_content->setText($text);
@@ -710,7 +712,7 @@ class ApplicantController extends Controller
 
         // Send E-Learning Info
         $applicant = Applicant::where('id', $request->id)->first();
-        $text = $viber->getMetaValueByKey('elearning_msg')->text." Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
+        $text = $viber->getMetaValueByKey('elearning_msg')->text . " Login into here : {$applicant->e_learning} using this username : {$applicant->username} and password : {$request->password}";
         // Set Viber Content
         $viber_content = new ContentType();
         $viber_content->setText($text);

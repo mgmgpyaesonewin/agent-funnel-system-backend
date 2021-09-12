@@ -2,18 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Applicant;
+use App\Models\Applicant;
+use App\Models\Contract;
+use App\Models\User;
 use App\Classes\Entity\AdditionalInformationEntity;
 use App\Classes\Entity\BankEntity;
 use App\Classes\Entity\ContactEntity;
 use App\Classes\Entity\ContractEntity;
 use App\Classes\Entity\ProducerEntity;
-use App\Contract;
 use App\Http\Controllers\ApplicantController;
 use App\Jobs\GenerateEducationEntity;
 use App\Jobs\GenerateLicenseEntity;
 use App\Jobs\GenerateRelatedPersonEntity;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -33,7 +33,7 @@ class EntityFileTest extends TestCase
         parent::setUp();
         $this->withoutExceptionHandling();
 
-        $this->admin = factory(User::class)->create([
+        $this->admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -42,11 +42,11 @@ class EntityFileTest extends TestCase
 
         $admin = $this->admin;
 
-        $this->applicants = factory(Applicant::class, 25)->create()->each(function (Applicant $applicant, $index) use ($admin) {
+        $this->applicants = Applicant::factory()->count(25)->create()->each(function (Applicant $applicant, $index) use ($admin) {
             $applicantController = new ApplicantController();
             $applicant->agent_code = $applicantController->generateAgentCode($index);
             $applicant->temp_id = 'FA'.str_pad($applicant->id, 6, '0', STR_PAD_LEFT);
-            factory(Contract::class)->create([
+            Contract::factory()->create([
                 'applicant_id' => $applicant->id
             ]);
             $applicant->save();
@@ -133,7 +133,7 @@ class EntityFileTest extends TestCase
 
         Storage::disk('public')->assertExists("agents/{$file}");
     }
-    
+
     public function generate_license_entity_file()
     {
         $bankEntity = new GenerateLicenseEntity();

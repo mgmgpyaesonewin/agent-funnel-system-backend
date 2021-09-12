@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Applicant;
-use App\BopSession;
-use App\Partner;
-use App\Setting;
-use App\Status;
-use App\User;
+use App\Models\Applicant;
+use App\Models\BopSession;
+use App\Models\Partner;
+use App\Models\Setting;
+use App\Models\Status;
+use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,7 +30,7 @@ class LeadApplicantTest extends TestCase
         parent::setUp();
         $this->withoutExceptionHandling();
 
-        $this->admin = factory(User::class)->create([
+        $this->admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -38,7 +38,7 @@ class LeadApplicantTest extends TestCase
         ]);
 
         // $token = JWTAuth::fromUser($this->admin);
-    // $this->admin->token = $token;
+        // $this->admin->token = $token;
     }
 
     /** @test */
@@ -72,14 +72,14 @@ class LeadApplicantTest extends TestCase
     {
         // given
         $new_status_id = Status::where('title', 'New')->first()->id;
-        $applicant = factory(Applicant::class)->create([
+        $applicant = Applicant::factory()->create([
             'phone' => '09796874359',
             'current_status' => 'lead',
             'status_id' => $new_status_id,
         ]);
 
-        $session = factory(BopSession::class)->create();
-        factory(Setting::class)->create([
+        $session = BopSession::factory()->create();
+        Setting::factory()->create([
             'meta_key' => 'bop_session_msg',
         ]);
 
@@ -113,7 +113,7 @@ class LeadApplicantTest extends TestCase
         // given
         $status_new_id = Status::where('title', 'New')->first()->id;
         $status_rejected_id = Status::where('title', 'Rejected')->first()->id;
-        $applicant = factory(Applicant::class)->create([
+        $applicant = Applicant::factory()->create([
             'phone' => '09796874359',
             'current_status' => 'lead',
             'status_id' => $status_new_id,
@@ -135,14 +135,14 @@ class LeadApplicantTest extends TestCase
     /** @test */
     public function new_applicant_with_bdm_utm_source_should_be_assign_for_bdm()
     {
-        $bdm = factory(User::class)->create([
+        $bdm = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 1,
             'is_ma' => 0,
             'is_staff' => 0,
         ]);
 
-        $applicant = factory(Applicant::class)->make();
+        $applicant = Applicant::factory()->make();
 
         $this->post('/api/createuser', [
             'name' => $applicant->name,
@@ -160,14 +160,14 @@ class LeadApplicantTest extends TestCase
     /** @test */
     public function new_applicant_with_ma_utm_source_should_be_assign_for_both_parent_bdm_and_ma()
     {
-        $bdm = factory(User::class)->create([
+        $bdm = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 1,
             'is_ma' => 0,
             'is_staff' => 0,
         ]);
 
-        $ma = factory(User::class)->create([
+        $ma = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 0,
             'is_ma' => 1,
@@ -175,7 +175,7 @@ class LeadApplicantTest extends TestCase
             'user_id' => $bdm->id,
         ]);
 
-        $applicant = factory(Applicant::class)->make();
+        $applicant = Applicant::factory()->make();
 
         $this->post('/api/createuser', [
             'name' => $applicant->name,
@@ -194,9 +194,9 @@ class LeadApplicantTest extends TestCase
     /** @test */
     public function new_applicant_with_partner_utm_source_should_be_assign_for_partner()
     {
-        $partner = factory(Partner::class)->create();
+        $partner = Partner::factory()->create();
 
-        $partner_user = factory(User::class)->create([
+        $partner_user = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -204,7 +204,7 @@ class LeadApplicantTest extends TestCase
             'partner_id' => $partner->id
         ]);
 
-        $applicant = factory(Applicant::class)->make();
+        $applicant = Applicant::factory()->make();
 
         $this->post('/api/createuser', [
             'name' => $applicant->name,

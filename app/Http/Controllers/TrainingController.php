@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Applicant;
+use App\Models\Applicant;
+use App\Models\Training;
 use App\Exports\TrainingExport;
 use App\Http\Requests\TrainingRequest;
 use App\Http\Resources\TrainingResource;
-use App\Training;
 use DB;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -35,7 +35,7 @@ class TrainingController extends Controller
             ->whereRaw('(applicant_training.applicant_id IS NULL OR applicant_training.training_id != '.$id.')')
             ->get();
         $assigned = collect($completed->applicants)->merge(collect($assigned));
-       
+
         return Excel::download(new TrainingExport($completed->applicants, $assigned, $training), 'ApplicantTrainingDetails.xlsx');
     }
 

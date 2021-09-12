@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,9 +17,9 @@ class UserTest extends TestCase
     use WithFaker;
 
     /** @test */
-    public function user_have_their_own_utm()
+    public function user_have_their_own_utm(): void
     {
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'name' => 'Pyae Sone',
             'is_admin' => 1,
             'is_bdm' => 0,
@@ -32,9 +32,9 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function ma_have_owns_bdm()
+    public function ma_have_owns_bdm(): void
     {
-        $bdm = factory(User::class)->create([
+        $bdm = User::factory()->create([
             'name' => $this->faker->name,
             'is_admin' => 0,
             'is_bdm' => 1,
@@ -42,7 +42,7 @@ class UserTest extends TestCase
             'is_staff' => 0,
         ]);
 
-        $ma = factory(User::class)->create([
+        $ma = User::factory()->create([
             'name' => $this->faker->name,
             'is_admin' => 0,
             'is_bdm' => 0,
@@ -57,9 +57,9 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function bdm_have_owns_ma_users()
+    public function bdm_have_owns_ma_users(): void
     {
-        $bdm = factory(User::class)->create([
+        $bdm = User::factory()->create([
             'name' => $this->faker->name,
             'is_admin' => 0,
             'is_bdm' => 1,
@@ -67,7 +67,7 @@ class UserTest extends TestCase
             'is_staff' => 0,
         ]);
 
-        $ma_1 = factory(User::class)->create([
+        $ma_1 = User::factory()->create([
             'name' => $this->faker->name,
             'is_admin' => 0,
             'is_bdm' => 0,
@@ -76,7 +76,7 @@ class UserTest extends TestCase
             'user_id' => $bdm->id
         ]);
 
-        factory(User::class)->create([
+        User::factory()->create([
             'name' => $this->faker->name,
             'is_admin' => 0,
             'is_bdm' => 0,
@@ -85,7 +85,7 @@ class UserTest extends TestCase
             'user_id' => $bdm->id
         ]);
 
-        factory(User::class)->create([
+        User::factory()->create([
             'name' => $this->faker->name,
             'is_admin' => 0,
             'is_bdm' => 0,

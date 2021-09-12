@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\BopSession;
 use App\Http\Requests\BopSessionRequest;
 use App\Http\Resources\BopSessionResource;
+use App\Models\BopSession;
 use Carbon\Carbon;
 use DB;
 use Exception;

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Training;
-use App\User;
+use App\Models\Training;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -18,7 +18,7 @@ class TrainingTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $admin = factory(User::class)->create([
+        $admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,

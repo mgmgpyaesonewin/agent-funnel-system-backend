@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Applicant;
-use App\Partner;
-use App\Setting;
-use App\Status;
-use App\User;
+use App\Models\Applicant;
+use App\Models\Setting;
+use App\Models\Partner;
+use App\Models\Status;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,28 +19,28 @@ class BopSessionApplicantTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function bop_session_applicant_on_accepted_should_be_assign_for_user()
+    public function bop_session_applicant_on_accepted_should_be_assign_for_user(): void
     {
         $this->withoutExceptionHandling();
 
-        factory(Setting::class)->create([
+        Setting::factory()->create([
             'meta_key' => 'auto_assign_ma_user_current_id',
             'meta_value' => 0,
         ]);
 
-        factory(Setting::class)->create([
+        Setting::factory()->create([
             'meta_key' => 'cv_form_msg',
         ]);
 
-        $admin_user = factory(User::class)->create([
+        $admin_user = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
             'is_staff' => 0,
         ]);
 
-        $partner = factory(Partner::class)->create();
-        $partner_user = factory(User::class)->create([
+        $partner = Partner::factory()->create();
+        User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -48,14 +48,14 @@ class BopSessionApplicantTest extends TestCase
             'partner_id' => $partner->id,
         ]);
 
-        $bdm_user = factory(User::class)->create([
+        $bdm_user = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 1,
             'is_ma' => 0,
             'is_staff' => 0,
         ]);
 
-        $ma_user = factory(User::class)->create([
+        $ma_user = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 0,
             'is_ma' => 1,
@@ -63,14 +63,14 @@ class BopSessionApplicantTest extends TestCase
             'user_id' => $bdm_user->id,
         ]);
 
-        $bdm_user_2 = factory(User::class)->create([
+        $bdm_user_2 = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 1,
             'is_ma' => 0,
             'is_staff' => 0,
         ]);
 
-        $ma_user_2 = factory(User::class)->create([
+        $ma_user_2 = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 0,
             'is_ma' => 1,
@@ -79,19 +79,19 @@ class BopSessionApplicantTest extends TestCase
         ]);
 
         $new_status_id = Status::where('title', 'New')->first()->id;
-        $applicant = factory(Applicant::class)->create([
+        $applicant = Applicant::factory()->create([
             'phone' => '09796874359',
             'current_status' => 'bop_session',
             'status_id' => $new_status_id,
         ]);
 
-        $applicant_2 = factory(Applicant::class)->create([
+        $applicant_2 = Applicant::factory()->create([
             'phone' => '09796874359',
             'current_status' => 'bop_session',
             'status_id' => $new_status_id,
         ]);
 
-        $applicant_3 = factory(Applicant::class)->create([
+        $applicant_3 = Applicant::factory()->create([
             'phone' => '09796874359',
             'current_status' => 'bop_session',
             'status_id' => $new_status_id,

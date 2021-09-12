@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Services\Interfaces\ApplicantServiceInterface;
-use App\Setting;
-use App\User;
+use App\Models\Setting;
+use App\Models\User;
 
 class ApplicantService implements ApplicantServiceInterface
 {

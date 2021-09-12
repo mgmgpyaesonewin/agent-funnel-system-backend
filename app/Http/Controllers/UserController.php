@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Applicant;
+use App\Models\Applicant;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
-use App\Partner;
-use App\User;
+use App\Models\Partner;
+use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
 

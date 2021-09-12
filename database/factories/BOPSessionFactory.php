@@ -1,14 +1,30 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\BopSession;
-use Faker\Generator as Faker;
+use App\Models\BopSession;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(BopSession::class, function (Faker $faker) {
-    return [
-        'title' => $faker->sentence,
-        'session' => now()->addDays(2),
-        'url' => $faker->url,
-    ];
-});
+class BOPSessionFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = BopSession::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->sentence,
+            'session' => now()->addDays(2),
+            'url' => $this->faker->url,
+        ];
+    }
+}

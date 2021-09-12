@@ -43,7 +43,7 @@ return [
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'daily' => [
@@ -58,12 +58,12 @@ return [
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
-            'level' => 'critical',
+            'level' => env('LOG_LEVEL', 'critical'),
         ],
 
         'papertrail' => [
             'driver' => 'monolog',
-            'level' => 'debug',
+            'level' => env('LOG_LEVEL', 'debug'),
             'handler' => SyslogUdpHandler::class,
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
@@ -83,11 +83,13 @@ return [
         'syslog' => [
             'driver' => 'syslog',
             'level' => 'debug',
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'errorlog' => [
             'driver' => 'errorlog',
             'level' => 'debug',
+            'level' => env('LOG_LEVEL', 'debug'),
         ],
     ],
 

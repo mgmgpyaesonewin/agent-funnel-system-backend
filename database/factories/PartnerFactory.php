@@ -1,15 +1,31 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+namespace Database\Factories;
 
-use App\Partner;
-use Faker\Generator as Faker;
+use App\Models\Partner;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Partner::class, function (Faker $faker) {
-    return [
-        'company_name' => $faker->company,
-        'pic_name' => $faker->name,
-        'pic_phone' => $faker->phoneNumber,
-        'pic_email' => $faker->email,
-    ];
-});
+class PartnerFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Partner::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'company_name' => $this->faker->company,
+            'pic_name' => $this->faker->name,
+            'pic_phone' => $this->faker->phoneNumber,
+            'pic_email' => $this->faker->email,
+        ];
+    }
+}

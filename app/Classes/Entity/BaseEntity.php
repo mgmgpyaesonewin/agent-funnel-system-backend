@@ -2,7 +2,7 @@
 
 namespace App\Classes\Entity;
 
-use App\Applicant;
+use App\Models\Applicant;
 use Carbon\Carbon;
 
 class BaseEntity implements BaseEntityInterface

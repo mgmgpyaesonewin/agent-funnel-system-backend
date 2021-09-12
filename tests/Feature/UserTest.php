@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Partner;
-use App\User;
+use App\Models\Partner;
+use App\Models\User;
 use Hash;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,14 +20,14 @@ class UserTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $admin = factory(User::class)->create([
+        $admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
             'is_staff' => 0,
         ]);
 
-        $partner = factory(Partner::class)->create();
+        $partner = Partner::factory()->create();
 
         $this->actingAs($admin)->post(route('users.store'), [
             'name' => $this->faker->name,
@@ -46,7 +47,7 @@ class UserTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $bdm = factory(User::class)->create([
+        $bdm = User::factory()->create([
             'is_admin' => 0,
             'is_bdm' => 1,
             'is_ma' => 0,
@@ -66,7 +67,7 @@ class UserTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $admin = factory(User::class)->create([
+        $admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -93,5 +94,18 @@ class UserTest extends TestCase
         $this->assertEquals(1, $user->is_bdm);
         $this->assertEquals(0, $user->is_ma);
         $this->assertEquals(0, $user->is_staff);
+    }
+
+    /** @test */
+    public function  a_user_belongs_to_a_partners(): void
+    {
+        $this->withoutExceptionHandling();
+
+        $partner = Partner::factory()->create();
+        $user = User::factory()->create(['partner_id' => $partner->id]);
+
+        $this->assertInstanceOf(Collection::class, $partner->users);
+        $this->assertInstanceOf(User::class, $partner->users->first());
+        $this->assertEquals($user->id, $partner->users->first()->id);
     }
 }

@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Classes\Viber\ContentType;
 use App\Services\Interfaces\ViberServiceInterface;
-use App\Setting;
+use App\Models\Setting;
 use Config;
 use Exception;
 use Log;

@@ -2,9 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Applicant;
-use App\BopSession;
-use App\Status;
+use App\Models\Applicant;
+use App\Models\BopSession;
+use App\Models\Status;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,12 +12,12 @@ use Tests\TestCase;
  * @internal
  * @coversNothing
  */
-class BopSessionTest extends TestCase
+class BOPSessionTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function it_has_title_session_date_time_url()
+    public function it_has_title_session_date_time_url(): void
     {
         $dateTime = now();
 
@@ -33,11 +33,11 @@ class BopSessionTest extends TestCase
     }
 
     /** @test */
-    public function it_should_shown_in_applicant_detail()
+    public function it_should_shown_in_applicant_detail(): void
     {
         // given
-        $sessions = factory(BopSession::class, 3)->create();
-        $applicant = factory(Applicant::class)->create([
+        $sessions = BopSession::factory()->count(3)->create();
+        $applicant = Applicant::factory()->create([
             'current_status' => 'bop_session',
             'status_id' => Status::where('title', 'New')->first()->id,
         ]);

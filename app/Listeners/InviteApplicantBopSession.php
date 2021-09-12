@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Applicant;
+use App\Models\Applicant;
 use App\Events\InviteBopSession;
 
 class InviteApplicantBopSession

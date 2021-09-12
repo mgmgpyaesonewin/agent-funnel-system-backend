@@ -3,8 +3,7 @@
 @endisset
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-    data-textdirection="{{ env('MIX_CONTENT_DIRECTION') === 'rtl' ? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"  data-textdirection="ltr">
 
 <head>
     <meta charset="utf-8">

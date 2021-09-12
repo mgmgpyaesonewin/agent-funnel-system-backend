@@ -2,7 +2,7 @@
 
 namespace App\Classes\Entity;
 
-use App\Applicant;
+use App\Models\Applicant;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;

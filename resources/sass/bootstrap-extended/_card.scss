@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .card-group, .card-deck{
 	margin-bottom: 0.75rem;
 }
@@ -18,12 +20,12 @@
 		font-weight: 500;
 		letter-spacing: 0.05rem;
   	font-size: 1.32rem;
-    margin-bottom: $card-spacer-y / 3;
+    margin-bottom: math.div($card-spacer-y, 3);
 	}
   .card-bordered{
   	border: $card-border-width solid $card-border-color;
   }
-  
+
   .card-img{
     object-fit: cover;
   }

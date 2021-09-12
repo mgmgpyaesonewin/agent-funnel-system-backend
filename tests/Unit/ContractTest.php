@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Applicant;
-use App\Contract;
+use App\Models\Applicant;
+use App\Models\Contract;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,14 +12,14 @@ class ContractTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function contract_have_agreement_number()
+    public function contract_have_agreement_number(): void
     {
-        $applicant = factory(Applicant::class)->create([
+        $applicant = Applicant::factory()->create([
             'current_status' => 'active',
             'status_id' => 8
         ]);
 
-        $original_contract = factory(Contract::class)->create([
+        $original_contract = Contract::factory()->create([
             'applicant_id' => $applicant->id
         ]);
 

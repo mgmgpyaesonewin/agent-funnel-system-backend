@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Applicant;
-use App\BopSession;
+use App\Models\Applicant;
+use App\Models\BopSession;
 use App\Classes\Viber\ContentType;
 use App\Events\InviteBopSession;
 use App\Services\Interfaces\ViberServiceInterface;

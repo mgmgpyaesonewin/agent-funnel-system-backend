@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\TemplateForm;
-use App\User;
+use App\Models\TemplateForm;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,7 +19,7 @@ class TemplateFormTest extends TestCase
     {
         parent::setUp();
 
-        $this->admin = factory(User::class)->create([
+        $this->admin = User::factory()->create([
             'is_admin' => 1,
             'is_bdm' => 0,
             'is_ma' => 0,
@@ -179,7 +179,7 @@ class TemplateFormTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $template = factory(TemplateForm::class)->create();
+        $template = TemplateForm::factory()->create();
 
         $response = $this->actingAs($this->admin)->put(route('templateforms.update', $template->id), [
             'template_name' => 'Template Title Updated',

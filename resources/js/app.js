@@ -18,7 +18,7 @@ import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 import VueClipboard from "vue-clipboard2";
-import CKEditor from "@ckeditor/ckeditor5-vue";
+import CKEditor from "@ckeditor/ckeditor5-vue2";
 
 Vue.use(CKEditor);
 Vue.use(VueSweetalert2);

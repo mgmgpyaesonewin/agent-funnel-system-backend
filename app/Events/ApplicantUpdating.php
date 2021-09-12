@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Applicant;
+use App\Models\Applicant;
 use Illuminate\Queue\SerializesModels;
 
 class ApplicantUpdating
