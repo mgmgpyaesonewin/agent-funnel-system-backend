@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Models\Partner;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -98,5 +100,18 @@ class UserTest extends TestCase
         $this->assertEquals($ma_1->id, $bdm->getMaChildren()->first()->id);
         $this->assertEquals($ma_1->name, $bdm->getMaChildren()->first()->name);
         $this->assertEquals($ma_1->email, $bdm->getMaChildren()->first()->email);
+    }
+
+    /** @test */
+    public function  a_user_belongs_to_a_partners(): void
+    {
+      $this->withoutExceptionHandling();
+
+      $partner = Partner::factory()->create();
+      $user = User::factory()->create(['partner_id' => $partner->id]);
+
+      $this->assertInstanceOf(Collection::class, $partner->users);
+      $this->assertInstanceOf(User::class, $partner->users->first());
+      $this->assertEquals($user->id, $partner->users->first()->id);
     }
 }

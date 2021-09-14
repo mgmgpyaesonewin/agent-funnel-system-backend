@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\ImportHistory;
-use App\Setting;
+use App\Models\ImportHistory;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;

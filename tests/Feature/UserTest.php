@@ -95,17 +95,4 @@ class UserTest extends TestCase
         $this->assertEquals(0, $user->is_ma);
         $this->assertEquals(0, $user->is_staff);
     }
-
-    /** @test */
-    public function  a_user_belongs_to_a_partners(): void
-    {
-        $this->withoutExceptionHandling();
-
-        $partner = Partner::factory()->create();
-        $user = User::factory()->create(['partner_id' => $partner->id]);
-
-        $this->assertInstanceOf(Collection::class, $partner->users);
-        $this->assertInstanceOf(User::class, $partner->users->first());
-        $this->assertEquals($user->id, $partner->users->first()->id);
-    }
 }

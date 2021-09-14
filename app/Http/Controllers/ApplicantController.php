@@ -9,6 +9,7 @@ use App\Models\Interview;
 use App\Models\Partner;
 use App\Models\Setting;
 use App\Models\Status;
+use App\Models\Training;
 use App\Classes\Viber\ContentType;
 use App\Events\InviteBopSession;
 use App\Http\Requests\UpdateBankInfoRequest;
@@ -20,7 +21,6 @@ use App\Http\Resources\BopSessionResource;
 use App\Interfaces\ContractInterface;
 use App\Services\Interfaces\ApplicantServiceInterface;
 use App\Services\Interfaces\ViberServiceInterface;
-use App\Training;
 use Carbon\Carbon;
 use Config;
 use DB;
@@ -172,7 +172,7 @@ class ApplicantController extends Controller
         //            foreach ($files as $key => $file) {
         //                $index = $key + 1;
         //                $url = Storage::disk('public')->put('licenses', $file);
-        //                $data['license_photo_'.$index] = $url;
+        //                $data['license_photo_'.$inde x] = $url;
         //            }
         //        }
         $appli->update($data);
@@ -286,8 +286,9 @@ class ApplicantController extends Controller
     public function pmliFilter(Request $request)
     {
         $statuses = Status::whereIn('id', [1, 4])->get();
+        $setting = Setting::where('meta_key', 'payment_mandatory')->pluck('meta_value')->first() === 1 ? 11 : 3;
 
-        return view('pages.applicants.pmli_filter', compact('statuses'));
+        return view('pages.applicants.pmli_filter', compact('statuses', 'setting'));
     }
 
     public function onboardedPage(Request $request)
