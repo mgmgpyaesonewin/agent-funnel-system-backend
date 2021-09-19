@@ -23,12 +23,6 @@ Route::post('convert/data', [SettingController::class, 'convertData']);
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'dashboardAnalytics'])->name('home');
 
-    // Route Components
-    Route::get('/sk-layout-2-columns', [StaterkitController::class, 'columns_2']);
-    Route::get('/sk-layout-fixed-navbar', [StaterkitController::class, 'fixed_navbar']);
-    Route::get('/sk-layout-floating-navbar', [StaterkitController::class, 'floating_navbar']);
-    Route::get('/sk-layout-fixed', [StaterkitController::class, 'fixed_layout']);
-
     Route::get('/lead', [ApplicantController::class, 'leadPage']);
     Route::get('/create_lead', [ApplicantController::class, 'create_lead']);
     Route::post('/save_lead', [ApplicantController::class, 'store']);
